@@ -1,0 +1,83 @@
+%% This layout has been constructed from the combination of several packages, layout found on internet and from my own construction. 
+%% It is done to match the Université Paris Cité layout but can be adapted for other university
+%% Chloé Goupy
+%% 6 november 2023
+
+\documentclass[11pt]{memoir}
+\setlength{\headheight}{14.80524pt}
+\input{MainLayout/Packages}
+\input{MainLayout/PageLayout}
+
+% \input{MainLayout/ChapterStyle_Hansen}
+\input{MainLayout/ChapterStyle_1}
+
+\makeatother
+% \chapterstyle{Hansen} %choose your chapter style
+\chapterstyle{daleif1}
+ 
+\begin{document}
+\dominitoc  
+\setcounter{secnumdepth}{3}
+\thispagestyle{empty}
+\include{MainLayout/TitlePage}
+
+\tableofcontents
+\adjustmtc
+
+\chapter{Introduction}\label{chap1}
+\minitoc 
+\include{MainLayout/Introduction_chapter/section1}
+\include{MainLayout/Introduction_chapter/section2}
+\include{MainLayout/Introduction_chapter/section3}
+\include{MainLayout/Introduction_chapter/section4}
+\include{MainLayout/Introduction_chapter/section5}
+
+\chapter{Cosmology with type Ia Supernova}
+\minitoc 
+\include{MainLayout/Second_chapter/section1}
+%\include{MainLayout/Second_chapter/section2}
+%\include{MainLayout/Second_chapter/section3}
+\include{MainLayout/Second_chapter/section4}
+
+\chapter{LEMAITRE project}
+\minitoc 
+\include{MainLayout/Third_chapter/section1}
+\include{MainLayout/Third_chapter/section2}
+\include{MainLayout/Third_chapter/section3}
+
+
+\chapter{NaCl}
+\minitoc 
+\include{MainLayout/NaCl_chapter/section1}
+\include{MainLayout/NaCl_chapter/section2}
+\include{MainLayout/NaCl_chapter/section3}
+
+
+\chapter{LEMAITRE Data Challenges}
+\minitoc 
+\include{MainLayout/DC_chapter/section1}
+\include{MainLayout/DC_chapter/section2}
+\include{MainLayout/DC_chapter/section3}
+
+
+
+\chapter{Field level inference with peculiar velocities from ZTF SN Ia}
+\minitoc 
+\include{MainLayout/BORG_chapter/section1}
+\include{MainLayout/BORG_chapter/section2}
+\include{MainLayout/BORG_chapter/section3}
+
+
+\chapter{Conclusion}
+\minitoc  %
+\urlstyle{same}
+
+
+\include{MainLayout/Backpage}
+
+
+\bibliographystyle{apalike}
+\bibliography{References}
+
+
+\end{document}

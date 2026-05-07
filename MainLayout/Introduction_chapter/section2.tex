@@ -1,0 +1,331 @@
+\section{Large Scale Structure Formation}
+
+Now that we have understood how modern cosmology came to be, we can move on to understanding the formation of structures. Observations from galaxy surveys such as DESI show that 
+although on large scales the Universe looks homogenous, the smaller scales indicate the existence of an underlying non-homogenous structure. This can be seen through the formation of galaxy clusters 
+and the cosmic web. Understanding how these structures are formed gives us a lot of information regarding the strength of gravity at large scales as well as the amount of matter in the Universe.
+Since the full derivation of each equation in structure formation is too long to write for this thesis, we recommend reading \cite{Knobel_2013} and \cite{Dodelson_2003} for a more detailed derivation\\
+
+
+\subsection{Newtonian approach to structure formation}
+
+In this introductory section, we will be starting off by describing structure formation by going only to linear scales. This will be the model on which we build up more complex 
+structure formation model. \\
+
+\noindent \textbf{\underline{Theory of structure formation}} \\
+
+We start by assuming a Universe is filled with an inhomogeneous, dissipationless, ideal fluid with matter density $\rho(\mathbf{r},t)$, velocity field $\vec{v}(\mathbf{r}, t)$, 
+pressure $P(\mathbf{r},t)$ and entropy per unit mass $S(\mathbf{r}, t)$ with $\mathbf{r}$ being the fluid's coordinates. We obtain the following hydrodynamical equations:
+\begin{equation}
+    \begin{cases}
+        \frac{\partial \rho}{\partial t} + \vec{\nabla}. (\rho \vec{v}) = 0 & \mathrm{Continuity\; equation\;} \\
+        \frac{\partial \vec{v}}{\partial t} + (\vec{v} . \vec{\nabla}) \vec{v} + \frac{\vec{\nabla} P }{\rho} + \vec{\nabla}\Phi = 0 & \mathrm{Euler\; equation\;} \\
+        \nabla^2 \Phi = 4 \pi G \rho & \mathrm{Poisson\; equation\;} \\
+        \frac{\partial S}{\partial t } + (\vec{v} . \vec{\nabla}) S = 0& \mathrm{Entropy\; conservation\;}
+    \end{cases}
+    \label{eqn:hydro_eqn}
+\end{equation}
+with $\Phi$ the gravitational potential. Since matter is approximated as a single-stream fluid, 
+neighboring particles follow nearly parallel trajectories without "shell crossing" (collision of streams). This description breaks down once nonlinear collapse occurs, 
+when multiple streams overlap and complex dynamics emerge. A fully accurate treatment of structure formation would instead 
+require solving the general relativistic Boltzmann equation including all cosmic components and their interactions, although this is in itself a difficult problem due to the nonlinear 
+coupling between the fluid equations. To overcome that issue, we assume a FLRW Universe and perturb the fluid around the Hubble flow, meaning we 
+separate each variable as a homogenous part and an inhomogeneous perturbation:
+\begin{align*} 
+    \rho(\mathbf{r},t) &=  \bar{\rho}(t) + \delta \rho(\mathbf{r},t) \\ 
+    \mathbf{v}(\mathbf{r},t) &=  \bar{\mathbf{v}}(\mathbf{r},t) + \delta \mathbf{v}(\mathbf{r},t) \\
+    P(\mathbf{r},t) &=  \bar{P}(t) + \delta P(\mathbf{r},t) \\
+    \Phi(\mathbf{r},t) &=  \bar{\Phi}(\mathbf{r},t) + \delta \Phi(\mathbf{r},t) \\
+    S(\mathbf{r},t) &=  \bar{S}(t) + \delta S(\mathbf{r},t) \\
+\end{align*}
+
+We can then re-introduce our new variables in Equations \ref{eqn:hydro_eqn} although to slightly simplify the equations we will be working in comoving coordinates $\mathbf{x}$ such that 
+\begin{align*}
+    \mathbf{r} = a \mathbf{x} \\
+    \nabla_{\mathbf{r}} = \frac{1}{a} \nabla_{\mathbf{x}} \\
+    \frac{\partial}{\partial t}\bigg\rvert_{\mathbf{r}} = \frac{\partial}{\partial t}\bigg\rvert_{\mathbf{x}} - \frac{1}{a}\mathbf{v} . \nabla_{\mathbf{x}} \\
+\end{align*}
+We will also be working in Fourrier space where we get for any perturbation $\delta q(\mathbf{x}, t)$:
+\begin{equation}
+    \delta q(t, \mathbf{k}) = \int \delta q (t, \mathbf{x}) e^{-i \mathbf{k}\mathbf{x}} \mathrm{d}^3x
+\end{equation}
+
+\begin{equation}
+    \delta q(t, \mathbf{x}) = \frac{1}{(2\pi)^3} \int \delta q (t, \mathbf{k}) e^{-i \mathbf{k}\mathbf{x}} \mathrm{d}^3k
+\end{equation}
+With $\mathbf{k}$ are the comoving Fourrier modes. We get the following hydrodynamical equations at first order:
+\begin{equation}
+    \boxed{
+    \begin{cases}
+        \delta \dot{\rho} + 3H\delta \rho + \frac{i\bar{\rho}\mathbf{k}}{a} . \delta\mathbf{v} = 0& \mathrm{Continuity\; equation\;} \\
+        \delta \dot{\mathbf{v}} + H \delta \mathbf{v} + \frac{i\mathbf{k}}{a\bar{\rho}}(c_s^2 \delta \rho + \sigma \delta S) + \frac{i \mathbf{k}}{a} \delta \Phi = 0 & \mathrm{Euler\; equation\;} \\
+        k^2 \delta \Phi + 4 \pi G a^2 \delta \rho = 0 & \mathrm{Poisson\; equation\;} \\
+        \delta \dot{S} = 0& \mathrm{Entropy\; conservation\;}
+    \end{cases}
+    }
+    \label{eqn:newton_hydro_eqn}
+\end{equation}
+with $c_s^2 = (\partial \bar{P}/ \partial \bar{\rho})_{\bar{S}}$ the speed of sound in the fluid, $\sigma = (\partial \bar{P}/ \partial \bar{S})_{\bar{\rho}}$ and $k=|\mathbf{k}|$. \\
+
+What we are interested in is essentially how do matter perturbation grows as they will give birth to structure by gravitational attraction. The first thing to note is 
+that the entropy fluctuations must exist at early times in order for them to keep existing otherwise they would simply dissipate. Moreover, results from the simplest 
+models of inflation do not support the fluctuations of entropy. So from now on we well set $\delta S = 0$. We can also assume that the velocity perturbations would follow the overdense regions giving us 
+$\mathbf{k} || \delta \mathbf{v}$. We call the modes that result from these conditions the adiabatic modes. \\
+
+We will be denoting the overdensity $\delta(\mathbf{k},t)$ as the matter density contrast which is written as:
+\begin{equation}
+    \delta(\mathbf{k}, t) = \frac{\rho(\mathbf{k},t)}{\bar{\rho}(t)} - 1 = \frac{\delta \rho (\mathbf{k}, t)}{\bar{\rho}(t)}
+\end{equation}
+
+In the adiabatic modes, the continuity equation becomes:
+\begin{equation}
+    \dot{\delta} + \frac{ik}{a}\delta v = 0
+\end{equation}
+If we then differentiate this equation and combining its results with Euler and Poisson equations we obtain:
+\begin{equation}
+    \ddot{\delta} + 2 H \dot{\delta} + \left( \frac{c_s^2 k^2}{a^2} - 4\pi G \bar{\rho} \right)\delta = 0
+    \label{eqn:linear_dens}
+\end{equation}
+Here we obtain a linear second order differential equation with two solutions to it. We denote $\lambda = \frac{2\pi a}{k}$ the physical wavelength of the mode, 
+$\lambda_J = c_s \sqrt{\frac{\pi}{G\rho}} $ the Jeans length and $M_J = \frac{\pi}{6} \lambda_J^3 \bar{\rho} $ the Jeans mass. Equation \ref{eqn:linear_dens} tells us that 
+if $\lambda < \lambda_J$, the solution to the equation is an oscillating wave leaving no room for structures to grow. So a condition we must have is $\lambda > \lambda_J$. We 
+place ourselves in the condition where the wavelength is much larger than the Jeans length $\lambda \gg \lambda_J$, Equation \ref{eqn:linear_dens} is now reduced to:
+\begin{equation}
+    \ddot{\delta} + 2 H \dot{\delta} - 4\pi G \bar{\rho} \delta = 0
+\end{equation}
+which has the following general solution:
+\begin{equation}
+    \delta(\mathbf{k},t) = \delta_+(\mathbf{k})D_+(t) + \delta_-(\mathbf{k})D_-(t)
+\end{equation}
+with the + and - denoting growing and decaying modes. We call the $D_+(t)$ term the \textbf{linear growth function}. In the radiation dominated era, the Mészáros 
+effect suppresses the growth of sub-Hubble matter perturbations, which grow only logarithmically rather than as a power law. In the matter dominated era 
+the expansion rate grows as $H(t) = \frac{2}{3t}$ which gives us:
+\begin{equation}
+    \boxed{D_+ \propto t^{2/3} \propto a(t)}
+\end{equation}
+\begin{equation}
+    D_- \propto t^{-1}
+\end{equation}
+This means that we can get grown modes for matter perturbations in the matter dominated era with $D_+$ while $D_-$ goes to 0. A general formula for $D_+$ can be obtained 
+(\cite{Carroll_1992}) and it gives us:
+\begin{equation}
+    D_+(z) = \frac{1}{1+z} \frac{g(z)}{g(0)}
+\end{equation}
+\begin{equation}
+    g(z) = \frac{\Omega_m(z)}{\Omega^{4/7}_m(z)-\Omega_{\Lambda}(z) + (1+\Omega_m(z)/2)(1+\Omega_{\Lambda}(z)/70)}
+\end{equation}
+
+\noindent \textbf{\underline{Statistical analysis of overdensities}} \\
+
+Practically, we perform a statistical analysis when it comes to the study of the structures of the Universe. $\delta$ is looked at as a realization of a stochastic process 
+and by analyzing that we can compare our observations to theories. \\
+
+We introduce $\langle...\rangle$ as the ensemble average of the stochastic process underlying a random field. The large-scale structure we observe is only one realization 
+of an underlying random cosmic process, so estimating its true statistical properties requires additional assumptions. A common assumption is ergodicity, meaning that 
+averages measured over a sufficiently large volume of the Universe approximate the averages over many hypothetical realizations. In practice, this is related to the fair 
+sample hypothesis, which assumes that widely separated regions of the Universe can be treated as nearly independent samples of the same process. If the survey volume is 
+large enough and correlations become weak on large scales, these approximations are reasonable. However, real galaxy surveys cover finite volumes and therefore their measured 
+averages are affected by statistical fluctuations known as \textbf{sample variance}, or \textbf{cosmic variance} when limited by the size of the observable Universe.\\
+
+We denote the 2-point correlation function as:
+\begin{equation}
+    \xi(\mathbf{x}, \mathbf{x}') = \left\langle \delta(\mathbf{x}) \delta(\mathbf{x}') \right\rangle
+\end{equation}
+Our field is homogenous and isotropic therefore the only 
+quantity that affects the correlation function is $r=|\mathbf{x} - \mathbf{x}'|$, $\xi(\mathbf{x}, \mathbf{x}')=\xi(r)$. If at $r=+\inf$, the correlations go to 0, 
+then we can decompose it in Fourrier modes:
+$\delta(\mathbf{k})$:
+\begin{equation}
+    \left\langle \delta(\mathbf{k}) \delta^*(\mathbf{k}') \right\rangle = (2 \pi)^3 \delta_D(\mathbf{k} - \mathbf{k}')\mathcal{P}(\mathbf{k})
+\end{equation}
+\begin{equation}
+    \mathcal{P}(\mathbf{k}) = \int \xi(\mathbf{x})e^{-i \mathbf{k} \mathbf{x}} d^3x
+\end{equation}
+where the $\mathcal{P}(k)$ is the \textbf{power spectrum}, which is a real function, and $\delta_D$ is the Dirac delta function. \\
+The works from \cite{Harrison_1970}, \cite{Zeldovich_1970_pk} and \cite{Peebles_1970} show that there is a preferrable form for the initial primordial power spectrum that takes the form:
+\begin{equation}
+    \mathcal{P}(k) \propto k^{n_s}
+\end{equation}
+with $n_s$ the \textbf{spectral index}. If $n_s=1$ the power spectrum becomes scale invariant. It is possible to predict the shape of the power spectrum of the initial conditions by studying an inflationary model. Most common models 
+and results from \cite{Planck_2018} indicate that the initial perturbations are Gaussian with $n_s \approx 1 $. \\
+The power spectrum for the linear overdensity field is:
+\begin{equation}
+    \mathcal{P}_{\mathrm{lin}}(t, k) = A_0 k^{n_s}T^2(k)D^2_+(t)
+\end{equation}
+with $A_0$ the normalization parameter and $T(k)$ is the transfer function which characterizes how each Fourrier mode of the density field evolved from the initial conditions to 
+a later time. \\
+
+\subsection{Relativistic structure formation}
+
+Similarly to the previous section, we will be introducing structure formation from a general relativistic framework with a focus on linear perturbation. We will not be deriving 
+every single quantity, however explaination of how we get there and how it relates to the Newtonian approximation will be present. \\
+
+\noindent \textbf{\underline{General description of perturbations}} \\
+
+Firstly, we will be working in the FLRW metric for $k=0$. We will also work in conformal time $\tau$ which simplifies this problem. 
+It is defined as $a \mathrm{d}\tau = \mathrm{d}t$. We will also work in natural units setting $c=\hbar =1$. We will denote the FLRW metric as $\bar{g}_{\mu \nu}$ so that 
+for a flat spacetime we have:
+\begin{equation}
+    ds^2 = \bar{g}_{\mu \nu} dx^{\mu} dx^{\nu} = a^2(\tau)\left( - d\tau^2 + \bar{\gamma}_{ij} dx^{i} dx^{j} \right)
+\end{equation}
+where $\bar{\gamma}_{ij}$ is the metric for the spatial components and $(i,j)$ can take the values $1,2,3$ (in general we will put a bar on top of the parameter related to a flat FLRW metric). \\
+
+In a relativistic framework, the perturbations are done on the metric in itself such that when we choose a metric $g_{\mu \nu}$ the deviations from the homogenous isotropic 
+background are close enough to $\bar{g}_{\mu \nu}$\footnote{Mathematically, this change in metric means we alsothe mainifolds being worked on so simple mathematical operations
+no longer apply. One way to overcome that issue is to define $\bar{g}_{\mu \nu}$'s functional form as invariant under coordinate transformations.}. We then obtain:
+\begin{equation}
+    \delta g_{\mu \nu} = g_{\mu \nu}(x) - \bar{g}_{\mu \nu}(x)
+\end{equation} 
+Physically, we are splitting $g_{\mu \nu}$ into a background $\bar{g}_{\mu \nu}$ and perturbation $ \delta g_{\mu \nu}$. However this perturbation is not a 4-tensor which will 
+require us to set a gauge transformation. Similarly, the perturbation for a general scalar-like object and a vecotr-like objects are defined as:
+\begin{equation}
+    \delta q(x) = q(x) - \bar{q}(x)
+\end{equation}
+\begin{equation}
+    \delta q^{\mu} = q^{\mu} - \bar{q}^{\mu} = \delta q_{\nu} \bar{g}^{\mu \nu} + \bar{q}_{\nu} \delta g^{\mu \nu}
+\end{equation}
+We can also perform the same for the energy-momentum tensor.
+\begin{equation}
+    \delta T_{\mu \nu} = T_{\mu \nu} - \bar{T}_{\mu \nu}
+\end{equation}
+with 
+\begin{equation}
+    T_{\mu \nu} = (\rho + P)u_{\mu}u_{\nu} + P g_{\mu \nu} + \Pi_{\mu \nu}
+\end{equation}
+and $\Pi_{\mu \nu}$ is the anisotropic stress which accounts for deviations from an ideal fluid. \\
+
+The general form for the metric perturbation is written as:
+\begin{equation}
+    \delta g_{\mu \nu} dx^{\mu} dx^{\nu} = a^2(\tau)\left[ -2A d\tau^2 + B_i d\tau dx^i + 2(H_L \delta_{ij} + H_{ij})dx^i dx^j \right]
+\end{equation}
+where $A(\tau, \mathbf{x})$, $B_i(\tau, \mathbf{x})$, $H_L(\tau, \mathbf{x})$ and $H_{ij}(\tau, \mathbf{x})$ are perturbation quantities and $\delta_{ij}$ a delta function.\\
+
+\noindent \textbf{\underline{Newtonian gauge}} \\
+
+These perturbation quantities intervene will then intervene in the field equations. Determining them necessitates a gauge transformation. We will be showing the results 
+of the Newtonian gauge as it is useful for analyzing the density fluctuations inside of the Hubble horizon ($D_H = 1/H$) as well as it is simple to interpret its results in terms of 
+Newtonian physics. The gauge is defined by:
+\begin{equation}
+    B=H=0
+\end{equation}
+and we will be renaiming the other perturbations as:
+\begin{equation}
+    \Psi = A
+\end{equation}
+\begin{equation}
+    \Phi = -H_L
+\end{equation}
+
+The field equations for the Newtonian gauge are:
+\begin{equation}
+    \boxed{
+    \begin{cases}
+        -k^2 \Phi - 3H(\dot{\Phi} + H\Psi) = 4 \pi G a^2 \delta \rho \\
+        \dot{\Phi} + H \Psi = 4 \pi G a^2 \frac{v}{k} (\bar{\rho} + \bar{P}) \\
+        \ddot{\Phi} + H(\dot{\Psi} + 2\dot{\Phi}) + (2 \dot{H} + H^2)\Psi + \frac{k^2}{3}(\Phi - \Psi) = 4 \pi G a^2 \delta P \\
+        k^2 (\Phi - \Psi) = 8 \pi G a^2 \Pi
+    \end{cases}
+    }
+\end{equation}
+where the dots are derivatives with respect to the conformal time. 
+If we consider scale much smaller than the Hubble horizon $H/k \ll 1$, the first field equation then becomes:
+\begin{equation}
+    -k^2 \Phi = 4 \pi G a^2 \delta \rho
+\end{equation}
+In this limit we recover the Poisson equation in the Newtonian formalism. Therefore, we can say that well within the horizon the Newtonian gauge reduces to Newtonian mechanics. 
+This also means we can have a physical interpretation for $\Phi$ it acting as the Newtonian gravitational potential (called generalized Newtonian potential). The last equation 
+also informs us that in the matter dominated epoch we have $\Phi \simeq \Psi$ reducing the metric perturbations to only one parameter. \\
+
+One can only also derive the equations of motion in the Newtonian gauge, however for this thesis we will only be showing the final equations of motions obtained for matter 
+fluctuations in the matter dominated era. We note the matter overdensity $\delta_m = \frac{\delta \rho_m}{\bar{\rho}}$, we obtain:
+\begin{equation}
+    \ddot{\delta}_m + H \dot{\delta}_m - 4\pi G a^2 \bar{\rho}_m\delta_m = 0
+\end{equation}
+
+\subsection{Inflation}
+
+Inflation is a period of time at the very early stages of the Universe 
+where an accelerated expansion of the Universe occurred (\cite{Guth_1981}). It was theorized to tackle known issues regarding the fine tuning of the flatness of the Universe and the horizon problem.
+What we see as well is that through inflation we can have a predict for the initial density fluctuations. 
+This following condition is imposed on inflation to obtain an accelerated early Universe:
+\begin{equation}
+    \ddot{a} > 0
+\end{equation}
+
+During inflation, we assume that the Universe is dominated by a quantum scalar field $\phi$ called the inflaton, experiencing a "slow roll" down its potential $V(\phi)$ (\cite{Mukhanov_1992}, \cite{Albrecht_1982}). 
+The action for a scalar field minimally coupled to gravity is given by:
+\begin{equation}
+    S = \int d^4x \sqrt{-g} \left[ \frac{M^2_{\mathrm{pl}}}{2} R - \frac{1}{2} g^{\mu \nu} \partial_{\mu}\phi \partial_{\nu}\phi - V(\phi) \right]
+\end{equation}
+where $M_{\mathrm{pl}} $ is the Planck mass defined as $M^2_{\mathrm{pl}} = \left(\frac{1}{8\pi G}\right)^2$. Varying the action with the respect to the metric allows to obtain 
+the energy momentum tensor $T_{\mu \nu}$ and its components $P_{\phi}$ and $\rho_{\phi}$:
+\begin{equation}
+    P_{\phi} = \frac{1}{2} \dot{\phi}^2 - V(\phi)
+\end{equation}
+\begin{equation}
+    \rho_{\phi} = \frac{1}{2} \dot{\phi}^2 + V(\phi)
+\end{equation}
+where the kinetic energy of the field is given by $\frac{1}{2} \dot{\phi}^2$.\\
+The dynamics can be recovered with the Klein Gordon equation giving us:
+\begin{equation}
+    \ddot{\phi} + 3H \dot{\phi} + \frac{d V(\phi)}{d \phi} = 0
+\end{equation}
+
+We can also apply the Friedmann equations to the inflaton field where we get:
+\begin{equation}
+    H^2 = \frac{1}{M^2_{\mathrm{pl}}}\left( \frac{1}{2} \dot{\phi}^2 + V(\phi) \right)
+\end{equation}
+\begin{equation}
+    \dot{H} = -\frac{1}{2} \frac{\dot{\phi}^2}{3M^2_{\mathrm{pl}}}
+\end{equation}
+
+Assuming a slow rolling field entails that kinetic term is small compared to the potential term $V$. We can show that given this assumption $a \sim e^{Ht}$ which is a necessary
+condition to inflation. Additionally we assume coherent oscillations around a minimum that are damped by a $H\dot{\phi}$ as seen in the Klein-Gordon equation. The field is 
+then expected to decay into matter and radiation, although the exact physical process behind that is unknown. The 
+inflaton field is then treated as a perturbation around a mean field, that these perturbation give rise to perturbation amplitudes that we can identify in the observations we make today. 
+Some useful parameters to define for a slow-roll inlfation are :
+\begin{equation}
+    \epsilon = - \frac{\dot{H}}{H^2} = \frac{3}{2} \frac{\dot{\phi}^2}{V}
+\end{equation}
+\begin{equation}
+    \eta = \epsilon - \frac{\ddot{\phi}}{H \dot{\phi}}
+\end{equation}
+where the slow rolling conditions are $\epsilon \ll 1$ and $\eta \ll 1$. \\
+We define $q$ as:
+\begin{equation}
+    q(x) = \delta \phi + \frac{\dot{\bar{\phi}}}{H} \Phi
+\end{equation}
+This quantity $q$ is known as the Mukhanov-Sasaki variable
+(\cite{Mukhanov_1988}, \cite{Sasaki_1986}) and is the canonical variable for quantizing inflaton perturbations.\\
+
+In order to fully treat the inflaton field we have to apply the canonical quantization of the field (quantum field theory) by elevating $q$ to an operator $\hat{q}$ as well as introducing 
+its canonical conjugate momentum $\hat{\pi}$. In the Fourrier space, they are expressed as function of the quantum harmonic operator $a_{\mathbf{k}}$ and $a_{\mathbf{k}}^{\dag}$. 
+With these operators we can calculate the expected value of the field as well as power spectrum as a function of $k$. 
+Once the power spectrum during inflation is determined it is possible to extend this to the primordial power spectrum of matter during the matter dominated era. 
+Outside the Hubble horizon, each mode is frozen with a nearly scale-invariant amplitude. 
+Before writing the primordial power spectrum, we introduce the comoving curvature perturbation $\mathcal{R}$, a gauge-invariant 
+quantity that measures the spatial curvature of constant-density hypersurfaces. In the context of inflation it is related to the inflaton perturbation $\delta\phi$ by:
+\begin{equation}
+    \mathcal{R} = -\frac{H}{\dot{\bar{\phi}}}\delta\phi
+\end{equation}
+The key property of $\mathcal{R}$ is that it is conserved on super-Hubble scales for adiabatic perturbations (\cite{Wands_2000}). 
+This means its amplitude is frozen once a mode exits the Hubble radius during inflation and remains unchanged until it re-enters the horizon 
+during the hot Big Bang, directly connecting inflationary predictions to late-time observables.
+The dimensionless power spectrum of the comoving curvature perturbation 
+$\mathcal{R}$ evaluated at Hubble crossing $k = aH$ is:
+\begin{equation}
+    \mathcal{P}_{\mathcal{R}}(k) = \frac{H^4}{4\pi^2 \dot{\bar{\phi}}^2}\bigg|_{k=aH} \approx \frac{H^2}{8\pi^2 M_{\mathrm{pl}}^2 \epsilon}\bigg|_{k=aH}
+\end{equation}
+which is approximately scale-invariant for slow-roll inflation where $H$ and $\epsilon$ vary slowly. The spectral index for a slow-roll inflation is given by:
+\begin{equation}
+    n_s = 1 - 6\epsilon + 2\eta
+\end{equation}
+Once modes re-enter the Hubble horizon during the matter and radiation dominated eras, they begin to evolve dynamically. Their evolution is captured by 
+the transfer function $T(k)$ and the linear growth factor $D_+$. The linear matter power spectrum at a time $\tau$ is therefore:
+\begin{equation}
+    \mathcal{P}_{\mathrm{lin}}(\tau, k) = A_s \left(\frac{k}{k_*}\right)^{n_s} T^2(k)\, D_+^2(\tau)
+\end{equation}
+where $A_s$ is the primordial amplitude defined at the pivot scale $k_* = 0.05\,{\text{Mpc}}^{-1}$ (\cite{Planck_2018_inflation}), $T(k)$ encodes 
+the suppression of small-scale modes that entered the horizon during radiation domination (\cite{Eisenstein_Hu_1998}), and $D_+(\tau)$ describes the  
+growth of perturbations during matter domination (\cite{Carroll_1992}). The $k^{n_s}$ factor reflects the nearly scale-invariant primordial spectrum, with 
+$n_s \approx 0.965$ (\cite{Planck_2018_inflation}) consistent with slow-roll inflation.
+
