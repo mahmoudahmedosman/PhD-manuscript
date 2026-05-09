@@ -19,7 +19,7 @@ and from Equation \ref{eqn:flux_dl} we can identify:
 \begin{equation}
     \mu = 5 \log_{10}\left( \frac{d_L}{10 \text{pc}} \right) = 5\log_{10}(d_L) + 25
 \end{equation}
-where $d_L$ is the luminosity distance measured in pc. If we manage to determine $\mu$ from observations, we can construct a Hubble diagram by plotting $\mu$ against $z$. \\
+where $d_L$ is the luminosity distance measured in Mpc. If we manage to determine $\mu$ from observations, we can construct a Hubble diagram by plotting $\mu$ against $z$. \\
 
 \subsubsection{Measurement of $\Omega_m - w$}
 
@@ -43,6 +43,31 @@ in order to observe the evolutions of $\Omega_m$ and $\Omega_{\Lambda}$. \\
 
 \subsubsection{Measurement of $H_0$}
 
+We recall that for objects at a low redshift the distance luminosity is written as Equation \ref{eqn:dl_approx}. We can then express the magnitude as a function of the redshift with:
+\begin{equation}
+    m \approx A - 2.5\log_{10}(L H_0^2) + 5 \log_{10}(z)
+\end{equation}
+where $A$ is a constant. We can see that the realtionship between the magnitude and redshift naturally introduces the Hubble parameter $H_0$, however it is degenerated with the 
+intrinsic luminosity of supernovae $L$. Breaking this degeneracy requires us to calibrate the intrinsic supernova luminosity. We commonly use the "distance ladder" method that 
+uses Cepheid stars in the Milky Way as distance calibrators. \\
+
+Cepheids are a class stars that have variable periodic luminosities, which was firstly inferred by Henrietta Swan Leavitt thus establishing the Leavitt relation. Most recent 
+confirmations of this relation were observed by (Breuval et al. 2025). Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
+angle of an object with respect to a static background due to the motion of the observer. The application of this method is done by measuring the positions of the Cepheids with 
+respect to a background of distant stars 6 months apart. The displacement angle of the observed Cepheid measured due to the half-rotation of the Earth around the Sun can be expressed 
+as $\Theta = \frac{r}{d}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance luminosity of 
+Cepheids can be calibrated using objects sufficiently close to the Milky-Way for their distance to be measured by parallax.\\ 
+
+If we can identify nearby galaxies that contain both Cepheids and type Ia supernovae, we can use the Leavitt relation to measure the Cepheid distance modulus 
+$\mu_{\text{Cepheid}}$, which in turn calibrates the absolute magnitude $M$ of the supernova:
+\begin{equation}
+    M = m_B - \mu_{\text{Cepheid}}
+\end{equation}
+where $m_B$ is the observed peak magnitude of the type Ia supernova in the rest-frame 
+B band. This breaks the degeneracy between $L$ and $H_0$, as $M$ is now determined independently of the Hubble expansion. Applying this calibrated 
+$M$ to type Ia supernovae at low redshift, we can compute the luminosity distance $d_L$ from the observed magnitude and directly infer $H_0$ from Equation 
+\ref{eqn:dl_approx}, averaged over a large sample of supernovae. The most recent measurement using this method yields $H_0 = 73.04 \pm 1.04$ km s$^{-1}$ Mpc$^{-1}$ 
+(\cite{Riess_2022}).
 
 \subsection{Peculiar velocities} \label{sec:vp_methods}
 
