@@ -26,7 +26,7 @@ where $d_L$ is the luminosity distance measured in Mpc. If we manage to determin
 Once we have access to the supernova Hubble diagram, we can start deducing cosmological parameters. We recall that under a flat $w$-CDM cosmology, Equation \ref{eqn:distance_luminosity} 
 becomes:
 \begin{equation}
-    d_L = \frac{c(1+z)}{H_0} \int_{0}^{\inf} \frac{dz'}{E(z')}
+    d_L = \frac{c(1+z)}{H_0} \int_{0}^{\infty} \frac{dz'}{E(z')}
     \label{eqn:dL_w}
 \end{equation}
 with $E(z) = \frac{H(z)}{H_0}$ being the dimensionaless Hubble parameter. Supernova measurements can go up to a redshift of 2, where the only contribution to the Hubble parameter 
@@ -49,13 +49,13 @@ We recall that for objects at a low redshift the distance luminosity is written 
 \end{equation}
 where $A$ is a constant. We can see that the realtionship between the magnitude and redshift naturally introduces the Hubble parameter $H_0$, however it is degenerated with the 
 intrinsic luminosity of supernovae $L$. Breaking this degeneracy requires us to calibrate the intrinsic supernova luminosity. We commonly use the "distance ladder" method that 
-uses Cepheid stars in the Milky Way as distance calibrators. \\
+uses Cepheid stars in the Milky-Way as distance calibrators. \\
 
 Cepheids are a class stars that have variable periodic luminosities, which was firstly inferred by Henrietta Swan Leavitt thus establishing the Leavitt relation. Most recent 
 confirmations of this relation were observed by (Breuval et al. 2025). Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
 angle of an object with respect to a static background due to the motion of the observer. The application of this method is done by measuring the positions of the Cepheids with 
 respect to a background of distant stars 6 months apart. The displacement angle of the observed Cepheid measured due to the half-rotation of the Earth around the Sun can be expressed 
-as $\Theta = \frac{r}{d}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance luminosity of 
+as $\theta = \frac{r}{d}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance luminosity of 
 Cepheids can be calibrated using objects sufficiently close to the Milky-Way for their distance to be measured by parallax.\\ 
 
 If we can identify nearby galaxies that contain both Cepheids and type Ia supernovae, we can use the Leavitt relation to measure the Cepheid distance modulus 
@@ -71,28 +71,76 @@ $M$ to type Ia supernovae at low redshift, we can compute the luminosity distanc
 
 \subsection{Peculiar velocities} \label{sec:vp_methods}
 
+We define the peculiar velocity of a celestial object as the velocity due to its proper motion independent from the Hubble expansion. This is particularly important for 
+cosmological analyses as it can be used as a test for GR. If we assume peculiar velocities originate from the infall into gravitational potential wells then the detection 
+of correlations between peculiar velocities directly probes the "strength" of gravity at cosmological scales. The parameter probed here is the growth rate of structures 
+$f(z)\sigma_8(z)$ which combines the growth rate function $f$ as well as the matter fluctuations in a 8 Mpc box $\sigma_8$. A common parameterization of the growth rate 
+of structures in $\Lambda$CDM is:
+\begin{equation}
+    f(z)\sigma_8(z) = \Omega_m(z)^{\gamma} \sigma_8(z)
+\end{equation}
+Where $\gamma$ is the growth index. For GR $\gamma$ is expected to be 0.55 therefore deviations from this value will indicate that GR is not the most suitable gravitational 
+theory for the description of the large scale Universe. \\
+
 \subsubsection{Extracting peculiar velocities}
+
+Supernova peculiar velocity information is encoded in the observed redshift. If we define $z_{pv}$ as the redshift due to the proper motion of the supernova and $z_{cosmo}$
+as the redshift due the cosmic expansion, we get the following formula for the observed redshit $z_{obs}$ : 
+\begin{equation}
+    1+z_{obs} = (1+z_{cosmo})(1+z_{pv}) = (1+z_{cosmo})(1+\frac{v}{c})
+\end{equation}
+Where $v$ is the peculiar velocity. Measuring $z_{pv}$ requires knowledge of $z_{cosmo}$ which is not directly measurable. It can be deduced however once the expansion history 
+has been determined. To put simply, if you know exactly the expansion history, then one can directly deduce the cosmological redshift of an object based on how far away it is. 
+This entails that it is crucial to be able to accurately measure the distances of supernovae. Moreover, high redshift supernovae redshifts are almost entirely dominated by 
+the cosmological redshift so analyses on supernova peculiar velocities will be done on low redshift samples. \\
 
 \subsubsection{Measurement of $f\sigma_8$}
 
-\noindent \textbf{\underline{Maximum likelihood fields}} \\
+Multiple methods in infering $f\sigma_8$ exist. We present here four different methods that exist. \\
 
- - Uses covariances between velocities in a likelihood \\
- - velocities modeled before hand \\
- - maximize the likelihood \\
+\noindent \textbf{\underline{Maximum likelihood estimation}} \cite{Gordon_2007, Carreres_2023}\\
 
- \noindent \textbf{\underline{Compressed two-point statistics}} \\
+The maximum likelihood estimation (MLE) is a statistical method of estimating parameters given a model and a statistical distribution. The likelihood function measures how 
+well the model explains the data by assimilating the statistical distribution. For MLE, the distribution is assumed to be Gaussian as the variable is the distance modulus of 
+the supernova, a continuous parameter. The likelihood can be written as:
+\begin{equation}
+    \mathcal{L} \propto |\mathbf{C}(\theta)|^{-\frac{1}{2}} \exp \left( -\frac{1}{2} \mathbf{v}(\theta)^{T} \mathbf{C}(\theta)^{-1} \mathbf{v}(\theta) \right)
+\end{equation}
+where $\theta$ are the model parameters, $\mathbf{v}$ is the peculiar velocity calculated as the difference between the observed distance modulus and the predicted distance modulus defined by a model, 
+$\mathbf{C}$ is the covariance matrix which can be divided into two parts $C = C_{\text{noise}} + C_{\text{PV}}$ where the second term directly depends on the value 
+of $f\sigma_8$ and is left as a free parameter to be determined. The goal is to either maximize $\mathcal{L}$ or minimize it's logarithmic value $\log \mathcal{L}$ 
+which can be numerically beneficial. \\
 
- - Uses covariances between velocities binned \\
- - Defines correlation function and power spectrum \\
- - Modelling power spectra contains cosmological information \\
+\noindent \textbf{\underline{Compressed two-point statistics}} \\
 
- \noindent \textbf{\underline{Density field reconstruction}} \\
+The compressed two-point statistics is done by adjusting the amplitude of the theoretical 2 point velocity-velocity power spectrum to the data. If we would assume a $\Lambda$CDM cosmology, 
+the power spectrum is given by:
+\begin{equation}
+    \mathcal{P}_{vv}(k) \propto (f\sigma_8)^2 \int dk \mathcal{P}(k) j_1(kr)^2 \hat{\mathbf{r}}  \hat{\mathbf{r}}'
+\end{equation}
+where $j_1$ is the first order spherical Bessel function and $\mathcal{P}$ is the matter power spectrum. For a linear approximation we obtain:
+\begin{equation}
+    \mathcal{P}_{vv}(k) \propto (f\sigma_8)^2 \frac{\mathcal{P}(k)}{k^2}
+\end{equation}
+What remains is to then adjust the $f\sigma_8$ value to match the observed power spectrum. If the density field is indeed Gaussian, then the full power spectrum would 
+contain all of the information on the distribution. However at small scales it is not the case. \\ 
 
- - Uses velocities from galaxies/ SN \\
- - Reconstruct from the velocities the current density field \\
+\noindent \textbf{\underline{Density field reconstruction}} \\
 
- \noindent \textbf{\underline{Field level forward modeling}} \\
+The density field reconstruction infers the velocity field of matter from a galaxy density field. If we call $\delta_g$ the galaxy density field and $b$ the galaxy bias 
+(term that models how well do galaxies trace matter) then the reconstructed velocity field becomes:
+\begin{equation}
+    \mathbf{v} = \frac{aH \beta}{4\pi} \int d^3\mathbf{x'} \frac{\mathbf{x'} - \mathbf{x}}{|\mathbf{x'} - \mathbf{x}|} \delta_g(\mathbf{x'})
+\end{equation}
+where $\beta = \frac{f}{b}$. Comparing this to the velocity field inferred from type Ia supernovae, one can determine $\beta$. If then this is combined with 
+external measurements of $\sigma_{8,g} = b \sigma_8$, we can compute the growth rate of structures with $f\sigma_8 = \beta \sigma_{8,g}$. This has been done in 
+Lavaux and Hudson 2011. \\
 
- - Model initial density field and evolve it based on a gravity model \\
- - Fit initial field and cosmological parameters \\
+\noindent \textbf{\underline{Field level forward modeling}} \\
+
+The field level forward model treats the density and velocity field in itself as a free parameter. The idea is to evolve an inital simulated density field using a gravity model 
+to obtain a final density field. The observables are modelled from the obtained field to compare to actual observations such as galaxies or supernovae. 
+$$ \text{Initial field} \longrightarrow \text{Final field} \longrightarrow \text{Model observables} \Longleftrightarrow \text{Compare to observations} $$
+Due to the nature of this method, the growth rate of structures can be directly determined via the final constrained simulation. The challenge of this method relies 
+in multiple stages such as: determining an accurate gravity model while maintaining reasonable computational time and accurately modelling the relation between the observables 
+and the density field. \\
