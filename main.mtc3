@@ -17,9 +17,9 @@
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.3}Environmental effects}{\reset@font\mtcSSfont 58}{subsection.2.4.3}}
 {\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Spectrophotometric models of supernovae}{\reset@font\mtcSfont 60}{section.2.5}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.1}SALT2/SALT3}{\reset@font\mtcSSfont 60}{subsection.2.5.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.2}Models trained on the SNfactory dataset}{\reset@font\mtcSSfont 61}{subsection.2.5.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.3}SNEMO}{\reset@font\mtcSSfont 61}{subsection.2.5.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.4}SUGAR}{\reset@font\mtcSSfont 62}{subsection.2.5.4}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.5}Twins Embedding}{\reset@font\mtcSSfont 62}{subsection.2.5.5}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.6}SuPAErnova}{\reset@font\mtcSSfont 63}{subsection.2.5.6}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Main goal of this PhD}{\reset@font\mtcSfont 63}{section.2.6}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.2}Models trained on the SNfactory dataset}{\reset@font\mtcSSfont 62}{subsection.2.5.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.1}SNEMO}{\reset@font\mtcSSSfont 63}{subsubsection.2.5.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.2}SUGAR}{\reset@font\mtcSSSfont 64}{subsubsection.2.5.2.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.3}Twins Embedding}{\reset@font\mtcSSSfont 65}{subsubsection.2.5.2.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.4}SuPAErnova}{\reset@font\mtcSSSfont 65}{subsubsection.2.5.2.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Main goal of this PhD}{\reset@font\mtcSfont 65}{section.2.6}}
