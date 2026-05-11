@@ -1,5 +1,136 @@
 \section{Spectrophotometric models of supernovae} \label{sec:spec_phot_model}
 
+Given that the $B^*$ fluxes of supernovae are not directly observable, we rely on spectrophotometric models that allow us to reconstruct to emitted fluxes. Theoretical supernova 
+explosion models haven't been able to replicate the obsereved fluxes with a good precision as seen in \cite{Blinnikov_2006_difficult_theory}, \cite{R_pke_2018_difficult_theory} 
+and \cite{Pakmor_2024_difficult_theory}. Instead we rely on empirical models to describe the spectrophotometric data. Here we present the main models that exist. \\ 
+
+\subsection{SALT2/SALT3}
+
+The Spectral Adaptive Lightcurve Template (\cite{Guy_2007_SALT2}) class of spectrophotometric models are the current state of the art for a cosmological analyses. The idea is to parameterize the model with two parameters that would 
+represent the stretch and color in the Tripp relation. These models are particularly useful since they are determined and used on photometric data. 
+Spectra are used to determine the spectral features of the model. Once the model has been obtained, one can directly use it on lightcurves to determine its parameters. \\
+
+We define the restframe spectral flux density surface $\mathcal{S}(\lambda, p)$ the spectrophotometric evolution of 
+type Ia supernova where $p$ is the phase of the supernova, defined as the difference between the observation date and the date of maximum emission $p = t - t_{max}$ in days, 
+and $\lambda$ the wavelength in $\AA$. The goal is to then obtain $S$. \\
+
+We can define the spectral flux density as:
+\begin{equation}
+    \phi_{spec}(\lambda, p) = \frac{1}{4\pi d_L^2(z)} \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z}) 
+    \label{eqn:spectral_flux_density}
+\end{equation}
+
+With that we can also deduce the broadband flux observed through a pass-band $T(\lambda)$ as: 
+
+\begin{equation}
+    \phi_{phot}(p) = \frac{1}{4\pi d_L^2(z)} \frac{1}{1+z} \int \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})\frac{\lambda}{hc}T(\lambda) \mathrm{d}\lambda
+\end{equation}
+
+Since the goal of doing supernova cosmology is reconstructing the restframe fluxes, we can rewrite the expression in the restframe of the supernova as: 
+
+\begin{equation}
+    \phi_{phot}(p) = \frac{1}{4\pi d_L^2(z)} (1+z) \int \mathcal{S}(\lambda, \frac{p}{1+z})\frac{\lambda}{hc}T((1+z)\lambda) \mathrm{d}\lambda
+    \label{eqn:broadband_flux}
+\end{equation}
+
+As mentioned previously, the luminosity distances of supernovae are defined using the emitted flux in the standard B band at the time of maximum emission, observed at 
+$10\mathrm{pc}$ from the supernova: 
+
+\begin{equation}
+    \Phi_B = \frac{1}{4\pi(10\mathrm{pc})^2} \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \mathrm{d}\lambda
+\end{equation}
+
+By imposing the normalization of the model in the $B^*$ band at phase 0:
+
+\begin{equation}
+    \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \mathrm{d}\lambda = 1
+\end{equation}
+
+And defining the following parameter: 
+
+\begin{equation}
+    X_0 = \Phi_B \frac{(10\mathrm{pc})^2}{d_L^2(z)}
+\end{equation}
+
+We obtain: 
+
+\begin{equation}
+    \phi_{spec}(\lambda, p) = X_0 \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
+\end{equation}
+\begin{equation}
+    \phi_{phot}(\lambda, p) = X_0 (1+z) \int \mathcal{S}(\lambda, \frac{p}{1+z})\frac{\lambda}{hc}T((1+z)\lambda) \mathrm{d}\lambda
+\end{equation}
+
+The SALT parameterization of $\mathcal{S}$ is (\cite{Guy_2007_SALT2}):
+
+\begin{equation}
+    \boxed{\mathcal{S}(\lambda,p) = [M_0(\lambda,p) + X_1M_1(\lambda, p)]10^{0.4cCL(\lambda)}}
+\end{equation}
+
+This parameterization is a classic principal component analysis, or PCA, with the addition of a color law. The $M_0$ and $M_1$ surfaces along with the $CL$ color law are 
+common to all supernovae. $M_0$ is the average spectral surface of a type Ia supernova, which represents what your average spectrophotometric evolution of a type Ia 
+supernova looks like.
+$M_1$ is a surface representing the main variations to $M_0$. $CL$ represents the color diversity of supernovae. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/NaCl_chapter/figures/M0_salt2.pdf}
+    \caption{The SALT2.4 $M_0$ surface with respect to the restframe wavelength and phase}
+    \label{fig:M0_salt2}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/NaCl_chapter/figures/M1_salt2.pdf}
+    \caption{The SALT2.4 $M_1$ surface with respect to the restframe wavelength and phase}
+    \label{fig:M1_salt2}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/NaCl_chapter/figures/CL_salt2.pdf}
+    \caption{The SALT2.4 color law $CL$ surface with respect to the restframe wavelength}
+    \label{fig:CL_salt2}
+\end{figure}
+
+Determining the global parameters is what we called "training the model" while determining the individual supernova parameters is called "fitting the lightcurve parameters". 
+7ot hena ezay 3amalna el training 3ashan te3raf tetkalem 3ala salt3 ba3den\\
+
+SALT2 was initially developped for the analysis of SNLS data which lead to the Betoule et al 2014 cosmological results. More recently, a newer model of SALT was developped named 
+SALT3 (\cite{Kenworthy_2021_SALT3}). 
+
+\subsection{Models trained on the SNfactory dataset}
+
+SNfactory is a survey that ran from 2004 to 2014 collecting a sequences of spectra of nearby supernovae over a long period of time, thus making the SNfactory dataset (\cite{snfactory}). This is the only dataset that contains a fine spectroscopic description in a large phase range. The well calibrated spectra in the SNfactory dataset will also mean that it doesn't need to be accompanied by photometric measurements to measure distances. \\
+These features makes this dataset unique and very interesting to use in order to study the properties of supernova. However it cannot be used alone to measure cosmological parameters such as $w$ since the furthest supernova is at redshift $z\approx0.11$. \
+
+
+\subsection{SNEMO} 
+
+SNEMO model (SuperNova Empirical MOdels, \cite{Saunders_2018_SNEMO}) generalises the PCA used in SALT2. In SNEMO, the $\mathcal{S}(\lambda, p)$ components are extracted
+using an Expectation Minimization for Factor Analysis or EMFA that takes into account the measurement uncertainties that affects the model. With SNEMO 
+multiple model trainings can be done at different orders. At the second order, the $\mathcal{S}(\lambda, p)$ is described with 2 parameters that represent the color and
+stretch of the supernova where comparisons with the SALT2 color and stretch parameters have shown strong correlations. \\ 
+
+\subsection{SUGAR} 
+
+SUGAR (SUpernova Generator And Reconstructor, \cite{L_get_2020_SUGAR}) uses EMFA like SNEMO but applied in a different space with the idea that
+supernova variability is encoded in their spectral data. The founders of SUGAR have chosen 13 spectral feautres to identify the supernova variability. The work
+with SUGAR has essentially showed that the supernova variability can be captured by 3 parameters, one more than the traditional stretch and color parameters. \\
+
+\subsection{Twins Embedding} 
+
+The Twins Embedding model (\cite{Boone_2021_twins_embedding}) uses a non-linear parameterization to describe the supernova diversity. It uses a new standardization
+method based on the spectral differences between supernova at specific regions. This is also called the spectral distance. If the spectral distance between two supernovae is
+small enough they are considered as "Twins". The model is adjusted using an algorithm that does non-linear dimensionality reduction called Isomap which is a generalization of 
+PCA while accounting for non-linearities. \\
+
+\subsection{SuPAErnova} 
+
+The SuPAErnova model (\cite{Stein_2022_PAE}) uses a probabilistic autoencoder in order to assess the supernova diversity. The use of machine learning (ML) in this case 
+leaves the model free to explore different ways to determine the necessary parameterization in order to describe the data. The only setback is that it then becomes difficult
+to have a physical interpretation of the final parameters. \\
+
 
 \section{Main goal of this PhD}
 

@@ -1,12 +1,25 @@
 \section{Distance measurements from observed fluxes}
 
+The key information in doing a cosmological analysis with type Ia supernova is found in their restframe fluxes. The photometric fluxes as mentioned previously is a broadand 
+flux, meaning it is integrated in a observation band. Due to the redshift of each supernova being different, these integrated zones will be different for an observer on Earth, 
+which makes it difficult to compare the same physical quantities. This can be seen in Figure \ref{fig:flux_evolution}. The key is to be able to reconstruct the restframe flux 
+from the obsereved flux in the same band. We use the restframe B band since it contains the maximum light emission from supernova. From now on we will call this band the 
+$B^*$ band. Once we have obtained the flux in the $B^*$, we can obtain the distance modulus.\\
 
-\section{Standardization}
+\begin{figure}[ht]
+    \centering
+    %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
+    \includegraphics[width=1\textwidth]{MainLayout/NaCl_chapter/figures/flux_evolution.png}
+    \caption{Examples of four spectra at different redshifts 0.1, 0.4, 0.7 and 1.0. The highlighted parts of the spectra represent restframe band would measure. The highlighted areas on the graph are the regions where the observer bands measure.}
+    \label{fig:flux_evolution}
+\end{figure}
 
 Although supernova lightcurves look alike, there are still a couple of variations between them. This variability can be laregly accounted for using standardization 
 parameters, hence type Ia supernovae are standardizable candles. Without taking those into effect, the dispersion that exists around peak magnitude in the standard B 
 filter is around 40\%. The most well known standardization relation is the Tripp relation (\cite{Tripp_1999}) which uses two standardization parameters named stretch and 
-color. After standardization, the dispersion can go down to 15\%. \\
+color. After standardization, the dispersion can go down to 15\%. More complex standardization methods have been explored, however they necessitate spectral knowledge as well.\\
+
+\section{Standardization}
 
 \subsection{Brighter-slower effect} 
 
@@ -37,7 +50,7 @@ and if it is positive, red. Part of the reason this effect exist is due to the a
 the observer. Another reason is due to intrinsic properties related to the physical properties of the progenitor. \\
 
 This effect was confirmed in \cite{Ginolin_2025_b} where it was studied on the ZTF DR2 sample of over 900 supernovae. A scale dependent effect was proposed in the paper but found no 
-statistical sginificance for it. \\
+statistical significance for it. \\
 
 \begin{figure}[ht]
     \centering
@@ -55,9 +68,19 @@ where $m_{Tripp}$ is the standardized magnitude in the B band using the Tripp re
 \subsection{Environmental effects}
 
 We have already mentioned that galaxy properties can affect the luminosity of supernovae as seen in the brighter-blue effect. However, studies conducted on large samples of 
-supernovae have shown that the standardized luminosity also depends on the mass of the galaxies or more specifically the star formation rate (\cite{Sullivan_2010, Rigault_2020}). 
-This dependacy presents itself as an offset in the standardized when the popultation of host galaxies' masses are divided into two categories: more or less than $10^{10}M_{\odot}$. 
-We can then add an extra nuisance parameter to the Tripp relation $\gamma$ that accounts for that offset, also known as "mass step":
+supernovae have shown that the standardized luminosity also depends multiple additional properties of the host galaxy. This is seen as a "step" in the Hubble residuals that 
+depend on a certain property of the galaxy. One possible explaination would be the mass of the galaxies(\cite{Sullivan_2010}). 
+This dependancy presents itself as an offset in the standardized when the popultation of host galaxies' masses are divided into two categories: more or less than $10^{10}M_{\odot}$. 
+The mass step has shown a $3.9 \sigma$ significance afer correcting for stretch and color (\cite{Sullivan_2010}). \\
+
+Another possible dependancy would be the star formation rate in those galaxies (\cite{Rigault_2020}). Galaxies can be divided into two subgroups: high star formation galaxies and 
+low star formation galaxies. This step factor has shown a $2.6 \sigma$ significance afer correcting for stretch and color. \\
+
+The Roman et al 2018 studied this dependancy on the supernovae local $U-V$ restframe colors (limited to a certain radius around the supernova). 
+This step factor has shown a $7.0 \sigma$ significance. When the same study was conducted on 927 ZTF supernova with the local colors $g-z$, the significance was found to be 
+around $18.2 \sigma$ significance. \\
+
+We can then add an extra nuisance parameter to the Tripp relation $\gamma$ that accounts for that offset:
 \begin{equation}
     m_{Tripp} = m_{obs} - \alpha X1 + \beta c + \gamma
 \end{equation}
