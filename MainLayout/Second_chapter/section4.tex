@@ -104,9 +104,11 @@ The initial SALT2 model was trained on a dataset containing 52 low-$z$ supernova
 A later retraining of the model was done in Guy et al. 2010 where 207 new supernovae were added from the SDSS-II sample, giving us the SALT2.4 model. This model was used in the 
 Betoule et al. 2014 JLA cosmological analysis. \\
 
-The SALT3 model is the current state of the art iteration of the SALT models (\cite{Kenworthy_2021_SALT3}). The entire training procedure was written in Python3 coding language. The model was trained on a 
+The SALT3 model is the current state of the art iteration of the SALT models (\cite{Kenworthy_2021_SALT3}). The entire training procedure was written in Python3 coding language 
+and is publicly available for the community. The model was trained on a 
 sample of 1083 supernovae, 2.5 times larger than SALT2. SALT3 improves the training by having consistent photometric handling between surveys and improved cross-calibration between 
-surveys in order to reduce survey dependent systematics. The model was also trained on more high-$z$ supernova, improving the handling of UV data regions. The color law was 
+surveys in order to reduce survey dependent systematics. The model was also trained on more high-$z$ supernova adding data from 
+PanSTARRS-1, DES and Pantheon, improving the handling of UV data regions. The color law was 
 also readjusted to be a higher order polynomial than SALT2. The SALT3 was used for the DES cosmological analysis (\cite{DES_2024}). \\
  
 
@@ -140,7 +142,7 @@ going up to the 7th order the supernovae variability decreases and at the 15th o
 The SUGAR (SUpernova Generator And Reconstructor, \cite{L_get_2020_SUGAR}) model uses EMFA like SNEMO but applied in a different space with the idea that
 supernova variability is encoded in their spectral data. Therefore, instead of adding surfaces that would explore the entire space for the standardization features, 
 the model has a pre-selected set of spectral features to look out for when determining the model. 
-The founders of SUGAR have chosen 13 spectral feautres to identify the supernova variability, for which they show accounts for its entirety. 
+The founders of SUGAR have chosen 13 spectral features to identify the supernova variability, for which they show accounts for its entirety. 
 The model for each superniva $i$ is expressed as:
 \begin{equation}
     M_i(\lambda, p) = M_0(\lambda, p) + \sum_{j=1}^{3}h_{i, j} \alpha_j(\lambda, p) + A_{V,i} f(\lambda, R_v) + \Delta M_{\text{gray},i}
@@ -153,14 +155,29 @@ The work with SUGAR has essentially showed that the supernova variability can be
 \subsubsection{Twins Embedding} 
 
 The Twins Embedding model (\cite{Boone_2021_twins_embedding}) uses a non-linear parameterization to describe the supernova diversity. It uses a new standardization
-method based on the spectral differences between supernova at specific regions. This is also called the spectral distance. If the spectral distance between two supernovae is
-small enough they are considered as "Twins". The model is adjusted using an algorithm that does non-linear dimensionality reduction called Isomap which is a generalization of 
-PCA while accounting for non-linearities. \\
+method based on the spectral differences between supernova at specific regions. If the spectral differences between two supernovae is
+small enough they are considered as "Twins". This is also called the spectral distance, denoted as $\gamma_{ij}$. The idea is to firstly determine the average spectrum near $t_{max}$, called $f_{mean}$, and account for any redshift uncertainties 
+and galactic extinction using the Cardelli extinction law. The variability is then modeled by a non-linear model and adjusted using an algorithm that does a non-linear 
+dimensionality reduction called Isomap which is a generalization of PCA while accounting for non-linearities. The spectral distance between two Twins $i$ and $j$ is 
+written as:
+\begin{equation}
+    \gamma_{ij} = \left[ \sum_{k} \frac{f_i(\lambda_k) - f_j(\lambda_k)}{f_{mean}(\lambda_k)} \right]^{\frac{1}{2}}
+\end{equation}
+with $f_i$ and $f_j$ the spectra of $i$ and $j$. The model is described using three parameters. The first parameter $\xi_1$ highlights the the pseudo-equivalent widths (pEWs) of 
+the Ca II features and it describes the most important variabilitis. THe second parameter $\xi_2$ affects the pEWs of the Si II lines and is correlated with the SALT2 stretch 
+parameter $X_1$. The third parameter $\xi_3$ affects the ejecta velocities of the supernova. \\
 
 \subsubsection{SuPAErnova} 
 
-The SuPAErnova model (\cite{Stein_2022_PAE}) uses a probabilistic autoencoder in order to assess the supernova diversity. The use of machine learning (ML) in this case 
-leaves the model free to explore different ways to determine the necessary parameterization in order to describe the data. The only setback is that it then becomes difficult
+The Super Probabilistic Autoencoder model (SuPAErnova) (\cite{Stein_2022_PAE}) uses a probabilistic autoencoder in order to assess the supernova diversity. The use of machine learning (ML) in this case 
+leaves the model free to explore different ways to determine the necessary parameterization in order to describe the data. It Takes as input 
+the spectra from SNfactory and encodes the parameterization of the model. The general definition of the model is:
+\begin{equation}
+    F_{SN}(\lambda, p) = \mathbf{g}([z_1, ..., z_{n}], p) \times 10^{-0.4[CL(\lambda)\Delta A_V + \Delta M]}
+\end{equation}
+where $\mathbf{g}$ is a decoder that learns to reconstruct the spectral series, $z_i$ are the latent parameters of the model, $CL$ is the color law, $\Delta A_V$ is the relative 
+extrinsic extinction and $\Delta M$ the magnitude residuals. The results shown in the paper indicate that the with three latent parameters ($z_1$, $z_2$ and $z_3$) the reconstruction 
+errors on the spectral series are minimal. The only setback is that it then becomes difficult
 to have a physical interpretation of the final parameters. \\
 
 
