@@ -1,21 +1,20 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}NaCl framework}{\reset@font\mtcSfont 80}{section.4.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}The idea behind the framework}{\reset@font\mtcSSfont 80}{subsection.4.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Differences with the SALT models}{\reset@font\mtcSSfont 80}{subsection.4.1.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.1}Practical implementation of the SALT2 model}{\reset@font\mtcSSSfont 80}{subsubsection.4.1.2.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Constraints}{\reset@font\mtcSSfont 81}{subsection.4.1.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Regularization}{\reset@font\mtcSSfont 83}{subsection.4.1.4}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.5}Error models}{\reset@font\mtcSSfont 86}{subsection.4.1.5}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.1}Error Snake}{\reset@font\mtcSSSfont 86}{subsubsection.4.1.5.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.2}Color Scatter}{\reset@font\mtcSSSfont 87}{subsubsection.4.1.5.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.3}Calibration Uncertainties}{\reset@font\mtcSSSfont 87}{subsubsection.4.1.5.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.6}NaCl output}{\reset@font\mtcSSfont 87}{subsection.4.1.6}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Improving NaCl}{\reset@font\mtcSfont 90}{section.4.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Implementing a model for spectrophotometric data}{\reset@font\mtcSSfont 90}{subsection.4.2.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Regularization}{\reset@font\mtcSSfont 90}{subsection.4.2.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.3}NaCl training recipe}{\reset@font\mtcSSfont 90}{subsection.4.2.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}NaCl on real data}{\reset@font\mtcSfont 91}{section.4.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}SNfactory}{\reset@font\mtcSSfont 91}{subsection.4.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}NaCl training results}{\reset@font\mtcSSfont 91}{subsection.4.3.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.2.1}Data coverage}{\reset@font\mtcSSSfont 91}{subsubsection.4.3.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.2.2}Fitting the spectra}{\reset@font\mtcSSSfont 91}{subsubsection.4.3.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.2.3}Training residuals}{\reset@font\mtcSSSfont 91}{subsubsection.4.3.2.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}NaCl framework}{\reset@font\mtcSfont 84}{section.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}The idea behind the framework}{\reset@font\mtcSSfont 84}{subsection.4.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Differences with the SALT models}{\reset@font\mtcSSfont 84}{subsection.4.1.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.1}Practical implementation of the SALT2 model}{\reset@font\mtcSSSfont 84}{subsubsection.4.1.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Constraints}{\reset@font\mtcSSfont 86}{subsection.4.1.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Regularization}{\reset@font\mtcSSfont 88}{subsection.4.1.4}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.5}Error models}{\reset@font\mtcSSfont 88}{subsection.4.1.5}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.1}Error Snake}{\reset@font\mtcSSSfont 88}{subsubsection.4.1.5.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.2}Color Scatter}{\reset@font\mtcSSSfont 89}{subsubsection.4.1.5.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.5.3}Calibration Uncertainties}{\reset@font\mtcSSSfont 89}{subsubsection.4.1.5.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.6}NaCl output}{\reset@font\mtcSSfont 91}{subsection.4.1.6}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Improving NaCl}{\reset@font\mtcSfont 92}{section.4.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Implementing a model for spectrophotometric data}{\reset@font\mtcSSfont 92}{subsection.4.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Regularization}{\reset@font\mtcSSfont 92}{subsection.4.2.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.3}NaCl training recipe}{\reset@font\mtcSSfont 94}{subsection.4.2.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}NaCl on real data}{\reset@font\mtcSfont 96}{section.4.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}NaCl training results}{\reset@font\mtcSSfont 96}{subsection.4.3.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.1.1}Data coverage}{\reset@font\mtcSSSfont 96}{subsubsection.4.3.1.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.1.2}Fitting the spectra}{\reset@font\mtcSSSfont 96}{subsubsection.4.3.1.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {3.1.3}Training residuals}{\reset@font\mtcSSSfont 96}{subsubsection.4.3.1.3}}

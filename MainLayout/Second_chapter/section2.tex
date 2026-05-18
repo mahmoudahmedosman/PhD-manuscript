@@ -51,8 +51,8 @@ where $A$ is a constant. We can see that the realtionship between the magnitude 
 intrinsic luminosity of supernovae $L$. Breaking this degeneracy requires us to calibrate the intrinsic supernova luminosity. We commonly use the "distance ladder" method that 
 uses Cepheid stars in the Milky-Way as distance calibrators. \\
 
-Cepheids are a class stars that have variable periodic luminosities, which was firstly inferred by Henrietta Swan Leavitt thus establishing the Leavitt relation. Most recent 
-confirmations of this relation were observed by (Breuval et al. 2025). Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
+Cepheids are a class stars that have variable periodic luminosities, which was firstly inferred by Henrietta Swan Leavitt thus establishing the Leavitt relation (\cite{Leavitt_1907}). Most recent 
+confirmations of this relation were observed by \cite{Breuval_2025}. Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
 angle of an object with respect to a static background due to the motion of the observer. The application of this method is done by measuring the positions of the Cepheids with 
 respect to a background of distant stars 6 months apart. The displacement angle of the observed Cepheid measured due to the half-rotation of the Earth around the Sun can be expressed 
 as $\theta = \frac{r}{d}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance luminosity of 
@@ -90,9 +90,16 @@ as the redshift due the cosmic expansion, we get the following formula for the o
     1+z_{obs} = (1+z_{cosmo})(1+z_{pv}) = (1+z_{cosmo})(1+\frac{v}{c})
 \end{equation}
 Where $v$ is the peculiar velocity. Measuring $z_{pv}$ requires knowledge of $z_{cosmo}$ which is not directly measurable. It can be deduced however once the expansion history 
-has been determined. To put simply, if you know exactly the expansion history, then one can directly deduce the cosmological redshift of an object based on how far away it is. 
+has been determined. To put simply, if you know exactly the expansion history, then one can directly deduce the cosmological redshift of an object based on how far away it is. This is illustrated in Figure \ref{fig:vpec_carreres}. 
 This entails that it is crucial to be able to accurately measure the distances of supernovae. Moreover, high redshift supernovae redshifts are almost entirely dominated by 
 the cosmological redshift so analyses on supernova peculiar velocities will be done on low redshift samples. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/vpec_bastien.png}
+    \caption{Illustration of the impact of peculiar velocities on the distance modulus on a Hubble diagram from \cite{Carreres_2023}. The velocities were drawn randomly from a Gaussian distribution. The blue and red colors indicate the radial velocity of the supernova.}
+    \label{fig:vpec_carreres}
+\end{figure}
 
 \subsubsection{Measurement of $f\sigma_8$}
 
@@ -134,7 +141,7 @@ The density field reconstruction infers the velocity field of matter from a gala
 \end{equation}
 where $\beta = \frac{f}{b}$. Comparing this to the velocity field inferred from type Ia supernovae, one can determine $\beta$. If then this is combined with 
 external measurements of $\sigma_{8,g} = b \sigma_8$, we can compute the growth rate of structures with $f\sigma_8 = \beta \sigma_{8,g}$. This has been done in 
-Lavaux and Hudson 2011. \\
+\cite{Lavaux_2011}. \\
 
 \noindent \textbf{\underline{Field level forward modeling}} \\
 

@@ -1,29 +1,9 @@
 \section{Results : Potential biases \& systematics}
 
-
-\subsection{Georges pipeline on pre-DC1}
-
-\noindent \textbf{\underline{PeTS/miniPeTS}} \\
-
-
-\noindent \textbf{\underline{NaCl training recipe}} \\
-
-The NaCl training recipe allows for having good initial guesses of the supernova and model parameters. This helps accelerate the fit and makes it more stable. The current recipe is the following : 
-
-\begin{enumerate}
-    \item \underline{Lightcruve fit with the initial NaCl model.} In this part we are only fitting $X_0$, $X_1$, $c$ and $t_{max}$ for all supernova lightcurves.
-    \item \underline{$SpectrumRecalibration$ fit with the initial NaCl model.} Here we are estimating the recalibration polynomial coefficients. This part of the fit is near instantaneous due to the linearity of the polynomial.
-    \item \underline{Initial model guess.} In this part we aim to obtain relatively close initial guesses for $M_0$, $M_1$ and $CL$ to the truth. This also ensures that the model respects the constraints.
-    \item \underline{Initial error model guess.} Here we have an initial guess for the error model for a fixed model.
-    \item \underline{Full training.} All parameters are fitted.
-\end{enumerate}
-
-The average time it takes to train one pre-DC1 sample of supernova is X. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. \\
-
-
 \subsection{Model \& data agreement}
 
-The results we present here are obtained on 1 realization of the pre-DC1 simulations. \\
+The results we present here are obtained on 1 realization of the pre-DC1 simulations. 
+The average time it takes to train one pre-DC1 sample of supernova is X. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. \\
 
 \noindent In Figures \ref{fig:dc1_lc_resid} and \ref{fig:dc1_spec_resid} we are plotting the photometric and spectroscopic residuals weighted by the 
 measurement uncertainties. We see that after the model training, we are able to accurately describe the data with NaCl within the model's definition domain. 

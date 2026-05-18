@@ -70,7 +70,9 @@ The SALT parameterization of $\mathcal{S}$ is (\cite{Guy_2007_SALT2}):
 This parameterization is a classic principal component analysis, or PCA, with the addition of a color law. The $M_0$ and $M_1$ surfaces along with the $CL$ color law are 
 common to all supernovae. $M_0$ is the average spectral surface of a type Ia supernova, which represents what your average spectrophotometric evolution of a type Ia 
 supernova looks like.
-$M_1$ is a surface representing the main variations to $M_0$. $CL$ represents the color diversity of supernovae. \\
+$M_1$ is a surface representing the main variations to $M_0$. $CL$ represents the color diversity of supernovae. In practice, the measured spectra obtained are only used to 
+determine the spectral features of $\mathcal{S}$ as they are not as well calibrated as photometric data and are obtained from many different instruments for the same survey, 
+making parameters such as $X_0$ determined primarily on the photometric data.\\
 
 \begin{figure}[ht]
     \centering
@@ -100,9 +102,9 @@ then repeated until the model converges. This includes accounting for calibratio
 which made the propagation of the calibration uncertainties a difficult task. Once the model has been trained, it is published. It is then fitted on a cosmological dataset, different from the one used in the training, to 
 obtain the $X_0$, $X_1$ and $c$ parameters. \\
 
-The initial SALT2 model was trained on a dataset containing 52 low-$z$ supernova from Hamuy et al. and 121 high-$z$ supernova from the first two years of observation from SNLS. 
-A later retraining of the model was done in Guy et al. 2010 where 207 new supernovae were added from the SDSS-II sample, giving us the SALT2.4 model. This model was used in the 
-Betoule et al. 2014 JLA cosmological analysis. \\
+The initial SALT2 model was trained on a dataset containing 52 low-$z$ supernova from \cite{Hamuy_1996} and 121 high-$z$ supernova from the first two years of observation from SNLS ()\cite{Astier_2006}). 
+A later retraining of the model was done in \cite{Guy_2010} where 207 new supernovae were added from the SDSS-II sample, giving us the SALT2.4 model. This model was used in the 
+\cite{Betoule_2014} JLA cosmological analysis. \\
 
 The SALT3 model is the current state of the art iteration of the SALT models (\cite{Kenworthy_2021_SALT3}). The entire training procedure was written in Python3 coding language 
 and is publicly available for the community. The model was trained on a 
@@ -132,10 +134,18 @@ multiple model trainings can be done at different orders. The model is expressed
     S_{SNEMO}(\lambda, p) = c_{SN,0}\left( e_0(\lambda, p) + \sum_{i=1}^{N} c'_{SN,i}e_i(\lambda,p) \right) 10^{0.4 A_s C(\Lambda)}
 \end{equation}
 where $c_{SN}$ are the individual supernvova parameters, $e_i$ the model surfaces, $A_s$ is the supernova extinction and $C$ the extragalactic absorption law introduced by 
-Cardelli et al. 1989. This method expands on the traditional SALT parameterization by adding as many extra surfaces as needed to fit the data. 
+\cite{Cardelli_1989} (Cardelli extinction law). This method expands on the traditional SALT parameterization by adding as many extra surfaces as needed to fit the data. 
 We can see that at second order the model becomes roughly the same as SALT2 with 2 parameters that represent the color and
 stretch of the supernova. Comparisons with the SALT2 color and stretch parameters have shown strong correlations. The \cite{Saunders_2018_SNEMO} paper shows that 
 going up to the 7th order the supernovae variability decreases and at the 15th order the model fits the data best. \\ 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/snemo_flux.png}
+    \caption{Model reconstruction of SNEMO on SNfactory spectra (\cite{Saunders_2018_SNEMO}). On the left we see the fluxes of the spectra in comparison with 3 SNEMO models containing 2 (green), 7 (blue) and 15 (red) parameters. The right figures shows the weighted residuals of each model and spectrum.}
+    \label{fig:snemo}
+\end{figure}
+
 
 \subsubsection{SUGAR} 
 
@@ -152,11 +162,19 @@ the extinction in the V band, $f(\lambda, R_v)$ is the Cardelli extinction law a
 $h_{i, 3}$ are correlated with the SALT stretch while the $A_{V,i}$ parameter is correlated with the color. 
 The work with SUGAR has essentially showed that the supernova variability can be captured by 3 parameters, one more than the traditional stretch and color parameters. \\
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/sugar_salt.png}
+    \caption{SUGAR model (blue) vs SALT2.4 (red) on top of the SNfactory data (black) taken from \cite{L_get_2020_SUGAR}.}
+    \label{fig:sugar}
+\end{figure}
+
+
 \subsubsection{Twins Embedding} 
 
 The Twins Embedding model (\cite{Boone_2021_twins_embedding}) uses a non-linear parameterization to describe the supernova diversity. It uses a new standardization
 method based on the spectral differences between supernova at specific regions. If the spectral differences between two supernovae is
-small enough they are considered as "Twins". This is also called the spectral distance, denoted as $\gamma_{ij}$. The idea is to firstly determine the average spectrum near $t_{max}$, called $f_{mean}$, and account for any redshift uncertainties 
+small enough they are considered as "Twins" (Figure \ref{fig:twins_sn}). This is also called the spectral distance, denoted as $\gamma_{ij}$. The idea is to firstly determine the average spectrum near $t_{max}$, called $f_{mean}$, and account for any redshift uncertainties 
 and galactic extinction using the Cardelli extinction law. The variability is then modeled by a non-linear model and adjusted using an algorithm that does a non-linear 
 dimensionality reduction called Isomap which is a generalization of PCA while accounting for non-linearities. The spectral distance between two Twins $i$ and $j$ is 
 written as:
@@ -166,6 +184,21 @@ written as:
 with $f_i$ and $f_j$ the spectra of $i$ and $j$. The model is described using three parameters. The first parameter $\xi_1$ highlights the the pseudo-equivalent widths (pEWs) of 
 the Ca II features and it describes the most important variabilitis. THe second parameter $\xi_2$ affects the pEWs of the Si II lines and is correlated with the SALT2 stretch 
 parameter $X_1$. The third parameter $\xi_3$ affects the ejecta velocities of the supernova. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/twins_model.png}
+    \caption{Two examples of sets of supernova evenly spaced and considered as "Twins". Taken from \cite{Boone_2021_twins_embedding}.}
+    \label{fig:twins_sn}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/twins_model.png}
+    \caption{Variations of the Twins Embedding model near maximum light when varying each one of its components $\xi_1$, $\xi_2$ and $\xi_3$. For each component, the spectrum shown is the median of 20 evenly populated bins of the coordinates of that component. Taken from \cite{Boone_2021_twins_embedding}.}
+    \label{fig:twins_model}
+\end{figure}
+
 
 \subsubsection{SuPAErnova} 
 
@@ -180,6 +213,12 @@ extrinsic extinction and $\Delta M$ the magnitude residuals. The results shown i
 errors on the spectral series are minimal. The only setback is that it then becomes difficult
 to have a physical interpretation of the final parameters. \\
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/pae_model.png}
+    \caption{Model comparisons from SuPAErnova (red) and SALT2 (blue) on the spectral series of the SN2010dt supernova observed by SNfactory (black) as well as ratios between model and data. Taken from \cite{Stein_2022_PAE}}
+    \label{fig:pae_model}
+\end{figure}
 
 \section{Main goal of this PhD}
 

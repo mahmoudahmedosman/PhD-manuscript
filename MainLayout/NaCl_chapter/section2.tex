@@ -9,7 +9,8 @@ NaCl ("Nouveaux Algorithmes de Courbes de Lumière") which was initially started
 The framework is meant to be able to easily train a spectrophotometric model all while being able to accurately propagate all known sources of uncertainties. 
 It is meant to be easy to use and manipulate in order to account for any new developments in how spectrophotmetric models are parameterized. 
 The idea is to then have a framework that is fast and capable of conducting model training easily every time one can do so on a cosmological dataset of type Ia supernova. 
-We will see how this will allow us to overcome issues previous spectrophotometric models have encountered, such as calibration issues. \\
+We will see how this will allow us to overcome issues previous spectrophotometric models have encountered, such as calibration issues. The entirety of the framework 
+has been coded in Python3. \\
 
 \subsection{Differences with the SALT models}
 
@@ -38,9 +39,15 @@ have complex forms. We use splines of degree 4 in NaCl. $M_0$ and $M_1$ are then
 \end{equation}
 
 where $\mathcal{B}$ are the splines, $\theta$ are the model parameters that we will determine. Similarly, the evaluation of the filters is also done on the same 
-spline basis of the model.\\
+spline basis of the model. For the color law $CL(\lambda)$ it is implemented as a degree 5 polynomial. \\
 
-\noindent For the color law $CL(\lambda)$ it is implemented as a degree 5 polynomial. \\
+Since we do not determine the magnitude of the supernova on the spectra, we add an extra polynomial that for each spectra in our dataset. The polynomial $SpecRecal(\lambda)$ 
+can be then added to the spectroscopic element of the model such that:
+\begin{equation}
+    \phi_{spec}(\lambda, p) = \frac{SpecRecal(\lambda)}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
+\end{equation}
+This entails that there will be a degeneracy between the color law $CL$ and the recalibration polynomials, therefore during the fitting of the spectra we do not determine $CL$ 
+(essentially it is not treated as a parameter that can influence the overall shape of the spectral features of the model).\\
 
 \noindent The model parameters are then determined by minimizing a log-likelihood which takes the form of: 
 \begin{equation}
@@ -71,6 +78,8 @@ This algorithm requires us to invert the Hessian matrix $\mathbf{H} = 2\mathbf{J
 always positive definite by construction, allowing us to use efficient factorisation methods such as the Cholesky decomposition. In practice, minor 
 degeneracies are handled by augmenting the diagonal of the Hessian with a small damping term following the Levenberg-Marquardt approach, and by enforcing 
 parameter constraints through Lagrange multipliers, both of which improve the numerical stability of the inversion. \\
+
+
 
 \subsection{Constraints}
 
@@ -160,80 +169,14 @@ The regularization penalty that was initially developed was expressed as :
      \label{eqn:chi2_reg_old}
  \end{equation}
  where $\mathbf{P}$ is what we call the regularization matrix, that allows us to obtain the expression in equation \ref{eqn:old_reg}, and $\beta$ our set of parameters. \\
- An issue that we've had with this form of regularization is that it is very sensitive to the value of $\mu_{reg}$. If it's too small the model continues to present very strong variations. If it's too strong the model becomes attenuated and this biases our parameters, which means the cosmological parameters calculated with the output of NaCl would be biased. We show the effects of the strength of the regularization on the model in Figure \ref{fig:regularization} \\ 
-
-
- \begin{figure}[htpb]
-\centering
-\begin{subfigure}{0.9\textwidth}
-    \centering
-    \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e6_reg.pdf}
-    \caption{}
-    \label{fig:weak_reg}
-\end{subfigure}%
-
-\vspace{1em}
-
-\begin{subfigure}{0.9\textwidth}
-    \centering
-    \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e0_reg.pdf}
-    \caption{}
-    \label{fig:strong_reg}
-\end{subfigure}
-\caption{Effects of the strength of the regularization on the shape of the $M_0$. In \ref{fig:weak_reg} we see how the model behaves with a $\mu_{reg}=10^{-6}$. In \ref{fig:strong_reg} we see how the model behaves with a $\mu_{reg}=1$.}
-\label{fig:regularization}
-\end{figure}
-
-To try and overcome this issue, I've developed during this PhD a regularization scheme that adapts the force of the regularization based on the number of points seen by each model parameter. This regularization scheme is inspired by \cite{lenz2022adaptiveregularizationbsplinemodels}. We can separate $\mathbf{P}$ matrix as follows : 
-
-\begin{equation}
-    \mathbf{P} = \mathbf{P}^{data} + \mathbf{P}^{smooth}
-\end{equation}
-
-with $\mathbf{P}^{data}$ and $\mathbf{P}^{smooth}$ the matrices determining the strength based on the number of points and to smoothen the model where there is no data as much as possible. In order to determine $\mathbf{P}^{data}$, we define $\mathcal{N}_i$ as the number of data points seen by each $\theta_{i}$ parameters ($\theta_{kl}$ written as a vector). We then introduce for each $\mathcal{N}_i$ a parameter $\mu_i$ which will act as a gate function of $\mathcal{N}_i$. This will determine the force of our regularization. The idea is that if $\mathcal{N}_i=0$ we regularize model strongly, otherwise we don't.\\
-
-\textcolor{red}{COMMENT : This specific version of the regularization wasn't implemented in the final version of NaCl since we still had to test other things in between. I will be rewriting this part of the manuscript again.}
-
-$\mu_i$ is then defined as : 
-
-\begin{equation}
-  \mu_i^{data} = \mathrm{max}(\mu_{reg}^{data} - \mathcal{N}_i, 0)
-  \label{eqn:reg_mu}
-\end{equation}
-
-We can use that to define a diagonal matrix $\mathbf{M}^{data}$ where $\mathbf{M}_{ii}^{data} = \mu_i^{data}$. It is then clear that the simplest way to define $\mathbf{P}^{data}$ will be to write it as :
-
-\begin{equation}
-    \mathbf{P}^{data} = \mathbf{M}^{data} \times \mathbb{1}
-\end{equation}
-
-\noindent We then define $\mathbf{P}^{smooth}$ as a penalty on the first order derivative of the model in phase, like in equation \ref{eqn:old_reg}. We apply the same adaptive method mentioned previously and we get :
-
-\begin{equation}
-    \mathbf{P}^{smooth} = \mathbf{M}^{smooth} \times \mathbb{P}
-\end{equation}
-
-with $\mathbb{P}$ being : 
-\begin{equation}
-     \mathbb{P} = \begin{bmatrix} 
-     2  & -1& 0  &   &     &...  \\
-     -1 & 1 & -1 & 0 & ... & \\  
-     0  &   &    &...&     &  \\  
-        &   &... &   &     &  0\\ 
-        &...& 0  & -1& 1   & -1 \\  
-     ...&   &    & 0 & -1  & 2 \end{bmatrix}
-\end{equation}
-with $\mu_{reg}^{smooth}$ would be the hyperparameter determining the strength of the regularization on the derivatives.\\
-Since the hyperparameters are now included in the  $\mathbf{P}$ matrix, the penalty now becomes : 
-\begin{equation}
-     \boxed{\chi^2_{reg} = \beta^T \mathbf{P} \beta}
-     \label{eqn:chi2_reg_new}
- \end{equation}
 
 \subsection{Error models}
 
-Dealing with an empirical model means that we expect that our model would not perfectly describe the data. More specifically, the residuals of the model would not be explained solely by the measurement uncertainties on the data. This is a variability that exists between supernovae, unable to be captured by the SALT2 parameterization.\\
-It's also important to note that all of the photometric measurements are affected by uncertainties of the photometric instruments. This can play a crucial role in our measurements of cosmological parameters as it has been shown in the most recent analyses to be one of the leading systematics (\cite{rubin2024unionunitycosmology2000}, \cite{vincenzi2024darkenergysurveysupernova}).\\
+Dealing with an empirical model means that we expect that our model would not perfectly describe the data. More specifically, the residuals of the model would not be 
+explained solely by the measurement uncertainties on the data. This is a variability that exists between supernovae, unable to be captured by the SALT2 parameterization.\\
+It's also important to note that all of the photometric measurements are affected by uncertainties of the photometric instruments. This can play a crucial role in our 
+measurements of cosmological parameters as it has been shown in the most recent analyses to be one of the leading systematics (\cite{rubin2024unionunitycosmology2000}, 
+\cite{vincenzi2024darkenergysurveysupernova}).\\
 We can account for both the supernova variability and calibration uncertainties with the help of error models.\\
 
 \subsubsection{Error Snake}
