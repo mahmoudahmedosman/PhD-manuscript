@@ -1,26 +1,30 @@
 \section{NaCl on real data}
 
-In this section I will detail the first application of NaCl on real data : the SNfactory data. I will start off by reminding what is SNfactory and why we are interested in that dataset. Then show the results of NaCl on it.
+In this section I will detail the first application of NaCl on real data: the SNfactory data. I will start off by reminding what is SNfactory and why we are interested in 
+that dataset. Then show the results of NaCl on it.
 
 \noindent \textcolor{red}{COMMENT : SNfactory plots initially made as png, will re do them as pdf}
 
 \subsection{SNfactory}
 
-There have been models that were empirically constructed in similar ways as the SALT models with SNfactory data, namely SNEMO (\cite{Saunders_2018_SNEMO}), SUGAR (\cite{L_get_2020_SUGAR}), Twins Embedding (\cite{Boone_2021_twins_embedding}) and SuPAErnova (\cite{Stein_2022_PAE}) as presented earlier. 
+There have been models that were empirically constructed in similar ways as the SALT models with SNfactory data, namely SNEMO (\cite{Saunders_2018_SNEMO}), 
+SUGAR (\cite{L_get_2020_SUGAR}), Twins Embedding (\cite{Boone_2021_twins_embedding}) and SuPAErnova (\cite{Stein_2022_PAE}) as presented earlier. 
 These models usually incorporate different parameterizations than SALT2 in order to try and fully understand the spectrophotometric evolution of supernovae. 
-One of the most interesting results recently were found with the establishment of the SuPAErnova model which has found with the use of probabilistic autoencoders (PAE neural networks) that in order to improve on the description of supernovae, one needs to use a model parameterization with 3 parameters unique to each supernova instead of just $X_1$ and $c$. 
-The only major downside of this, is that we don't have a physical interpretation of these parameters just yet, for now cosmological analysis will be using a SALT2 like parameterization. \\
 
-One thing to note is that it is easy to implement different models in NaCl. So one could modify the current implementation of the SALT model and add extra parameters and test if it improves the description of supernovae.
+One thing to note is that it is easy to implement different models in NaCl. So one could modify the current implementation of the SALT model and add 
+extra parameters and test if it improves the description of supernovae. \\
 
 
 \subsection{NaCl training results}
 \subsubsection{Data coverage}
-Since the SNfactory data isn't accompanied by a photometric dataset, we had to add the option in NaCl to treat spectrophotmetric datasets like SNfactory. For that, we completely remove the $SpecRecal(\lambda)$ polynomial from the training and instead fit $X_0$ directly on the spectra. \\
+Since the SNfactory data isn't accompanied by a photometric dataset, we had to add the option in NaCl to treat spectrophotmetric datasets like SNfactory. 
+For that, we completely remove the $SpecRecal(\lambda)$ polynomial from the training and instead fit $X_0$ directly on the spectra. \\
 
-Training a SALT2-like model with NaCl on the SNfactory was the first time NaCl was used on real data and was part of the PhD to test the framework. We will now show the results of that training.\\
+Training a SALT2-like model with NaCl on the SNfactory was the first time NaCl was used on real data and was part of the PhD to test the framework. 
+We will now show the results of that training.\\
 
-The SNfactory dataset used here contains 224 supernova and 3135 spectra. We can see in the coverage of the data on the model's $\lambda-p$ space in Fig \ref{fig:snf_coverage} that we have a very rich dataset that covers a very large part of the model's domain of definition. 
+The SNfactory dataset used here contains 224 supernova and 3135 spectra. We can see in the coverage of the data on the model's $\lambda-p$ space in 
+Figure \ref{fig:snf_coverage} that we have a very rich dataset that covers a very large part of the model's domain of definition. 
 
 \begin{figure}[ht]
     \centering

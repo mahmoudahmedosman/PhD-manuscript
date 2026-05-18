@@ -97,7 +97,7 @@ Determining the global parameters is what we called "training the model" while d
 The model training is iteratively on a sample of supernovae, the training dataset. The date of maximum emission of light is the first thing that is determined ($t_{max}$). The 
 global surfaces are then fitted and the residuals are analyzed. The variability not captured by the model is then accounted for using an error model. The last two steps are 
 then repeated until the model converges. This includes accounting for calibration uncertainties, where for each passband in the dataset requires it's own model training in order 
-to propagate the uncertainties. Once the model has been trained, it is published. It is then fitted on a cosmological dataset, different from the one used in the training, to 
+which made the propagation of the calibration uncertainties a difficult task. Once the model has been trained, it is published. It is then fitted on a cosmological dataset, different from the one used in the training, to 
 obtain the $X_0$, $X_1$ and $c$ parameters. \\
 
 The initial SALT2 model was trained on a dataset containing 52 low-$z$ supernova from Hamuy et al. and 121 high-$z$ supernova from the first two years of observation from SNLS. 
