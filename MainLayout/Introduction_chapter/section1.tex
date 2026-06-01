@@ -97,21 +97,17 @@ This is a mathematically rigorous approach to deriving the field equations and i
 
 A key principle in modern cosmology is the Cosmological principle, stating that the Universe on large scales is homogenous and isotropic. This is understood in the sense that 
 the Universe does not possess a privileged center and that the structures in it remain identical regardless of the direction of observation. Observations from the SDSS 
-(Sload Digital Sky Survey \cite{Sarkar_2009}) and DESI (Dark Energy Spectroscopic Instrument \cite{Adame_2025}) have shown strong evidence for homogeneity in the Universe at large scales as seen in Figures \ref{fig:sdss_sky} and \ref{fig:desi_sky}.
+(Sloan Digital Sky Survey \cite{Sarkar_2009}) and DESI (Dark Energy Spectroscopic Instrument \cite{Adame_2025}) have shown strong evidence for homogeneity in the Universe at 
+large scales. We represent this in detail with large scale dark matter simulations such as the Uchuu simulation \cite{Ishiyama_2021} seen in Figure \ref{fig:uchuu_sky}. 
+We can see that on large scales the matter distribution is homogeneous. 
 CMB measurements from the Planck collaboration (\cite{Planck18_CMB}) have shown strong evidence for isotropy as shown in Figure \ref{fig:cmb}.\\
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{MainLayout/Introduction_chapter/figures/sdss.jpeg}
-    \caption{Sky coverage of SDSS portraying the large scale structures of their measured galaxies.}
-    \label{fig:sdss_sky}
-\end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/desi.png}
-    \caption{Sky coverage of DESI portraying the large scale structures of their measured galaxies.}
-    \label{fig:desi_sky}
+    \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/uchuu_big_box_2.png}
+    \caption{Uchuu dark matter simulation of a box $2000 \text{Mpc}.h^{-1}$ $\times$ $1333 \text{Mpc}.h^{-1}$ with a thickness of $25 \text{Mpc}.h^{-1}$. The blue boxes highlight the homogeneity at large scales while the white boxes highlight the inhomogeneity at some scales due to structure formation. Adapted from \cite{Ishiyama_2021}.}
+    \label{fig:uchuu_sky}
 \end{figure}
 
 \begin{figure}[ht]
@@ -125,7 +121,7 @@ CMB measurements from the Planck collaboration (\cite{Planck18_CMB}) have shown 
 
 Following the publication of GR, discoveries from \cite{Lemaitre_1927}'s work on the Einstein field equations showed that the proper velocity of a celestial object
 was proportional to its distance. Two years later, \cite{Hubble_1929} manages to show that the radial velocities of 32 nearby galaxies increase with their 
-distances indicating an expanding Universe. The Hubble-Lemaitre relation is established as :
+distances indicating an expanding Universe, which is shown in Figure \ref{fig:hubble_og}. The Hubble-Lemaitre relation is established as :
 \begin{equation}
     v = H_0 d
 \end{equation}
@@ -139,7 +135,7 @@ redshift} $z$ and it is defined as :
     1+z = \frac{\nu_{rest}}{\nu_{obs}} = \frac{\lambda_{obs}}{\lambda_{rest}}
 \end{equation}
 where $\nu_{rest}$ and $\lambda_{rest}$ are the frequency and wavelength emitted at restframe and $\nu_{obs}$ and $\lambda_{obs}$ are the observed ones. Other sources that can 
-the cosmological are the peculiar motion of celestial objects which can shift the emitted colour to either bluer or redder frequencies (see ref where we explain the analysis done with peculiar velocities). \\
+the cosmological are the peculiar motion of celestial objects which can shift the emitted colour to either bluer or redder frequencies (see Section \ref{sec:vp_methods} where we explain the analysis done with peculiar velocities). \\
 
 \begin{figure}[ht]
     \centering
@@ -249,17 +245,11 @@ Within the current cosmological framework, the total energy density of the Unive
     \item \textbf{Cosmological constant / Dark energy}: in the standard $\Lambda$CDM model, cosmic acceleration is described by the cosmological constant $\Lambda$, 
     interpreted as an intrinsic property of spacetime with equation of state $w=-1$. More generally, dark energy may be viewed as an additional fluid component 
     driving accelerated expansion. Possible deviations from $\Lambda$CDM include models with a constant but free equation of state ($w$CDM), or a time-evolving 
-    equation of state such as the $w_0$--$w_a$CDM parametrization.
+    equation of state such as the CPL parametrization (\cite{Chevallier_2001}).
 \end{itemize}
+\textcolor{red}{COMMENT : might be woth mentioning the quantum vaccuum fluctuations and the order of magnitude issue}
 
-From a statistical physics point of view we can determine the equations of state of each component by knowing their partition function, the relation is given by:
-\begin{equation}
-    \rho_i = g_i \int \frac{d^3 \mathbf{p}}{(2\pi)^3} f_i(\mathbf{x}, \mathbf{p}, t)E_i(\mathbf{p})
-\end{equation}
-\begin{equation}
-    P_i = g_i \int \frac{d^3 \mathbf{p}}{(2\pi)^3} f_i(\mathbf{x}, \mathbf{p}, t) \frac{\mathbf{p}^2}{3E_i(\mathbf{p})}
-\end{equation}
-where $f$ is the partition function, $g$ the degeneracies of the component and E its energy.
+The equations of state for matter and radiation can be determined using a statistical physics framework. 
 For simplicity, we will not be going into the details of the derivations for each component but simply give the end 
 results. \\
 \noindent For non relativistic matter we obtain :
@@ -300,7 +290,8 @@ Current cosmological observations indicate that the present-day Universe is rema
 approximately $70\%$ of the total density. Matter contributes roughly $30\%$, of which about $25\%$ corresponds to dark matter and only $\sim5\%$ to baryonic matter. 
 The radiation component today is subdominant, contributing less than $1\%$ of the total energy density. \\
 
-The relative importance of these components evolves with cosmic expansion according to their different scalings with the scale factor. Since radiation 
+The relative importance of these components evolves with cosmic expansion according to their different scalings with the scale factor. The evolution of 
+each matter component is represented in Figure \ref{fig:omega_vs_a}. Since radiation 
 scales as $a^{-4}$, matter as $a^{-3}$, and the cosmological constant remains constant, the early Universe was initially radiation dominated. As the Universe 
 expanded and cooled, a transition to matter domination occurred, enabling the growth of gravitational instabilities and the formation of large-scale structure. 
 At late times, the cosmological constant became dominant, driving the current phase of accelerated expansion. \\
@@ -313,13 +304,18 @@ At late times, the cosmological constant became dominant, driving the current ph
 \end{figure}
 
 
-The acceleration of the Universe was confirmed by \cite{Riess_1998} and \cite{Perlmutter_1999} when they constructed a Hubble diagram with distant Type Ia Supernovae\\
+The acceleration of the Universe was confirmed by \cite{Riess_1998} and \cite{Perlmutter_1999} when they constructed a Hubble diagram with distant Type Ia Supernovae. 
+Each paper has shown that the supernova Hubble diagram cannot be solely explained with a Universe containing only matter and that an additional energetic component must 
+be accounted for. This is seen in Figure \ref{fig:hubble_riess}.\\
 
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{MainLayout/Introduction_chapter/figures/hubble_riess_.png}
-    \caption{Hubble diagram constructed using 50 type Ia supernovae from \cite{Riess_1998} which confirmed the accelerated expansion.}
+    \caption{Hubble diagram constructed using 50 type Ia supernovae from \cite{Riess_1998} which confirmed the accelerated expansion. 
+    The doted line represents the prediction for a Universe containing only matter that accounts for 20\% of the energy content. The dashed line is for 
+    a Universe containing matter that accounts for 100\% of the energy content of the Universe. The solid line is for a Universe containing matter energy content 
+    of 24\% and $\Lambda$ accounting for 76\% of the energy content. The data fits the the solid line best.}
     \label{fig:hubble_riess}
 \end{figure}
 

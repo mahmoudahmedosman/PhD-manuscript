@@ -37,6 +37,7 @@ separate each variable as a homogenous part and an inhomogeneous perturbation:
     \Phi(\mathbf{r},t) &=  \bar{\Phi}(\mathbf{r},t) + \delta \Phi(\mathbf{r},t) \\
     S(\mathbf{r},t) &=  \bar{S}(t) + \delta S(\mathbf{r},t) \\
 \end{align*}
+\textcolor{red}{COMMENT : detail why not relativistic treatment and small perturbations}
 
 We can then re-introduce our new variables in Equations \ref{eqn:hydro_eqn} although to slightly simplify the equations we will be working in comoving coordinates $\mathbf{x}$ such that 
 \begin{align*}
@@ -66,10 +67,14 @@ With $\mathbf{k}$ are the comoving Fourrier modes. We get the following hydrodyn
 \end{equation}
 with $c_s^2 = (\partial \bar{P}/ \partial \bar{\rho})_{\bar{S}}$ the speed of sound in the fluid, $\sigma = (\partial \bar{P}/ \partial \bar{S})_{\bar{\rho}}$ and $k=|\mathbf{k}|$. \\
 
+\textcolor{red}{COMMENT : how do we get the 3h delta rho?} \\
+
+
 What we are interested in is essentially how do matter perturbation grows as they will give birth to structure by gravitational attraction. The first thing to note is 
 that the entropy fluctuations must exist at early times in order for them to keep existing otherwise they would simply dissipate. Moreover, results from the simplest 
 models of inflation do not support the fluctuations of entropy. So from now on we well set $\delta S = 0$. We can also assume that the velocity perturbations would follow the overdense regions giving us 
 $\mathbf{k} || \delta \mathbf{v}$. We call the modes that result from these conditions the adiabatic modes. \\
+\textcolor{red}{COMMENT : say no vorticity to justify parallel and separate from adiabatic modes}.
 
 We will be denoting the overdensity $\delta(\mathbf{k},t)$ as the matter density contrast which is written as:
 \begin{equation}
@@ -92,6 +97,10 @@ place ourselves in the condition where the wavelength is much larger than the Je
 \begin{equation}
     \ddot{\delta} + 2 H \dot{\delta} - 4\pi G \bar{\rho} \delta = 0
 \end{equation}
+
+\textcolor{red}{COMMENT : important to specify this reduction for collisionless matter so DM but not baryonic} \\
+
+
 which has the following general solution:
 \begin{equation}
     \delta(\mathbf{k},t) = \delta_+(\mathbf{k})D_+(t) + \delta_-(\mathbf{k})D_-(t)
@@ -130,10 +139,17 @@ In practice, $f$ is not directly observable, and is instead measured in combinat
 $8 \, h^{-1}$Mpc. The combination $f\sigma_8$ is therefore the key observable quantity that encodes 
 the rate of growth of large-scale structure and provides a direct test of gravity on cosmological scales. \\
 
+\textcolor{red}{COMMENT : not just Peebles more ref and there is an expression for gamma wrt w} \\
+\textcolor{red}{COMMENT : can relate here or later As conneciton} \\
+
+
 \noindent \textbf{\underline{Statistical analysis of overdensities}} \\
 
 Practically, we perform a statistical analysis when it comes to the study of the structures of the Universe. $\delta$ is looked at as a realization of a stochastic process 
 and by analyzing that we can compare our observations to theories. \\
+
+\textcolor{red}{COMMENT : primordial fluctuations expected from inflation described in later section implies stochastic nature etc... can relate to CMB observations 
+today (just to make the link)} \\
 
 We introduce $\langle...\rangle$ as the ensemble average of the stochastic process underlying a random field. The large-scale structure we observe is only one realization 
 of an underlying random cosmic process, so estimating its true statistical properties requires additional assumptions. A common assumption is ergodicity, meaning that 
@@ -165,10 +181,12 @@ with $n_s$ the \textbf{spectral index}. If $n_s=1$ the power spectrum becomes sc
 and results from \cite{Planck_2018} indicate that the initial perturbations are Gaussian with $n_s \approx 1 $. \\
 The power spectrum for the linear overdensity field is:
 \begin{equation}
-    \mathcal{P}_{\mathrm{lin}}(t, k) = A_0 k^{n_s}T^2(k)D^2_+(t)
+    \mathcal{P}_{\mathrm{lin}}(t, k) = A_s k^{n_s}T^2(k)D^2_+(t)
 \end{equation}
-with $A_0$ the normalization parameter and $T(k)$ is the transfer function which characterizes how each Fourrier mode of the density field evolved from the initial conditions to 
+with $A_s$ the normalization parameter and $T(k)$ is the transfer function which characterizes how each Fourrier mode of the density field evolved from the initial conditions to 
 a later time. \\
+\textcolor{red}{COMMENT : can link sigma8 and As here} \\
+
 
 \subsection{Relativistic structure formation}
 

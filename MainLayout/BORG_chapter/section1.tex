@@ -22,15 +22,10 @@ by infering a Gaussian prior for the initial density field $\delta_{IC}$. Modeli
 the non linear effects of structure formation. I will be explaining the details of the different parts of BORG in the next subsections. In a sense, we are generating,
 or simulating, a numerical "twin" of our Universe by sampling the posterior of the initial conditions using a Bayesian approach.\\
 
+\subsection{Utility of field level inferences}
 
-
-%information to mention :
-% - IC field a fully differentiable N-body simulation
-% - CIC smoothing of N - body
-% - Evolution of the IC using a gravity model
-% - Updating IC field using an HMC 
-% - mcmc/Bayesian inference
-% - velocity field obtained from density field directly using transformation (i think florent did it)
+Here mentiond: knowledge at a deeper level than just parameter sampling, if that were the case a lot of other parameters can be just sampled. Non linearities. A 
+digital twin can allow us to quantify matter clumping and distribution at the level of each halo. etc...
 
 \subsubsection{BORG's Bayesian inference chain}
 
@@ -341,16 +336,6 @@ As expected, the COLA results manage to capture a lot of the details found on sm
 \begin{equation}
     \mathcal{P}( N_k^g |\lambda_k ) = \prod_k \frac{\left(\lambda_k \right)^{N_k^g} e^{-\lambda_k}}{N_k^g ! }
 \end{equation}
-
-
-\noindent \textbf{\underline{Supernova specific likelihood}} \\
-
---> probably the most details since it covers my work
-
- - Add details about the likelihood and what goes in it
- - Add how we sample parameters in BORG from IC to nuisance parameters
- - Introduce supernova likelihood and parameters
-
 
 
 \subsubsection{Advantages over summary-statistics analyses}
