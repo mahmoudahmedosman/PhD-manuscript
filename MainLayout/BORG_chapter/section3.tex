@@ -1,3 +1,26 @@
 \section{ZTF peculiar velocity data challenge (DC PV)}
- - Simulation description and volume limited sample
+
+Assessing the capability of BORG in inferring the density and velocity fields of the Universe using ZTF supernovae requires that our analysis extends the study of self-consistent 
+simulations. The goal is determine whether BORG is capable of inferring the fields when confronted with external data generated using a different method to BORG. This allows us to 
+mimic what we would expect when applying the method on the real data. \\
+
+This brings to the last part of my work duruing this PhD: applying BORG on simulations generated within the ZTF collaboration. These set simulations, named DC PV (Data Challenge 
+Peculiar Velocity), are generated within the ZTF collaboration in order to test methods in inferring $f\sigma_8$. The DC PV simulations are done similarly to the DC simulations as 
+described in Chapter 4 with the main differences lie in adding structure information to the simulations. For that, the supernovae are simulated with the help of the Uchuu N-body simulation 
+(\cite{Ishiyama_2021}), a high fidelity N-body dark matter simulation in a $2^3 \text{Gpc}.h^{-1}$ box with 2.1 trillion particles which can be seen in Figure (ref)\footnote{N-body and hydrodynamical simulations 
+are considered the highest fidelity simulations we can get to describe structure formation as they solving the equations of motion for each particle/fluid without any 
+approximations or grid mesh}. The full box is then subdivided into 27 subboxes where the supernovae are simulated up to a redshift of $z=0.11$, giving 27 quasi-independent 
+realizations of the DC PV. Each supernova must be simulated where a particle is and is assigned the particle's velocity. This allows us to add proper motion to supernovae 
+that is driven by structure formation.\\
+
+We opted to simplify a few aspects of the simulations in order to have an initial assessment of how well can a BORG analysis run on ZTF-like supernova. Firstly, we 
+have chosen to use only the distance moduli and redshifts of supernovae as inputs in BORG, as if we were doing the analysis after having run the full 
+LEMAITRE pipeline. One could assume that in more complicated analyses that the Tripp relation parameters ($\alpha$, $\beta$) would be sampled in BORG given that non-homogenous 
+Malmquist bias is accounted for. Secondly, we do not impose the ZTF DR2 cosmology quality cuts on photometry nor the ZTF footprint, so all of the supernovae that are 
+generated can be used. For a more realistic set of simulations, we would have to account for the geometry of the survey as well as the Milky-Way dust. This means introducing an 
+angular mask $M(\text{RA}, \text{Dec})$ in the likelihood's selection function. This method was applied in BORG analyses such as 
+\cite{Mcalpine_2025} (Manticore-Local) and \cite{Mcalpine_2026} (Manticore-Deep). Finally, we draw a set of 1000 randomly selected supernovae up to a redshift of $z=0.06$ to 
+match the expected number of supernovae in the volume-limited sample from ZTF. We show in Figure (ref) an example of simulated supernovae on top of the Uchuu simulation.\\
+
+
 

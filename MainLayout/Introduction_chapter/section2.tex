@@ -27,9 +27,11 @@ pressure $P(\mathbf{r},t)$ and entropy per unit mass $S(\mathbf{r}, t)$ with $\m
 with $\Phi$ the gravitational potential. Since matter is approximated as a single-stream fluid, 
 neighboring particles follow nearly parallel trajectories without "shell crossing" (collision of streams). This description breaks down once nonlinear collapse occurs, 
 when multiple streams overlap and complex dynamics emerge. A fully accurate treatment of structure formation would instead 
-require solving the general relativistic Boltzmann equation including all cosmic components and their interactions, although this is in itself a difficult problem due to the nonlinear 
-coupling between the fluid equations. To overcome that issue, we assume a FLRW Universe and perturb the fluid around the Hubble flow, meaning we 
-separate each variable as a homogenous part and an inhomogeneous perturbation:
+require solving the general relativistic Boltzmann equation including all cosmic components and their interactions. This is in itself a difficult problem due to the nonlinear 
+coupling between the fluid equations. To overcome that issue, we assume a FLRW Universe containing cold dark matter (treated as a fluid) and perturb the fluid around the 
+Hubble flow, meaning we separate each variable as a homogenous part and an inhomogeneous perturbation. The cold dark matter assumption justifies the use of Newtonian mechanics 
+since we are dealing with non-relativistic components. Moreover we assume that the perturbations that arise are very small. We can then write down 
+the expansion of the quantities used in the hydrodynamical equation at first order as:
 \begin{align*} 
     \rho(\mathbf{r},t) &=  \bar{\rho}(t) + \delta \rho(\mathbf{r},t) \\ 
     \mathbf{v}(\mathbf{r},t) &=  \bar{\mathbf{v}}(\mathbf{r},t) + \delta \mathbf{v}(\mathbf{r},t) \\
@@ -37,7 +39,6 @@ separate each variable as a homogenous part and an inhomogeneous perturbation:
     \Phi(\mathbf{r},t) &=  \bar{\Phi}(\mathbf{r},t) + \delta \Phi(\mathbf{r},t) \\
     S(\mathbf{r},t) &=  \bar{S}(t) + \delta S(\mathbf{r},t) \\
 \end{align*}
-\textcolor{red}{COMMENT : detail why not relativistic treatment and small perturbations}
 
 We can then re-introduce our new variables in Equations \ref{eqn:hydro_eqn} although to slightly simplify the equations we will be working in comoving coordinates $\mathbf{x}$ such that 
 \begin{align*}
@@ -70,10 +71,11 @@ with $c_s^2 = (\partial \bar{P}/ \partial \bar{\rho})_{\bar{S}}$ the speed of so
 \textcolor{red}{COMMENT : how do we get the 3h delta rho?} \\
 
 
-What we are interested in is essentially how do matter perturbation grows as they will give birth to structure by gravitational attraction. The first thing to note is 
+What we are interested in is essentially how do matter perturbations grow as they will give birth to structure by gravitational attraction. The first thing to note is 
 that the entropy fluctuations must exist at early times in order for them to keep existing otherwise they would simply dissipate. Moreover, results from the simplest 
-models of inflation do not support the fluctuations of entropy. So from now on we well set $\delta S = 0$. We can also assume that the velocity perturbations would follow the overdense regions giving us 
-$\mathbf{k} || \delta \mathbf{v}$. We call the modes that result from these conditions the adiabatic modes. \\
+models of inflation do not support the fluctuations of entropy. So from now on we well set $\delta S = 0$. We can also assume that the velocity perturbations would follow the overdense regions
+without experiencing any vorticities giving us modes that are parallel to the velocity $\mathbf{k} || \delta \mathbf{v}$. 
+We call the modes that result from these conditions the adiabatic modes. \\
 \textcolor{red}{COMMENT : say no vorticity to justify parallel and separate from adiabatic modes}.
 
 We will be denoting the overdensity $\delta(\mathbf{k},t)$ as the matter density contrast which is written as:

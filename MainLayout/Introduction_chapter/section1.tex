@@ -3,16 +3,16 @@
 The quest to understand the natural world and how we are placed in it has existed for many centuries. It has influenced many religious, cultural and scientific 
 ideas throughout time and their evolutions lead us to how we see our Universe today.
 Physical cosmology (cosmology just from now on) is the study of the nature of our Universe through observations in order to understand its origins, dynamics and components. 
-We consider the beginning of modern cosmology was about century ago with the discovery of the expansion of the Universe initially predicted by Lemaitre in 1927 (\cite{Lemaitre_1927},  \cite{Lemaitre_1931})
-and observed by Hubble in 1929 (\cite{Hubble_1929}). The current cosmological model named $\Lambda$CDM ($\Lambda$ Cold Dark Matter) is our best description of our Universe's 
-history, dynamics and components. In this section I will be detailing the necessary tools that allows us to describe the large scale Universe 
+We consider the beginning of modern cosmology was about a century ago with the discovery of the expansion of the Universe initially predicted by Lemaitre in 1927 (\cite{Lemaitre_1927},  \cite{Lemaitre_1931})
+and observed by Hubble in 1929 (\cite{Hubble_1929}). The current cosmological model named $\Lambda$CDM ($\Lambda$ Cold Dark Matter) best describes of our Universe's 
+history, dynamics and components. In this section I will detail the necessary tools that allows us to describe the large scale Universe 
 as we know it today. \\
 
 \subsection{General Relativity}
 
 According to modern belief and understanding, the Universe contains four fundamental forces dominating at different scales: at large scales, that force is gravity.
 The basis of our understanding of modern cosmology is centered around Einstein's gravitational theory: General Relativity (GR) (\cite{Einstein_1916}), the most tested theory of
-gravity to date. GR's views on the nature of Gravity differs a lot form the classical Newtonian view. In GR, massive objects do not directly exert a force on other massive objects, but instead 
+gravity to date. GR's views on the nature of gravity differs a lot form the classical Newtonian view. In GR, massive objects do not directly exert a force on other massive objects, but instead 
 cause the distortions in spacetime. The theory was established after the success of the theory of Special Relativity, also theorized by Einstein in 1905, where the speed of 
 light was shown to be constant in all observation frames.\\
 
@@ -22,14 +22,14 @@ familiarise themselves with these notions as well as an understanding of classic
 regarding some mathematical and geometrical notions (like geodesics, covectors, covariant derivatives, etc..) 
 and physical concepts found in the Einstein equations such as the Riemann tensor $R^{\mu}_{\nu \kappa \lambda}$, 
 Ricci tensor $R_{\mu \nu}$, the Ricci scalar $R$ scalar an Christoffel symbols $\Gamma ^{\mu}_{\nu \lambda}$. If you are interested in learning more on those concepts we 
-recommend the David Tong lectures on General Relativity \footnote{\url{https://www.damtp.cam.ac.uk/user/tong/gr.html}}. \\
+recommend David Tong's lectures on General Relativity \footnote{\url{https://www.damtp.cam.ac.uk/user/tong/gr.html}}. \\
 
 \noindent \textbf{\underline{Equivalence principle}} \\
 
 Einstein's equivalence principle builds up upon previous results obtained in Newtonian physics. The principle states that the gravitational mass $m_g$ defined due to 
-gravitational interactions is equal to the intertial mass $m_i$ subdued to acceleration as a result of a force. This previously lead to idea that free falling objects have 
+gravitational interactions is equal to the intertial mass $m_i$ subdued to acceleration as a result of a force. This previously lead to the idea that free falling objects have 
 the same velocity regardless of their masses. Einstein's principle extends this idea to accelerated frames and not just inertial frames. This principle has been heavily tested 
-on Earth and in the Solar System and is yet to be invalidated. \\
+on Earth and in the Solar System and is yet to be invalidated (REFS). \\
 
 
 \noindent \textbf{\underline{Einstein equations}} \\
@@ -55,13 +55,13 @@ metric is the Minkowski metric used to describe events on Special Relativity and
 
 Since in GR spacetime can go through a series of curvatures, we do not expect that an object exhibiting no forces to move in a straight line. What we see instead is that 
 they follow \textit{geodesics}. One can think of geodesics as the straightest possible path in a curved space. 
-The geodesic equation, also is the equation of motion for an point-like object, is written as:
+The geodesic equation, which corresponds to the equation of motion for an point-like object, is written as:
 
 \begin{equation}
     \frac{d^2 x^{\mu}}{d\lambda^2} = \Gamma^{\mu}_{\alpha \beta} \frac{dx^{\alpha}}{d\lambda} \frac{dx^{\beta}}{d\lambda}
 \end{equation}
 where $\Gamma^{\mu}_{\alpha \beta}$ are the Christoffel symbols and $\lambda$ is the evolution parameter which increases along the particle's path. 
-One can derive the geodesic equation by applyin the equivalence principle on a free falling particle
+One can derive the geodesic equation by applying the equivalence principle on a free falling particle
 that does not accelerate (such that $\frac{d^2 x^{\mu}}{d\lambda^2} = 0$). \\
 
 The Einstein field equations (\cite{Einstein_1916}) close the theory by relating the geometry of spacetime, encoded in the metric, to the distribution of matter 
@@ -89,13 +89,13 @@ The Einstein equations could also be determined by varying the Einstein-Hilbert 
     \frac{\delta S_{EH}}{\delta g_{\mu \nu}} = 0
 \end{equation}
 where $g$ is the determinant of the metric and $\mathcal{L}_m$ is the Lagrangian density of a field that we include in our theory (such as matter, radiation ...).
-This is a mathematically rigorous approach to deriving the field equations and it is commonly used when exploring Modified Theories of Gravity (see Section \ref{sec:modified_gravity}).\\
+This is a mathematically rigorous approach to deriving the field equations and it is commonly used when exploring modified theories of gravity (see Section \ref{sec:modified_gravity}).\\
 
 \subsection{The expanding, homogenous Universe} 
 
 \noindent \textbf{\underline{Cosmological principle}} \\
 
-A key principle in modern cosmology is the Cosmological principle, stating that the Universe on large scales is homogenous and isotropic. This is understood in the sense that 
+A key principle in modern cosmology is the cosmological principle, stating that the Universe on large scales is homogenous and isotropic. This is understood in the sense that 
 the Universe does not possess a privileged center and that the structures in it remain identical regardless of the direction of observation. Observations from the SDSS 
 (Sloan Digital Sky Survey \cite{Sarkar_2009}) and DESI (Dark Energy Spectroscopic Instrument \cite{Adame_2025}) have shown strong evidence for homogeneity in the Universe at 
 large scales. We represent this in detail with large scale dark matter simulations such as the Uchuu simulation \cite{Ishiyama_2021} seen in Figure \ref{fig:uchuu_sky}. 
@@ -129,7 +129,7 @@ where $v$ is the velocity, $d$ the distance of the object and $H_0$ the Hubble c
 today more precise measurements show that it is around $70 \mathrm{km}s^{-1}.\mathrm{Mpc}^{-1}$. We may also define a \textit{Hubble diagram} as the diagram that relates 
 the distance of celestial objects from an observer to their velocities. \\
 
-An expanding Universe entails that objects emitting any kind of waves will be affected by the Doppler effect making their wavelengths longer. We can call this the \textbf{cosmological 
+An expanding Universe entails that objects emitting any kind of waves will be stretched in space making their wavelengths longer. We can call this the \textbf{cosmological 
 redshift} $z$ and it is defined as :
 \begin{equation}
     1+z = \frac{\nu_{rest}}{\nu_{obs}} = \frac{\lambda_{obs}}{\lambda_{rest}}
@@ -162,7 +162,7 @@ It is important to note that we can obtain the redshift of an object that emitte
 \begin{equation}
     \frac{a(t_0)}{a(t_e)} = 1+z
 \end{equation}
-Oftenly we apply a change of coordinates such any object would maintain its coordinates regardless of the expansion. These are called comoving coordinates. We define the 
+Oftenly we apply a change of coordinates such that any object would maintain its coordinates regardless of the expansion. These are called comoving coordinates. We define the 
 comoving distance $\chi$ such that:
 \begin{equation}
     r = S_k(\chi) = \begin{cases}
@@ -182,10 +182,7 @@ The metric then becomes :
 
 \subsection{Friedmann equations}
 
-Once the geometry of the homogenous and isotropic Universe have been established, one can derive the equations that describe the dynamics of the Universe. This 
-was done by Friedmann in 1924 which lead to the Friedmann equations. \\
-
-Since the Universe is assumed to homogenous and isotropic, we can express the energy-momentum tensor only as a time dependent object describing the density $\rho$ and pressure 
+Since the Universe is assumed to be homogenous and isotropic, we can express the energy-momentum tensor $T^{\mu \nu}$ only as a time-dependent object describing the density $\rho$ and pressure 
 $P$ of every component present in the Universe. We assume that these can be described as a perfect fluid with no viscosity. For each fluid present indexed by $i$, we can then write down the pressure 
 term as $P_i=w\rho_i c^2$ where $w$ is the equation of state parameter. This gives us the following form for $T^{\mu \nu}$:
 \begin{equation}
@@ -193,7 +190,7 @@ term as $P_i=w\rho_i c^2$ where $w$ is the equation of state parameter. This giv
 \end{equation}
 with $u^{\mu}$ being the velocity vector of the fluid. \\
 
-Using this, the Einstein equations and the FLRW metric, Friedmann derives the following equations known as the Friedmann equations: 
+Using this, the Einstein equations and the FLRW metric, Friedmann derived the following equations known as the Friedmann equations in 1924 (REF): 
 
 \begin{equation}
     H^2 = \left( \frac{\dot{a}}{a} \right)^2 = \frac{8 \pi G}{3}\rho_i - \frac{kc^2}{a^2}
@@ -204,7 +201,7 @@ Using this, the Einstein equations and the FLRW metric, Friedmann derives the fo
     \label{eqn:friedmann_2}
 \end{equation}
 
-The first equation describes how fast the Universe is expanding while the second describes its acceleration.
+The first equation describes how fast the Universe is expanding knowing the Universe's composition $\rho_i$ and curvature $k$, while the second describes its acceleration.
 Combining equations \ref{eqn:friedmann_1} and \ref{eqn:friedmann_2} we get:
 
 \begin{equation}
@@ -218,7 +215,7 @@ And the solution to this differential equation is:
 \end{equation}
 
 This entails that the evolution of the scale factor is entirely determined by the nature of the fluids present at a time $t$. Knowing $w$ of each fluid informs us on the behaviour of 
-$a(t)$. If we consider one fluid that dominates over, the scale factor can be written as :
+$a(t)$. If we consider one fluid that dominates over, the scale factor can be written as:
 \begin{equation}
     a(t) \sim t^{\frac{2}{3(1+w)}}
 \end{equation}
@@ -236,13 +233,13 @@ Consequently, the value of $w$ of the dominant fluid determines the behaviour of
 
 Within the current cosmological framework, the total energy density of the Universe is commonly divided into the following main components:
 \begin{itemize}
-    \item \textbf{Radiation}: a relativistic component composed primarily of photons and neutrinos. Its contribution is negligible in the present-day Universe, 
+    \item \textbf{Radiation} ($w_r = \frac{1}{3}$): a relativistic component composed primarily of photons and neutrinos. Its contribution is negligible in the present-day Universe, 
     but it dominated the energy budget during the earliest cosmological epochs.
 
-    \item \textbf{Matter}: a non-relativistic component including both baryonic matter and dark matter. While baryonic matter constitutes the visible content of galaxies, 
+    \item \textbf{Matter} ($w_m = 0$): a non-relativistic component including both baryonic matter and dark matter. While baryonic matter constitutes the visible content of galaxies, 
     the dominant fraction is dark matter, whose existence was first inferred from galaxy cluster dynamics by Zwicky (\cite{zwicky1933}, \cite{andernach2017}). In the standard cosmological model, dark matter is assumed to be cold, meaning that its particles were non-relativistic during the epoch of structure formation.
 
-    \item \textbf{Cosmological constant / Dark energy}: in the standard $\Lambda$CDM model, cosmic acceleration is described by the cosmological constant $\Lambda$, 
+    \item \textbf{Cosmological constant / Dark energy} ($w_{\Lambda} = -1$): in the standard $\Lambda$CDM model, cosmic acceleration is described by the cosmological constant $\Lambda$, 
     interpreted as an intrinsic property of spacetime with equation of state $w=-1$. More generally, dark energy may be viewed as an additional fluid component 
     driving accelerated expansion. Possible deviations from $\Lambda$CDM include models with a constant but free equation of state ($w$CDM), or a time-evolving 
     equation of state such as the CPL parametrization (\cite{Chevallier_2001}).
@@ -252,17 +249,17 @@ Within the current cosmological framework, the total energy density of the Unive
 The equations of state for matter and radiation can be determined using a statistical physics framework. 
 For simplicity, we will not be going into the details of the derivations for each component but simply give the end 
 results. \\
-\noindent For non relativistic matter we obtain :
+\noindent For non relativistic species, such as matter, we obtain :
 \begin{equation}
     w_m = 0
 \end{equation}
-\noindent For relativistic radiation we obtain :
+\noindent For relativistic species, such as radiation, we obtain :
 \begin{equation}
     w_r = \frac{1}{3}
 \end{equation}
 
 \noindent For the cosmological constant this can be determined without going through the statistical physics approach where by simply applying the Friedmann equations on a constant naturally 
-leads to :
+leads to (\textbf{\Big[ Review this part ]}):
 \begin{equation}
     w_{\Lambda} = -1
 \end{equation}
@@ -352,3 +349,5 @@ $\Lambda$CDM has proven remarkably successful in describing a wide range of obse
 large-scale distribution of galaxies (\cite{DESI_DR2_2025}), the BAO standard ruler 
 (\cite{Eisenstein_2005}), and the accelerated expansion of the Universe (\cite{Riess_1998, Perlmutter_1999}). Nevertheless, as discussed in Section 
 \ref{sec:tensions}, emerging tensions between different observational probes suggest that $\Lambda$CDM may require extensions or modifications.\\
+
+[Transition to next section: structure formation theory. In Pauline's notes three pillars of HBB model]
