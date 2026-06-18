@@ -15,8 +15,9 @@ that is driven by structure formation.\\
 
 We opted to simplify a few aspects of the simulations in order to have an initial assessment of how well can a BORG analysis run on ZTF-like supernova. Firstly, we 
 have chosen to use only the distance moduli and redshifts of supernovae as inputs in BORG, as if we were doing the analysis after having run the full 
-LEMAITRE pipeline. One could assume that in more complicated analyses that the Tripp relation parameters ($\alpha$, $\beta$) would be sampled in BORG given that non-homogenous 
-Malmquist bias is accounted for. Secondly, we do not impose the ZTF DR2 cosmology quality cuts on photometry nor the ZTF footprint, so all of the supernovae that are 
+LEMAITRE pipeline. One could assume that in more complicated analyses that the Tripp relation parameters ($\alpha$, $\beta$) would be sampled in BORG. 
+This could lead to more acurate results due to the fact that in BORG the 3-dimensional reconstruction of structures in the nearby Universe could accound for non-
+Homogenous Malmquist bias. Secondly, we do not impose the ZTF DR2 cosmology quality cuts on photometry nor the ZTF footprint, so all of the supernovae that are 
 generated can be used. For a more realistic set of simulations, we would have to account for the geometry of the survey as well as the Milky-Way dust. This means introducing an 
 angular mask $M(\text{RA}, \text{Dec})$ in the likelihood's selection function. This method was applied in BORG analyses such as 
 \cite{Mcalpine_2025} (Manticore-Local) and \cite{Mcalpine_2026} (Manticore-Deep). Finally, we draw a set of 1000 randomly selected supernovae up to a redshift of $z=0.06$ to 

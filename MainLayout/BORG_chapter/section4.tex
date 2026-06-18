@@ -1,10 +1,53 @@
 \section{Supernova forward-model analysis}
 
-The methodology used to generate supernova in the self consistent simulations and DC PV are different as we have mentioned earlier. This means kamel
+The methodology used to generate supernova in the self consistent simulations and DC PV are different as we have mentioned earlier. We want to ensure that we can 
+quantify any systematic biases introduced by those differences. To do this we start by generating an intial density field using BORG $\delta^{\text{BORG}}_{IC}$ using a 
+Planck18 cosmology (\cite{Planck_2018_params}) and known bulk flow $\mathbf{V}$. The configuration of the generated field is given in Table \ref{tab:borg_nbody}. 
+We then let that field evolve using the LPT gravity model giving us the evolved density field 
+$\delta^{\text{BORG}}_{F}$ and velocity field $\mathbf{v}^{\text{BORG}}_{IC}$. The ZTF simulations are designed to generate the supernovae on top of an N-body simulation, so 
+from the evolved density field we create a "synthetic" N-body simulation. The simplest way to do so would be taking each voxel-$i$ and generate within it $N_i$ particles proportional 
+to $(1+\lceil \delta^{\text{BORG}}_{F}\rceil )_i$ where $i$ denotes the voxel's index. We take the cieling of the evolved density field to ensure we get an integer number of 
+particles and to have at least 1 particle in empty voxels. We also generate less particles than the Uchuu simulation, around 200 million, due to memory and storage limiations. \\
 
-- Dont know certain parameters such as alpha and sigma v so we need to determine 
-- Need to know if there are model inconsistencies or additional noise in ZTF or systematic biases
+\begin{table}[ht]
+    \centering
+    \caption{Set of parameters used to generate the "synthetic" N-body BORG simulation.}
+    \label{tab:borg_nbody}
+    \begin{tabular}{|l|c|}
+        \hline
+        Parameters & Values \\
+        \hline
+        Gravity model & LPT \\
+        $V_x$ & 0 km/s \\
+        $V_y$ & 0 km/s \\
+        $V_z$ & 0 km/s \\
+        $\Omega_m$ & 0.315 \\
+        $\sigma_8$ & 0.81 \\
+        \hline
+    \end{tabular}
+\end{table}
+We then use this "synthetic" N-body simulation to generate ZTF-like supernova and then evaluate the BORG-supernova likelihood described in Equation (ref) 
+while varying the cosmological and model parameters in BORG. Essentially creating a likelihood profile for each parameter. This is particularly important not just to 
+determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also help us understand how we can relate some of the BORG-supernova model packagesarameters, 
+such as $\alpha$ to the ZTF simulations as they are not explicitly specified. \\
 
-\subsection{Bias model}
+We obtain the following likelihood profiles for 1 synthetic N-body simulation. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
+input cosmology. The bulk flow $V$ parameters are compatible with 0 km/s, indicating that no additional bulk flow is added with the ZTF simulation. The bias model parameter $\alpha$ 
+seems to prefer values around $0.9 -1.0$. This is not unexpected, if we assume that the ZTF supernova are generated where there are dark matter particles without a preference on whether 
+then the number of supernovae would simply scale as $\delta_F$. The velocity dispersion is prefered around $150$ km/s with a large scatter. Measurements from (ref smth regarding sigv like velocity olympics) 
+getting such values is possible and is indeed physical. The $\mu_A$ parameter seem to prefer a value of $1.024$ indicating that an offset of about $2.4\%$ regarding how distances are described in BORG. 
+(check where does it come from but it is not an issue for our needs).
 
-Results from antoine and ZTF simulation tend to favour non r2 evolution --> how do we account for it?
+\subsection{Bias model improvement $-$ Towards a realistic description of supernovae}
+
+Recent results from \cite{Lordet_2026} have shown that supernovae tend to be found in overly dense regions in the Universe with a large number of supernovae being present at a 
+redshift of $z \approx 0.02-0.03$ creating what we see as a "bump" in the supernovae distribution accross redshift. This means that the assumption that the supernovae density is 
+constant at low redshift (example of what was done in \cite{Perley_2020}) is not the most accurate description of the supernova distribution. We aimed at trying to account for such 
+effects in our model description. It is difficult to know exactly how to modify the bias model to match the regions where supernovae would explode as the explosion mechanisms and 
+environmental dependencies are not fully known as presented in Chapter 2. We propose a slight KAMEL BA3DEN
+
+\begin{equation}
+    dn(z)/dr \times 1/ 4 \pi r^2  = dn(r)/dr 
+\end{equation}
+
+benbos 3al data, ne extract le $n(z)$, 7awelo le $n(r)$ fe BORG w zawedo 3al $r^2$
