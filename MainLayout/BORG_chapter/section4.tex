@@ -38,16 +38,39 @@ then the number of supernovae would simply scale as $\delta_F$. The velocity dis
 getting such values is possible and is indeed physical. The $\mu_A$ parameter seem to prefer a value of $1.024$ indicating that an offset of about $2.4\%$ regarding how distances are described in BORG. 
 (check where does it come from but it is not an issue for our needs).
 
-\subsection{Bias model improvement $-$ Towards a realistic description of supernovae}
+\subsection{Supernova prior improvement $-$ Towards a realistic description of supernovae}
 
 Recent results from \cite{Lordet_2026} have shown that supernovae tend to be found in overly dense regions in the Universe with a large number of supernovae being present at a 
 redshift of $z \approx 0.02-0.03$ creating what we see as a "bump" in the supernovae distribution accross redshift. This means that the assumption that the supernovae density is 
 constant at low redshift (example of what was done in \cite{Perley_2020}) is not the most accurate description of the supernova distribution. We aimed at trying to account for such 
-effects in our model description. It is difficult to know exactly how to modify the bias model to match the regions where supernovae would explode as the explosion mechanisms and 
-environmental dependencies are not fully known as presented in Chapter 2. We propose a slight KAMEL BA3DEN
-
+effects in our model description. We propose a slightly modified version of the supernova prior based on the observed supernova count. The number of supernova 
+$N_{\text{SN}}$ observed by a survey between a distance $r$ and $r+dr$ can be expressed as:
 \begin{equation}
-    dn(z)/dr \times 1/ 4 \pi r^2  = dn(r)/dr 
+    dN = n(r) \times 4 \pi r^2 dr
+\end{equation}
+where $n(r)$ is the number density of supernovae. This can be related to the observed rate as:
+\begin{equation}
+    R(r) = \mathrm{S}(\phi, \theta, r) \frac{n(r)}{T_{\text{obs}}}
+\end{equation}
+where $T_{\text{obs}}$ is the time of observation and $\mathrm{S}$ is a selection function that would account for the survey's footprint, galactic extinction and any 
+instrumental effects that would decrease the number of observed supernova. Since we are working with the volume limited sample and are 
+generating supernova on the full-sky $\mathrm{S}$ becomes unity. 
+If we assume a constant rate, then $dN \propto r^2 dr$ giving the $r^2$ geometric dependence in the prior described earlier in Chapter 5 with the self consistent simulations. If we 
+assume that this is not the case, then we get:
+\begin{equation}
+    dN(r) \propto n(r)r^2 dr
+\end{equation}
+In practice, we do not have direct access to $n(r)$ but we can infer $n(z)$. In Figure (ref) we show the $n(z)$ distribution obtained on the ZTF simulations obtained in 
+100? bins up to a redshift of $z=0.06$. We proceed to then fit the number density with a cubic spline. The purpose of fitting with a cubic spline is to keep the $n(z)$ 
+differentiable as it will be needed to then infer $n(r)$. In fact, we can relate the two number densities with:
+\begin{equation}
+    n(r) \propto \frac{n(z)}{4\pi r^2 \times \frac{dr}{dz}}
+\end{equation}
+The $\frac{dr}{dz}$ term can be deduced from Equation \ref{eqn:physical_distance} and is entirely determined by the cosmology. We get $\frac{dr}{dz} = \frac{c}{H(z)}$
+Finally, we can present a more realistic prior on supernovae expressed as:
+\begin{equation}
+    p(r) \propto r^2\, n(r)\,(1+\delta^F)^{\alpha},
+    \quad \text{with } n(r) \propto \frac{n(z)}{4\pi r^2 \times \frac{dr}{dz}}.
 \end{equation}
 
-benbos 3al data, ne extract le $n(z)$, 7awelo le $n(r)$ fe BORG w zawedo 3al $r^2$
+*** We need to test this on both a constant rate simulation and a none constant rate ***
