@@ -31,12 +31,80 @@ while varying the cosmological and model parameters in BORG. Essentially creatin
 determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also help us understand how we can relate some of the BORG-supernova model packagesarameters, 
 such as $\alpha$ to the ZTF simulations as they are not explicitly specified. \\
 
-We obtain the following likelihood profiles for 1 synthetic N-body simulation. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
+We obtain the following likelihood profiles for 1 synthetic N-body simulation in Figures \ref{fig:cosmo_lpt_L}, \ref{fig:params1_lpt_L}, \ref{fig:params2_lpt_L} and \ref{fig:params3_lpt_L}. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
 input cosmology. The bulk flow $V$ parameters are compatible with 0 km/s, indicating that no additional bulk flow is added with the ZTF simulation. The bias model parameter $\alpha$ 
 seems to prefer values around $0.9 -1.0$. This is not unexpected, if we assume that the ZTF supernova are generated where there are dark matter particles without a preference on whether 
 then the number of supernovae would simply scale as $\delta_F$. The velocity dispersion is prefered around $150$ km/s with a large scatter. Measurements from (ref smth regarding sigv like velocity olympics) 
 getting such values is possible and is indeed physical. The $\mu_A$ parameter seem to prefer a value of $1.024$ indicating that an offset of about $2.4\%$ regarding how distances are described in BORG. 
 (check where does it come from but it is not an issue for our needs).
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/omega_m_L.png}
+        \caption{Likelihood profile for $\Omega_m$}
+        \label{fig:omega_m_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/sigma_8_L.png}
+        \caption{Likelihood profile for $\sigma_8$}
+        \label{fig:sigma8_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles of the cosmological parameters for a synthetic N-body simulation generated with LPT}
+    \label{fig:cosmo_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/alpha_L.png}
+        \caption{Likelihood profile for $\alpha$}
+        \label{fig:alpha_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/muA_L.png}
+        \caption{Likelihood profile for $\mu_A$}
+        \label{fig:muA_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles of $\alpha$ and $\mu_A$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params1_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/sigma_v_L.png}
+        \caption{Likelihood profile for $\sigma_v$}
+        \label{fig:sigma_v_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_x_L.png}
+        \caption{Likelihood profile for $V_x$}
+        \label{fig:Vx_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles $\sigma_v$ and $V_x$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params2_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_y_L.png}
+        \caption{Likelihood profile for $V_y$}
+        \label{fig:Vy_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_x_L.png}
+        \caption{Likelihood profile for $V_z$}
+        \label{fig:Vz_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles $V_z$ and $V_z$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params3_lpt_L}
+\end{figure}
 
 \subsection{Supernova prior improvement $-$ Towards a realistic description of supernovae}
 

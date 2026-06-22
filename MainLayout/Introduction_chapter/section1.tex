@@ -74,12 +74,13 @@ following Einstein equations:
 where $R_{\mu \nu}$ is the Ricci tensor, $R$ the Ricci scalar, $G$ Newton's gravitational constant and $c$ the speed of light. It's important to note that 
 for a symmetric metric, this represents a set of 10 equations where the coefficients of $g_{\mu \nu}$ are unknowns.\\
 
-Mathematically, an equivalent way to write the Einstein equations would be:
+We can always rewrite the energy momentum tensor as $T_{\mu \nu} = T'_{\mu \nu} - \Lambda g_{\mu \nu}$ where 
+$\Lambda$ is a constant that can take any value, even 0. The Einstein equations would be:
 \begin{equation}
-    R_{\mu \nu} - \frac{1}{2}g_{\mu \nu}R  + \Lambda g_{\mu \nu} = \frac{8\pi G}{c^4}T_{\mu \nu}
+    R_{\mu \nu} - \frac{1}{2}g_{\mu \nu}R  + \Lambda g_{\mu \nu} = \frac{8\pi G}{c^4}T'_{\mu \nu}
     \label{eqn:einstein_lambda}
 \end{equation} 
-where $\Lambda$ is a constant. Physically however, this can lead to an accelerated expanding Universe (see Section \ref{sec:expanding_universe}). \\
+Physically however, this new expression can lead to different interpretation of the nature behind the accelerated expanding Universe (see Section \ref{sec:expanding_universe}). \\
 
 The Einstein equations could also be determined by varying the Einstein-Hilbert action which is:
 \begin{equation}
@@ -190,7 +191,7 @@ term as $P_i=w\rho_i c^2$ where $w$ is the equation of state parameter. This giv
 \end{equation}
 with $u^{\mu}$ being the velocity vector of the fluid. \\
 
-Using this, the Einstein equations and the FLRW metric, Friedmann derived the following equations known as the Friedmann equations in 1924 (REF): 
+Using this, the Einstein equations and the FLRW metric, Friedmann derived the following equations known as the Friedmann equations in 1924 (\cite{Friedmann_1924}): 
 
 \begin{equation}
     H^2 = \left( \frac{\dot{a}}{a} \right)^2 = \frac{8 \pi G}{3}\rho_i - \frac{kc^2}{a^2}
@@ -350,4 +351,17 @@ large-scale distribution of galaxies (\cite{DESI_DR2_2025}), the BAO standard ru
 (\cite{Eisenstein_2005}), and the accelerated expansion of the Universe (\cite{Riess_1998, Perlmutter_1999}). Nevertheless, as discussed in Section 
 \ref{sec:tensions}, emerging tensions between different observational probes suggest that $\Lambda$CDM may require extensions or modifications.\\
 
-[Transition to next section: structure formation theory. In Pauline's notes three pillars of HBB model]
+The success of the $\Lambda$CDM model is rooted in the three observational pillars of the Hot Big Bang model (HBB), which postulates the Universe started 
+13.8 billion years ago while it was much hotter and denser than it is today. These pillars are:
+\begin{itemize}
+    \item Expansion of the Universe as observed by Hubble in \cite{Hubble_1929}.
+    \item Big Bang Nucleosynthesis (BBN) which predicts the primordial abundances of light elements (hydrogen, helium, and lithium) formed at the very early stages of the Universe (\cite{Cyburt_2016}, \cite{Wagoner_1967}).
+    \item Cosmic Microwave Background (CMB), the trace of thermal radiation emitted when the Universe cooled sufficiently for protons 
+    and electrons to recombine into neutral hydrogen at $z \sim 1100$ (\cite{Penzias_1965_a}, \cite{Penzias_1965_b}) (more details in Section \ref{section:cmb}). 
+\end{itemize}
+Together, these three pillars provide striong evidence for a hot, dense early Universe that has been expanding and cooling ever since. \\
+
+
+Although $\Lambda$CDM describes the Universe as homogeneous and isotropic at the largest scales, this description breaks down at smaller scales where 
+structures such as galaxies and galaxy clusters emerge. Explaining the emergence of inhomogeneous structures from an initially homogeneous Universe, while preserving the 
+assumptions of $\Lambda$CDM, is an important challenge. We describe this process in the following section. \\

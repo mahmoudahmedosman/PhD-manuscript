@@ -5,11 +5,60 @@ conditions for 1000 step while keeping the cosmological and supernova model para
 model parameters $\alpha$ and $\mu_A$ alongside the bulk flow $\mathbf{V}$ and the velocity dispersion $\sigma_v$ for another 1000 step all while continuing to sample the 
 initial conditions. Finally, we sample $\Omega_m$ and $\sigma_8$ alongside the other parameters until we reach a state of convergence. \\
 
-Firstly, we present the results obtained when using an LPT gravity solver. We show in Figures (ref) slices of the final reconstructed density field with BORG in comparison with the Uchuu 
-density. The red-dashed circle represents the limit of where the supernova are being generated (up to $z=0.06$). We notice that the field reconstructed with BORG manages to capture 
+Firstly, we present the results obtained when using an LPT gravity solver. We show in Figures \ref{fig:ztf_dens} slices of the final reconstructed density field with BORG in comparison with the Uchuu 
+density. The red-dashed circle represents the limit of where the supernova are being generated (up to $z=0.06$). \\
+
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.2\textwidth]{MainLayout/BORG_chapter/figures/dens_slice_x_28.png}
+        \caption{}
+        \label{fig:ztf_dens_1}
+    \end{subfigure}%
+    
+    \vspace{1em}
+    
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.2\textwidth]{MainLayout/BORG_chapter/figures/dens_slice_x_32.png}
+        \caption{}
+        \label{fig:ztf_dens_2}
+    \end{subfigure}
+    \caption{Slices of the density field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu density field. The center column shows the mean posterior from BORG. The right column shows the standard deviation. Each row is a different slice in the box.}
+    \label{fig:ztf_dens}
+    \end{figure}
+
+
+We notice that the field reconstructed with BORG manages to capture 
 some of the underlying structure visible in Uchuu by comparing the overdense and underdense regions within the red-dashed circle. Notably, it is the largest structures that are 
-recovered while smal scales structures seem to be missed. We show in Figures (ref) slices of the final reconstructed velocity field with BORG in comparison with the Uchuu 
-velocity. Similarly to the density field reconstruction, the BORG velocity field seem to match the Uchuu velocity at large scales. It's important to note that the velocity field 
+recovered while smal scales structures seem to be missed. We show in Figures \ref{fig:ztf_vel} slices of the final reconstructed velocity field with BORG in comparison with the Uchuu 
+velocity. \\ 
+
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/vel_slice_x_32.png}
+        \caption{}
+        \label{fig:ztf_vel_1}
+    \end{subfigure}%
+    
+    \vspace{1em}
+    
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/vel_slice_y_32.png}
+        \caption{}
+        \label{fig:ztf_vel_2}
+    \end{subfigure}
+    \caption{Slices of the velocity field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu velocity field. The reight column shows the mean posterior from BORG. Each row is a different slice in the box. The first row is a slice in the $x$ axis. The second row is a slice in the $y$ axis.}
+    \label{fig:ztf_vel}
+    \end{figure}
+
+
+
+Similarly to the density field reconstruction, the BORG velocity field seem to match the Uchuu velocity at large scales. It's important to note that the velocity field 
 at smal scales does not present the same variation as the density field, which could explain why the velocity field seems to be reconstructed more accurately than the density field. 
 To quantify this, we compare the power spectra of the density and velocity field components $v_x$, $v_y$ and $v_z$ from Uchuu to the one inferred by BORG in Figures (ref) as well 
 as the cross correlation between them $r$ in Figures (ref). 
@@ -32,7 +81,7 @@ As with the self consistent simulation, we are restricted to a $\Lambda-CDM$ cos
     f \sigma_8 = \Omega_m^{0.55} \sigma_8
 \end{equation}
 by calculating this quantity, we can compare with other methods within the ZTF collaboration used to calculate $f\sigma_8$. Currently there is one ongoing work in doing so conducted by 
-Rafel Kebadian where $f\sigma_8$ is determined using a maximum likelihood method on the DC PV supernovae. We present in Figure (ref) the results from the different methods. 
+Rafel Kebadian (Kebadian et al. in prep) where $f\sigma_8$ is determined using a maximum likelihood method on the DC PV supernovae. We present in Figure (ref) the results from the different methods. 
 We (hope) to see that using a field-level inference we obtain tighter constraints on $f\sigma_8$. However as mentioned before, we are limited to $\Lambda$CDM, so any deviations from 
 the expected value do not indicate what the strength of the underlying gravitational theory should be as much as it is a test on knowing whether the assumed gravitational theory (GR) 
 is correct or not. The maximum likelihood method however does not present that issue, but the $f\sigma_8$ constraints are looser.

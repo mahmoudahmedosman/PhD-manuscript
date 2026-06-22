@@ -1,10 +1,5 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}The BORG forward model}{\reset@font\mtcSfont 112}{section.6.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}The BORG algorithm}{\reset@font\mtcSSfont 112}{subsection.6.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Utility of field level inferences}{\reset@font\mtcSSfont 113}{subsection.6.1.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.1}BORG's Bayesian inference chain}{\reset@font\mtcSSSfont 113}{subsubsection.6.1.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.2}Particle mass assignment}{\reset@font\mtcSSSfont 115}{subsubsection.6.1.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.3}Gravity Model}{\reset@font\mtcSSSfont 116}{subsubsection.6.1.2.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.4}Likelihood components of BORG}{\reset@font\mtcSSSfont 119}{subsubsection.6.1.2.4}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.5}Advantages over summary-statistics analyses}{\reset@font\mtcSSSfont 120}{subsubsection.6.1.2.5}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.6}Numerical implmentation}{\reset@font\mtcSSSfont 120}{subsubsection.6.1.2.6}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Self-consistent simulation analysis}{\reset@font\mtcSfont 121}{section.6.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}ZTF peculiar velocity data challenge (DC PV)}{\reset@font\mtcSfont 124}{section.6.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Supernova forward-model analysis}{\reset@font\mtcSfont 127}{section.6.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Supernova prior improvement $-$ Towards a realistic description of supernovae}{\reset@font\mtcSSfont 127}{subsection.6.2.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Results of the field level inference on ZTF-like simulations}{\reset@font\mtcSfont 131}{section.6.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 133}{section.6.4}}
