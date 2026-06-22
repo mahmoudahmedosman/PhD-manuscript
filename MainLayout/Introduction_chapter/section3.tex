@@ -1,7 +1,7 @@
 
 \section{Cosmological Observables}
 
-In this section we will be briefly presenting some of the main observables that cosmologists are concerned with. \\
+In this section we will briefly present some of the main observables that cosmologists are concerned with. \\
 
 \subsection{The Cosmic Microwave Background} \label{section:cmb}
 
@@ -16,13 +16,15 @@ an antenna for telecommunications and astronomy (\cite{Penzias_1965_a, Penzias_1
 
 The CMB has a nearly perfect blackbody spectrum with a mean temperature of $T_{CMB} = 2.7255 \pm 0.0006$ K (\cite{Fixsen_2009}) and temperature 
 anisotropies at the level of $\Delta T / T \sim 10^{-5}$. The two-point correlation function of these anisotropies, equivalently described by the angular 
-power spectrum $C_\ell$, encodes the imprint of primordial density perturbations consistent with a Gaussian random field (\cite{Planck_2018}), which later evolved 
-into the large-scale structures we observe today. Secondary anisotropies, arising from effects such as gravitational lensing by galaxy clusters and inverse Compton 
-scattering of CMB photons off hot intracluster gas (the Sunyaev-Zel'dovich effect), provide additional information on the late-time Universe. The polarisation of the 
-CMB, decomposed into curl-free E-modes and divergence-free B-modes, further constrains inflationary models and provides a potential window onto primordial gravitational waves (\cite{Kamionkowski_1997}). \\
+power spectrum $C_\ell$ (where $\ell$ denotes the degree if the spherical harmonic function, also known as the multipole number), 
+encodes the imprint of primordial matter density perturbations consistent with a Gaussian random field (\cite{Planck_2018}), which later evolved 
+into the large-scale structures we observe today. Secondary anisotropies, arising from effects such as gravitational lensing by galaxy clusters (\cite{Hu_2000}) and inverse Compton 
+scattering of CMB photons off hot intracluster gas (the Sunyaev-Zel'dovich effect \cite{Sunyaev_1972}), provide additional information on the late-time Universe. The polarisation of the 
+CMB, decomposed into curl-free E-modes and divergence-free B-modes, further constrains inflationary models and provides a potential window onto primordial gravitational waves (\cite{Kamionkowski_1997}).\\
 
 Through the detailed structure of the acoustic peaks in $C_\ell$, CMB observations allow precise constraints on multiple cosmological parameters, including $\Omega_m$, 
-$\Omega_b$, $H_0$, $n_s$, and $A_s$ (\cite{Planck_2018_params}).\\
+$\Omega_b$, $H_0$, $n_s$, and $A_s$ (\cite{Planck_2018_params}). Figure \ref{fig:pk_planck_angular} shows angular power spectrum comparisons between different CMB 
+experiments (such as Planck or WMAP) and the $\Lambda$CDM prediction in a dashed grey line.\\
 
 \begin{figure}[ht]
     \centering
@@ -37,19 +39,20 @@ $\Omega_b$, $H_0$, $n_s$, and $A_s$ (\cite{Planck_2018_params}).\\
 
 Galaxy surveys map the three-dimensional distribution of galaxies across large volumes of the Universe. Galaxies are biased tracers of the underlying matter 
 distribution, and their spatial statistics allow us to infer a vast amount of information about the structure, dynamics, and history of the Universe. Surveys 
-such as SDSS (\cite{York_2000}) and DESI (\cite{DESI_2016}) measure tens of millions of galaxies across a wide redshift range, from which significant cosmological 
+such as SDSS (\cite{York_2000}) and DESI (\cite{DESI_2016}) measure millions of galaxies across a wide redshift range, from which significant cosmological 
 constraints have been extracted. \\
 
 \subsubsection{The Matter Power Spectrum}
 
-A key statistical tool for analysing galaxy surveys is the matter power spectrum $P(k)$, defined as the variance of density fluctuations as a function of scale $k$:
+As introduced in section \ref{sec:newton}, a key statistical tool for analysing galaxy surveys is the matter power spectrum $P(k)$, defined as the variance of density fluctuations as a function of scale $k$:
 
 \begin{equation}
     \langle \delta(\mathbf{k})\delta^*(\mathbf{k}') \rangle = 
     (2\pi)^3 \mathcal{P}(k)\,\delta^{(3)}_D(\mathbf{k} - \mathbf{k}')
 \end{equation}
 
-The shape and amplitude of $\mathcal{P}(k)$ depend directly on cosmological parameters. The primordial power spectrum can be related to late-time observations through the 
+The shape and amplitude of $\mathcal{P}(k)$ depend directly on cosmological parameters such as primordial scalar perturbations $A_s$. 
+The primordial power spectrum can be related to late-time observations through the 
 transfer function (\cite{Eisenstein_Hu_1998}):
 
 \begin{equation}
@@ -60,12 +63,6 @@ where $k_* = 0.05\,\mathrm{Mpc}^{-1}$ is the pivot scale at which the primordial
 function encoding the scale-dependent evolution of perturbations through radiation domination, and $D_1(z)$ is the linear growth factor describing the 
 growth of structure during matter domination. \\
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/matter_pk_planck.png}
-    \caption{Linear-theory matter power spectrum (at $z=0$) inferred from different cosmological probes taken from \cite{Planck18_overview}.}
-    \label{fig:pkm_planck}
-\end{figure}
 
 \subsubsection{Baryon Acoustic Oscillations}
 
@@ -81,25 +78,16 @@ photon fluid and the sound waves could no longer propagate. The comoving distanc
 This characteristic scale is imprinted in the distribution of matter as a preferred separation between galaxies, appearing as a distinct peak in the two-point 
 correlation function $\xi(r)$ at $r \approx 147$ Mpc, or equivalently as oscillations in $P(k)$. The BAO scale thus defines a \textbf{standard ruler} that 
 can be measured at different redshifts to constrain the expansion history of the Universe through $H(z)$ and the angular diameter distance $D_A(z)$ 
-(\cite{Eisenstein_2005}, \cite{Blake_2003}). \\
+(\cite{Eisenstein_2005}, \cite{Blake_2003}). Figure \ref{fig:desi_bao} shows the BAO signal in the correlation functions for different catalogues. \\
 
-\begin{figure}
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=1.\linewidth]{MainLayout/Introduction_chapter/figures/bao_corr_sdss.png}
-      \caption{}
-      \label{fig:bao_a}
-    \end{subfigure}%
-    \begin{subfigure}{.5\textwidth}
-      \centering
-      \includegraphics[width=1.\linewidth]{MainLayout/Introduction_chapter/figures/bao_corr_3d_sdss.png}
-      \caption{}
-      \label{fig:bao_b}
-    \end{subfigure}
-    \caption{BAO signals in the measured correlation functions from SDD (\cite{Alam_2017}). On the left is the smoothed prediction of the best-fitted model. On the right 
-    the redshift bins are decomposed into the component of the separations transverse to and along the line of sight at $0.4<z<0.6$.}
-    \label{fig:bao}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/desi_bao.png}
+    \caption{Correlation functions from the DESI DR2 results \cite{DESI_DR2_2025} for different galaxy catalogues (BGS, LRG, etc...). The BAO signal can be clearly seen as a bump 
+    around 100 $\text{Mpc}.h^{-1}$ accross all catalogues}
+    \label{fig:desi_bao}
 \end{figure}
+
 
 \subsubsection{Redshift Space Distortions}
 
@@ -109,9 +97,18 @@ the line of sight, known as the \textbf{Kaiser effect} (\cite{Kaiser_1987}). On 
 an elongation of structures along the line of sight, known as the \textbf{Fingers of God} effect (\cite{Jackson_1972}). \\
 
 The amplitude of these distortions depends on the rate of structure growth, encapsulated in the parameter $f\sigma_8$, where $f = d\ln D_1/d\ln a \approx 
-\Omega_m(z)^{0.55}$ is the growth rate predicted by General Relativity and $\sigma_8$ is the amplitude of matter fluctuations on scales of $8\,h^{-1}$ Mpc. 
+\Omega_m(z)^{0.55}$ is the growth rate predicted by General Relativity. 
 Modified gravity theories predict different values of $f$, making measurements of $f\sigma_8$ a direct test of GR on cosmological scales (\cite{Guzzo_2008}, 
-\cite{Planck_2018_params}). \\
+\cite{Planck_2018_params}). Recent use of the RSD allowed to constrain the modified gravity using the DESI data (\cite{Adame_2025}). This is represented in Figure \ref{fig:desi_MG} where the parameters constrained 
+are generalized parameters for a modified theory of Gravity. The results show that GR is consistent with our observations.  \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/desi_MG.png}
+    \caption{Constraints on generalized parameters of modified gravity. The left figure shows CMB, DESI and DESI + CMB results. The right figure shows the addition of weak lensing results. Taken from \cite{Adame_2025}}
+    \label{fig:desi_MG}
+\end{figure}
+
 
 \subsection{Type Ia Supernovae}
 
@@ -136,12 +133,12 @@ by measuring the coherent distortion of the shapes of large samples of backgroun
 
 Since lensing responds to all matter along the line of sight, cosmic shear surveys provide a direct measurement of the projected matter distribution. 
 The amplitude of the cosmic shear signal is sensitive to both the amplitude of matter fluctuations $\sigma_8$ and the matter density $\Omega_m$, but these two parameters are largely degenerate in lensing observations. This degeneracy is 
-characterised by the parameter $S_8 = \sigma_8(\Omega_m / 0.3)^{0.5}$,  which current surveys constrain to percent-level precision (\cite{KiDS_2021} \cite{DES_Y3_2022}).\\
+characterised by the parameter $S_8 = \sigma_8(\Omega_m / 0.3)^{0.5}$,  which current surveys constrain to percent-level precision (\cite{KiDS_2021} \cite{DES_Y3_2022} \cite{DES_y6}, \cite{Dalal_2023}).\\
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.6\textwidth]{MainLayout/Introduction_chapter/figures/lensing_constraints_.png}
-    \caption{A comparison of the marginalized parameter constraints in the $\Lambda$CDM model from the Dark Energy Survey (\cite{DES_Y3_2022}) with predictions from Planck CMB data (no lensing; green). There is also the fiducial cosmology 3x2pt (black) and the combined Y3 3x2pt and Planck (orange) results.}
+    \includegraphics[width=0.6\textwidth]{MainLayout/Introduction_chapter/figures/des_weak.png}
+    \caption{A comparison of the marginalized parameter constraints in the $\Lambda$CDM model from the Dark Energy Survey (DES) Year 6(\cite{DES_y6}) in red in comparison with previous data releases from DES (green year 3 and orange year 1) and Planck (brown) as well as a combination of CMB measurements (blue).}
     \label{fig:lensing}
 \end{figure}
 
@@ -164,7 +161,7 @@ to the three-dimensional matter power spectrum (\cite{Croft_1998}). A particular
 $k \sim 0.1$--$10\,h\,\mathrm{Mpc}^{-1}$ at high redshift, well beyond the reach of galaxy surveys, making it highly complementary to both CMB and galaxy clustering 
 measurements. This sensitivity to small scales and high redshifts allows the Lyman-$\alpha$ forest to constrain the sum of neutrino masses $\sum m_\nu$ through 
 the small-scale suppression of the power spectrum (\cite{Palanque_2015}), the spectral index $n_s$ and the BAO standard ruler at $z \sim 2.3$ 
-(\cite{Delubac_2015}).\\
+(\cite{Adame_2025_lya}).\\
 
 \begin{figure}[ht]
     \centering
