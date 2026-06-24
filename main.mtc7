@@ -1,5 +1,9 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}ZTF peculiar velocity data challenge (DC PV)}{\reset@font\mtcSfont 126}{section.6.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Supernova forward-model analysis}{\reset@font\mtcSfont 129}{section.6.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Supernova prior improvement $-$ Towards a realistic description of supernovae}{\reset@font\mtcSSfont 129}{subsection.6.2.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Results of the field level inference on ZTF-like simulations}{\reset@font\mtcSfont 133}{section.6.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 135}{section.6.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}BORG-Peculiar Velocity}{\reset@font\mtcSfont 126}{section.6.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Initial likelihood}{\reset@font\mtcSSfont 126}{subsection.6.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Improved likelihood}{\reset@font\mtcSSfont 127}{subsection.6.1.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Self-consistent mocks}{\reset@font\mtcSfont 128}{section.6.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Uchuu-ZTF mocks}{\reset@font\mtcSfont 129}{section.6.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}ZTF peculiar velocity data challenge (DC PV)}{\reset@font\mtcSSfont 129}{subsection.6.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Supernova forward-model analysis}{\reset@font\mtcSSfont 129}{subsection.6.3.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Results of the field level inference on Uchuu-ZTF simulations}{\reset@font\mtcSfont 134}{section.6.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 136}{section.6.5}}

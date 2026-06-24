@@ -1,0 +1,47 @@
+We presented in the previous chapter the motivations and potential outcomes of conducting a field inference as well as the BORG algorithm. BORG has proven to be very successful 
+when applied to galaxy catalogues as well as show great potential regarding weak lensing. Our goal is advance its applications to type Ia supernovae to eventually run it on the 
+ZTF data. We will be presenting in this chapter the steps taken in order to achieve the latter. We will start by presenting the implementation of a an improved supernova-specific 
+likelihood in BORG. Then we will present its results on self-consistent simulations. Finally its application to ZTF-like simulations. \\
+
+\section{BORG-Peculiar Velocity}
+
+The BORG-Peculiar Velocity (BORG-PV) algorithm is the same as the traditional BORG algorithm with the main difference being in the tracer modeling and likelihood. For BORG-PV, we 
+will be using the supernovae distance moduli along with their redshifts as input. One major difference with the study of galaxies is in the implementation of a bias model. 
+The study of galaxy bias models has a long history with many different models having been suggested such as a linear bias (\cite{Kaiser_1984}), a nonlinear local bias (\cite{Fry_1993}) or an EFTofLSS bias (\cite{Mirbabayi_2015}) 
+and there are still ongoing efforts to improve it. For the case of supernovae we will be relying on a simple phenomonological approach which will be describeed in the 
+following section alongside the supernova modeling and likelihood. \\ 
+
+\subsection{Initial likelihood}
+
+In this section we will be describing the initial version of the BORG-PV likelihood. This likelihood was developped by Deaglab J. Bartelett during the beginning of my PhD.
+We denote $\mu_{\text{obs}}$ the observed distance modulus\footnote{As we explained in Chapter 2, we do not directly observe the distance modulus but instead it calculated through
+the observations of supernova lightcurves. In here we assume that that $\mu_{\text{obs}}$ is the distance modulus obtained after having observed the supernova lightcurves.}, 
+$z_{\text{obs}}$ the observed redshift and $\sigma_{\mu}$ is the intrinsic dispersion of supernovae. We use the following formula to predict the distance modulus in BORG-PV:
+
+
+
+
+We define a prior on the supernova distribution as it is necessary for building the likelihood. If we assume a constant density of 
+supernovae, than the expected number of supernova $N$ present at a distance $r$ is purely geometrical giving us:
+\begin{equation}
+    dN \propto 4\pi r^2 dr
+\end{equation}
+This means that the number of supernovae present between $r$ and $r+dr$ scales as $r^2$. Moreover, we define a supernova bias model relating the positions of supernovae with 
+the evolved density field as:
+\begin{equation}
+    b_{SN}(r) = (1 + \delta^F(r))^{\alpha}
+\end{equation}
+where $\alpha$ is a free parameter. We'll call it the bias parameter. The bias parameter can exhibit four regimes:
+\begin{itemize}
+    \item $\alpha=0$: No bias exists and supernova do not preferential position regarding the dark matter field.
+    \item $\alpha=1$: Supernova exhibits a linear bias where the number of supernova is proportional to the overdensities.
+    \item $\alpha>1$: Supernova have a higher preference of being in overdense regions.
+    \item $\alpha<1$: Supernova have a higher preference of being in underdense regions.
+\end{itemize}
+The prior on the supernova positions can then be written as:
+\begin{equation}
+    p_{SN}(r) = r^2 b_{SN}(r) = r^2 (1 + \delta^F(r))^{\alpha}
+\end{equation}
+This serves as the first part of the likelihood. 
+
+\subsection{Improved likelihood}

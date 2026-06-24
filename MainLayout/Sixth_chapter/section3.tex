@@ -1,0 +1,239 @@
+\section{Uchuu-ZTF mocks}
+
+\subsection{ZTF peculiar velocity data challenge (DC PV)}
+
+Assessing the capability of BORG in inferring the density and velocity fields of the Universe using ZTF supernovae requires that our analysis extends the study of self-consistent 
+simulations. The goal is determine whether BORG is capable of inferring the fields when confronted with external data generated using a different method to BORG. This allows us to 
+mimic what we would expect when applying the method on the real data. \\
+
+This brings to the last part of my work duruing this PhD: applying BORG on simulations generated within the ZTF collaboration. These set simulations, named DC PV (Data Challenge 
+Peculiar Velocity), are generated within the ZTF collaboration in order to test methods in inferring $f\sigma_8$. The DC PV simulations are done similarly to the DC simulations as 
+described in Chapter 4 with the main differences lie in adding structure information to the simulations. For that, the supernovae are simulated with the help of the Uchuu N-body simulation 
+(\cite{Ishiyama_2021}), a high fidelity N-body dark matter simulation in a $2^3 \text{Gpc}.h^{-1}$ box with 2.1 trillion particles which can be seen in Figure \ref{fig:uchuu_nbody} \footnote{N-body and hydrodynamical simulations 
+are considered the highest fidelity simulations we can get to describe structure formation as they solving the equations of motion for each particle/fluid without any 
+approximations or grid mesh}. The full box is then subdivided into 27 subboxes where the supernovae are simulated up to a redshift of $z=0.11$, giving 27 quasi-independent 
+realizations of the DC PV. Each supernova must be simulated where a particle is and is assigned the particle's velocity. This allows us to add proper motion to supernovae 
+that is driven by structure formation.\\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{MainLayout/BORG_chapter/figures/uchuu_nbody.png}
+    \caption{Slice taken from the Uchuu simulation covering a box of 250 $\text{Mpc}.h^{-1}$ where each point represents a particle. Taken from \cite{Ishiyama_2021.}}
+    \label{fig:uchuu_nbody}
+\end{figure}
+
+
+We opted to simplify a few aspects of the simulations in order to have an initial assessment of how well can a BORG analysis run on ZTF-like supernova. Firstly, we 
+have chosen to use only the distance moduli and redshifts of supernovae as inputs in BORG, as if we were doing the analysis after having run the full 
+LEMAITRE pipeline. One could assume that in more complicated analyses that the Tripp relation parameters ($\alpha$, $\beta$) would be sampled in BORG. 
+This could lead to more acurate results due to the fact that in BORG the 3-dimensional reconstruction of structures in the nearby Universe could accound for non-
+Homogenous Malmquist bias. Secondly, we do not impose the ZTF DR2 cosmology quality cuts on photometry nor the ZTF footprint, so all of the supernovae that are 
+generated can be used. For a more realistic set of simulations, we would have to account for the geometry of the survey as well as the Milky-Way dust. This means introducing an 
+angular mask $M(\text{RA}, \text{Dec})$ in the likelihood's selection function. This method was applied in BORG analyses such as 
+\cite{Mcalpine_2025} (Manticore-Local) and \cite{Mcalpine_2026} (Manticore-Deep). Finally, we draw a set of 1000 randomly selected supernovae up to a redshift of $z=0.06$ to 
+match the expected number of supernovae in the volume-limited sample from ZTF. We show in Figure \ref{fig:ztf_uchuu} an example of simulated supernovae on top of the Uchuu simulation.\\
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/BORG_chapter/figures/ztf_uchuu.png}
+    \caption{2D full-sky projection of the Uchuu density field at redshift of $z\approx0.04$ with the ZTF supernovae simulated on top of it represented by red dots.}
+    \label{fig:ztf_uchuu}
+\end{figure}
+
+
+\subsection{Supernova forward-model analysis}
+
+The methodology used to generate supernova in the self consistent simulations and DC PV are different as we have mentioned earlier. We want to ensure that we can 
+quantify any systematic biases introduced by those differences. To do this we start by generating an intial density field using BORG $\delta^{\text{BORG}}_{IC}$ using a 
+Planck18 cosmology (\cite{Planck_2018_params}) and known bulk flow $\mathbf{V}$. The configuration of the generated field is given in Table \ref{tab:borg_nbody}. 
+We then let that field evolve using the LPT gravity model giving us the evolved density field 
+$\delta^{\text{BORG}}_{F}$ and velocity field $\mathbf{v}^{\text{BORG}}_{IC}$. The ZTF simulations are designed to generate the supernovae on top of an N-body simulation, so 
+from the evolved density field we create a "synthetic" N-body simulation. The simplest way to do so would be taking each voxel-$i$ and generate within it $N_i$ particles proportional 
+to $(1+\lceil \delta^{\text{BORG}}_{F}\rceil )_i$ where $i$ denotes the voxel's index. We take the cieling of the evolved density field to ensure we get an integer number of 
+particles and to have at least 1 particle in empty voxels. We also generate less particles than the Uchuu simulation, around 200 million, due to memory and storage limiations. \\
+
+\begin{table}[ht]
+    \centering
+    \caption{Set of parameters used to generate the "synthetic" N-body BORG simulation.}
+    \label{tab:borg_nbody}
+    \begin{tabular}{|l|c|}
+        \hline
+        Parameters & Values \\
+        \hline
+        Gravity model & LPT \\
+        $V_x$ & 0 km/s \\
+        $V_y$ & 0 km/s \\
+        $V_z$ & 0 km/s \\
+        $\Omega_m$ & 0.315 \\
+        $\sigma_8$ & 0.81 \\
+        \hline
+    \end{tabular}
+\end{table}
+We then use this "synthetic" N-body simulation to generate ZTF-like supernova and then evaluate the BORG-supernova likelihood described in Equation (ref) 
+while varying the cosmological and model parameters in BORG. Essentially creating a likelihood profile for each parameter. This is particularly important not just to 
+determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also help us understand how we can relate some of the BORG-supernova model packagesarameters, 
+such as $\alpha$ to the ZTF simulations as they are not explicitly specified. \\
+
+We obtain the following likelihood profiles for 1 synthetic N-body simulation in Figures \ref{fig:cosmo_lpt_L}, \ref{fig:params1_lpt_L}, \ref{fig:params2_lpt_L} and \ref{fig:params3_lpt_L}. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
+input cosmology. The bulk flow $V$ parameters are compatible with 0 km/s, indicating that no additional bulk flow is added with the ZTF simulation. The bias model parameter $\alpha$ 
+seems to prefer values around $0.9 -1.0$. This is not unexpected, if we assume that the ZTF supernova are generated where there are dark matter particles without a preference on whether 
+then the number of supernovae would simply scale as $\delta_F$. The velocity dispersion is prefered around $150$ km/s with a large scatter. Measurements from (ref smth regarding sigv like velocity olympics) 
+getting such values is possible and is indeed physical. The $\mu_A$ parameter seem to prefer a value of $1.024$ indicating that an offset of about $2.4\%$ regarding how distances are described in BORG. 
+(check where does it come from but it is not an issue for our needs).
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/omega_m_L.png}
+        \caption{Likelihood profile for $\Omega_m$}
+        \label{fig:omega_m_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/sigma_8_L.png}
+        \caption{Likelihood profile for $\sigma_8$}
+        \label{fig:sigma8_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles of the cosmological parameters for a synthetic N-body simulation generated with LPT}
+    \label{fig:cosmo_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/alpha_L.png}
+        \caption{Likelihood profile for $\alpha$}
+        \label{fig:alpha_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/muA_L.png}
+        \caption{Likelihood profile for $\mu_A$}
+        \label{fig:muA_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles of $\alpha$ and $\mu_A$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params1_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/sigma_v_L.png}
+        \caption{Likelihood profile for $\sigma_v$}
+        \label{fig:sigma_v_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_x_L.png}
+        \caption{Likelihood profile for $V_x$}
+        \label{fig:Vx_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles $\sigma_v$ and $V_x$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params2_lpt_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_y_L.png}
+        \caption{Likelihood profile for $V_y$}
+        \label{fig:Vy_lpt_L}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/BORG_chapter/figures/bulk_x_L.png}
+        \caption{Likelihood profile for $V_z$}
+        \label{fig:Vz_lpt_L}
+    \end{subfigure}
+    \caption{Likelihood profiles $V_z$ and $V_z$ for a synthetic N-body simulation generated with LPT}
+    \label{fig:params3_lpt_L}
+\end{figure}
+
+\section{Results of the field level inference on Uchuu-ZTF simulations}
+
+We present in this section the results obtained on the DC PV. The proceeder follows closely what was done on the self consistent simulations. We start our MCMC sampling of intial 
+conditions for 1000 step while keeping the cosmological and supernova model parameters fixed in order to get an initial estimate of the true underlying field. We then sample the 
+model parameters $\alpha$ and $\mu_A$ alongside the bulk flow $\mathbf{V}$ and the velocity dispersion $\sigma_v$ for another 1000 step all while continuing to sample the 
+initial conditions. Finally, we sample $\Omega_m$ and $\sigma_8$ alongside the other parameters until we reach a state of convergence. \\
+
+Firstly, we present the results obtained when using an LPT gravity solver. We show in Figures \ref{fig:ztf_dens} slices of the final reconstructed density field with BORG in comparison with the Uchuu 
+density. The red-dashed circle represents the limit of where the supernova are being generated (up to $z=0.06$). \\
+
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.2\textwidth]{MainLayout/BORG_chapter/figures/dens_slice_x_28.png}
+        \caption{}
+        \label{fig:ztf_dens_1}
+    \end{subfigure}%
+    
+    \vspace{1em}
+    
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.2\textwidth]{MainLayout/BORG_chapter/figures/dens_slice_x_32.png}
+        \caption{}
+        \label{fig:ztf_dens_2}
+    \end{subfigure}
+    \caption{Slices of the density field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu density field. The center column shows the mean posterior from BORG. The right column shows the standard deviation. Each row is a different slice in the box.}
+    \label{fig:ztf_dens}
+    \end{figure}
+
+
+We notice that the field reconstructed with BORG manages to capture 
+some of the underlying structure visible in Uchuu by comparing the overdense and underdense regions within the red-dashed circle. Notably, it is the largest structures that are 
+recovered while smal scales structures seem to be missed. We show in Figures \ref{fig:ztf_vel} slices of the final reconstructed velocity field with BORG in comparison with the Uchuu 
+velocity. \\ 
+
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/vel_slice_x_32.png}
+        \caption{}
+        \label{fig:ztf_vel_1}
+    \end{subfigure}%
+    
+    \vspace{1em}
+    
+    \begin{subfigure}{1\textwidth}
+        \centering
+        \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/vel_slice_y_32.png}
+        \caption{}
+        \label{fig:ztf_vel_2}
+    \end{subfigure}
+    \caption{Slices of the velocity field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu velocity field. The reight column shows the mean posterior from BORG. Each row is a different slice in the box. The first row is a slice in the $x$ axis. The second row is a slice in the $y$ axis.}
+    \label{fig:ztf_vel}
+    \end{figure}
+
+
+
+Similarly to the density field reconstruction, the BORG velocity field seem to match the Uchuu velocity at large scales. It's important to note that the velocity field 
+at smal scales does not present the same variation as the density field, which could explain why the velocity field seems to be reconstructed more accurately than the density field. 
+To quantify this, we compare the power spectra of the density and velocity field components $v_x$, $v_y$ and $v_z$ from Uchuu to the one inferred by BORG in Figures (ref) as well 
+as the cross correlation between them $r$ in Figures (ref). 
+We notice that the power spectrum of the matter density matches the Uchuu power spectrum up to a wavenumber of $k \approx$. For the velocity fields we notice a matching result up 
+to a wavenumber of $k \approx$. This confirms our qualitative results mentioned previously when looking directly at the reconstructed fields. \\
+
+Secondly we look at the sampled parameters. \\
+
+
+NEED SOME COLA RESULTS TO BETTER WRITE OFF THIS PART
+
+- results
+ - covariance additions ?
+ - full dataset with selection?
+
+\section{Comparison with other methods for $f\sigma_8$}
+
+As with the self consistent simulation, we are restricted to a $\Lambda-CDM$ cosmology. Therefore if assume that $f\sigma_8$ is expressed as:
+\begin{equation}
+    f \sigma_8 = \Omega_m^{0.55} \sigma_8
+\end{equation}
+by calculating this quantity, we can compare with other methods within the ZTF collaboration used to calculate $f\sigma_8$. Currently there is one ongoing work in doing so conducted by 
+Rafel Kebadian (Kebadian et al. in prep) where $f\sigma_8$ is determined using a maximum likelihood method on the DC PV supernovae. We present in Figure (ref) the results from the different methods. 
+We (hope) to see that using a field-level inference we obtain tighter constraints on $f\sigma_8$. However as mentioned before, we are limited to $\Lambda$CDM, so any deviations from 
+the expected value do not indicate what the strength of the underlying gravitational theory should be as much as it is a test on knowing whether the assumed gravitational theory (GR) 
+is correct or not. The maximum likelihood method however does not present that issue, but the $f\sigma_8$ constraints are looser.
