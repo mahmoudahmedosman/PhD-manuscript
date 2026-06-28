@@ -56,9 +56,9 @@ following section alongside the supernova modeling and likelihood. \\
 \subsection{Initial likelihood}
 
 In this section we will be describing the initial version of the BORG-PV likelihood. This likelihood was developped by Deaglan J. Bartelett during the beginning of my PhD
-and it describes how well we can infer the supernova velocities. 
-We denote $\mu_{\text{obs}}$ the observed distance modulus\footnote{As we explained in Chapter 2, we do not directly observe the distance modulus but instead it calculated through
-the observations of supernova lightcurves. In here we assume that that $\mu_{\text{obs}}$ is the distance modulus obtained after having observed the supernova lightcurves.}, 
+and it describes how well we can infer the supernova velocities. We will start by likelihood for one supernova indexed by $i$. 
+We denote $\mu_{\text{obs},i}$ the observed distance modulus\footnote{As we explained in Chapter 2, we do not directly observe the distance modulus but instead it calculated through
+the observations of supernova lightcurves. In here we assume that that $\mu_{\text{obs},i}$ is the distance modulus obtained after having observed the supernova lightcurves.}, 
 $z_{\text{obs}}$ the observed redshift and $\sigma_{\mu}$ is the intrinsic dispersion of supernovae. The first ingredient we need to determining the likelihood is having a prediction 
 for the observed redshift. This should include the contribution of the supernova peculiar velocities with the help of the inferred velocity field. For objects at low redshift, 
 Equation \ref{eqn:physical_distance} for comoving distances $r$ can be approximated as:
@@ -74,9 +74,9 @@ For our analysis, we fix $H_0$ and $\Omega_{\Lambda}$ to a fiducial cosmology. W
 given by inverting the luminosity distance relation in Equation \ref{eqn:dL_mu}, and $\Omega_m$. We 
 will be denoting this redshift as $z_{\text{cosmo}}$. We can have a predicted redshift by adding the contribution of the velocity field using the following relation:
 \begin{equation}
-    cz_{\text{pred}}(r) = cz_{\text{cosmo}}(r) + (1+z_{\text{cosmo}}(r))v_r
+    cz_{\text{pred},i}(r_i) = cz_{\text{cosmo},i}(r_i) + (1+z_{\text{cosmo},i}(r_i))v_r
 \end{equation}
-where $z_{\text{pred}}$ is the predicted redshift and $v_r$ is the radial projection of the velocity field at a distance $r$. We also assume that the peculiar velocities can be 
+where $z_{\text{pred}, i}$ is the predicted redshift and $v_r$ is the radial projection of the velocity field at a distance $r_i$. We also assume that the peculiar velocities can be 
 affected by sources other than the velocity field which will be modeled as a Gaussian noise $\mathcal{N}(0, \sigma_v)$.\\ 
 
 The second ingredient would be to define a prior on the supernova distribution. If we assume a constant density of 
@@ -87,7 +87,7 @@ supernovae, than the expected number of supernova $N$ present at a distance $r$ 
 This means that the number of supernovae present between $r$ and $r+dr$ scales as $r^2$. Moreover, we define a supernova bias model relating the positions of supernovae with 
 the evolved density field as:
 \begin{equation}
-    b_{SN}(r) = (1 + \delta^F(r))^{\alpha}
+    b_{\text{SN}}(r) = (1 + \delta^F(r))^{\alpha}
 \end{equation}
 where $\alpha$ is a free parameter. We'll call it the bias parameter. The bias parameter can exhibit four regimes:
 \begin{itemize}
@@ -98,7 +98,7 @@ where $\alpha$ is a free parameter. We'll call it the bias parameter. The bias p
 \end{itemize}
 The prior on the supernova positions can then be written as:
 \begin{equation}
-    p_{SN}(r) = r^2 b_{SN}(r) = r^2 (1 + \delta^F(r))^{\alpha}
+    p_{\text{SN}}(r) = r^2 b_{\text{SN}}(r) = r^2 (1 + \delta^F(r))^{\alpha}
 \end{equation}
 
 Thirdly, we define a selection function that accounts for the fact that supernovae are not observed infinitely far away. For this, we use the following selection function:
@@ -109,19 +109,25 @@ where $\lambda$ is a free parameter controlling the rate of decay and $R_{\text{
 This parametrisation allows for a smooth exponential decay of the expected number of supernovae with distance, avoiding the sharp 
 discontinuity that would arise from a hard cutoff at $r = R_{\text{max}}$. \\
 
-Finally, we marginalize over the distance $r$ for each supernova and normalize the likelihood, giving us:
+Finally, we marginalize over the distance $r$ for the supernova and normalize the likelihood, giving us:
 
 \begin{equation}
-    p(cz_{\text{obs}}|\mu_{\text{obs}})= \frac{\left( \int_{0}^{R_{\text{lim}}} dr \quad e^{- \frac{(\mu_{\text{pred}}(r) -\frac{\mu_{\text{obs}}}{\mu_A} )^2}{2\sigma_{\mu}^2} } 
-    \quad e^{-\frac{(cz_{\text{pred}}(r) - cz_{\text{obs}})^2}{2 \sigma_v^2}} \quad p_{SN}(r) \quad e^{-\frac{\lambda}{R_{\text{max}}}r} \right)}{\left(\int_{0}^{R_{\text{lim}}} dr 
-    \quad e^{- \frac{(\mu_{\text{pred}}(r) -\frac{\mu_{\text{obs}}}{\mu_A} )^2}{2\sigma_{\mu}^2} } 
-    \quad p_{SN}(r) \quad e^{-\frac{\lambda}{R_{\text{max}}}r}\right)}
+    p_i(cz_{\text{obs},i}|\mu_{\text{obs},i})= \frac{\left( \int_{0}^{R_{\text{lim}}} dr \quad e^{- \frac{\left(\mu_{\text{pred},i}(r) -\frac{\mu_{\text{obs}},i}{\mu_A} \right)^2}{2\sigma_{\mu}^2} } 
+    \quad e^{-\frac{(cz_{\text{pred},i}(r) - cz_{\text{obs},i})^2}{2 \sigma_v^2}} \quad p_{\text{SN}}(r) \quad e^{-\frac{\lambda}{R_{\text{max}}}r} \right)}{\left(\int_{0}^{R_{\text{lim}}} dr 
+    \quad e^{- \frac{\left(\mu_{\text{pred},i}(r) -\frac{\mu_{\text{obs},i}}{\mu_A} \right)^2}{2\sigma_{\mu}^2} } 
+    \quad p_{\text{SN}}(r) \quad e^{-\frac{\lambda}{R_{\text{max}}}r}\right)}
 \end{equation}
 
 Where $R_{\text{lim}}$ is the integration limit which is greater than the furthest supernova, $\mu_A$ the distance uncertainty and $\mu_{\text{pred}}(r)$ is calculated with:
 \begin{equation}
-    \mu_{\text{pred}}(r) = 5 \log_{10} \left( (1+z_{\text{cosmo}}(r))r \right) + 25
+    \mu_{\text{pred},i}(r_i) = 5 \log_{10} \left( (1+z_{\text{cosmo},i}(r_i))r_i \right) + 25
     \label{eqn:mu_r}
+\end{equation}
+
+If do that for all supernovae, then the full BORG-PV likelihood then becomes
+
+\begin{equation}
+    \mathcal{L} = \prod_{i=1}^{N_{\text{SN}}} p_i(cz_{\text{obs},i}|\mu_{\text{obs},i})
 \end{equation}
 
 \subsection{Generating self-consistent mocks}
@@ -149,9 +155,18 @@ Finally, the right ascension and declanation angles are reported by converting t
 \subsubsection{Selection function}
 
 While testing different parameter configurations for the previously mentioned selection function, we have noticed a strong dependency in the $\lambda$ parameter that can bias the 
-sampling of the other model parameters as well as the cosmology. We plot in Figure () the likelihood profile of a self-consistent simulation (see Section ref for more details on the 
-simulation) for $\alpha$, the $z$-axis component of the bulkf flow $V_z$, $\Omega_m$ and $\sigma_8$ for 4 values of $\alpha$ : 1, 3, 5 and 7 while $R_{\text{max}}$ is 
+sampling of the other model parameters as well as the cosmology. We plot in Figure \ref{fig:L_old} the likelihood profile of a self-consistent simulation 
+for $\alpha$, the $z$-axis component of the bulkf flow $V_z$, $\Omega_m$ and $\sigma_8$ for 4 values of $\alpha$ : 1, 3, 5 and 7 while $R_{\text{max}}$ is 
 fixed at $370 \text{Mpc}.h^{-1}$. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/L_profile_bug.png}
+    \caption{Likelihood profiles using initial likelihood for different values of $\lambda$ used in the generation of the mocks (1 for blue, 3 for red, 5 for green and 7 for black). 
+    The light blue vertical line represents the truth.}
+    \label{fig:L_old}
+\end{figure}
+
 What we notice is that all parameters are very sensitive to value of $\lambda$, more specifically that the smaller the value of $\lambda$, the more biased the parameters are. Therefore 
 an incorrect initial estimation of $\lambda$ can be greatly problematic. Moreover, this choice of modeling will fail if we decide to apply our BORG-PV model on the ZTF DR2 volume 
 limited sample as the selection function does not match the hard cutoff at a redshift of $z=0.06$. We can even attempt to set $\lambda$ to 0 since the volume limited sample 
@@ -178,57 +193,81 @@ If we assume that this is not the case, then we get:
 \begin{equation}
     dN(r) \propto n(r)r^2 dr
 \end{equation}
-In practice, we do not have direct access to $n(r)$ but we can infer $n(z)$. In Figure (ref) we show the $n(z)$ distribution obtained on the ZTF-Uchuu simulations obtained in 
-100? bins up to a redshift of $z=0.06$. We proceed to then fit the number density with a cubic spline. The purpose of fitting with a cubic spline is to keep the $n(z)$ 
-differentiable as it will be needed to then infer $n(r)$. In fact, we can relate the two number densities with:
+In practice, we do not have direct access to $n(r)$ but we can infer $n(z)$. In fact, we can relate the two number densities with:
 \begin{equation}
     n(r) \propto \frac{n(z)}{4\pi r^2 \times \frac{dr}{dz}}
 \end{equation}
 The $\frac{dr}{dz}$ term can be deduced from Equation \ref{eqn:physical_distance} and is entirely determined by the cosmology. We get $\frac{dr}{dz} = \frac{c}{H(z)}$.
 Finally, we can present a more realistic prior on supernovae expressed as:
 \begin{equation}
-    p_{SN}(r) \propto r^2\, n(r)\,(1+\delta^F)^{\alpha},
+    p_{\text{SN}}(r) \propto r^2\, n(r)\,(1+\delta^F)^{\alpha},
     \quad \text{with } n(r) \propto \frac{n(z)}{4\pi r^2 \times \frac{dr}{dz}}.
     \label{eqn:new_prior}
 \end{equation}
+Finally, we fit the inferred $n(r)$ with a smooth differentiable function to be then implemented in the likelihood as seen in Figure \ref{fig:n_r_test}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/n_r_tests.png}
+    \caption{(PLOT NEEDS TO BE REMADE) The number density as a function of the comoving distance from the observer. The red line represents a cubic spline fit. The green line represents a fit using a CDF function convoluted with a Gaussian.}
+    \label{fig:n_r_test}
+\end{figure}
+
 
 Other motivations for this new prior lies in the ZTF-Uchuu simulations themselves. We could assume that such effects can be captured by the bias model. We 
 compare self-consistent simulations with the ZTF-Uchuu simulations containing the exact same number of supernovae. We generated a set of self-consistent mocks each with 
 a different value for $\alpha$. We bin the number of supernovae based on the overdensity. If the simulations are generated in the same way, we would expect to see 
-a match between the bins for a given $\alpha$ value. We obtain the following Figures (ref). We notice that there isn't a singular value of $\alpha$ for which the 
-self consistent simulations match the ZTF-Uchuu simulations. Moreover, we seem to notice a regime change based on the over density for the ZTF-Uchuu simulations, which 
+a match between the bins for a given $\alpha$ value. What we noticed that there isn't a singular value of $\alpha$ for which the 
+self consistent simulations match the ZTF-Uchuu simulations. We obtain a best match with $\alpha = 1.4$ presented in Figure \ref{fig:nsn_vs_dens}. Moreover, we seem to notice a regime change based on the over density for the ZTF-Uchuu simulations, which 
 could possibly hint that the difference can be capured using two bias model parameters. During this PhD I have not explored this avenue but instead relied on the new supernova 
 prior to capture the differences between the simulations. \\
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/nsn_delta_borg.png}
+    \caption{(PLOT NEEDS TO BE REMADE) Comparing a self-consistent simulation generated with $\alpha=1.4$ with the ZTF-Uchuu simulation by plottinh the number of supernova in a voxel 
+    with respect to the overdensity of that voxel. The blue dots are measured on the self consistent simulation while the red dotsare measured on the ZTF-Uchuu simulation. The thicker dots 
+    are the averaged value of the number of supernovae obsereved.}
+    \label{fig:nsn_vs_dens}
+\end{figure}
 
 
 \subsection{Improved likelihood}
 
-Our first improvement to the likelihood is in the implementation of the prior presented in Equation \ref{eqn:new_prior}. The second improvement was done by replacing the 
-selection function $p_{\text{selection}}(r)$. We were inspired by the work done in \cite{Stiskalek_2025}. The method derived in the paper largely follows what was done in \cite{Kelly_2008}. Given a 
-an observed dataset $\mathbf{d}_i$ for a source $i$ with source parameters $\boldsymbol{\theta}_i$ drawn from a population characterized by $\boldsymbol{\Lambda}$ 
-and a selection function $S$ such that $S=1$ is the data is observed and $S=0$ if not, then the fraction of detected samples from a total population is given by:
+Our first improvement to the likelihood is in the implementation of the prior $p_{\text{SN}}$ presented in Equation \ref{eqn:new_prior}. The second improvement was done by replacing the 
+selection function $p_{\text{selection}}(r)$. We were inspired by the work done in \cite{Stiskalek_2025}. The method derived in the paper largely follows what was done in \cite{Kelly_2008}. 
+Given a an observed dataset $\mathbf{d}_i$ for a supernova $i$ described by a parameters $\boldsymbol{\theta}$ (such as $\alpha$, $\sigma_v$, etc...) 
+and a selection function $S$ such that $S=1$ is the data is observed and $S=0$ if not, then the general expression of the likelihood marked by a Poisson process is given by:
 \begin{equation}
-    p(S=1|\boldsymbol{\Lambda}) = \int \int d \mathbf{d}_{\text{pred}} d \boldsymbol{\theta} p(S=1|\mathbf{d}_{\text{pred}}) \mathcal{L} 
-    (\mathbf{d}_{\text{pred}}|\boldsymbol{\theta}, \boldsymbol{\Lambda})\pi (\boldsymbol{\theta}|\boldsymbol{\Lambda})
+    \mathcal{L} \propto \prod_{i=1}^{N_{\text{SN}}} \frac{p(\mathbf{d}_i, S=1 | \boldsymbol{\theta})}{p(S=1 | \boldsymbol{\theta})}
 \end{equation}
-where $\mathbf{d}_{\text{pred}}$ denotes the predicted data vector and $\pi$ the prior as detailed in Equation (21) of the paper. The paper to give the exact formulation when 
+where $p(\mathbf{d}_i, S=1 | \boldsymbol{\theta})$ denotes the likelihood for an individual supernova and $p(S=1 | \boldsymbol{\theta})$ is the probability for any supernova to 
+be selected. We can show using Bayes' theorem that:
+\begin{equation}
+    p(\mathbf{d}_i, S=1 | \boldsymbol{\theta}) = p(\mathbf{d}_i|r_i, \boldsymbol{\theta})p(S=1|r_i, \boldsymbol{\theta})p_{\text{SN}}(r_i)
+\end{equation}
+and since our dataset only contains supernova below the redshift threshold then $p(S=1|r_i, \boldsymbol{\theta}) \approx 1$. Moreover, we marginalize over the distance as 
+we did before and given that the observable is the supernova redshift we get:
+\begin{equation}
+    p(cz_{\text{obs},i}, S=1 | \boldsymbol{\theta}) = \int_{0}^{R_{\text{lim}}} p(cz_{\text{obs},i}|r, \boldsymbol{\theta}, \mu_{\text{obs},i})p_{\text{SN}}(r) dr
+\end{equation}
+The paper also gives the exact formulation when 
 the selection is done on redshift, which is exactly the case for the ZTF DR2 volume limited sample. In that case, the fraction of detected samples 
 is given by Equation (33) in the paper:
 \begin{equation}
-    p(S=1) = \int d^3 \mathbf{r} p_{SN}(\mathbf{r}) \Phi_{\text{CDF}} \left(\frac{cz_{\text{thresh}} - cz_{\text{pred}(r)}}{\sigma_v}\right)
+    p(S=1| \boldsymbol{\theta}) = \int p_{\text{SN}}(\mathbf{r}) \Phi_{\text{CDF}} \left(\frac{cz_{\text{thresh}} - cz_{\text{pred}(r)}}{\sigma_v}\right) d^3\mathbf{r}
 \end{equation}
 where $z_{\text{thresh}}$ is the limiting redshift ($z_{\text{thresh}}=0.06$ in our case) and $\Phi_{\text{CDF}}$ the normal cumulative distribution function. The full likelihood 
 is therefore given by:
 \begin{equation}
-    \mathcal{L} = \prod_{i=1}^{N_\text{SN}} p(cz_{\text{obs},i}|\mu_{\text{obs},i})p(S=1)
+    \mathcal{L} = \prod_{i=1}^{N_\text{SN}} \frac{p(cz_{\text{obs},i}|\mu_{\text{obs},i})}{p(S=1)}
 \end{equation}
-Where $i$ denotes each individual supernova. Or more simply, we can take the natural logarithm of the likelihood which gives us:
+Or more simply, we can take the negative logarithm of the likelihood which gives us:
 \begin{equation}
-    \boxed{\log \mathcal{L} = \sum_{i=1}^{N_\text{SN}} p(cz_{\text{obs},i}|\mu_{\text{obs},i}) + N_\text{SN}p(S=1)}
+    \boxed{ - \log \mathcal{L} =  - \sum_{i=1}^{N_\text{SN}} p(cz_{\text{obs},i}|\mu_{\text{obs},i}) + N_\text{SN}p(S=1)}
 \end{equation}
 Where $p(cz_{\text{obs}_i}|\mu_{\text{obs}_i})$ is the likelihood of each supernova with no selection effects which is given by
 \begin{equation}
-    \boxed{p(cz_{\text{obs}_i}|\mu_{\text{obs}_i}) = \int_{0}^{R_{\text{lim}}} dr \quad e^{- \frac{(\mu_{\text{pred},i}(r) -\frac{\mu_{\text{obs},i}}{\mu_A} )^2}{2\sigma_{\mu}^2} } 
+    \boxed{p(cz_{\text{obs}_i}|\mu_{\text{obs}_i}) = \int_{0}^{R_{\text{lim}}} dr \quad e^{- \frac{\left(\mu_{\text{pred},i}(r) -\frac{\mu_{\text{obs},i}}{\mu_A} \right)^2}{2\sigma_{\mu}^2} } 
     \quad e^{-\frac{(cz_{\text{pred},i}(r) - cz_{\text{obs},i})^2}{2 \sigma_v^2}} \quad r^2\, n(r)\,(1+\delta^F(r))^{\alpha}}
 \end{equation}
