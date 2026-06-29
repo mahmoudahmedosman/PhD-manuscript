@@ -28,14 +28,23 @@ used to generate the self consistent simulations. \\
         \hline
     \end{tabular}
 \end{table}
-We obtain the following Figures () that show the likelihood profiles 
-for 1 simulation. We notice that we recover the expected values within 1 statistical uncertainty for 1 simulation. 
-
+We obtain the following Figure \ref{fig:L_self_1} that show the likelihood profiles for 1 simulation. We notice that the recovered parameters match the 
+input values within 1$\sigma$ with the exception of the $\sigma_v$ parameter. It is inconclusive to say that our 
+likelihood is biased given that this was only done on 1 realization.  
 \textit{This part is yet to be done so no results yet but is easy to be done} To assess the statistical robustness of the forward model, we generate 100 self-consistent mock realisations of the supernova catalogue, each drawn from 
 a different set of initial conditions while keeping the model parameters fixed at their fiducial values. For each realization, we evaluate the likelihood 
 profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 100 realizations. 
 We expect that the averaged parameters would coincide with the fiducial input values within the expected standard deviation. Any systematic offset would indicate a 
 bias in the forward model that must be understood and corrected before applying the pipeline to real data. We plot the results in Figures (). \\
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.1\textwidth]{MainLayout/Sixth_chapter/figures/L_profile_self.pdf}
+    \caption{Profile likelihoods from 1 realization of the self-consistent simulation for the model and cosmological parameters.}
+    \label{fig:L_self_1}
+\end{figure}
+
 
 \subsection{Results of the field level inference on self-consistent simulations}
 
