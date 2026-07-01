@@ -2,5 +2,148 @@
 
 
 \subsection{Pipeline overview}
+
+
+The LEMAÎTRE analysis pipeline initiates at the lightcurve extraction from the ZTF, SNLS and HSC surveys up until the inference of comsological parameters. 
+The pipeline can be divided into two main parts: the lightcurve extraction and calibration pipeline, and the Georges pipline, the cosmological analysis pipeline. \\
+
+\subsubsection{Lightcurve extraction and calibration}
+
+The first part of the LEMAITRE pipeline is to extract the supernova lightcurves from the images taken by the surveys. The method used here is the Scene Modeling Photometry (SMP) (\cite{Astier_2013}, \cite{Holtzman_2008}), 
+which was recently applied on the ZTF data in \cite{Lacroix_2025}. The idea is to isolate the supernovae and their host galaxies into "cutouts", a subimage from the full image 
+taken by a survey containing the supernova. A reference cutout is then defined as the one having the least amount of atmospheric thickness between the source and the observer. 
+A model is then employed to describe the scene surrounding each supernova. Given a cutout indexed by $i$ and a pixel $p$, the model used in the LEMAITRE pipeline is:
+\begin{equation}
+    Y_{ip} = R_i \left[ f_i \times \psi_i \left(x_p -  T_i(x_{SN})\right) + K_i \otimes G \left( T_i^{-1} (x_p)\right) + S_i  \right]
+\end{equation}
+where $R_i$ represents the throughput difference between the cutout $i$ and the reference, $S_i$ is the sky level difference between the same images, $f_i$ the observed supernova 
+flux in the cutout $i$, $x_{SN}$ the supernova position and $x_p$ the pixel positions. $\psi_i$ is the Point Spread Function model, or PSF for short. It describes how a point source is distorted in an when capturing an image whether it is 
+due to physical or intrumental origins. Getting the PSF requires a kernel function $K_i$ to match the cutout $i$ with the reference frame such that $\psi_i = K_i \otimes \psi_{ref}$. The 
+kernel is also applied to the host galaxy profile $G$ defined in the reference cutout. Finally $T_i$ is a coordinate mapping between the cutout $i$ and the reference cutout. Once all 
+of the parameters are fitted simultaneously, the fluxes $f_i$ are reported as the supernova lightcurve fluxes. \\
+
+The SMP model can be also used on stars surrounding the supernova, allowing for the calibration of the lightcurves on those stars. This is done by comparing the fluxes from 
+the nearby stars (secondary standards) to already calibrated catalogues in different photometric bands. The fluxes of the stars measured in those catalogues are called primary standards. 
+The catalogues used to calibrate the ZTF fluxes are CALSPEC (\cite{Bohlin_2014}) and PS1 (\cite{Chambers_2016}) while for SNLS we use GAIA (\cite{Gaia_2023}). The HSC observation fields overalp with ZTF and SNLS so their calibrations are 
+propagated to HSC. The calibration efforts is done by the Ubercal analysis (in prep). \\
+
+
+\subsubsection{Georges analysis pipeline}
+
+The Georges pipeline consists of mainly four modules  PeTS, NaCl, EDRIS, cosmologix.
+
+\subsubsection{PeTS}
+
+The PeTS module aims at ensuring the dataset we will be using in the cosmological analysis contains properly measured data points. The reason we need to do that is because 
+some of the supernova lightcurves can contain issues such as having very few measurements, very noisy data or a mix of both that can introduce 
+inaccurate results in the spectrophotometric model trained.\\
+
+In order to avoid that, PeTS applies a set of data quality cuts that will ensure that we select a subset on which we will be able to properly measure all of the 
+supernova parameters.\\
+
+The selection will be applied on supernovae that meets the following criteria:
+\begin{itemize}
+    \item The date of maximum emission ($t_{max}$) needs to be properly defined
+    \item The color and the stretch parameters need to be accurately measured
+    \item The supernova must contain at least 5 points with an SNR superior to 3, present in 2 bands and present within 50 days of the initial guess of $t_{max}$
+\end{itemize}
+
+An initial quality cut is applied on the datasets similar to the cuts applied to the ZTFR DR2 (\cite{Rigault_2025}) which is presented below:
+\begin{itemize}
+    \item The supernova needs to be measured in at least 2 bands
+    \item The supernova needs to have at least 5 total measurements
+    \item The supernova needs to have at least 2 measurement points before $t_{max}$
+    \item The supernova needs to have at least 2 measurement points after $t_{max}$
+    \item $-0.2<c<0.8$
+    \item $|X_1|<3$
+    \item SNLS and HSC supernova need to be measured at $z>0.2$
+    \item The Milky Way galactic dust extinction needs to be $E(B-V)_{MW}<0.25$
+\end{itemize}
+
+PeTS initially fits all of the lightcurves with the SALT2.4 model using sncosmo (\cite{sncosmo}). 
+\textbf{The sncosmo fit needs to converge in order to select a supernova in our final dataset}. That initial fit allows us to have an initial guess on 
+the parameters $c$, $X_1$ and $t_{max}$. \\
+The next thing is to create a log-likelihood profile while varying the value of $t_{max}$. The supernova is then selected if the following criteria are met on 
+the parameter $t_{max}$:
+\begin{itemize}
+    \item The uncertainty on $t_{max}$ derived from the log-likelihood profile must be inferior to 1 day
+    \item The log-likelihood profile must be symmetric. The condition chosen for that in PeTS is : $$|3\sigma(t_{max})_{Left} - 3\sigma(t_{max})_{Right}| < 0.3$$
+    \item The log likelihood profile must present only 1 minimum within $3\sigma$
+\end{itemize}
+Lastly, the uncertainties on $c$ and $X_1$ need to be inferior to 0.3 and 1 respectively. If all of these conditions are met, the supernova will be present in the final dataset. \\
+
+
+\subsubsection{Data compression}
+
+To accelerate the model training in the next step of the pipeline, the photometric and spectroscopic data have been compressed. \\
+
+\noindent \textbf{\underline{Lightcurve compression}} \\
+
+The lightcurves measurements are reduced when multiple observations are done in the same night for one supernova. 
+The way we compress the lightcurves data is by averaging the fluxes measured per night.
+ We find that doing so reduces the size of lightcurves files by almost half.\\
+
+\noindent \textbf{\underline{Spectra compression}} \\
+
+Spectra obtained by ZTF and SNLS often have a much higher resolution than the model used to fit them. 
+For that, we decided to reduced the spectral data by adjusting its resolution to that of model. As we will show later, 
+the basis of the spectrophotometric model is defined by a B-spline basis of order 4. What we do is then project the spectra on that basis, which can be written as:
+\begin{equation}
+    \sum_i p_i\mathcal{B}_i(\lambda)
+\end{equation}
+where $p_i$ are the spline coefficients and $\mathcal{B}_i(\lambda)$ is the spline basis. 
+The idea is retain the $p_i$ parameters alongside their uncertainties. The size of the spectral data is then reduced by a factor of 10. \\
+
+\subsubsection{NaCl}
+
+The next step in the Georges analysis pipeline is the spectrophotometric model training with the NaCl frame. 
+This step combines both traditional sense of a model training as well as the lightcurve fitting giving us direct access to the $X_0$, $X_1$ and $c$ 
+parameters along with the marginalized covariance matrix. We will be going into more details on how NaCl operates in Chapter 4. \\
+
+\subsubsection{EDRIS}
+One we have access to $X_0$, $X_1$ and $c$, we can proceed to determine the supernovae distance moduli by using the Tripp relation (\cite{Tripp_1999}). 
+We remind that we express the Tripp relation as:
+\begin{equation}
+    \mu_{\text{Tripp}} = m_B - (M_B - \alpha X_1 + \beta c + \gamma)
+    \label{eqn:tripp}
+\end{equation}
+with the $m_B$ being the observed magnitude:
+\begin{equation}
+    m_B = -2.5\log_{10}(X_0)
+    \label{eqn:mb}
+\end{equation}
+$M_B$ the absolute magnitude and $\alpha$ and $\beta$ being the standardization parameters and $\gamma$ the environmental dependancies. 
+This standardization captures a large part of the intrinsic dispersion of type Ia supernovae. The remaining dispersion makes up around $0.15\mathrm{mag}$ 
+that are not solely explained by the Tripp relation. This intrinsic dispersion is modelled by a Gaussian noise with variance $\sigma_{\text{int}}$ giving us: 
+\begin{equation}
+    \mu_{\text{True}} = \mu_{\text{Tripp}} + \mathcal{N}(0, \sigma_{\text{int}})
+\end{equation}
+
+The goal of the EDRIS module is determining the Tripp relation alongside side the intrinsic dispersion (Kuhn et al in prep and \cite{Kuhn_2025}). An issue that is 
+encountered when determining is having to deal with selection effects that are due to the limiting observational magnitude of a survey's telescope. This results in 
+only managing to observe a fraction of the population of supernovae at certain distances which, if not accounted for, will bias the standardization parameters as well 
+as $\sigma_{\text{int}}$. This is referred to as the Malmquist bias (\cite{Malmquist_1922}). It can also be referred to as the homogenous Malmquist bias as it assumes 
+homogenous distribution of supernova in space. The determination of selection function can be done in multiple ways. One way is to assume a selection based on a multitude 
+of realistic simulations. This has been done with the BBC method (\cite{Kessler_2017}). This method is however computationally expensive as it realies on generating a lot mocks 
+with a lot more supernova than the survey contains to be able to assess the selection effects. Another approach consists of including the selection effects in the statistical model 
+and applying a Bayesian inference in order to sample the selection function alongside the other parameters involved. This has been applied in \cite{Rubin_2015} with the 
+UNITY framework. This method however invloves a large number of parameters to be inferred simultaneously using an MCMC which makes it less difficult to scale with the 
+number of supernova. The method used in EDRIS is by accounting for the selection effects by using a truncated likelihood which assumes the measurement uncertainties as 
+well as the intrinsic dispersion are perfectly known. The module is fast and consists of doing a single log-likelihood minimization which makes it ideal when confronted with 
+a large sample of supernovae. \\
+
+\subsubsection{Cosmologix}
+
+The final step of the pipeline is to infer the cosmological parameters from the distances and we do that with 
+cosmologix \footnote{\url{https://lemaitre.pages.in2p3.fr/cosmologix/home.html}}  (Betoule et al in review), a fast JAX-coded software designed to accurately 
+infer cosmological parameters. It is also possible to combine the supernova results with other probes such as BAO and CMB. This will be useful in the analysis of the real data
+to obtain the most accurate results by breaking the degeneracies between cosmological parameters.\\
+
+
 \subsection{Cosmological analyses with LEMAITRE}
-\subsection{Uncertainties in SN measurements?}
+
+As we have mentioned earlier, a strong motivator for the LEMAITRE project is dealing with the $(w_0, w_a)$ tension so the first and main analysis will be constraining the 
+equation of state for two different parameterizations, a constant $w$ and the CPL parameterizations $(w_0, w_a)$. Secondly, the measurements of supernova magnitudes alongside their 
+distances can be used to constrain $H_0$ which will shed light on the $H_0$ tension. Moreover, the large of supernovae at low redshift can also be used to constrain $H_0$ anisotropies, 
+i.e. whether the expansion rate is homogenous in all direction or not. Lastly, an effort within the collaboration is aiming at constraining the growth rate of structures $f\sigma_8$ in the 
+local Universe, which is the main topic of this PhD. \\

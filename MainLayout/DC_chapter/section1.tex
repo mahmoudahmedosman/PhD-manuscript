@@ -1,127 +1,48 @@
 \section{LEMAÎTRE Data Challenges}
 
-In this section we will be detailing the LEMAÎTRE Data Challenges, DCs from now on. The goal of these challenges is to validate the new analysis pipeline that is part of the LEMAÎTRE project, which is an extremely important key test before running the full analysis chain on the real data.
-
-\subsection{General description of the DCs}
-
-The LEMAÎTRE analysis pipeline is brand new from the point where the lightcurves are extracted from the ZTF, SNLS and HSC surveys up until comsological parameters are determined. The pipeline can be divided into 2 main parts : the lightcurve extraction and calibration pipeline, and the Georges pipline (or the cosmological analysis pipeline). Determining whether this new pipeline can accurately predict cosmological parameters without any biases is crucial and must be investigated thoroughly, especially since many of the elements of the pipeline depend on each other. \\
-We will be focused here on the validity of the cosmological analysis pipeline, Georges. For that, the pipeline will face a series of challenges, each with an increasing level of complexity representing a challenge we are expected to face in the final analysis on the LEMAÎTRE dataset. Those challenges are the DCs and they are constituted of realistic simulations of ZTF, SNLS and HSC lightcurves and spectra. We will firstly describe the different elements of the Georges pipeline and then the different elements of the DCs. Each DC is constituted of 100 realizations of the simulations, essentially containing the exact same supernova but by applying the noise on the data differently. This will allow us to perform a robust coverage test for each DC.
-
-\subsection{Georges analysis pipeline}
-
-The Georges pipeline consists of mainly four modules : PeTS, NaCl, EDRIS, cosmologix.
-
-\subsubsection{PeTS \& miniPeTS}
-
-\noindent \textbf{\underline{PeTS}} \\
-
-
-The PeTS module aims at "cleaning" the training dataset we will ll be using in the cosmological analysis. The reason we need to do that is because some of the supernova lightcurves can contain issues such as few points, very noisy data or a mix of both that can introduce issues when trying to accurately model the supernova with NaCl.\\
-
-In order to avoid that, PeTS applies a set of data quality cuts that will ensure that we select a subset on which we will be able to properly measure all of the supernova parameters.\\
-The selection will be applied on supernovae that meets the following criteria:
-\begin{itemize}
-    \item The date of maximum emission ($t_{max}$) needs to be properly defined
-    \item The color and the stretch parameters need to be accurately measured
-    \item The supernova must contain at least 5 points with an SNR superior to 3, present in 2 bands and present within 50 days of the initial guess of $t_{max}$
-\end{itemize}
-
-In order to do that, PeTS initially fits all of the lightcurves with the SALT2.4 model using sncosmo (\cite{sncosmo}). \textbf{The sncosmo fit needs to converge in order to select a supernova in our final dataset}. That initial fit allows us to have an initial guess on the parameters $c$, $X_1$ and $t_{max}$. \\
-The next thing is to create a log-likelihood profile while varying the value of $t_{max}$. The supernova is then selected if the following criteria are met on the parameter $t_{max}$:
-\begin{itemize}
-    \item The uncertainty on $t_{max}$ derived from the log-likelihood profile must be inferior to 1 day
-    \item The log-likelihood profile must be symmetric. The condition chosen for that in PeTS is : $$|3\sigma(t_{max})_{Left} - 3\sigma(t_{max})_{Right}| < 0.3$$
-    \item The log likelihood profile must present only 1 minimum within $3\sigma$
-\end{itemize}
-Lastly, the uncertainties on $c$ and $X_1$ need to be inferior to 0.3 and 1.\\
-
-\noindent If all of these conditions are met, the supernova will be present in the final dataset. For the DCs, we want to apply PeTS on only 1 realization since the quality cuts shouldn't vary between realizations. Running PeTS, however, presents a difficulty. Creating the log-likelihood profile for each supernova takes a lot of computational time. It would take us a really long to do so if we wanted to perform multiple tests on any DC. In order to avoid that and gain a bit of time, we introduced miniPeTS.\\
-
-\noindent \textbf{\underline{miniPeTS}} \\
-With miniPeTS the goal is to achieve similar quality cuts to PeTS but much faster. This means that we don't expect to necessarily obtain the best quality dataset, but good enough to test the pipeline on the DCs. We apply similar cuts to the ZTF DR2 cuts (ref). We can summarize the quality cuts done with miniPeTS in the following list: 
-\begin{itemize}
-    \item The supernova needs to be measured in at least 2 bands
-    \item The supernova needs to have at least 5 total measurements
-    \item The supernova needs to have at least 2 measurement points before $t_{max}$
-    \item The supernova needs to have at least 2 measurement points after $t_{max}$
-    \item $-0.2<c<0.8$
-    \item $|X_1|<3$
-    \item SNLS and HSC supernova need to be measured at $z>0.2$
-    \item $E(B-V)_{MW}<0.25$
-\end{itemize}
-
-\subsubsection{Data compression}
-
-Before we can start training a model with NaCl on the data, we decided to accelerate the training by compressing the data on the basis of the model.
-
-\noindent \textbf{\underline{Lightcurve compression}} \\
-
-The way we compress the lightcurves data is by averaging the fluxes measured per night. We find that doing so reduces the size of lightcurves files by almost half.\\
-
-\noindent \textbf{\underline{Spectra compression}} \\
-
-We have also noticed that the resolution of the spectra is much higher than the resolution of our model. The spatial dimension of our model in NaCl is defined by a B-spline basis of order 4. Projecting the spectra on that basis can be written as 
-$$ \sum_i p_i\mathcal{B}_i(\lambda) $$
-The idea is retain the $p_i$ parameters alongside their uncertainties. The size of the spectral data is then reduced by a factor of 10.
-
-\subsubsection{NaCl}
-
-The next step in the Georges analysis pipeline is the model training with NaCl. The $X_0$, $X_1$ and $c$ along with the marginalized covariance matrix will be the input for EDRIS in order to estimate the supernova distances.
-
-\subsubsection{EDRIS}
-
-The observed distance modulus of type Ia supernova contains a natural dispersion with respect the Hubble law of around $\sim0.4 \mathrm{mag}$. This can be reduced by standardizing the distance moudli. We commonly use the Tripp relation (ref) which reduces this dispersion to $\sim0.15\mathrm{mag}$. It is expressed as follows : 
-
-\begin{equation}
-    \mu = m_B - (M_B - \alpha X_1 + \beta c)
-    \label{eqn:tripp}
-\end{equation}
-
-\begin{equation}
-    m_B = -2.5\log_{10}(X_0)
-    \label{eqn:mb}
-\end{equation}
-
-with $m_B$ being the observed magnitude, $M_B$ the absolute magnitude and ($\alpha$, $\beta$) are the standardization parameters also known as the brighter slower and brighter bluer parameters. This is due to the fact that type Ia supernova with a larger stretch parameter tend to be brighter as well as supernova that are bluer.\\
-The remaining $0.15\mathrm{mag}$ dispersion are due an intrinsic variability between supernovae that isn't modeled by the Tripp relation. \\
-
-Determining the standardized parameters can be difficult. Since telescopes can only observe objects up to a certain magnitude we expect a cutoff in magnitude for each survey. Coupled with the intrinsic dispersion of supernova, this means that the population of supernova observed by a survey will skewed, favoring redder and faster supernova. We call this \textbf{selection effects}. This makes a direct determination of ($\alpha, \beta$) biased and will bias any cosmological analysis.\\
-
-The goal of EDRIS is to accurately estimate unbiased standardized distances for complete and incomplete supernova Ia samples. EDRIS takes as input the parameters from NaCl alongside their covariance matrix, and will use that to infer standardization parameters ($\alpha$, $\beta$), $M_B$, selection effects and the intrinsic dispersion denoted $\sigma_{int}$.\\
-
-\subsubsection{Cosmologix}
-
-The final step of the pipeline is to infer the cosmological parameters from the distances and we do that with cosmologix \footnote{\url{https://lemaitre.pages.in2p3.fr/cosmologix/home.html}}  (Betoule et al in review), a fast JAX-coded software designed to accurately infer cosmological parameters. It is also possible to combine the supernova results with other probes such as BAO and CMB. This will be useful in the analysis of the real data.\\
+In this section we will be detailing the LEMAÎTRE Data Challenges. The goal of these challenges is to validate the new analysis pipeline that is part of the 
+LEMAÎTRE project, which is an extremely important key test before running the full analysis chain on the real data.
 
 \subsection{DC1}
 
-The first data challenge will be a consistency test for the full chain. It's the first time we've tested the full pipeline together on the same dataset. This will also serve as a stepping stone for the analysis of the future DCs since they will be incrementing layers of complexity on top of what was done in DC1. We will be including simulated lightcurves and spectra from ZTF and SNLS as well as lightcurves from HSC.\\
+The first data challenge will be a consistency test for the full chain. It's the first time we've tested the full pipeline together on the same dataset. 
+This will also serve as a stepping stone for the analysis of the future DCs since they will be incrementing layers of complexity on top of what was done in DC1. 
+We will be including simulated lightcurves and spectra from ZTF and SNLS as well as lightcurves from HSC.\\
 
-The simulated data will include measurement uncertainties, an error snake and an intrinsic dispersion. We will not be including any selection effects so EDRIS will need to find the standardization parameters. The main challenge will be for NaCl to ensure that training the model with our current model constraints and regularization on a LEMAÎTRE like dataset does not bias our cosmological analysis.\\
+The simulated data will include measurement uncertainties, an error snake and an intrinsic dispersion. We will not be including any selection effects so EDRIS will need to 
+find the standardization parameters. The main challenge will be for NaCl to ensure that training the model with our current model constraints and regularization on a LEMAÎTRE 
+like dataset does not bias our cosmological analysis.\\
 
-The metric used to determine if we have passed the DC or not will be to check the coverage for the cosmological parameters after 100 realizations and ensuring it stays within $1 \sigma$.
+The metric used to determine if we have passed the DC or not will be to check the coverage for the cosmological parameters after 100 realizations and ensuring it stays 
+within $1 \sigma$.
 
 \subsection{DC2}
 
-The second data challenge serves as a test to the model selection effects in EDRIS. The simulations will be identical to DC1 with the addition of a selection function for each survey.\\
+The second data challenge serves as a test to the model selection effects in EDRIS. The simulations will be identical to DC1 with the addition of a selection function 
+for each survey.\\
 
 The metric used to determine if we have passed the DC or not will be the same as DC1.\\
 
 \subsection{DC3}
 
-In the third data challenge, calibration uncertainties and supernova outliers will be added the simulation. This serves as a main test to NaCl's error model to see how well it can identify outliers as well as determining the impact of calibration uncertainties on the reconstructed cosmology. \\
+In the third data challenge, calibration uncertainties and supernova outliers will be added the simulation. This serves as a main test to NaCl's error model to see 
+how well it can identify outliers as well as determining the impact of calibration uncertainties on the reconstructed cosmology. \\
 
 The metric used to determine if we have passed the DC or not will be the same as DC1 and DC2. \\
 
 \subsection{DC4}
 
-In the fourth data challenge, the simulations will include as many realistic effects as possible adding all sources of uncertainties and systematics that we know can affect our analysis. This includes realistic distributions of the stretch and color (ref madeleine), non type Ia contamination, astrophysical effects and color scatter effects. This will be a challenge for both NaCl and EDRIS. \\
+In the fourth data challenge, the simulations will include as many realistic effects as possible adding all sources of uncertainties and systematics that we know 
+can affect our analysis. This includes realistic distributions of the stretch and color (ref madeleine), non type Ia contamination, astrophysical effects and color 
+scatter effects. This will be a challenge for both NaCl and EDRIS. \\
 
-The metric we will use here to determine if we have passed the DC or not will be the same as before. Since astrophysical effects aren't directly taken into account during the modeling of type Ia supernova, we will quantifying its effects on the reconstructed cosmology and see how we can minimize it.\\
+The metric we will use here to determine if we have passed the DC or not will be the same as before. Since astrophysical effects aren't directly taken into account 
+during the modeling of type Ia supernova, we will quantifying its effects on the reconstructed cosmology and see how we can minimize it.\\
 
 \subsection{DC5}
 
-In the fifth and final DC we will be placing ourselves in the same conditions of the realistic simulations by blinding the data. The party that will be blinding the data will not be the same as the one running the pipeline simulation. The goal is to obtain the correct cosmological parameters after unblinding the data. \\
+In the fifth and final DC we will be placing ourselves in the same conditions of the realistic simulations by blinding the data. The party that will be blinding the 
+data will not be the same as the one running the pipeline simulation. The goal is to obtain the correct cosmological parameters after unblinding the data. \\
 
 We can summarize the DCs in the following diagram : \\
 
