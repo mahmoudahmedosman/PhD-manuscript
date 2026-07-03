@@ -1,25 +1,31 @@
 \section{LEMAÎTRE Data Challenges}
 
-In this section we will be detailing the LEMAÎTRE Data Challenges. The goal of these challenges is to validate the new analysis pipeline that is part of the 
+In this section we will be detailing the LEMAÎTRE Data Challenges (DCs). The goal of these challenges is to validate the new analysis pipeline that is part of the 
 LEMAÎTRE project, which is an extremely important key test before running the full analysis chain on the real data.
+
+\subsection{General discription of the simulations}
+
+The Data Challenges simulate the ZTF, SNLS and HSC lightcurves and spectra to match the observations. The positions, dates of observation are determined from each 
+survey's observation log. The supernovae are then simulated given a fiducial cosmology and rate using the \texttt{skysurvey} package (\cite{Rigault_2026}). Once the supernova 
+are simulated, a spectrophotometric model is chosen, such as SALT3, to simulate the lightcurve data and spectra and the instrumentational noises are added to the measurements. 
+Specific sources that can affect the measurements are added based on the DC which are described below. \\
 
 \subsection{DC1}
 
 The first data challenge will be a consistency test for the full chain. It's the first time we've tested the full pipeline together on the same dataset. 
-This will also serve as a stepping stone for the analysis of the future DCs since they will be incrementing layers of complexity on top of what was done in DC1. 
-We will be including simulated lightcurves and spectra from ZTF and SNLS as well as lightcurves from HSC.\\
+This will also serve as a stepping stone for the analysis of the future DCs since they will be incrementing layers of complexity on top of what was done in DC1. \\
 
-The simulated data will include measurement uncertainties, an error snake and an intrinsic dispersion. We will not be including any selection effects so EDRIS will need to 
-find the standardization parameters. The main challenge will be for NaCl to ensure that training the model with our current model constraints and regularization on a LEMAÎTRE 
-like dataset does not bias our cosmological analysis.\\
+The simulated lightcurves will include measurement uncertainties and an intrinsic fluctuation of the data based on the flux not explained by the measurement 
+uncertainties, named error snake. We will not be including any selection effects. The main challenge will be for NaCl to ensure that training the model with our 
+current model constraints and regularization on a LEMAITRE like dataset does not bias our cosmological analysis. \\
 
-The metric used to determine if we have passed the DC or not will be to check the coverage for the cosmological parameters after 100 realizations and ensuring it stays 
+The metric used to determine if we have passed the DC or not will be to check the coverage for the cosmological parameters after 100 realizations and ensuring they stay 
 within $1 \sigma$.
 
 \subsection{DC2}
 
 The second data challenge serves as a test to the model selection effects in EDRIS. The simulations will be identical to DC1 with the addition of a selection function 
-for each survey.\\
+for each survey. The goal is to see with the current model specifications of EDRIS is the Malmquist bias is properly accounted for. \\
 
 The metric used to determine if we have passed the DC or not will be the same as DC1.\\
 
@@ -33,10 +39,10 @@ The metric used to determine if we have passed the DC or not will be the same as
 \subsection{DC4}
 
 In the fourth data challenge, the simulations will include as many realistic effects as possible adding all sources of uncertainties and systematics that we know 
-can affect our analysis. This includes realistic distributions of the stretch and color (ref madeleine), non type Ia contamination, astrophysical effects and color 
-scatter effects. This will be a challenge for both NaCl and EDRIS. \\
+can affect our analysis. This includes realistic distributions of the stretch and color (\cite{Ginolin_2025_a, Ginolin_2025_b}), non type Ia contamination, astrophysical 
+effects and color scatter effects. This will be a challenge for both NaCl and EDRIS. \\
 
-The metric we will use here to determine if we have passed the DC or not will be the same as before. Since astrophysical effects aren't directly taken into account 
+The metric we will use here to determine if we have passed the DC or not will be the similar to what was done before. Since astrophysical effects aren't directly taken into account 
 during the modeling of type Ia supernova, we will quantifying its effects on the reconstructed cosmology and see how we can minimize it.\\
 
 \subsection{DC5}
@@ -44,7 +50,7 @@ during the modeling of type Ia supernova, we will quantifying its effects on the
 In the fifth and final DC we will be placing ourselves in the same conditions of the realistic simulations by blinding the data. The party that will be blinding the 
 data will not be the same as the one running the pipeline simulation. The goal is to obtain the correct cosmological parameters after unblinding the data. \\
 
-We can summarize the DCs in the following diagram : \\
+We can summarize the DCs in the following diagram: \\
 
 \begin{tikzpicture}[
     node distance=1.5cm and 1cm,
@@ -79,3 +85,6 @@ We can summarize the DCs in the following diagram : \\
 \draw[arrow] (DC5) -- (E);
 
 \end{tikzpicture}
+
+
+Once the five data challenges have been passed, the full LEMAITRE pipeline will run on the real data. \\

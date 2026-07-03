@@ -92,52 +92,89 @@ sample of supernovae i.e. the sample is not influenced by any selection effects 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/ztf_dr2_hubble.png}
-    \caption{Hubble diagram created with standardized ZTF DR2 type Ia supernovae compared to fiducial $\Lambda$CDM cosmology anchore on Planck results. Taken from \cite{Rigault_2020}.}
+    \caption{Hubble diagram created with standardized ZTF DR2 type Ia supernovae compared to fiducial $\Lambda$CDM cosmology anchored on Planck results. Taken from \cite{Rigault_2020}.}
     \label{fig:ztf_dr2_hubble}
 \end{figure}
 
 
 \subsection{SNLS survey} \label{sec:snls}
 
-The second dataset is the SuperNova Legacy Survey (SNLS)  (Astier et al., 2006), a type Ia supernova survey conducted with the MegaCam (Boulade et al., 2003) observing system. 
-The camera is located on the Canada-France-Hawaii 3.6m telescope (CFHT) on top of the Maunakea volcano, Hawaii.
-The focal plane of the MegaCam camera is made up of 40 CCDs (model e2v CCD42-90) each having 2048 $\times$ 4612 pixels. 
+The second dataset is the SuperNova Legacy Survey (SNLS)  (\cite{Astier_2006}), a type Ia supernova survey conducted with the MegaCam 
+(\cite{Aune_2003}) observing system. 
+The camera is located on the Canada-France-Hawaii 3.6m telescope (CFHT) on top of the Maunakea volcano, Hawaii (Figure \ref{fig:cfht}).
+The focal plane of the MegaCam camera is made up of 40 CCDs (model e2v CCD42-90) each having 2048 $\times$ 4612 pixels (Figure \ref{fig:megacam}). 
 The CFHT is constructed with two mirrors, the primary mirror has a parabolic shape and is made from a glass-ceramic
 material which makes it immune to thermal distortion. The camera is placed in the focal plane of the primary mirror. In addition, a Wide Field
 Corrector (WFC) is placed in front of the camera to guarantee a large field of view. \\ 
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/CFHT.jpg}
+    \caption{The Canadian-France-Hawaii Telescope. Image from \url{https://t3-drupal-test.cfht.hawaii.edu/about}}
+    \label{fig:cfht}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/MegaCam.jpg}
+    \caption{The MegaCam camera. Image from \url{https://www.cfht.hawaii.edu/News/ColdestBD/PRIm.html}}
+    \label{fig:megacam}
+\end{figure}
+
 The spectroscopic follow-up used to classify the supernovae and identify their redshifts are ensured by the European Southern Observatory Very Large Telescope (ESOVLT), 
-the Gemini-North and South and the Keck-I and II instruments (Balland et al., 2009; Astier et al., 2006). 
+the Gemini-North and South and the Keck-I and II instruments (\cite{Balland_2009, Astier_2006}). 
 The number of candidates for type Ia supernova obsereved photometrically exceed the number of events that can be followed up spectroscopically. This creates a need for a 
 target selection process to try and eliminate transients that are not type Ia. The SNLS target selection is done by lightcurve fiting in real time to eliminate the majority 
 of the type II supernovae. For the remaining candidates a limit magnitude is applied in the MegaCam $i$ band at 24.5mag where supernovae are less likely to be spectroscopically 
 obsereved. \\
 
 The MegaCam footprint is a $0.90 \text{deg}^2$ rectangle, a much smaller footprint than ZTF that limits the survey from doing wide scans. Instead, deep observations are done 
-in four fields equally distributed in right ascenstion up to a redshift of 1. (7ot figure). 
+in four fields equally distributed in right ascension up to a redshift of 1. The fields D1, D2, D3 and D4 coordinates are summarized in Table \ref{tab:snls_field}.
+\begin{table}[ht]
+    \centering
+    \caption{Right ascension and declination angles for the four SNLS fields.}
+    \label{tab:snls_field}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Field & RA (2000) & DEC (2000) \\
+        \hline
+        D1 & 02:25:59 & -04:29:40 \\
+        D2 & 10:00:28 & 02:12:30 \\
+        D3 & 14:19:27 & 52:40:56 \\
+        D4 & 22:15:31 & -17:43:56 \\
+        \hline
+    \end{tabular}
+\end{table}
 MegaCam contains 5 photometric filters used to observe transients: $g$, $r$, $i$, $i2$ (The $i$ filter was broken during SNLS observation period and was replaced a similar 
-filter) and $z$ (figure). This covers the visible and near-infrared wavelength ranges. 
+filter) and $z$ as seen in Figure \ref{fig:snls_filters}. This covers the visible and near-infrared wavelength ranges. 
 As seen in Figure \ref{fig:ztf_filters} for ZTF earlier, the sensor-dependent transmissions are also present in the MegaCam filters. \\
 The SNLS data used in the LEMAITRE project consists of five years of observation (SNLS 5y). The observations started in late 2003 and ended in 2009. 
 The the 4th and 5th years have not yet been published and will be in (Betoule et al. in prep.). The number is expected to be around 300 supernovae from SNLS 
 that will be used in LEMAITRE. \\
 
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.1\textwidth]{MainLayout/Third_chapter/figures/snls_filters.pdf}
+    \caption{SNLS filters. Dotted lines represent transmissions for different sensors. Solid lines represent the average transmissions over all sensors.}
+    \label{fig:snls_filters}
+\end{figure}
+
+
 \subsection{HSC survey} \label{sec:hsc}
 
 
-The final dataset comes from the Hyper Suprime-Cam Subaru Strategic Program (Aihara et al., 2022), also denoted HSCSSP. It is an astronomical 
+The final dataset comes from the Hyper Suprime-Cam Subaru Strategic Program (\cite{Aihara_2022}), also denoted HSCSSP. It is an astronomical 
 observation program which dedicated some telescope time to the observation of type Ia supernovae at the end of 2010. 
 It uses the Hyper Suprime Cam (HSC), a camera mounted on the Subaru 8.2m telescope. The Subaru telescope is also located at CFHT on top of the Maunakea volcano, 
 Hawaii. \\ 
 
-%citations not there yet
 The redshifts of the HSC supernovae are determined by measuring the redshift of their
 host galaxies. They're collected by the AAT/AAOmega and DESI instruments and completed by observations from the Subaru/FOCAS and VLT instruments
 (Suzuki et al. in prep). The HSCSSP project also determines redshifts directly from photometry using several 
-complementary methods. The Direct Empirical Photometric method (DEmP, \cite{Hsieh2014}) and the TPZ method (\cite{CarrascoKind2013}) both rely on machine learning 
+complementary methods. The Direct Empirical Photometric method (DEmP, \cite{Hsieh_2014}) and the TPZ method (\cite{CarrascoKind_2013}) both rely on machine learning 
 to infer redshifts. DEmP does it by fitting a polynomial function relating redshift to magnitude, while TPZ is through random forest algorithms. 
-Alternatively, the LePhare (\cite{Ilbert2009, Coupon2015}) and MIZUKI (\cite{Tanaka2015}) methods adopt a template fitting approach with priors, where LePhare uses 
+Alternatively, the LePhare (\cite{Ilbert_2009, Coupon_2015}) and MIZUKI (\cite{Tanaka_2015}) methods adopt a template fitting approach with priors, where LePhare uses 
 redshift distribution priors from the 30-band photometric redshifts of the COSMOS survey, while MIZUKI uses 
 Bayesian priors. \\
 
