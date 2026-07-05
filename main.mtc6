@@ -1,17 +1,17 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}Field level-inferences}{\reset@font\mtcSfont 116}{section.5.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Definition from \cite {Leclercq_2025}}{\reset@font\mtcSSfont 116}{subsection.5.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Motivations}{\reset@font\mtcSSfont 116}{subsection.5.1.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Field-level vs compressed summary statistics}{\reset@font\mtcSSfont 116}{subsection.5.1.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}The forward model}{\reset@font\mtcSfont 117}{section.5.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}The BORG algorithm}{\reset@font\mtcSSfont 117}{subsection.5.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.1}BORG's Bayesian inference chain}{\reset@font\mtcSSSfont 117}{subsubsection.5.2.1.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.2}Particle mass assignment}{\reset@font\mtcSSSfont 120}{subsubsection.5.2.1.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.3}Gravity Model}{\reset@font\mtcSSSfont 120}{subsubsection.5.2.1.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.4}Likelihood components of BORG}{\reset@font\mtcSSSfont 124}{subsubsection.5.2.1.4}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.5}Advantages over summary-statistics analyses}{\reset@font\mtcSSSfont 124}{subsubsection.5.2.1.5}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.6}Numerical implmentation}{\reset@font\mtcSSSfont 125}{subsubsection.5.2.1.6}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Towards a next generation of field level inferences}{\reset@font\mtcSfont 126}{section.5.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Gravity solvers}{\reset@font\mtcSSfont 126}{subsection.5.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Bias models}{\reset@font\mtcSSfont 126}{subsection.5.3.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.3}Parameter sampling}{\reset@font\mtcSSfont 126}{subsection.5.3.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.4}Scalability}{\reset@font\mtcSSfont 126}{subsection.5.3.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}Field level-inferences}{\reset@font\mtcSfont 118}{section.5.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Definition from \cite {Leclercq_2025}}{\reset@font\mtcSSfont 118}{subsection.5.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Motivations}{\reset@font\mtcSSfont 118}{subsection.5.1.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Field-level vs compressed summary statistics}{\reset@font\mtcSSfont 118}{subsection.5.1.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}The forward model}{\reset@font\mtcSfont 119}{section.5.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}The BORG algorithm}{\reset@font\mtcSSfont 119}{subsection.5.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.1}BORG's Bayesian inference chain}{\reset@font\mtcSSSfont 119}{subsubsection.5.2.1.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.2}Particle mass assignment}{\reset@font\mtcSSSfont 122}{subsubsection.5.2.1.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.3}Gravity Model}{\reset@font\mtcSSSfont 122}{subsubsection.5.2.1.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.4}Likelihood components of BORG}{\reset@font\mtcSSSfont 126}{subsubsection.5.2.1.4}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.5}Advantages over summary-statistics analyses}{\reset@font\mtcSSSfont 126}{subsubsection.5.2.1.5}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.6}Numerical implmentation}{\reset@font\mtcSSSfont 127}{subsubsection.5.2.1.6}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Towards a next generation of field level inferences}{\reset@font\mtcSfont 128}{section.5.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Gravity solvers}{\reset@font\mtcSSfont 128}{subsection.5.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Bias models}{\reset@font\mtcSSfont 128}{subsection.5.3.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.3}Parameter sampling}{\reset@font\mtcSSfont 128}{subsection.5.3.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.4}Scalability}{\reset@font\mtcSSfont 128}{subsection.5.3.4}}

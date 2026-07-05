@@ -20,13 +20,23 @@ where $R_i$ represents the throughput difference between the cutout $i$ and the 
 flux in the cutout $i$, $x_{SN}$ the supernova position and $x_p$ the pixel positions. $\psi_i$ is the Point Spread Function model, or PSF for short. It describes how a point source is distorted in an when capturing an image whether it is 
 due to physical or intrumental origins. Getting the PSF requires a kernel function $K_i$ to match the cutout $i$ with the reference frame such that $\psi_i = K_i \otimes \psi_{ref}$. The 
 kernel is also applied to the host galaxy profile $G$ defined in the reference cutout. Finally $T_i$ is a coordinate mapping between the cutout $i$ and the reference cutout. Once all 
-of the parameters are fitted simultaneously, the fluxes $f_i$ are reported as the supernova lightcurve fluxes. \\
+of the parameters are fitted simultaneously, the fluxes $f_i$ are reported as the supernova lightcurve fluxes. The results of the SMP model can be seen in Figure 
+\ref{fig:SMP} where the model is compared to the forced photometry model (FP). The FP model fixes the position and shape of the source usually, from a reference image, in order 
+to fit for the fluxes. This method is faster but does not handle blended sources as well as SMP which is important for supernova cosmology since the explosion occur within 
+galaxies.  \\
 
 The SMP model can be also used on stars surrounding the supernova, allowing for the calibration of the lightcurves on those stars. This is done by comparing the fluxes from 
 the nearby stars (secondary standards) to already calibrated catalogues in different photometric bands. The fluxes of the stars measured in those catalogues are called primary standards. 
 The catalogues used to calibrate the ZTF fluxes are CALSPEC (\cite{Bohlin_2014}) and PS1 (\cite{Chambers_2016}) while for SNLS we use GAIA (\cite{Gaia_2023}). The HSC observation fields overalp with ZTF and SNLS so their calibrations are 
 propagated to HSC. The calibration efforts is done by the Ubercal analysis (in prep). \\
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{MainLayout/Third_chapter/figures/smp_vs_fp.png}
+    \caption{Applications of the forced photometry (FP) model (circles) vs the SMP model (triangles) on a 
+    supernova lightcurves in the three ZTF bands as well as their SALT2.4 fits with sncosmo (solid and dashed lines). Taken from \cite{Lacroix_2025}.}
+    \label{fig:SMP}
+\end{figure}
 
 \subsubsection{Georges analysis pipeline}
 
@@ -70,8 +80,16 @@ the parameter $t_{max}$:
     \item The log-likelihood profile must be symmetric. The condition chosen for that in PeTS is : $$|3\sigma(t_{max})_{Left} - 3\sigma(t_{max})_{Right}| < 0.3$$
     \item The log likelihood profile must present only 1 minimum within $3\sigma$
 \end{itemize}
-Lastly, the uncertainties on $c$ and $X_1$ need to be inferior to 0.3 and 1 respectively. If all of these conditions are met, the supernova will be present in the final dataset. \\
+Lastly, the uncertainties on $c$ and $X_1$ need to be inferior to 0.3 and 1 respectively. If all of these conditions are met, the supernova will be present in the final dataset. 
+An example of a PeTS likelihood profile on a ZTF supernova can be seen in Figure \ref{fig:PeTS} \\
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Third_chapter/figures/likelihood_profile_tmax.jpg}
+    \caption{Likelihood profile for a ZTF supernova in black. The blue region highlights where the stretch fit is $|X_1|<4$ and the color is $|c|<2$ with the SALT 2.4 model. 
+    The obtained $t_{max}$ value from PeTS is $58878.19^{+0.065}_{-0.064}$ which is coherent with two sncosmo fits show values of $58878.19 \pm 0.068$. Credits: Thomas De Jaeger.}
+    \label{fig:PeTS}
+\end{figure}
 
 \subsubsection{Data compression}
 
@@ -129,8 +147,29 @@ with a lot more supernova than the survey contains to be able to assess the sele
 and applying a Bayesian inference in order to sample the selection function alongside the other parameters involved. This has been applied in \cite{Rubin_2015} with the 
 UNITY framework. This method however invloves a large number of parameters to be inferred simultaneously using an MCMC which makes it less difficult to scale with the 
 number of supernova. The method used in EDRIS is by accounting for the selection effects by using a truncated likelihood which assumes the measurement uncertainties as 
-well as the intrinsic dispersion are perfectly known. The module is fast and consists of doing a single log-likelihood minimization which makes it ideal when confronted with 
+well as the intrinsic dispersion are perfectly known. An example of the fitted selection function with EDRIS is displayed in Figure \ref{fig:edris_selection} and the 
+effects of taking the selection effects into account when reconstructing the distances can be seen in Figure \ref{fig:edris_selection} where see that not taking them into 
+account heavily biases the reconstructed distances. 
+The module is fast and consists of doing a single log-likelihood minimization which makes it ideal when confronted with 
 a large sample of supernovae. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Third_chapter/figures/selection_edris.png}
+    \caption{Selection fucntion fittings by EDRIS. The dots are the binned counts of simulated supernova for ZTF (blue), SNLS (light orange) and HSC (dark orange) as a function of magnitude. 
+    The solid line are the fitted selection functions for each survey. The dashed grey lines are the expected count distributions if the surveys did not present 
+    any selection effects. The vertical lines highlight the limiting magnitude of each survey. Credits: Dylan Kuhn.}
+    \label{fig:edris_selection}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Third_chapter/figures/distances_edris.png}
+    \caption{\textit{Top:} Bias on the reconstructed binned distance moduli for simulated supernovae when accounting for selection effects (blue) and when the 
+    selection effects are not accounted for (orange). \textit{Bottom:} the weighted residuals for the reconstructed binned distance moduli for both cases.}
+    \label{fig:edris_distance}
+\end{figure}
+
 
 \subsubsection{Cosmologix}
 

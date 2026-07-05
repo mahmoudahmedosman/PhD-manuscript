@@ -53,12 +53,6 @@ We notice that the field reconstructed with BORG-PV manages to capture some of t
 the overdense and underdense regions within the white-dashed circle where the supernovae have been generated. 
 Notably, it is the largest structures that are recovered while small scales structures seem to be missed. We also notice that the amplitudes of the posterior means are sometimes less than the generated field.\\
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/dens_uchuu_recon.png}
-    \caption{(PLOT NEEDS TO BE REMADE) Two slices of the generated and reconstructed density fields using self-consistent simulations in each row.}
-    \label{fig:dens_self}
-\end{figure}
 
 
 \begin{figure}[ht]
@@ -98,14 +92,18 @@ Notably, it is the largest structures that are recovered while small scales stru
 
 
 A more quantitative result is shown in Figure \ref{fig:Pk_self} where we plot the power spectrum of the 
-final density field $\delta^{F}$ calculated in the largest box within the region the supernovae were generated as well as the posterior mean. 
+final density field $\delta^{F}$ calculated in the largest box within the region the supernovae were generated as well as for the posterior mean density field. 
 We notice that the reconstructed mean density field's power spectrum is in good 
 agreement with the one from the generated mock within the region where the supernovae exist. The plot on the left represents the cross correlation $r$ defined as: 
 \begin{equation}
     r(k) = \frac{P_{\text{cross}(k)}}{\sqrt{ P_{\text{true}} P_{\text{recon}} }}
 \end{equation} 
-where $P_{\text{cross}(k)}$ is the cross power spectrum. This metric indicates how correlated the positions of the overdensities are where $r=1$ represents a perfect match. 
-We notice a significant correlation at large scales that becomes less and less important at smaller scales. This is to be expected as kamel hena eno ma3andaksh ketir w metwaza3in. \\
+where $P_{\text{cross}}(k)$ is the cross power spectrum. This metric indicates how correlated the positions of the overdensities are, where $r(k) = 1$ 
+represents a perfect reconstruction. We observe a significant correlation at large scales that decreases toward smaller scales. This is expected, as the 
+number of supernovae used to constrain the density field is small compared to 
+the number of initial condition voxels. The $64^3$ grid amounts to $\sim 260,000$ free parameters sampled from only $\sim 1000$ supernovae. 
+Since the supernovae are approximately uniformly distributed within the survey volume, their mean separation is of order $\sim 50 \, \text{Mpc}/h$, meaning 
+that only modes on scales larger than this separation are properly constrained by the data. At smaller scales the reconstructed field loses correlation with the truth. \\
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/power_spectra.pdf}
@@ -114,12 +112,18 @@ We notice a significant correlation at large scales that becomes less and less i
     \label{fig:Pk_self}
 \end{figure}
 
-We can also look at the reconstructed model and cosmological parameters in Figure \ref{fig:param_self}. We notice the parameter sampling's mean is consistent with the input values 
-within $2 \sigma$. This is to be expected since we are only running on one realization of the self consistent simulations (no we dont bas ba3den). \\
+We can also look at the reconstructed model and cosmological parameters in 
+Figure \ref{fig:param_self}. We notice that $\mu_A$, $\alpha$ and $\Omega_m$ are recovered within $1\sigma$ of their true values, while $\sigma_v$, the 
+bulk flow $\mathbf{V}$ and $\sigma_8$ appear biased for this realisation. However, the number of MCMC steps is insufficient for the chain to have fully 
+converged, and it is possible that running the sampler for longer would bring the parameters closer to their true values. Furthermore, we present results 
+for a single simulation only. A coverage test over many realisations, as performed for the likelihood profiles, would be required to draw conclusive 
+results, but was beyond the scope of the time available during this PhD.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/mcmc_traces.pdf}
-    \caption{Model and cosmological parameter sampling for the self-consistent simulation run.}
+    \caption{\textit{Left:} reconstructed parameter values with respect to the MCMC step in blue. In yellow is the cumulative mean as well as its standard deviation, 
+    meaning the final value represents to total mean. In red is the true value \textit{Right:} Distribution of the reconstructed parameters as well their mean and 
+    standard deviation in yellow, and the true value in red.}
     \label{fig:param_self}
 \end{figure}
