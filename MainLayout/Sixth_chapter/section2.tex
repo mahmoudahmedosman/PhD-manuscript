@@ -31,12 +31,6 @@ used to generate the self consistent simulations. \\
 We obtain the following Figure \ref{fig:L_self_1} that show the likelihood profiles for 1 simulation. We notice that the recovered parameters match the 
 input values within 1$\sigma$ with the exception of the $\sigma_v$ parameter. It is inconclusive to say that our 
 likelihood is biased given that this was only done on 1 realization.  
-\textit{This part is yet to be done so no results yet but is easy to be done} To assess the statistical robustness of the forward model, we generate 100 self-consistent mock realisations of the supernova catalogue, each drawn from 
-a different set of initial conditions while keeping the model parameters fixed at their fiducial values. For each realization, we evaluate the likelihood 
-profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 100 realizations. 
-We expect that the averaged parameters would coincide with the fiducial input values within the expected standard deviation. Any systematic offset would indicate a 
-bias in the forward model that must be understood and corrected before applying the pipeline to real data. We plot the results in Figures (). \\
-
 
 \begin{figure}[ht]
     \centering
@@ -45,6 +39,85 @@ bias in the forward model that must be understood and corrected before applying 
     \label{fig:L_self_1}
 \end{figure}
 
+
+To assess the statistical robustness of the forward model, we generate 87 self-consistent mock realisations of the supernova catalogue, each drawn from 
+a different set of initial conditions while keeping the model parameters fixed at their fiducial values. For each realization, we evaluate the likelihood 
+profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 87 realizations. 
+We expect that the averaged parameters would coincide with the fiducial input values within the expected standard deviation. Any systematic offset would indicate a 
+bias in the forward model that must be understood and corrected before applying the pipeline to real data. We plot the results in 
+Figures \ref{fig:cosmo_coverage}, \ref{params1_coverage}, \ref{params2_coverage} and \ref{params3_coverage}. We notice that the all of the parameters are well 
+recovered with the exception of $\sigma_v$. This requires more tests to understand where this difference could come from but for now we are interested in seeing 
+how this affects the inference when running the full BORG-PV pipeline. \\
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/omegam_coverage.png}
+        \caption{Coverage for $\Omega_m$}
+        \label{fig:omega_m_coverage_self}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/sigma8_coverage.png}
+        \caption{Coverage for $\sigma_8$}
+        \label{fig:sigma8_coverage_self}
+    \end{subfigure}
+    \caption{Coverage for the cosmological parameters using 87 realizations of self-consistent simulations}
+    \label{fig:cosmo_coverage}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/muA_coverage.png}
+        \caption{Coverage for $\mu_a$}
+        \label{fig:mu_A_coverage_self}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/alpha_coverage.png}
+        \caption{Coverage for $\alpha8$}
+        \label{fig:alpha_coverage_self}
+    \end{subfigure}
+    \caption{Coverage for $\mu_A$ and $\alpha$ using 87 realizations of self-consistent simulations}
+    \label{fig:params1_coverage}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/sig_v_coverage.png}
+        \caption{Coverage for $\sigma_v$}
+        \label{fig:sigma_v_coverage_self}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_x_coverage.png}
+        \caption{Coverage for $V_x$}
+        \label{fig:Vx_coverage_self}
+    \end{subfigure}
+    \caption{Coverage for $\sigma_v$ and $V_x$ using 87 realizations of self-consistent simulations}
+    \label{fig:params2_coverage}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_y_coverage.png}
+        \caption{Coverage for $V_y$}
+        \label{fig:Vy_coverage_self}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_z_coverage.png}
+        \caption{Coverage for $V_z$}
+        \label{fig:Vz_coverage_self}
+    \end{subfigure}
+    \caption{Coverage for $V_y$ and $V_z$ using 87 realizations of self-consistent simulations}
+    \label{fig:params3_coverage}
+\end{figure}
 
 \subsection{Results of the field level inference on self-consistent simulations}
 
