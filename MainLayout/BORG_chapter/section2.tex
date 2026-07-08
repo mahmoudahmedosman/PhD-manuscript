@@ -2,14 +2,7 @@
 \subsection{The BORG algorithm}
 
 BORG stands for \textit{Bayesian Origin Reconstruction from Galaxies} (\cite{Jens_2013}) - a Bayesian inference framework that uses a forward model to tackle the inverse problem of how structures are formed in 
-at the large scales of the Universe. The way BORG can be applied on type Ia Supernova is summarized in Figure \ref{fig:BORG_schematic}. \\
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/BORG_sn_schematic.pdf}
-    \caption{Schematic summarizing what BORG intends to do when faced with type Ia Supernova data.}
-    \label{fig:BORG_schematic}
-\end{figure}
+at the large scales of the Universe. 
 
 It is a field level approach designed to infer an initial density field $\delta_{IC}$, which would be our initial conditions and
 forward model its evolution to obtain a final density field $\delta_f$. The Bayesian logic behind BORG makes it that we are exploring a large scale structure posterior
@@ -21,8 +14,8 @@ or simulating, a numerical "twin" of our Universe by sampling the posterior of t
 \subsubsection{BORG's Bayesian inference chain}
 
 The logic behind BORG relies on Bayesian inference, as stated in the name of the algorithm, and this method is very well adapted for the problem we are trying to solve.
-The Bayesian framework works in the following way : Based on the Bayes theorem, the probability $\mathcal{P}$ of a specific realization of an event or data $d$ being described by a set of parameters
- $\theta$ can be written as :
+The Bayesian framework works in the following way: Based on the Bayes theorem, the probability $\mathcal{P}$ of a specific realization of an event or data $d$ being described by a set of parameters
+ $\theta$ can be written as:
 
  \begin{equation}
     \mathcal{P}(\theta | d) = \frac{\mathcal{P}(d | \theta) \mathcal{P}(\theta)}{\mathcal{P}(d)}
@@ -158,7 +151,7 @@ The particle's mass $m_p$ is distributed to the 8 surrounding nodes $(i+a, j+b, 
 \end{equation}
 with $T_{x, y, z}^{0} = 1 - d_{x, y, z}$ and $T_{x, y, z}^{1} = d_{x, y, z}$. \\
 
-\subsubsection{Gravity Model}
+\subsubsection{Gravity Model} \label{sec:gravity_model}
 Simply evolving the $\delta_{IC}$ field using the equations of motion would be too computationally expensive since the number of particles in our field can go up to $10^9$ 
 particle. Developments in the implmentation of a gravity model that is accurate and fast have been a very important topic in the development of BORG. I will be presenting the
 main models that are used in BORG. Additionally, the movements of the particles in the density field directly gives us access to the underlying velocity field. \\
