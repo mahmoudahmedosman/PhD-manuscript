@@ -125,11 +125,72 @@ Figure \ref{fig:porqueres}. The results show a much tighter constraints on both 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\textwidth]{MainLayout/BORG_chapter/figures/porqueres.png}
+    \includegraphics[width=0.6\textwidth]{MainLayout/BORG_chapter/figures/porqueres.png}
     \caption{Comparison of $\Omega_m$-$\sigma_8$ constraints from BORG-WL (blue) and the angular power spectrum (yellow) for self-consistent mocks.}
     \label{fig:porqueres}
 \end{figure}
 
+Lastly, we present the results conducted by \cite{Stiskalek_2025_b} on the reconstruction of velocity fields. The paper compares different methods in reconstructing the velocity field 
+from a reconstructions of the local Universe to peculiar velocity catalogues from direct distance tracers.  
+Each reconstruction can be used to infer the velocity field. We will be listing the different local Universe reconstruction methods 
+in Table \ref{tab:velocity_olympics} and showing the results from the different methods in Figure \ref{fig:olympics_dens}. What is important to note is that amongst those methods, the CSiBORG1 and CSiBORG2 reconstruction are field-level inferences with BORG.  
+
+\begin{table}[ht]
+    \centering
+    \caption{Different local Universe reconstruction methods.}
+    \label{tab:velocity_olympics}
+    \begin{tabularx}{\textwidth}{|l|c|X|}
+    \hline
+    Model & Alias & Description \\
+    \hline
+    \cite{Carrick_2015}
+    & C15
+    & Linear inverse modelling using a luminosity-weighted galaxy density field. Used the 2M++ galaxy catalogue \cite{Lavaux_2011}. Resolution: $4\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \cite{Lilow_2024}
+    & L24
+    & Machine-learning inverse method trained on Quijote simulations. Used the 2MRS galaxy catalogue \cite{Huchra_2012}. Resolution: $3.1\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \cite{Jasche_2019}
+    & CSiBORG1
+    & BORG forward model. Used the 2M++ galaxy catalogue. Resolution: $2.6\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \cite{Stopyra_2023}
+    & CSiBORG2
+    & BORG forward model with an improved gravity solver. Used the 2M++ galaxy catalogue. Resolution: $2.6\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \cite{Sorce_2018, Sorce_2020}
+    & S18
+    & Constrained realization with a Wiener filter and reverse Zel'dovich approximation. Used CosmicFlows-2 peculiar velocities \cite{Tully_2013}. Resolution: $1.9\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \cite{Courtois_2023}
+    & C23
+    & HMC sampling of the density field at $z=0$ constrained by peculiar velocities. Used CosmicFlows-4 peculiar velocities \cite{Tully_2023}. Resolution: $3.9\,h^{-1}\,\mathrm{Mpc}$. \\
+    \hline
+    \end{tabularx}
+    \end{table}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/BORG_chapter/figures/olympics_dens.png}
+    \caption{Slice of the reconstructed matter field from each method used and described in Table \ref{tab:velocity_olympics}. The slices were chosen to look at the same portion 
+    of the sky.}
+    \label{fig:olympics_dens}
+\end{figure}
+
+The velocity fields are then compared to peculiar velocities from Tully-Fisher and one from type Ia supernova catalogues. 
+There are multiple metrics used to assess how accurate the velocity field reconstructions are, mainly rely on computing the evidence $\mathcal{Z}$ , i.e the probability of observing the 
+peculiar velocities given a model. This is presneted in Figure \ref{fig:olympics_rank} where we can see that the BORG reconstruction outmatches the other models. This highlights the importance 
+of accounting for non-linearities when it comes to assessing velocity fields. \\ 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/BORG_chapter/figures/olympics_rank.png}
+    \caption{Logarithmic evidence for each method highlighting in gold the most accurate reconstruction then silver, bronze and green in that order. The evidence was calculated 
+    for six peculiar velocity catalogues. The LOSS and Foundation catalogues are supernova catalogues while the reamining ones are Tully-Fisher catalogues.}
+    \label{fig:olympics_rank}
+\end{figure}
 
 These results have motiviated us to pursue an analysis using field-level inference on type Ia supernova. In the next section we will describe the core of the BORG framework, which 
 we will be using in our analysis. \\

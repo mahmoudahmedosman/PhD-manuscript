@@ -1,5 +1,62 @@
-\section{Towards a next generation of field level inferences}
+\section{Towards a next generation of field-level inferences}
+Although field-level inferences present great potential in the future of cosmological analyses, there are ongoing efforts to imrpove some of its aspects its practical implementation. 
+
+known issues : 
+- gravity solvers are approximation not exact and exact takes too damn long
+- bias models are unknown and can affect cosmology so need to be know well
+- parameter sampling takes a long time as well because many params so needs improvement
+- large data that covers large ranges needs to be convered to maximize information extraction
+
+
+
 \subsection{Gravity solvers}
+
+Gravity solvers such as LPT, COLA, and PM are non-linear approximations of the full equations of motion derived from the GR 
+framework. They are used because solving the exact equations of motion would be computationally too expensive, rendering Bayesian sampling of the 
+initial conditions intractable. The closest approximation to the full solution is the PM model, which solves the equations of motion on a 
+discretised grid. Recent efforts have focused on developing faster and more accurate gravity solvers to improve upon these approximations. One 
+example is JaxPM\footnote{\url{https://github.com/DifferentiableUniverseInitiative/JaxPM}}, which accelerates the PM gravity solver by parallelizing computational 
+tasks on GPUs. The solver is also fully differentiable, as a natural consequence of its JAX implementation.
+
+Another development is the introduction of a machine learning-based field-level emulator within BORG by \cite{Doeser_2024}, which completely 
+replaces the gravity solver. The initial conditions are first evolved with LPT and then corrected by a differentiable emulator trained on 
+N-body simulations, following the scheme:
+\begin{equation}
+    \delta^{IC} \longrightarrow \delta^{LPT} \longrightarrow 
+    \delta^F_{\text{emulated}} \approx \delta^F_{\text{true}}
+\end{equation}
+This provides a fast method to obtain an evolved density field that accounts for non-linearities beyond the reach of perturbation theory. 
+However, since the N-body solver is entirely replaced by the emulator, any emulation errors cannot be corrected by design.
+
+A complementary approach is the COmoving Computer Acceleration framework (COCA, \cite{Bartlett_2025}), a hybrid model that combines a machine 
+learning emulator with a physical N-body solver. Rather than replacing the gravity solver entirely, COCA uses a neural network to predict 
+particle trajectories in an emulated frame of reference, after which the equations of motion are solved for the residual displacement in this 
+frame. Since LPT already provides a good approximation to the particle trajectories, the emulator is trained on the displacement relative to 
+LPT, reducing the magnitude of the residual that the physical solver must correct for. The total displacement can be written as:
+\begin{equation}
+    \Psi(\mathbf{q}, a) = \Psi^{LPT}(\mathbf{q}, a) + \Psi^{\text{ML}}(\mathbf{q}, a)  + \Psi_{res}^{COCA}(\mathbf{q}, a)
+\end{equation}
+where $\Psi^{\text{ML}}(\mathbf{q}, a)$ is the displacement predicted by the emulator and $\Psi_{res}^{COCA}(\mathbf{q}, a)$ 
+is the residual displacement, which is smaller than the corresponding residual in COLA. Crucially, because the physical equations of motion are 
+still solved in the emulated frame, any emulation error is corrected by design. This 
+guarantees convergence to the true solution as the number of force evaluations increases, while requiring fewer evaluations than a full 
+N-body simulation. The differences between COLA and COCA are illustrated in Figure \ref{fig:cola_vs_coca}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/cola_vs_coca.png}
+    \caption{Schematic representation of the differences between COLA and COCA, adapted from \cite{Bartlett_2025}. \textit{Left:} the COLA 
+    gravity solver. \textit{Right:} the COCA gravity solver. The orange line represents the particle trajectory in the LPT frame of reference 
+    and the purple line is the emulated trajectory predicted by ML. The green arrows show the difference between the LPT and 
+    emulated trajectories, while the blue lines are the residuals calculated from the true position. The schematic illustrates how the 
+    COCA residuals are smaller than those of COLA.}
+    \label{fig:cola_vs_coca}
+\end{figure}
+
 \subsection{Bias models}
+
+
 \subsection{Parameter sampling}
+
+
 \subsection{Scalability}
