@@ -18,12 +18,12 @@ rendering maximum likelihood estimation computationally intractable.
 
 The Bayesian framework addresses this by treating both data and parameters 
 as random variables and combining the likelihood with a prior 
-$p(\delta^{IC})$ using Bayes' theorem:
+$\mathcal{P}(\delta^{IC})$ using Bayes' theorem:
 \begin{equation}
-    p(\delta^{IC}, \theta, M | d) = p(M | d) \cdot p(\delta^{IC}, \theta | d, M)
+    \mathcal{P}(\delta^{IC}, \theta, M | d) = \mathcal{P}(M | d) \cdot \mathcal{P}(\delta^{IC}, \theta | d, M)
 \end{equation}
 \begin{equation}
-    p(\delta^{IC}, \theta, M | d) = p(M | d) \cdot p(\theta | d, M) \cdot p(\delta^{IC} | d, M, \theta)
+    \mathcal{P}(\delta^{IC}, \theta, M | d) = \mathcal{P}(M | d) \cdot \mathcal{P}(\theta | d, M) \cdot \mathcal{P}(\delta^{IC} | d, M, \theta)
 \end{equation}
 where $M$ is a model of the Universe such as $\Lambda$CDM. The result is a full posterior distribution over the initial conditions. The posterior naturally distinguishes between regions of 
 the density field that are well constrained by the data and those that are not, where the posterior defaults to the prior. The nuisance parameters 
@@ -34,7 +34,7 @@ An important feature of this approach is including a physically
 motivated prior exists for the initial conditions and the nuisance parameters. For the intial conditions, inflation predicts 
 Gaussian primordial perturbations with a power spectrum $P_{\text{lin}}(k)$, giving us:
 \begin{equation}
-    p(\delta^{IC}) \propto \exp\left(-\frac{1}{2} 
+    \mathcal{P}(\delta^{IC}) \propto \exp\left(-\frac{1}{2} 
     \left (\delta^{IC} \right )^T \mathbf{C}^{-1} \left(\delta^{IC} \right) \right)
 \end{equation}
 where $\mathbf{C}$ is the covariance matrix. This makes the Bayesian framework not just computationally convenient 

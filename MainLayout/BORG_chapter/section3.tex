@@ -1,13 +1,6 @@
 \section{Towards a next generation of field-level inferences}
-Although field-level inferences present great potential in the future of cosmological analyses, there are ongoing efforts to imrpove some of its aspects its practical implementation. 
-
-known issues : 
-- gravity solvers are approximation not exact and exact takes too damn long
-- bias models are unknown and can affect cosmology so need to be know well
-- parameter sampling takes a long time as well because many params so needs improvement
-- large data that covers large ranges needs to be convered to maximize information extraction
-
-
+Although field-level inferences present great potential in the future of cosmological analyses, there are ongoing efforts to imrpove some of its aspects its practical 
+implementation. 
 
 \subsection{Gravity solvers}
 
@@ -53,10 +46,103 @@ N-body simulation. The differences between COLA and COCA are illustrated in Figu
     \label{fig:cola_vs_coca}
 \end{figure}
 
-\subsection{Bias models}
+\subsection{Galaxy bias models}
 
+Galaxies are the most abundent observables for cosmological analyses. The way galaxies trace dark matter has been a central question in modern cosmology as it intervenes 
+in many cosmological analyses. Relating the galaxy field $\delta_g$ to the matter field $\delta_m$ requires the introduction of a galaxy bias model. The need for a bias 
+model is not only useful for a field-level inference however an incorrect bias model can bias the inference of cosmological parameters as they degenerated. One simple way 
+to see this would be with the linear bias model (\cite{Kaiser_1984}). The model assumes a linear relation between the galaxy and dark matter densities which is written as:
+\begin{equation}
+    \delta_g(\mathbf{r}) = b \delta_m(\mathbf{r})
+\end{equation}
+with a $b$ a scalar. If we would write down the power spectrum of the galaxy field we get:
+\begin{equation}
+    P_{gg}(k) = b^2 P_{mm}(k)
+\end{equation}
+From Equation \ref{eqn:pk_lin}, we know that that the amplitude of the power spectrum depends on $A_s$ or $\sigma_8$. We see that the galaxy power spectrum's amplitude also 
+depends on $b$, rendering both parameters degenerate when trying to fit the power spectrum. Other examples of bias models include the 
+nonlinear local bias (\cite{Fry_1993}), which is expressed as:
+\begin{equation}
+    \delta_g = \sum_{i=1} b_i \frac{\delta_m^i}{i!}
+\end{equation}
+This model contains multiple bias parameters related both densities at different orders. 
+More complex models exist such as the Effective Field Theory of Large Scale Structure bias (EFTofLSS) (\cite{Mirbabayi_2015}). The model is written as:
+\begin{equation}
+    \delta_g = \sum_i b_{\mathcal{O}_i}\mathcal{O}_i
+\end{equation}
+where $\mathcal{O}_i$ are operators that are made of $\delta_m$, its derivatives, tidal field and shear. 
+
+For field-level inference, we can look at the bias model used in the Manticore-local Digital Twin (\cite{Mcalpine_2025}). The bias model is expressed as a sigmoid-truncated double 
+power law which follows:
+\begin{equation}
+    b(\rho) = \frac{\rho^{\alpha}}{1+\exp \left[ \left( \gamma_t - \ln \rho \right)/\gamma_s \right]}. \left( 1 + \exp \left[ \beta \left( \ln \rho - \beta_0 \right)\right] \right)^{-\beta}
+\end{equation}
+where $\rho = 1 + \delta_m$, $\gamma_t$ defines the transition point between the truncation and the first power-law regime, $\gamma_s$ controls the steepness of the 
+transition, $\alpha$ is the first power-law exponent, $\beta$ defines the slope of the second power-law component and $\beta_0$ sets the transition scale between the two power-law regimes. 
+The sigmoid truncation, regulates galaxy formation at low densities. The first power law represents the dominant relationship between the dark matter density and galaxy 
+formation. Finally the second power law allows for a gradual transition at higher densities. \\
 
 \subsection{Parameter sampling}
 
+As we have mentioned previously, the number of parameters sampled in a field-level inference can reach very large numbers ($\approx 10^9$) which can take a lot of computational 
+time to determine. Therefore, efforts to reduce the computational expenses of the parameter sampling have been ongoing in the context of field-level inferences. Different samplers 
+have been tested in \cite{Simon_2025}: Hamiltonian Monte Carlo (HMC), same as BORG, No-U-Turn Sampler (NUTS) with and without Gibbs scheme, an adjusted microcanonical 
+sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC). 
+\begin{itemize}
+    \item \textbf{HMC:} as described in Section \ref{sec:borg_bayes}, it treats the parameter space as the positions of the particles following the classical equations of motion. 
+    The final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
+    \item \textbf{NUTS:} is a variant of HMC that automatically and dynamically adapts the trajectory. It adds sets of proposals along the 
+    trajectories, which are stopped whenever they start to reverse direction, thereby avoiding redundant exploration and the need for manual tuning.
+    \item \textbf{MAMS:} Metropolis-Adjusted Microcanonical Sampler is a microcanonical counterpart to the canonical HMC. Instead of sampling the canonical ensemble of HMC $\mathcal{P}(\Theta, \textbf{p}) \propto \exp(-\mathcal{H}(\Theta, \textbf{p}))$, 
+    the sampling is done on a fixed energy level $\mathcal{P}(\Theta, \textbf{p}) \propto \delta(\mathcal{H}(\Theta, \textbf{p})- E)$ which avoids momentum resampling and random 
+    jumps. Just like with HMC, the final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
+    \item \textbf{MCLM:} MicroCanonical Langevin Monte Carlo also samples from the microcanonical ensemble as MAMS but with the difference of refreshing the momentum at each steps. 
+    This method allows the parameters to properly explore the entirety of the exploration space, i.e. ensure ergodicity. Unlike MAMS however, this sampler does not include 
+    a Metropolis-Hastings adjustement step, meaning any biases introduced will have to be corrected at the level of the integration step.
+\end{itemize} 
+
+Results of the number of steps required per effective sample for each sampler is displayed in Figure \ref{fig:hugo_figure}. What the paper finds is that MCLMC outperforms all other samplers 
+achieving the same results with almost ten times less step. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/BORG_chapter/figures/hugo_figure.png}
+    \caption{Number of model evaluations per effective sample for each sampler and each set of parameters (cosmology, galaxy bias and linear density field). From \cite{Simon_2025}.}
+    \label{fig:hugo_figure}
+\end{figure}
+
+Another approach to improve the speed of parameter sampling involves the use of trained sample generation set neural networks to directly infer the posteriors of sets of parameters. 
+These models are called diffusion models. These models are trained on many N-body simulations which is computationally expensive. However once the models have been generated, 
+their use is direct. An example of the application of a diffusion model can be found in \cite{Mudur_2023}. The diffusion model used here was trained to learn the 
+characteristics of a density given a set of cosmological parameters $(\Omega_m, \sigma_8)$. This was then used to infer the $(\Omega_m, \sigma_8)$ directly from the simulated fields. 
+Their results show that the diffusion model manages to sample correct parameters from the density field. We show their results in Figure (). This however emphasises the need 
+of accurately reconstructing the underlying density field. \\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/parameters.png}
+    \caption{Predicted parameter and ground truth parameter for 14 different validation parameters. The error bars correspond to the 
+    68\% interval for the marginal probability distributions for each parameter for each input
+    field. Taken from \cite{Mudur_2023}}
+    \label{fig:diffusion_parameter}
+\end{figure}
 
 \subsection{Scalability}
+
+Current and future generations of field-level inferences will have to deal with ever growing datasets covering larger volumes. This will daramatically increases the computational 
+complexity needed to conduct a field-level inference. Developments in order to adapt to this scalability has been an important pillar of in the construction of the next generation 
+of field-level inferences. The methods and models introduced the last sections all contribute towards accelerating the computational speed but not all address the computational cost 
+and memory usage. One of the key methods that directly deals with this has been applied in Manticore-local (\cite{Mcalpine_2025}) and Manticore-deep (\cite{Mcalpine_2026}) which is tiling. 
+Infering the density field of Manticore-deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
+requires $1024^3$ parameters on the grid to be inferred, which exceeds the current field-level memory usage and runtime available. To overcome that, they separate the full volume into 
+$\left(1024 h^{-1} \text{Mpc}\right)^3$ subvolumes that would be inferred separately on a $256^3$. 
+The observational footprint of the surveys used in Manticore-deep covers only a subset of the full volume, with 27 subvolumes containing galaxy constraints. 
+The remaining subvolumes, which do not overlap with the survey region, are populated with independent Gaussian white-noise realizations drawn from the $\Lambda$CDM prior 
+for each posterior sample. 
+To minimize artificial boundary effects resulting from the periodic boundary conditions imposed within individual tiles, neighbouring subvolumes are connected through 
+"buffer" regions. The outer half of each buffer is excluded from the likelihood and evolves solely according to the prior, thereby absorbing 
+boundary effects, while the inner half provides an overlap region where galaxies near tile boundaries contribute to multiple neighbouring inferences to keep continuity 
+when individual posteriors are combined. 
+Following inference, the buffer regions are removed, leaving voxel cores containing only the reconstructed signal. These cores are then assembled into the full volume, 
+while the remaining unconstrained regions are completed using independent $\Lambda$CDM prior realizations. This produces a full initial condition realization spanning the entire 
+$\left(4096 h^{-1} \text{Mpc}\right)^3$ volume that remains consistent with the assumed cosmology while preserving the observationally constrained structures. \\

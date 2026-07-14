@@ -7,7 +7,7 @@ can capture
 the non linear effects of structure formation. We will be explaining the details of the different parts of BORG in the next subsections. \\
 
 
-\subsubsection{BORG's Bayesian inference chain}
+\subsubsection{BORG's Bayesian inference chain} \label{sec:borg_bayes}
 
 The logic behind BORG relies on Bayesian inference, as stated in the name of the algorithm, and this method is very well adapted for the problem we are trying to solve. 
 The Bayesian framework works in the following way: Based on the Bayes theorem, the probability $\mathcal{P}$ of a specific realization of an event or data $d$ being described by a set of parameters 
@@ -123,11 +123,31 @@ We can then the same acceptance condition as the Metropolis-Hastings algorithm w
 \end{equation}
 
 In exact Hamiltonian dynamics, $\mathcal{H}$ is conserved so the expected acceptance rate is unity but due to numerical errors we expect to see a lower acceptance rate. Lastly, 
-we marginalize over the momenta to obtain the final posterior on our parameters, for us that will be the initial conditions. 
+we marginalize over the momenta to obtain the final posterior on our parameters, for us that will be the initial conditions. \\
 
 \begin{equation}
     \mathcal{P}(\Theta) = \int \mathcal{P}(\Theta, \textbf{p}) \mathrm{d} \textbf{p}
 \end{equation}
+
+\noindent \textbf{\underline{Gibbs sampler}} \\
+Sampling additional parameters on top alongside the initial conditions is done using the Gibbs sampler in BORG. Suppose we have a set of $n$ additional parameters to sample 
+${X_1, X_2, X_3, ..., X_n}$ given a dataset $d$. Then the desired distribution of these parameters is:
+\begin{equation}
+    \mathcal{P}(X_1, X_2, X_3, ..., X_n | d)
+\end{equation}
+The Gibbs scheme works by sampling each of these parameters individually rather than jointly from a complicated distribution. The scheme starts from an intial guess of the parameters 
+${X_1^t, X_2^t, X_3^t, ..., X_n^t}$ at an instance $t$. The parameters are then sampled in $n$ steps as:
+\begin{equation}
+    X_1^{t+1} \sim \mathcal{P}(X_1^t | X_2^t, X_3^t, ..., X_n^t, d)
+\end{equation}
+\begin{equation}
+    X_2^{t+1} \sim \mathcal{P}(X_2^t | X_1^t, X_3^t, ..., X_n^t, d)
+\end{equation}
+up to:
+\begin{equation}
+    X_n^{t+1} \sim \mathcal{P}(X_n^t | X_1^t, X_2^t, ..., X_{n-1}^t, d)
+\end{equation}
+This is then repeated until a converged state is reached giving us the desired distribution. \\
 
 \subsubsection{Particle mass assignment}
 
@@ -310,14 +330,6 @@ As expected, the COLA results manage to capture a lot of the details found on sm
     \label{fig:cola_nbody_2lpt}
 \end{figure}
 
-
-\subsubsection{Likelihood components of BORG}
-
-\noindent \textbf{\underline{Density field likelihood}} \\
-
- - sn are matter tracers 
- - poisson likelihood --> number of sn in voxel
-
-\begin{equation}
-    \mathcal{P}( N_k^g |\lambda_k ) = \prod_k \frac{\left(\lambda_k \right)^{N_k^g} e^{-\lambda_k}}{N_k^g ! }
-\end{equation}
+We have presented the essential elements of the BORG framework and necessary ingredients to make it work. The remaining part will be the determination of $\mathcal{P}(\{N^{(i)} \} | \{G^{(i)}(\{ \delta_{IC}^{(i)}\}) \} )$ 
+which we will do in Chapter 6 specifically for type Ia supernovae. As we have mentioned before, a key limitation of field-level inferences lie in the required computational 
+power to conduct them. In the next section we will discuss the ongoing efforts to resolve some of the known issues with field-level inferences. \\
