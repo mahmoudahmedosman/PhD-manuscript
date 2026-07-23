@@ -1,23 +1,80 @@
-\section{LEMAITRE: Hubble diagram project overview and motivations}
+\section{The \textsc{Lemaître} project}
 
-The LEMAITRE project aims at constructing the largest Hubble diagram by using an independent set of supernovae. One its objectives is to tackle the $(w_0-w_a)$ tension observed 
-by recent results from \cite{Brout_2022}, \cite{Rubin_2023} and \cite{DES_2024} supernova analyses as well as the combination with BAO results from \cite{DESI_DR2_2025}. It is 
-important to note that the low redshift supernova sample used in all three analyses is the same and that it seems to be the main motivating factor for the tension. 
-By analyzing a completely new dataset for LEMAITRE, an independent assessment of this tension will be provided. Additionally with the LEMAITRE project comes a new 
-analysis pipeline from end-to-end, starting from the lightcurve extraction and calibration up to the cosmological analysis. My work during the PhD involved the continued 
-development and testing of a portion of the LEMAITRE pipeline named NaCl (see Chapter 3 and 4) which aims at training a spectrophotometric model. \\
+In Chapter 1 we have discussed the so-called $w_0 - w_a$ tension, namely the apparent preference
+for a time-varying dark-energy equation of state emerging from
+recent joint analyses of supernovae, BAO, and CMB data (\cite{Brout_2022}; \cite{Rubin_2023}; \cite{DES_2024} and \cite{DESI_DR2_2025}).
+The deviation from $\Lambda$CDM appears to originate at low redshift, where 
+only supernova data contribute, and the samples used contain only a few 
+hundred objects. These supernova samples are heterogeneous legacy compilations 
+with significant overlap between the different analyses mentioned above.
+
+The \textsc{Lemaître} project consists of constructing one of the largest pre-LSST Hubble diagrams by using an independent set of supernovae. 
+The goal of the \textsc{Lemaître} project is to address this tension by providing independent constraints of the Dark Energy equation of
+state based on: 
+\begin{enumerate}
+    \item a distinct supernova dataset, unused in previous cosmological 
+    analyses, with a rich low-$z$ sample
+    \item a metrology and flux-calibration programme designed to control 
+    measurement systematics at the per-mil level
+    \item a new cosmological inference pipeline delivering an independent 
+    measurement of the dark energy equation of state
+\end{enumerate}
+The project faces two main challenges. The first is managing flux metrology at the per-mil level. Figure \ref{fig:w_variation} represents the 
+deviation of the distance modulus due to a variation of w of 2\% and 10\% as a function of redshift. In order to obtain per-cent level 
+constraints on $w$, distance modulus measurements must be accurate at 
+the per-mil level. The second challenge is simplifying the inference chain 
+through the introduction of the Georges pipeline, described in 
+Section \ref{sec:georges}, to which I contributed during this PhD 
+(see Chapter 4).\\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{MainLayout/Third_chapter/figures/w_variation.png}
+    \caption{Deviation of the distance modulus due
+    to a variation of $w$ of 2\% (orange line) and 10\% (black line) as a function of redshift. 
+    The Hubble diagram is anchored at high redshift by the Planck 2018 flat $\Lambda$CDM cosmology
+    (dashed blue line). Credits: Dylan Kuhn.}
+    \label{fig:w_variation}
+\end{figure}
 
 \section{Datasets: ZTF, SNLS, HSC}
 
-There are three datasets used in the LEMAITRE project: ZTF, SNLS and HSC. The three supernova datasets cover a large redshift from $z_{\text{min}} \sim 0.02$ to 
-$z_{\text{max}} \sim 1.5$. They amount to roughly 3000 type Ia supernovae that can be used for a cosmological analysis most of which come from the ZTF survey at low 
-redshift. All three surveys also observe the same portion of the sky which will allow for an improved handling of calibration systematics. In this section we present the 
-three datasets in greater detail.\\
+The \textsc{Lema\^{i}tre} project uses three supernova datasets: ZTF, 
+SNLS, and HSC, covering a wide redshift range from $z_{\text{min}} \sim 0.02$ 
+to $z_{\text{max}} \sim 1.5$. Limiting the analysis to three datasets 
+significantly improves the homogeneity of the cosmological sample compared 
+to previous analyses, reducing the number of instruments from 25 to 3 and 
+the number of bandpasses from 100 to 12. Each instrument has undergone a 
+dedicated metrological programme in which the filters have been characterised 
+to a precision of a few $\AA$.
+
+The cosmological sample comprises roughly 3000 Type Ia supernovae, the 
+majority of which come from the ZTF survey at low redshift.
+
+Treating the three surveys homogeneously is essential. Since they cover 
+different redshift ranges, any survey-dependent bias in the analysis or 
+calibration will manifest as a redshift-dependent systematic, potentially 
+biasing the cosmological results. The photometry and calibration of each 
+survey are therefore handled in the same way within the pipeline. The three 
+surveys have overlapping sky footprints, which greatly facilitates 
+cross-calibration. Each dataset is described in greater detail in the 
+following sections.
 
 \subsection{ZTF survey} \label{sec:ztf}
-We start off with the Zwicky Transient Facility survey as well as the the supernova sample that was primarily studied in this PhD the ZTF DR2. The ZTF camera is mounted on the Samuel Oschin 
-48-inch (1.2m) telescope in the Mount Palomar Obsrevatory, California, USA. The primary purpose of the survey is the study of nearby astrophysical transients, which makes it 
-really good for studying supernovae in the local Universe. \\
+We start off with the Zwicky Transient Facility (ZTF) survey as well as the supernova sample that was primarily studied in this PhD the ZTF DR2. 
+The ZTF camera is mounted at the prime focus of the 48-inch Samuel 
+Oschin Telescope at Palomar Observatory as seen in Figure \ref{fig:palomar}. The telescope follows a 
+Schmidt optical design, specifically developed to provide a very wide 
+field of view. Its optical system combines a 1.83m spherical primary 
+mirror with an aspheric corrector lens located at the entrance pupil, 
+whose effective diameter is approximately 1.24m. This configuration 
+delivers a field of view of approximately 47 $\text{deg}^2$. The field of view can be seen in 
+Figure \ref{fig:ztf_fov}. The focal surface 
+lies roughly halfway between the corrector and the primary mirror and 
+is intrinsically curved. While this geometry was well suited to the 
+curved photographic plates for which the telescope was originally 
+designed, substantial modifications were required to accommodate a 
+modern mosaic of planar CCDs. \\
 
 \begin{figure}[ht]
     \centering
@@ -26,17 +83,45 @@ really good for studying supernovae in the local Universe. \\
     \label{fig:palomar}
 \end{figure}
 
-\subsubsection{ZTF photometry}
+The ZTF science camera consists of 16 e2v CCD231-C6 detectors, each 
+comprising 6144×6160 pixels. The CCDs are mounted on a faceted cold 
+plate that approximates the curved focal surface. The residual field 
+curvature is corrected through a combination of the spherical cryostat 
+window and an individual plano-convex field-flattening lens placed 
+immediately in front of each detector. This design provides nearly 
+uniform image quality across the full focal plane. 
 
-The ZTF camera is made up of 16 CCDs (model e2v CCD231-C6) each possessing 6144 $\times$ 6160 pixels. The Samuel Oschin telescope contains a 1.2m mirror (called the "primary mirror" M1) that redirects the 
-photons to the focal plane of the camera. The mirror is a spherical pyrex-glass mirror coated with aluminium which allows for a large observation field of view. 
-The telescope also contains an aspherical lens at the entrance to correct for geometric aberrations. 
-It covers a solid angle of $\sim 47 \text{deg}^2$ of the extragalactical northern sky and manages to conduct a full sky coverage twice per night. The field of view can be seen in 
-Figure \ref{fig:ztf_fov} while the cadence is presented in Figure \ref{fig:ztf_cadence}. Each image covers approximately 235 times the area of the full moon. 
-The photometry is done using 3 filters $g$, $r$ and $i$ covering the ranges of $\approx 4000 - 5500 \AA$, $\approx 5500 - 7000 \AA$ and $\approx 7000 - 9000 \AA$ respectively. 
-It is important to highlight that the transmissions of the filters are sensor-dependent and we display them by averaging over the sensor transmissions (Figure \ref{fig:ztf_filters}). 
-The magnitude limits for each band are $m_g \sim 20.8-21.1$mag, $m_r \sim 20.6-20.9$mag, $m_i \sim 19.9-20.2$mag where the variations are laregly due to the phases of the moon. 
-The full details on the ZTF photometry are in \cite{Dekany_2020}. \\
+The camera is equipped with three broadband filters: $g$, $r$, and $i$, 
+approximately covering the wavelength ranges 400–550nm, 550–700nm, 
+and 700–900nm, respectively. 
+The transmissions of the filters are sensor-dependent and we display them by averaging over the sensor transmissions in Figure \ref{fig:ztf_filters}. 
+The filters are mounted immediately in 
+front of the cryostat window and are selected by a robotic 
+filter-exchange system installed inside the telescope tube. 
+
+The effective system throughput is detector-dependent, primarily 
+because two different anti-reflection coatings are used across the 
+focal plane. The eight CCDs in the upper and lower rows have a 
+single-layer coating optimized for the $g$ and $r$ bands, whereas the 
+eight CCDs in the two central rows have a two-layer coating providing 
+enhanced quantum efficiency at short wavelengths. This difference 
+introduces a measurable spatial dependence of the instrumental 
+passbands across the focal plane. Figure \ref{fig:ztf_cadence} shows the 
+focal-plane-averaged throughput in the three ZTF bands. 
+
+For 30-s exposures obtained under dark-sky conditions, the typical 5$\sigma$ 
+point-source limiting magnitudes are $m_g \sim 20.8-21.1$mag, $m_r \sim 20.6-20.9$mag, $m_i \sim 19.9-20.2$mag with shallower limits under 
+bright lunar conditions. Further details of the ZTF observing system 
+are presented in \cite{Dekany_2020}. 
+
+The ZTF telescope is fully robotic, and the entire science focal plane 
+can be read out in approximately 8.2s. Combined with 30-s exposures, 
+rapid telescope slews, and the 47 $\text{deg}^2$ field of view, this enables 
+observing rates of at least 85 fields per hour, corresponding to 3760 $\text{deg}^2$ per 
+hour or twice the extragalactic sky per night. These characteristics 
+make ZTF a particularly powerful facility for the discovery and 
+high-cadence monitoring of optical transients. \\
+
 
 \begin{figure}[ht]
     \centering
@@ -47,89 +132,101 @@ The full details on the ZTF photometry are in \cite{Dekany_2020}. \\
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/ztf_cadence.png}
-    \caption{ZTF cadence on the sky. Average number of visits per month for each field of ZTF in each band $g$, $r$ and $i$. Taken from \cite{Carres_2023}}
-    \label{fig:ztf_cadence}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
     \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/ztf_filters.pdf}
     \caption{ZTF filters. Dotted lines represent transmissions for different sensors. Solid lines represent the average transmissions over all sensors.}
     \label{fig:ztf_filters}
 \end{figure}
 
-\subsubsection{Spectroscopic follow up}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/Third_chapter/figures/ztf_cadence.png}
+    \caption{ZTF cadence on the sky. Average number of visits per month for each field of ZTF in each band $g$, $r$ and $i$. Taken from \cite{Carres_2023}}
+    \label{fig:ztf_cadence}
+\end{figure}
 
-ZTF is accompagnied by a spectrograph named the Spectral Energy Distribution Machine (SEDM) located in the same observatory on the P60 telescope. The purpose of the object to 
-conduct a follow up on the photometry in order to properly classify the transients obsereved. It's limit magnitude is 20.5mag. This follow up played an important role in acquiring the 
+\subsubsection{Spectroscopic follow-up}
+
+ZTF is accompanied by a spectrograph named the Spectral Energy Distribution Machine (SEDM) located in the same observatory on the P60 telescope. The purpose of the object to 
+conduct a follow-up on the photometry in order to properly classify the transients observed. Its limiting magnitude is 20.5mag. This follow-up played an important role in acquiring the 
 60\% spectra for the ZTF Bright Transient Survey (BTS) for which the magnitude limit was 18.5mag, a limited fraction of the ZTF total survey. \\
 
 
 \subsubsection{ZTF DR2}
 
-We present in this subsection the type Ia supernova data release of ZTF named DR2. This encompasses data taken from March 2018 and December 2020. Figure \ref{fig:ztf_sn_picture} shows the image a supernova obsereved by ZTF. The sample contains 3628 
-spectroscopically identified supernovae up to a redshift of $z \approx 0.2$. Figure \ref{fig:ztf_lcs} shows examples of the sampling of the supernova obsereved by ZTF in DR2. We must note that not all supernova data is 
+ZTF has been in operation since 2018 and has discovered approximately
+10,000 Type Ia supernovae over the redshift range ($0.002<z<0.1$), with
+densely sampled light curves in the $g$, $r$, and $i$ bands. The
+resulting sample is highly homogeneous and approximately
+volume-limited up to $z\simeq 0.06$. 
+
+Within the \textsc{Lemaître} project, we focus on the subsample collected
+during the first three years of the survey. This dataset has already
+been released as the ZTF Second Supernova Data Release (DR2; \cite{Rigault_2020}).
+
+
+We present in this subsection the Type Ia supernova data release of ZTF named DR2. Figure \ref{fig:ztf_sn_picture} shows images of a supernova observed by ZTF. 
+The sample contains 3628 
+spectroscopically identified supernovae up to a redshift of $z \approx 0.1$. Figure \ref{fig:ztf_lcs} shows examples of the sampling of the supernova observed by ZTF in DR2. We must note that not all supernova data is 
 "good" enough to be used for a cosmological analysis. For such an analysis, quality cuts on sampling around the maximum emission of light, the color and the stretch must be applied. 
-The details on the cosmology quality cuts can be found in \cite{Rigault_2020} and we remind them later in Chapter 4. After the cuts, 
-the sample maintains 2667 supernovae that pass. An example of what the ZTF DR2 Hubble diagram looks like can be seen in Figure \ref{fig:ztf_dr2_hubble}. A subset of the sample named the "volume-limited" sample contains all supernovae up to a redshift of $z=0.06$ represents a complete 
-sample of supernovae i.e. the sample is not influenced by any selection effects due to the magnitude limits of the telescope. This subset contains 994 supernovae. \\
+The details on the cosmology quality cuts can be found in \cite{Rigault_2020}. After the cuts, 
+the sample maintains 2667 supernovae that pass. An example of what the ZTF DR2 Hubble diagram looks like can be seen in Figure \ref{fig:ztf_dr2_hubble}. A subset of the sample named the "volume-limited" sample contains all supernovae up to a redshift of $z=0.06$. 
+This represents a complete sample of supernovae, i.e. the sample is not influenced by any selection effects due to the magnitude limits of the telescope. This subset contains 994 supernovae. 
+There are roughly twenty papers released from the ZTF collaboration published with the release of DR2 amongst them are \cite{Ginolin_2025_a, Ginolin_2025_b}.\\
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Third_chapter/figures/ztf_sn_picture.png}
-    \caption{Type Ia supernova detected by ZTF. Photos taken accross 2 months (from left to right 20th of Jan 2020, 25th of Jan 2020, 7th of Feb 2020, 20th of Feb 2020, 20th of March 2020). Credits: Mikaël Rigault.}
+    \caption{Type Ia supernova detected by ZTF. Photos taken across 2 months (from left to right 20th of Jan 2020, 25th of Jan 2020, 7th of Feb 2020, 20th of Feb 2020, 20th of March 2020). Credits: Mikaël Rigault.}
     \label{fig:ztf_sn_picture}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\textwidth]{MainLayout/Third_chapter/figures/ztf_sn_dr2.png}
-    \caption{Three supernova Ia lightcurves examples highlighting the worst (top), average (middle) and best (bottom) sampling in DR2. The colors indicate the band they were measured in and the solid lines are the best SALT2 fits. Taken from \cite{Rigault_2020}}
+    \caption{Three supernova Ia light curves examples highlighting the worst (top), average (middle) and best (bottom) sampling in DR2. The colors indicate the band they were measured in and the solid lines are the best SALT2 fits. Taken from \cite{Rigault_2020}}
     \label{fig:ztf_lcs}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{MainLayout/Third_chapter/figures/ztf_dr2_hubble.png}
-    \caption{Hubble diagram created with standardized ZTF DR2 type Ia supernovae compared to fiducial $\Lambda$CDM cosmology anchored on Planck results. Taken from \cite{Rigault_2020}.}
+    \caption{Hubble diagram created with standardized ZTF DR2 Type Ia supernovae compared to fiducial $\Lambda$CDM cosmology anchored on Planck results. Taken from \cite{Rigault_2020}.}
     \label{fig:ztf_dr2_hubble}
 \end{figure}
+
+However, the current DR2 photometric calibration is accurate only at 
+approximately the 5\% level, is insufficient for precision cosmology. 
+The Lemaître project therefore includes a complete reprocessing of the 
+dataset, combining scene-modeling photometry with a dedicated 
+flux-calibration chain, with the aim of achieving sub-percent—and 
+ultimately per-mille-level—accuracy in flux. 
+
+As part of the \textsc{Lemaître} project, the ZTF instrumental throughput was 
+measured in situ using a Traveling Collimated Beam Projector (TCBP, Van den 
+Abbele et al, in prep). 
+The TCBP consists of a calibrated monochromatic light source that 
+injects a well-characterized collimated beam into the telescope 
+optical system. This measurement campaign enabled the spatial 
+variations of the ZTF throughput across the focal plane to be mapped, 
+and detector-specific throughput curves to be derived for each CCD, 
+with a wavelength-calibration accuracy of approximately 
+1$\text{\AA}$. \\
 
 
 \subsection{SNLS survey} \label{sec:snls}
 
-The second dataset is the SuperNova Legacy Survey (SNLS)  (\cite{Astier_2006}), a type Ia supernova survey conducted with the MegaCam 
-(\cite{Aune_2003}) observing system. 
-The camera is located on the Canada-France-Hawaii 3.6m telescope (CFHT) on top of the Maunakea volcano, Hawaii (Figure \ref{fig:cfht}).
-The focal plane of the MegaCam camera is made up of 40 CCDs (model e2v CCD42-90) each having 2048 $\times$ 4612 pixels (Figure \ref{fig:megacam}). 
-The CFHT is constructed with two mirrors, the primary mirror has a parabolic shape and is made from a glass-ceramic
-material which makes it immune to thermal distortion. The camera is placed in the focal plane of the primary mirror. In addition, a Wide Field
-Corrector (WFC) is placed in front of the camera to guarantee a large field of view. \\ 
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{MainLayout/Third_chapter/figures/CFHT.jpg}
-    \caption{The Canadian-France-Hawaii Telescope. Image from \url{https://t3-drupal-test.cfht.hawaii.edu/about}}
-    \label{fig:cfht}
-\end{figure}
+The second dataset is provided by the Supernova Legacy Survey (SNLS; 
+\cite{Astier_2006}), a five-year Type Ia supernova survey conducted 
+with the MegaPrime/MegaCam imaging system (\cite{Aune_2003}). An image of the MegaCam system is seen in Figure \ref{fig:megacam}. 
+MegaCam is mounted at the prime focus of the 3.6-m 
+Canada–France–Hawaii Telescope (CFHT), seen in Figure \ref{fig:cfht}, and provides a field of view of 
+approximately 1 $\text{deg}^2$, 
+a much smaller footprint than ZTF that limits the survey from conducting wide scans. Instead, deep observations are done 
+in four fields equally distributed up to a redshift of 1. The fields D1, D2, D3 and D4 coordinates are summarized in Table \ref{tab:snls_field}.
+A four-element wide-field corrector delivers 
+nearly uniform image quality across the focal plane.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{MainLayout/Third_chapter/figures/MegaCam.jpg}
-    \caption{The MegaCam camera. Image from \url{https://www.cfht.hawaii.edu/News/ColdestBD/PRIm.html}}
-    \label{fig:megacam}
-\end{figure}
-
-The spectroscopic follow-up used to classify the supernovae and identify their redshifts are ensured by the European Southern Observatory Very Large Telescope (ESOVLT), 
-the Gemini-North and South and the Keck-I and II instruments (\cite{Balland_2009, Astier_2006}). 
-The number of candidates for type Ia supernova obsereved photometrically exceed the number of events that can be followed up spectroscopically. This creates a need for a 
-target selection process to try and eliminate transients that are not type Ia. The SNLS target selection is done by lightcurve fiting in real time to eliminate the majority 
-of the type II supernovae. For the remaining candidates a limit magnitude is applied in the MegaCam $i$ band at 24.5mag where supernovae are less likely to be spectroscopically 
-obsereved. \\
-
-The MegaCam footprint is a $0.90 \text{deg}^2$ rectangle, a much smaller footprint than ZTF that limits the survey from doing wide scans. Instead, deep observations are done 
-in four fields equally distributed in right ascension up to a redshift of 1. The fields D1, D2, D3 and D4 coordinates are summarized in Table \ref{tab:snls_field}.
 \begin{table}[ht]
     \centering
     \caption{Right ascension and declination angles for the four SNLS fields.}
@@ -145,13 +242,34 @@ in four fields equally distributed in right ascension up to a redshift of 1. The
         \hline
     \end{tabular}
 \end{table}
-MegaCam contains 5 photometric filters used to observe transients: $g$, $r$, $i$, $i2$ (The $i$ filter was broken during SNLS observation period and was replaced a similar 
-filter) and $z$ as seen in Figure \ref{fig:snls_filters}. This covers the visible and near-infrared wavelength ranges. 
-As seen in Figure \ref{fig:ztf_filters} for ZTF earlier, the sensor-dependent transmissions are also present in the MegaCam filters. \\
-The SNLS data used in the LEMAITRE project consists of five years of observation (SNLS 5y). The observations started in late 2003 and ended in 2009. 
-The the 4th and 5th years have not yet been published and will be in (Betoule et al. in prep.). The number is expected to be around 300 supernovae from SNLS 
-that will be used in LEMAITRE. \\
+ 
 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{MainLayout/Third_chapter/figures/CFHT.jpg}
+    \caption{The Canada-France-Hawaii Telescope. Image from \url{https://t3-drupal-test.cfht.hawaii.edu/about}}
+    \label{fig:cfht}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{MainLayout/Third_chapter/figures/MegaCam.jpg}
+    \caption{The MegaCam camera. Image from \url{https://www.cfht.hawaii.edu/News/ColdestBD/PRIm.html}}
+    \label{fig:megacam}
+\end{figure}
+
+The focal plane of the MegaCam camera is made up of 40 CCDs (model e2v 
+CCD42-90) each having 2048 × 4612 pixels (Figure \ref{fig:megacam}). It is read out 
+in about 40 seconds, with a readout noise of about 5 $\text{e}^-$. The camera is 
+equiped with 5 broadband filters, $u, g, r, i, z$ (Figure \ref{fig:snls_filters}). The time-domain 
+SNLS observations themselves were obtained in the $g$, $r$, $i$ and $z$ 
+bands; the $u$ -band observations belonged to the CFHTLS Deep 
+programme and were not time-sequenced for SNLS. Two versions of the 
+$i$-filter were used during the survey, after the original filter was 
+accidentally damaged in 2007\footnote{The $i$ filter was broken during SNLS observation period and was replaced by a similar 
+filter, the $i2$}. 
 
 \begin{figure}[ht]
     \centering
@@ -161,13 +279,43 @@ that will be used in LEMAITRE. \\
 \end{figure}
 
 
+All MegaCam filters exhibit significant spatial variations in their 
+transmission. Unlike the ZTF case, where CCD-to-CCD variations in 
+quantum efficiency play an important role, the MegaCam 
+non-uniformities arise predominantly from spatial variations in the 
+filter transmission, in particular shifts in the effective central 
+wavelength associated with coating and manufacturing non-uniformities. 
+These variations were characterized through laboratory measurements 
+and mapped on sky using dithered observations of dense stellar fields 
+(\cite{Regnault_2009}; \cite{Betoule_2013}; \cite{Sassolas_2018}). 
+
+The combination of large mirror, a wide field and a relatively fast 
+readout enabled MegaCam to scan large enough volumes of Universe to 
+discover and follow-up hundreds of supernovae at intermediate and high 
+redshifts. The survey repeatedly imaged four one-square-degree fields, 
+typically every three to four nights during dark time, producing 
+well-sampled multiband light curves for approximately 500 
+spectroscopically confirmed Type Ia supernovae over the redshift range 
+$0.2<z<1.0$. 
+
+For the \textsc{Lemaître} analysis, a dedicated calibration program was carried out during engineering time to anchor the 
+supernova observations directly to primary flux calibrators. The precision of this anchoring is 
+of 2 to 5 mmag, depending on the band. In addition, the MegaCam filters 
+were remeasured on a dedicated bench (\cite{Sassolas_2018}). This measurement campaign allowed to remap the sizeable non-uniformities of each 
+filter, and to determine focal-plane position-dependent filters with an accuracy of 2 to 4 $\AA$, 
+depending on the band. 
+The 4th and 5th years have not yet been published and will be in (Betoule et al. in prep.). The number is expected to be around 300 supernovae from SNLS 
+that will be used in \textsc{Lemaître}. 
+
+
 \subsection{HSC survey} \label{sec:hsc}
 
 
-The final dataset comes from the Hyper Suprime-Cam Subaru Strategic Program (\cite{Aihara_2022}), also denoted HSCSSP. It is an astronomical 
-observation program which dedicated some telescope time to the observation of type Ia supernovae at the end of 2010. 
-It uses the Hyper Suprime Cam (HSC), a camera mounted on the Subaru 8.2m telescope (Figure \ref{fig:hsc}). The Subaru telescope is also located at CFHT on top of the Maunakea volcano, 
-Hawaii. \\ 
+The final dataset comes from the Hyper Suprime-Cam Subaru Strategic Program (\cite{Aihara_2022}), also denoted HSCSSP. 
+It uses the Hyper Suprime Cam (HSC), a camera mounted on the Subaru 8.2m telescope (Figure \ref{fig:hsc}) with a field of view of 1.8 $\text{deg}^2$. 
+The Subaru telescope is located on top of the Mauna 
+Kea volcano in Hawaii, just like CFHT. 
+
 
 \begin{figure}[ht]
     \centering
@@ -177,28 +325,37 @@ Hawaii. \\
 \end{figure}
 
 
-The redshifts of the HSC supernovae are determined by measuring the redshift of their
-host galaxies. They're collected by the AAT/AAOmega and DESI instruments and completed by observations from the Subaru/FOCAS and VLT instruments
-(Suzuki et al. in prep). The HSCSSP project also determines redshifts directly from photometry using several 
-complementary methods. The Direct Empirical Photometric method (DEmP, \cite{Hsieh_2014}) and the TPZ method (\cite{Carrasco_Kind_2013}) both rely on machine learning 
-to infer redshifts. DEmP does it by fitting a polynomial function relating redshift to magnitude, while TPZ is through random forest algorithms. 
-Alternatively, the LePhare (\url{https://lephare.readthedocs.io/en/latest/}) and MIZUKI (\cite{Tanaka_2015}) methods adopt a template fitting approach with priors, where LePhare uses 
-redshift distribution priors from the 30-band photometric redshifts of the COSMOS survey, while MIZUKI uses 
-Bayesian priors. \\
-
-The Hyper Suprime-Cam camera footprint is a $1.8\text{deg}^2$ disc. The main focus of HSCSSP is to build a galaxy 
+The main focus of HSCSSP is to build a galaxy 
 catalog for weak lensing analysis, however the observation cadence of its deep fields were adapted for supernovae observation. 
-The observation strategy of the HSC supernova survey is restricted to four deep fields (XMM-LSS, E-COSMOS, ELAIS-N1, DEEP2-F3) and two ultra-deep 
-fields (SXDSand COSMOS) partially overlapping with the SNLS D1 and D2 fields, which go up to a redshift of $z \sim 1.6$. \\
-
-HSC observation are done in 7 photometric filters: $g$, $r$, $r2$, $i$, $i2$, $z$ and $y$ spanning the visible and near-infrared wavelength ranges as seen in Figure \ref{fig:hsc_filters}. 
-The transmissions are sensor-dependent like the ZTF and SNLS filters. The data used in the LEMAITRE porject consists of observations from a first session in 2017 up to 
-observations from a second session in 2020. The number is expected to be around 300 supernovae from HSC that will be used in LEMAITRE. \\ 
-
+The HSC observations are conducted 
+in 7 photometric filters: $g$, $r$, $r2$, $i$, $i2$, $z$ and $Y$. The bands are more uniform than MegaCam's bands as seen in Figure \ref{fig:hsc_filters} 
+with the reconstruction of the $r$ and $i$ bands. 
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.1\textwidth]{MainLayout/Third_chapter/figures/hsc_filters.pdf}
     \caption{HSC filters. Dotted lines represent transmissions for different sensors. Solid lines represent the average transmissions over all sensors.}
     \label{fig:hsc_filters}
+\end{figure}
+
+
+The sample contains roughly 300 Type Ia supernovae covering the redshift range $0.8<1.2$, the highest range in \textsc{Lemaître}. 
+This is made possible by the deep-depletion, red-sensitive HSC CCDs, which provide high signal-to-noise observations in the $z$ and $Y$ bands. 
+The HSC bandpasses were measured on a dedicated bench using a monochromatic beam designed to reproduce the geometry of the science beam (\cite{Satoshi_2018}). 
+The redshifts of the HSC supernovae are determined by measuring the redshift of their
+host galaxies. They initially measured with the AAT/AAOmega and DESI instruments and completed by observations from the Subaru/FOCAS and VLT instruments
+(Suzuki et al. in prep). 
+Supernova observations are done in the deep and ultra-deep fields of HSC named SXDS and COSMOS. They cover the MegaCam fields and are in the ZTF footprint
+
+
+With those three datasets, we aim at building a Hubble diagram within \textsc{Lemaître} as seen in Figure \ref{fig:hubble_lemaitre}. 
+The analysis pipeline from the extraction of the light curves up to the cosmological 
+inference will be present in the following Section \ref{sec:pipeline}. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Third_chapter/figures/lemaitre_hubble.png}
+    \caption{Hubble diagram of the blinded \textsc{Lemaître} dataset. We see in blue the ZTF supernovae, in light-orange the SNLS supernova and 
+    in orange the HSC supernovae. The results presented here have not yet undergone the completed pipeline. Credits: Dylan Kuhn.}
+    \label{fig:hubble_lemaitre}
 \end{figure}

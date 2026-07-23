@@ -1,15 +1,15 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}ZTF-Uchuu mocks}{\reset@font\mtcSfont 140}{section.6.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}BORG-Peculiar Velocity}{\reset@font\mtcSfont 140}{section.6.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Initial likelihood}{\reset@font\mtcSSfont 141}{subsection.6.2.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Generating self-consistent mocks}{\reset@font\mtcSSfont 144}{subsection.6.2.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.3}Issues with intial likelihood}{\reset@font\mtcSSfont 144}{subsection.6.2.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.3.1}Selection function}{\reset@font\mtcSSSfont 144}{subsubsection.6.2.3.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.3.2}Supernova prior}{\reset@font\mtcSSSfont 145}{subsubsection.6.2.3.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.4}Improved likelihood}{\reset@font\mtcSSfont 147}{subsection.6.2.4}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Applications on self-consistent mocks}{\reset@font\mtcSfont 149}{section.6.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Forward model analysis}{\reset@font\mtcSSfont 149}{subsection.6.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Results of the field level inference on self-consistent simulations}{\reset@font\mtcSSfont 149}{subsection.6.3.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Applications on Uchuu-ZTF mocks}{\reset@font\mtcSfont 156}{section.6.4}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Supernova forward-model analysis}{\reset@font\mtcSSfont 156}{subsection.6.4.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Results of the field level inference on Uchuu-ZTF simulations}{\reset@font\mtcSfont 159}{section.6.5}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 161}{section.6.6}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}ZTF-Uchuu mocks}{\reset@font\mtcSfont 144}{section.6.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}BORG-Peculiar Velocity}{\reset@font\mtcSfont 144}{section.6.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Initial likelihood}{\reset@font\mtcSSfont 145}{subsection.6.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Generating self-consistent mocks}{\reset@font\mtcSSfont 148}{subsection.6.2.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.3}Issues with intial likelihood}{\reset@font\mtcSSfont 148}{subsection.6.2.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.3.1}Selection function}{\reset@font\mtcSSSfont 148}{subsubsection.6.2.3.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.3.2}Supernova prior}{\reset@font\mtcSSSfont 149}{subsubsection.6.2.3.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.4}Improved likelihood}{\reset@font\mtcSSfont 151}{subsection.6.2.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Applications on self-consistent mocks}{\reset@font\mtcSfont 153}{section.6.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Forward model analysis}{\reset@font\mtcSSfont 153}{subsection.6.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Results of the field level inference on self-consistent simulations}{\reset@font\mtcSSfont 153}{subsection.6.3.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Applications on Uchuu-ZTF mocks}{\reset@font\mtcSfont 160}{section.6.4}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Supernova forward-model analysis}{\reset@font\mtcSSfont 160}{subsection.6.4.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Results of the field level inference on Uchuu-ZTF simulations}{\reset@font\mtcSfont 163}{section.6.5}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 165}{section.6.6}}
