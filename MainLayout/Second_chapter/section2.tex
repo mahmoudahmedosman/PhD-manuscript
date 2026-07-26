@@ -3,9 +3,9 @@
 Observables such as the redshift or distances are used in order to constrain the matter content of the Universe as well as its expansion history and 
 cosmological parameters. There are multiple ways one can define a distance in cosmology, each relying on a different set of parameters. \\
 
-\noindent \textbf{\underline{Physical distances}} \\
+\subsection{Comoving distances}
 
-Under a FLRW metric, we can define the physical distance as the distance separating the observer and an event happening at $\chi$:
+Under a FLRW metric, we can define the transverse comoving distance as the distance separating the observer and an event happening at $\chi$:
 \begin{equation}
     d_p(\chi) = a_0 S_k(\chi)
 \end{equation}
@@ -39,30 +39,35 @@ In a flat Universe, this expression is reduced to:
 In practice, this distance isn't directly measurable as it requires to measure the values $H$ at every redshift along the line of sight. However, other observable distances exist 
 that we can relate to the physical distance.\\
 
-\noindent \textbf{\underline{Angular distances}} \\
+\subsection{Angular distances}
 
-We can firstly define the distance of an object based on its apparent size $D$ and angle $\Delta \theta$. We call this the angular distance and is defined as:
+We can first define the distance of an object based on its apparent size $D$ and angle $\Delta \theta$. We call this the angular distance which is defined as:
 \begin{equation}
     \boxed{d_A = \frac{D}{\delta \theta} = a(t)S_k(\chi) = \frac{1}{1+z} a_0 S_k\left(\frac{c}{a_0} \int_{0}^{z} \frac{dz'}{H(z')}\right)}
 \end{equation}
 Therefore knowing the redshift, the apparent angle and the size of an object gives us access to its distance.\\
 
-\noindent \textbf{\underline{Luminosity distances}} \\
+\subsection{Luminosity distances}
 
-We can also determine the distance of an object by linking its intrinsic luminosity to its emitted flux at the surface. This is defined as the luminosity distance $d_L$ and is given by:
+The luminosity distance $d_L$ relates the intrinsic luminosity of a 
+source to the flux measured by a distant observer:
 \begin{equation}
     f = \frac{L}{4\pi d_L^2}
     \label{eqn:flux_dl}
 \end{equation}
-where $f$ is the surface flux and $L$ is the object's luminosity.\\
-
-We need to account for the fact that the emitted photons are scattered on the surface $S$ of the object, with $S=4\pi a_0^2 S_k^2(\chi)$ as well as the fact that its energy ($\frac{hc}{\lambda}$) is 
-is reduced by $1+z$ due to the cosmic expansion. The photons emitted during a duration of $\Delta t$ will be received during a diluted duration $\Delta t (1+z)$. This 
-means that the observed luminosity will differ from the emitted luminosity giving us:
+where $f$ is the observed flux and $L$ is the intrinsic luminosity of 
+the source. To derive $d_L$ in an expanding universe, we consider a 
+control surface: a sphere of comoving radius $\chi$ centred on the 
+observer, over which the emitted photons are distributed. This 
+surface has an area of $S = 4\pi a_0^2 S_k^2(\chi)$. 
+One must account for the fact that the energy of each photon is reduced by a factor $(1+z)$ 
+due to cosmological redshift, and the photon arrival rate is also 
+reduced by a factor $(1+z)$ due to time dilation. 
+This means that the observed luminosity will differ from the emitted luminosity giving us:
 \begin{equation}
     L' = \frac{L}{(1+z)^2}
 \end{equation}
-where $L'$ is the luminosity seen by the observer. By definition, the surface that flux is seen at an observer frame is given by:
+where $L'$ is the luminosity seen by the observer. We can deduce that:
 \begin{equation}
     f=\frac{L'}{S} = \frac{L}{(1+z)^2 4\pi a_0^2 S_k^2(\chi) }
 \end{equation}
@@ -76,7 +81,7 @@ We can see from the previous equations that:
     d_L(z) = d_A(z)(1+z)^2 = d_p(z)(1+z)
 \end{equation}
 
-At low redshift ($z \lesssim 0.15$) all three distance expressions become equivalent and we can approximate it to:
+At sufficiently low redshift all three distance expressions become equivalent and we can approximate it as:
 \begin{equation}
     d_L(z) \approx \frac{cz}{H_0} \Leftrightarrow cz = v = H_0 d_L
     \label{eqn:dl_approx}
@@ -87,7 +92,7 @@ where we can see that we recover the Hubble law. We compare in Figure \ref{fig:d
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/distances.pdf}
-    \caption{Different distances in cosmology plotted as a function of redshift for a flat $\Lambda$CDM with $H_0 = 70 \text{km.s}^{-1} \text{Mpc}^{-1}$ and $\Omega_m=0.3$.}
+    \caption{Different distances in cosmology plotted as a function of redshift for a flat $\Lambda$CDM with $H_0 = 70 \, \text{km.s}^{-1} \text{Mpc}^{-1}$ and $\Omega_m=0.3$.}
     \label{fig:different_distances}
 \end{figure}
 
@@ -95,62 +100,114 @@ where we can see that we recover the Hubble law. We compare in Figure \ref{fig:d
 \subsection{Hubble diagram}
 
 The main tool used to constrain the expansion of the Universe with type Ia supernovae is the Hubble diagram. For supernovae, the Hubble diagram maps their luminosity distances 
-to their redshifts. In practice what we attempt to do is relating the type Ia supernova's magnitude in the standard B band denoted as $m_B$. This magnitude is defined as:
+to their redshifts. In practice what we attempt to recover the supernova distances from their observed fluxes. The challenge is then to reconstruct the restframe fluxes 
+of each supernova in one specific passband from observations. Hence, the requirement for measurements in multiple observer-frame passbands due to the redshifted fluxes. 
+Conventionally, we attempt to reconstruct the restframe flux observed in the standard B band. 
+Astronomical fluxes are historically reported in magnitudes, a 
+logarithmic scale comparing the observed fluxes to a reference flux. Working 
+in magnitudes is convenient because the distance information is 
+encoded in a single quantity, the distance modulus $\mu$, which is 
+directly related to the luminosity distance $d_L$ and therefore 
+interchangeable with it throughout the cosmological analysis. We 
+define these quantities as follows: 
+The type Ia supernova's magnitude in the standard B band denoted as $m_B$, is defined as:
 \begin{equation}
     m_B = -2.5 \log_{10}\left( \frac{f}{f_0} \right)
 \end{equation}
-where $f$ is the integrated flux in the observer frame B band and $f_0$ the flux of a reference star. We also define the absolute magnitude $M$ of an object with an intrinsic 
-luminosity $L$ as the apparent magnitude if it was locatec at 10pc from the observer. Given the definition of the luminosity distance we can get:
+where $f$ is the integrated flux in the observer frame B band and $f_0$ a reference flux. We also define the absolute magnitude $M$ of an object with an intrinsic 
+luminosity $L$ as the apparent magnitude if it was located at 10 pc from the observer. Given the definition of the luminosity distance we can get:
 \begin{equation}
-    M = -2.5 \log_{10}\left( \frac{L}{f_0 4 \pi (10 \text{pc})^2} \right)
+    M = -2.5 \log_{10}\left( \frac{L}{f_0 4 \pi (10 \, \text{pc})^2} \right)
 \end{equation}
 We can finally define the distance modulus of a type Ia supernova as:
 \begin{equation}
     \mu = m_B - M
 \end{equation}
+\begin{align}
+    \mu
+    &= -2.5 \log_{10}\left(\frac{f}{f_0}\right)
+    + 2.5 \log_{10}\left(\frac{L}{4\pi (10\,\text{pc})^2 f_0}\right)\\
+    &= 2.5 \log_{10}\left(
+    \frac{L}{4\pi (10\,\text{pc})^2 f}
+    \right)
+\end{align}
 and from Equation \ref{eqn:flux_dl} we can identify:
+
+\begin{align}
+    \mu
+    &= 2.5 \log_{10}\left(
+    \frac{L}{4\pi (10\,\text{pc})^2}
+    \times
+    \frac{4\pi d_L^2}{L}
+    \right)\\
+    &= 2.5 \log_{10}\left(
+    \frac{d_L^2}{(10\,\text{pc})^2}
+    \right)\\
+\end{align}
+Giving us:
 \begin{equation}
-    \mu = 5 \log_{10}\left( \frac{d_L}{10 \text{pc}} \right) = 5\log_{10}(d_L) + 25
+    \mu = 5 \log_{10}\left( \frac{d_L}{10 \, \text{pc}} \right) = 5\log_{10}(d_L) + 25
     \label{eqn:dL_mu}
 \end{equation}
-where $d_L$ is the luminosity distance measured in Mpc. If we manage to determine $\mu$ from observations, we can construct a Hubble diagram by plotting $\mu$ against $z$. \\
+where $d_L$ is the luminosity distance measured in Mpc. Modern Hubble diagrams are portrayed as $\mu$ against $z$. What is done in practice to construct a Hubble diagram is to 
+recover restframe fluxes from the observed multi-band light curves using a spectrophotometric model. This must then be standardized to reduce the natural dispersion that exists between 
+supernova before conducting any cosmological analysis. 
 
-\subsubsection{Measurement of $\Omega_m - w$}
+\subsubsection{Measurement of $\Omega_m$ and $w$}
 
-Once we have access to the supernova Hubble diagram, we can start deducing cosmological parameters. We recall that under a flat $w$-CDM cosmology, Equation \ref{eqn:distance_luminosity} 
-becomes:
+Once we have access to the supernova Hubble diagram, we can constrain cosmological parameters. Under a flat $w$CDM cosmology, the luminosity 
+distance (Equation \ref{eqn:distance_luminosity}) becomes:
 \begin{equation}
-    d_L = \frac{c(1+z)}{H_0} \int_{0}^{\infty} \frac{dz'}{E(z')}
+    d_L = \frac{c(1+z)}{H_0} \int_{0}^{z} \frac{dz'}{E(z')}
     \label{eqn:dL_w}
 \end{equation}
-with $E(z) = \frac{H(z)}{H_0}$ being the dimensionaless Hubble parameter. Supernova measurements can go up to a redshift of 2, where the only contribution to the Hubble parameter 
-are $\Omega_m$ and $\Omega_{\Lambda}$. Given that $\Omega_m + \Omega_{\Lambda} = 1$ at that redshift, we can deduce that:
+where $E(z) = H(z)/H_0$ is the dimensionless Hubble parameter. In a $w$CDM cosmology, the cosmological constant $\Lambda$ is replaced by a 
+general dark energy component which we denote by $\Omega_{\text{DE}}$ with equation of state 
+$w$ that can be different to -1. Neglecting the radiation contribution 
+at the redshifts probed by supernovae ($z \lesssim 2$), and assuming a 
+flat Universe, the dimensionless Hubble parameter reduces to:
 \begin{equation}
-    E(z) = \Omega_m (1+z)^3 + (1-\Omega_m)^{3(1+w)}
+    E(z) = \sqrt{\Omega_m (1+z)^3 + (1-\Omega_m)(1+z)^{3(1+w)}}
 \end{equation}
 
-We can see that if we then adjust the $\Omega_m$ and $w$ parameters and integrate Equation \ref{eqn:dL_w} we can compare our observations with the predicted values and constrain 
-$w$ and $\Omega_m$. The value of $H_0$ for such analyses does not directly affect the values of $w$ and $\Omega_m$ and it is usually absorbed in a generalized constant that contains 
-$M$ as well. $\Omega_m$ and $w$ are also degenerated so with supernova alone we do a joint inference of the parameters. In order to break this degeneracy, combinations with other probes 
-such as BAO measurements are done. Finally, doing this requires supernova accross a large range of redshift (a low-$z$ sample at $z\lesssim 0.1$ and a high-$z$ sample $0.1 \lesssim z \lesssim 2.0 $) 
-in order to observe the evolutions of $\Omega_m$ and $\Omega_{\Lambda}$. \\
+By varying $\Omega_m$ and $w$ and integrating Equation \ref{eqn:dL_w}, 
+one can compare the predicted distance moduli to the observed Hubble 
+diagram and derive constraints on both parameters. The value of $H_0$ 
+does not directly affect these constraints, as it is degenerate with 
+the supernova absolute magnitude $M$ and is absorbed into a single 
+nuisance parameter. We can see that in if we rewrite Equation \ref{eqn:dL_w} with $\mu$ instead we get:
+\begin{align}
+    \mu &= 
+    5\log_{10}\left(\frac{c(1+z)}{H_0} \int_{0}^{z} \frac{dz'}{E(z')}\right) + 25 \\
+    &= 5\log_{10}\left(c(1+z) \int_{0}^{z} \frac{dz'}{E(z')}\right) -5 \log_{10} (H_0) + 25 = m_B - M
+\end{align}
+Since $m_B$ is the observable quantity, the combination of the absolute magnitude and the Hubble constant can be absorbed into a single nuisance parameter 
+$M' = M - 5 \log_{10} (H_0)$ which is treated as a constant when fitting cosmological parameters. 
+The supernova Hubble diagram constrains a redshift-dependent combination 
+of $\Omega_m$ and $\Omega_{\text{DE}}$, resulting in a near-degeneracy 
+between them. This degeneracy can be reduced by extending the supernova 
+redshift range, requiring a low-$z$ sample at $z \lesssim 0.1$  and a high-$z$ sample at 
+$0.1 \lesssim z \lesssim 2$. This degeneracy is further broken by combining supernovae with 
+complementary probes such as BAO and the CMB.
 
 \subsubsection{Measurement of $H_0$}
 
-We recall that for objects at a low redshift the distance luminosity is written as Equation \ref{eqn:dl_approx}. We can then express the magnitude as a function of the redshift with:
+Measurements of $H_0$ with Type Ia supernova are done at low-$z$. It is possible to relate the magnitude of the supernova as a function of $H_0$ at low-$z$, however we 
+will not be showing the demonstration here. The magnitude can be written as:
 \begin{equation}
-    m \approx A - 2.5\log_{10}(L H_0^2) + 5 \log_{10}(z)
+    m_B \approx A - 2.5\log_{10}(L H_0^2) + 5 \log_{10}(z)
 \end{equation}
-where $A$ is a constant. We can see that the realtionship between the magnitude and redshift naturally introduces the Hubble parameter $H_0$, however it is degenerated with the 
-intrinsic luminosity of supernovae $L$. Breaking this degeneracy requires us to calibrate the intrinsic supernova luminosity. We commonly use the "distance ladder" method that 
+where $A$ is a constant. We can see that $H_0$ is degenerate with the 
+intrinsic luminosity of the supernova $L$. Breaking this degeneracy requires us to calibrate the intrinsic supernova luminosity. 
+We commonly use the "distance ladder" method that 
 uses Cepheid stars in the Milky-Way as distance calibrators. \\
 
-Cepheids are a class stars that have variable periodic luminosities, which was firstly inferred by Henrietta Swan Leavitt thus establishing the Leavitt relation (\cite{Leavitt_1907}). Most recent 
-confirmations of this relation were observed by \cite{Breuval_2025}. Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
+Cepheids are a class of stars that have variable periodic luminosities, which was first established by Henrietta Swan Leavitt thus establishing the Leavitt relation (\cite{Leavitt_1907}). Most recent 
+observations of this relation were conducted by \cite{Breuval_2025}. Distances of Cepheids can be determined using "parallax": a method that measures the apparent displacement 
 angle of an object with respect to a static background due to the motion of the observer. The application of this method is done by measuring the positions of the Cepheids with 
 respect to a background of distant stars 6 months apart. The displacement angle of the observed Cepheid measured due to the half-rotation of the Earth around the Sun can be expressed 
-as $\theta = \frac{r}{d}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance luminosity of 
-Cepheids can be calibrated using objects sufficiently close to the Milky-Way for their distance to be measured by parallax.\\ 
+as $\theta = \frac{d}{r}$ where $r$ is the distance to the Cepheid and $d$ the Earth-Sun distance. This means that the measurement of the distance of 
+Cepheids can be calibrated using objects sufficiently close to the Milky Way for their distance to be measured by parallax.\\ 
 
 \begin{figure}[ht]
     \centering
@@ -172,7 +229,7 @@ $M$ to type Ia supernovae at low redshift, we can compute the luminosity distanc
 
 \subsection{Peculiar velocities} \label{sec:vp_methods}
 
-We define the peculiar velocity of a celestial object as the velocity due to its proper motion independent from the Hubble expansion. This is particularly important for 
+We define the peculiar velocity of a celestial object as the velocity of an object relative to the homogeneous Hubble flow. This is particularly important for 
 cosmological analyses as it can be used as a test for GR. If we assume peculiar velocities originate from the infall into gravitational potential wells then the detection 
 of correlations between peculiar velocities directly probes the "strength" of gravity at cosmological scales. The parameter probed here is the growth rate of structures 
 $f(z)\sigma_8(z)$ which combines the growth rate function $f$ as well as the matter fluctuations in a 8 Mpc box $\sigma_8$. A common parameterization of the growth rate 
@@ -185,13 +242,13 @@ theory for the description of the large scale Universe. \\
 
 \subsubsection{Extracting peculiar velocities}
 
-Supernova peculiar velocity information is encoded in the observed redshift. If we define $z_{pv}$ as the redshift due to the proper motion of the supernova and $z_{cosmo}$
-as the redshift due the cosmic expansion, we get the following formula for the observed redshit $z_{obs}$ : 
+Supernova peculiar velocity information is encoded in the observed redshift. If we define $z_{pv}$ as the redshift due to the transverse peculiar velocity of the supernova 
+and $z_{cosmo}$ as the redshift due to the cosmic expansion, we get the following formula for the observed redshift $z_{obs}$ : 
 \begin{equation}
-    1+z_{obs} = (1+z_{cosmo})(1+z_{pv}) = (1+z_{cosmo})(1+\frac{v}{c})
+    1+z_{obs} = (1+z_{cosmo})(1+z_{pv}) = (1+z_{cosmo})(1+\frac{v_{||}}{c})
 \end{equation}
-Where $v$ is the peculiar velocity. Measuring $z_{pv}$ requires knowledge of $z_{cosmo}$ which is not directly measurable. It can be deduced however once the expansion history 
-has been determined. To put simply, if you know exactly the expansion history, then one can directly deduce the cosmological redshift of an object based on how far away it is. This is illustrated in Figure \ref{fig:vpec_carreres}. 
+Where $v_{||}$ is the peculiar velocity. Measuring $z_{pv}$ requires knowledge of $z_{cosmo}$ which is not directly measurable. It can be deduced however once the expansion history 
+has been determined. To further elaborate on that, if one knows exactly the expansion history, then one can directly deduce the cosmological redshift of an object based on how far away it is. This is illustrated in Figure \ref{fig:vpec_carreres}. 
 This entails that it is crucial to be able to accurately measure the distances of supernovae. Moreover, high redshift supernovae redshifts are almost entirely dominated by 
 the cosmological redshift so analyses on supernova peculiar velocities will be done on low redshift samples. \\
 
@@ -204,31 +261,31 @@ the cosmological redshift so analyses on supernova peculiar velocities will be d
 
 \subsubsection{Measurement of $f\sigma_8$}
 
-Multiple methods in infering $f\sigma_8$ exist. We present here four different methods that exist. \\
+Multiple methods in inferring $f\sigma_8$ exist. We present here four different methods that exist. \\
 
 \noindent \textbf{\underline{Maximum likelihood estimation}} \cite{Gordon_2007, Carreres_2023}\\
 
 The maximum likelihood estimation (MLE) is a statistical method of estimating parameters given a model and a statistical distribution. The likelihood function measures how 
 well the model explains the data by assimilating the statistical distribution. For MLE, the distribution is assumed to be Gaussian as the variable is the distance modulus of 
-the supernova, a continuous parameter. The likelihood can be written as:
+the supernova. The likelihood can be written as:
 \begin{equation}
     \mathcal{L} \propto |\mathbf{C}(\theta)|^{-\frac{1}{2}} \exp \left( -\frac{1}{2} \mathbf{v}(\theta)^{T} \mathbf{C}(\theta)^{-1} \mathbf{v}(\theta) \right)
 \end{equation}
 where $\theta$ are the model parameters, $\mathbf{v}$ is the peculiar velocity calculated as the difference between the observed distance modulus and the predicted distance modulus defined by a model, 
 $\mathbf{C}$ is the covariance matrix which can be divided into two parts $C = C_{\text{noise}} + C_{\text{PV}}$ where the second term directly depends on the value 
-of $f\sigma_8$ and is left as a free parameter to be determined. The goal is to either maximize $\mathcal{L}$ or minimize it's logarithmic value $\log \mathcal{L}$ 
+of $f\sigma_8$ and is left as a free parameter to be determined. The goal is to either maximize $\mathcal{L}$ or minimize its logarithmic value $\log \mathcal{L}$ 
 which can be numerically beneficial. \\
 
 \noindent \textbf{\underline{Compressed two-point statistics}} \\
 
-The compressed two-point statistics is done by adjusting the amplitude of the theoretical 2 point velocity-velocity power spectrum to the data. If we would assume a $\Lambda$CDM cosmology, 
+The compressed two-point statistics is done by adjusting the amplitude of the theoretical two-point velocity-velocity power spectrum to the data. If we would assume a $\Lambda$CDM cosmology, 
 the power spectrum is given by:
 \begin{equation}
-    \mathcal{P}_{vv}(k) \propto (f\sigma_8)^2 \int dk \mathcal{P}(k) j_1(kr)^2 \hat{\mathbf{r}}  \hat{\mathbf{r}}'
+    \mathcal{P}_{vv}(k) \propto (aHf\sigma_8)^2 \int dk \mathcal{P}(k) j_1(kr)^2 \hat{\mathbf{r}}  \hat{\mathbf{r}}'
 \end{equation}
 where $j_1$ is the first order spherical Bessel function and $\mathcal{P}$ is the matter power spectrum. For a linear approximation we obtain:
 \begin{equation}
-    \mathcal{P}_{vv}(k) \propto (f\sigma_8)^2 \frac{\mathcal{P}(k)}{k^2}
+    \mathcal{P}_{vv}(k) \propto (aHf\sigma_8)^2 \frac{\mathcal{P}(k)}{k^2}
 \end{equation}
 What remains is to then adjust the $f\sigma_8$ value to match the observed power spectrum. If the density field is indeed Gaussian, then the full power spectrum would 
 contain all of the information on the distribution. However at small scales it is not the case. \\ 
@@ -236,9 +293,9 @@ contain all of the information on the distribution. However at small scales it i
 \noindent \textbf{\underline{Density field reconstruction}} \\
 
 The density field reconstruction infers the velocity field of matter from a galaxy density field. If we call $\delta_g$ the galaxy density field and $b$ the galaxy bias 
-(term that models how well do galaxies trace matter) then the reconstructed velocity field becomes:
+(term that models how well galaxies trace matter) then the reconstructed velocity field becomes:
 \begin{equation}
-    \mathbf{v} = \frac{aH \beta}{4\pi} \int d^3\mathbf{x'} \frac{\mathbf{x'} - \mathbf{x}}{|\mathbf{x'} - \mathbf{x}|} \delta_g(\mathbf{x'})
+    \mathbf{v} = \frac{aH \beta}{4\pi} \int d^3\mathbf{x'} \frac{\mathbf{x'} - \mathbf{x}}{|\mathbf{x'} - \mathbf{x}|^3} \delta_g(\mathbf{x'})
 \end{equation}
 where $\beta = \frac{f}{b}$. Comparing this to the velocity field inferred from type Ia supernovae, one can determine $\beta$. If then this is combined with 
 external measurements of $\sigma_{8,g} = b \sigma_8$, we can compute the growth rate of structures with $f\sigma_8 = \beta \sigma_{8,g}$. This has been done in 
@@ -246,9 +303,9 @@ external measurements of $\sigma_{8,g} = b \sigma_8$, we can compute the growth 
 
 \noindent \textbf{\underline{Field level forward modeling}} \\
 
-The field level forward model treats the density and velocity field in itself as a free parameter. The idea is to evolve an inital simulated density field using a gravity model 
+The field level forward model treats the density and velocity field in itself as a free parameter. The idea is to evolve an initial simulated density field using a gravity model 
 to obtain a final density field. The observables are modelled from the obtained field to compare to actual observations such as galaxies or supernovae. 
 $$ \text{Initial field} \longrightarrow \text{Final field} \longrightarrow \text{Model observables} \Longleftrightarrow \text{Compare to observations} $$
 Due to the nature of this method, the growth rate of structures can be directly determined via the final constrained simulation. The challenge of this method relies 
-in multiple stages such as: determining an accurate gravity model while maintaining reasonable computational time and accurately modelling the relation between the observables 
+in multiple stages such as: determining an accurate gravity model while maintaining reasonable computational time and accurately modeling the relation between the observables 
 and the density field. \\

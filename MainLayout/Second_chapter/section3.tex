@@ -1,39 +1,44 @@
 \section{Distance measurements from observed fluxes} \label{sec:dsitance_from_flux}
 
-The key information in doing a cosmological analysis with type Ia supernova is found in their restframe fluxes. The photometric fluxes as mentioned previously is a broadand 
-flux, meaning it is integrated in a observation band. Due to the redshift of each supernova being different, these integrated zones will be different for an observer on Earth, 
-which makes it difficult to compare the same physical quantities. This can be seen in Figure \ref{fig:flux_evolution}. The key is to be able to reconstruct the restframe flux 
-from the obsereved flux in the same band. We use the restframe B band since it contains the maximum light emission from supernova. From now on we will call this band the 
+The key information in doing a cosmological analysis with type Ia supernova is found in their rest-frame fluxes. The photometric fluxes as mentioned previously is a broadband 
+flux, meaning it is integrated in an observation band. Due to the redshift of each supernova being different, these observer-frame wavelength region 
+covered by a given filter will be different for an observer on Earth, 
+which makes it difficult to compare the same physical quantities. This can be seen in Figure \ref{fig:flux_evolution}. The key is to be able to reconstruct the rest-frame flux in a given band 
+from the observed fluxes measured in multiple bands. We use the rest-frame B band since it contains the maximum light emission from supernova. From now on we will call this band the 
 $B^*$ band. Once we have obtained the flux in the $B^*$, we can obtain the distance modulus.\\
 
 \begin{figure}[ht]
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
     \includegraphics[width=1\textwidth]{MainLayout/NaCl_chapter/figures/flux_evolution.png}
-    \caption{Examples of four spectra at different redshifts 0.1, 0.4, 0.7 and 1.0. The highlighted parts of the spectra represent restframe band would measure. The highlighted areas on the graph are the regions where the observer bands measure.}
+    \caption{Examples of four spectra at different redshifts 0.1, 0.4, 0.7 and 1.0. The highlighted parts of the spectra represent rest-frame band would measure. The highlighted areas on the graph are the regions where the observer bands measure.}
     \label{fig:flux_evolution}
 \end{figure}
 
-Although supernova lightcurves look alike, there are still a couple of variations between them. This variability can be laregly accounted for using standardization 
-parameters, hence type Ia supernovae are standardizable candles. Without taking those into effect, the dispersion that exists around peak magnitude in the standard B 
-filter is around 40\%. The most well known standardization relation is the Tripp relation (\cite{Tripp_1999}) which uses two standardization parameters named stretch and 
-color. After standardization, the dispersion can go down to 15\%. More complex standardization methods have been explored, however they necessitate spectral knowledge as well.\\
+Despite their overall similarity, Type Ia supernova light curves display variations in their shape and luminosity. 
+This variability can be largely accounted for using standardization 
+parameters, hence type Ia supernovae are standardizable candles. Without taking those effects into account, the dispersion that exists around peak magnitude in the standard B 
+filter is around 0.4mag. The most well known standardization relation is the Tripp relation (\cite{Tripp_1999}) which uses two standardization parameters named stretch and 
+color. After standardization, the dispersion can go down to 0.15mag. More complex standardization methods have been explored, however they necessitate spectral knowledge as well.\\
 
 \section{Standardization}
 
 \subsection{Brighter-slower effect} 
 
-The brighter-slower effect is an effect observed in type Ia supernovae where the lightcurves tend to have a slower decline the higher the magnitude of the supernova (\cite{Phillips_1993}). We define the 
+The brighter-slower effect is an effect observed in type Ia supernovae where the light curves tend to have a slower decline the higher the flux of the supernova (\cite{Phillips_1993}). We define the 
 decline parameter $\Delta m_{15}$ as the difference of magnitude of the supernova in B band at the date of maximum emission and 15 days later:
 \begin{equation}
-    \Delta m_{15} = M_B(t=t_{max}) - M_B(t=t_{max} + 15)
+    \Delta m_{15} =M_B(t=t_{max} + 15) -  M_B(t=t_{max})
 \end{equation}
-which quantifies that effect. We can also define a highly correlated parameter named the \textit{stretch}, or $X_1$ (\cite{Guy_2007_SALT2}), when modelling the spectrophotometric evolution with 
-empirical models that measures the width of the lightcurve. \\
+
+Historically, this relation was also described using the \textit{stretch} parameter $s$, which scales the temporal evolution of a light curve, i.e. its width. 
+Modern empirical light curve models such as SALT2 (\cite{Guy_2007_SALT2}) instead introduce the parameter $X_1$, which corresponds to the amplitude of 
+the first variability component of the spectrophotometric model (Section \ref{sec:SALT2}). Although $X_1$ is strongly correlated with the original stretch parameter, it is not itself a 
+stretch factor. \\
 
 This effect has been revised in \cite{Ginolin_2025_a} where this effect was measured on a sample of over 900 supernovae from the ZTF survey. It was demonstrated that this effect in fact 
 presents two regimes that depend on the value of the stretch. In other words, the scaling of the brighter-slower effect varies based on the value of $X_1$. We refer 
-to this variation as the "broken-alpha" effect. \\
+to this variation as the "broken-alpha" effect. The results from \cite{Ginolin_2025_a} on the scale-dependent effect can be seen in Figure \ref{fig:broken_alpha}.\\
 
 \begin{figure}[ht]
     \centering
@@ -44,13 +49,24 @@ to this variation as the "broken-alpha" effect. \\
 
 \subsection{Brighter-bluer effect}
 
-In a similar way, the brighter-bluer effect characterizes how bluer supernovae tend to have a higher magnitude (\cite{Hamuy_1995, Riess_1996}). We can define an associated parameter, the \textit{color} or $c$, 
-as the deviation of the difference of magnitude at the time of maximum emission between the B and V from the average supernova. When $c$ is negative we call the supernova blue, 
-and if it is positive, red. Part of the reason this effect exist is due to the absorption of light by the host galaxy and the intergalactic dust in the line of sight of 
-the observer. Another reason is due to intrinsic properties related to the physical properties of the progenitor. \\
+\subsection{Brighter-bluer effect}
 
-This effect was confirmed in \cite{Ginolin_2025_b} where it was studied on the ZTF DR2 sample of over 900 supernovae. A scale dependent effect was proposed in the paper but found no 
-statistical significance for it. \\
+In a similar way, the brighter-bluer effect characterises how bluer supernovae tend to be have a higher flux (\cite{Hamuy_1995, 
+Riess_1996}). We define an associated model parameter, the \textit{color} $c$, which is conventionally close to the difference between the B and V magnitudes 
+at maximum light, but whose exact definition depends on the model and 
+its training. When $c$ is negative the supernova is said to be blue, 
+and when positive, redd. 
+Several physical effects contribute to the observed color of a Type 
+Ia supernova:
+\begin{enumerate}
+    \item Host galaxy dust exitinction
+    \item Intrinsic color variation for each supernova
+    \item Eventual circumstellar dust
+\end{enumerate}
+
+
+This effect was confirmed in \cite{Ginolin_2025_b} where it was studied on the ZTF DR2 sample of over 900 supernovae. A scale-dependent effect was proposed in the paper but found no 
+statistical significance for it. The results on the scale-dependent effect can be seen in Figure \ref{fig:broken_beta}.\\
 
 \begin{figure}[ht]
     \centering
@@ -61,34 +77,43 @@ statistical significance for it. \\
 
 The Tripp relation combines both effects to standardize the observed magnitude with two parameters $\alpha$ and $\beta$:
 \begin{equation}
-    m_{Tripp} = m_{obs} - \alpha X1 + \beta c
+    m_{Tripp} = m_{obs} + \alpha X_1 - \beta c
 \end{equation}
 where $m_{Tripp}$ is the standardized magnitude in the B band using the Tripp relation. \\
 
 \subsection{Environmental effects}
 
-We have already mentioned that galaxy properties can affect the luminosity of supernovae as seen in the brighter-blue effect. However, studies conducted on large samples of 
-supernovae have shown that the standardized luminosity also depends multiple additional properties of the host galaxy. This is seen as a "step" in the Hubble residuals that 
-depend on a certain property of the galaxy. One possible explaination would be the mass of the galaxies(\cite{Sullivan_2010}). 
-This dependancy presents itself as an offset in the standardized when the popultation of host galaxies' masses are divided into two categories: more or less than $10^{10}M_{\odot}$. 
-The mass step has shown a $3.9 \sigma$ significance afer correcting for stretch and color (\cite{Sullivan_2010}). \\
+Studies conducted on large samples of Type Ia supernovae have shown that the standardized luminosity depends on properties of the host 
+galaxy beyond the stretch and color corrections. 
+This is seen as a \textit{step} in the Hubble residuals hen 
+the supernova sample is split according to a given host galaxy 
+property. 
+One possible dependence would be the mass of the galaxies(\cite{Sullivan_2010}) the so-called \textit{mass step}. 
+This dependence presents itself as an offset in the standardized when the population of host galaxies' masses are divided into two categories: more or less than $10^{10}M_{\odot}$. 
+The mass step has shown a $3.9 \sigma$ significance after correcting for stretch and color (\cite{Sullivan_2010}). \\
 
-Another possible dependancy would be the star formation rate in those galaxies (\cite{Rigault_2020}). Galaxies can be divided into two subgroups: high star formation galaxies and 
-low star formation galaxies. This step factor has shown a $2.6 \sigma$ significance afer correcting for stretch and color. \\
+Another dependence would be the star formation rate in those galaxies (\cite{Rigault_2020}). Galaxies can be divided into two subgroups: high star formation galaxies and 
+low star formation galaxies. This step factor has shown a $2.6 \sigma$ significance after correcting for stretch and color. This dependence is seen in Figure \ref{fig:mass_step}. \\
 
-The \cite{Roman_2018} paper studied this dependancy on the supernovae local $U-V$ restframe colors (limited to a certain radius around the supernova). 
-This step factor has shown a $7.0 \sigma$ significance. When the same study was conducted on 927 ZTF supernova with the local colors $g-z$, the significance was found to be 
-around $18.2 \sigma$ significance. \\
+The \cite{Roman_2018} paper studied a particularly significant dependence on the supernovae local $U-V$ rest-frame colors (limited to a certain radius around the supernova). 
+This step factor has shown a $7.0 \sigma$ significance. When the same study was conducted on 927 ZTF supernovae with the local colors $g-z$, the significance was found to be 
+around $18.2 \sigma$. \\
 
-We can then add an extra nuisance parameter to the Tripp relation $\gamma$ that accounts for that offset:
+These environmental dependencies can be accounted for by adding an 
+additional nuisance parameter $\gamma$ to the Tripp relation:
 \begin{equation}
-    m_{Tripp} = m_{obs} - \alpha X1 + \beta c + \gamma
+    m_{Tripp} = m_{obs} + \alpha X_1 - \beta c + \gamma \Delta_E
 \end{equation}
-where $\gamma$ is fitted alongside the standardization parameters. \\
+where $\Delta_E$ is a step function of the chosen environmental 
+observable, defined by a threshold value, and $\gamma$ is fitted 
+alongside the other standardisation parameters. For the mass step 
+specifically, $\Delta_E = \Delta_M$ takes a value that depends on 
+whether the host galaxy mass exceeds the threshold of 
+$10^{10} \, M_{\odot}$.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{MainLayout/Second_chapter/figures/mass_step.png}
     \caption{Binned Hubble residuals as a function of the star formation rate (\cite{Rigault_2020}).}
-    \label{fig:broken_beta}
+    \label{fig:mass_step}
 \end{figure}
