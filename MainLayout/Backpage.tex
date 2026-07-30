@@ -12,39 +12,40 @@ Vers une cosmologie de précision à l’aide des vitesses particulières des su
 
 {\bfseries Résumé} \Gray{(en français)} {\bfseries :}
 
-Les résultats récents des collaborations DESI, DES et UNION3 suggèrent de possibles déviations par rapport à une constante cosmologique $\Lambda$ lorsque les mesures issues des 
-BAO, des supernovae de type Ia (SNe Ia) et du CMB sont combinées. Ces résultats motivent des descriptions alternatives de l’accélération de l’expansion de l’Univers, 
-incluant notamment des modèles d’énergie noire dynamique ou de gravité modifiée. Cela nécessite des analyses cosmologiques des SNe Ia indépendantes et précises, capables de 
-minimiser les systématiques instrumentales, de modélisation et astrophysiques. Les analyses cosmologiques basées sur les SNe Ia reposent sur des mesures précises des distances 
-afin de contraindre l’histoire de l’expansion mais aussi la croissance des structures $f\sigma_8$. Cette thèse aborde deux défis complémentaires : l’amélioration de la modélisation 
-spectrophotométrique des SNe Ia et le développement de méthodes d’inférence au niveau du champ pour contraindre la croissance des structures cosmiques. La première partie de 
-cette thèse porte sur le développement du cadre NaCl (\textit{Nouveaux Algorithmes pour les Courbes de Lumières}), une nouvelle approche permettant d’entraîner simultanément un modèle 
-spectrophotométrique et d’effectuer l’ajustement des courbes de lumière, tout en propageant de manière cohérente les incertitudes instrumentales et de modélisation. Cette 
-méthodologie améliore les approches basées sur SALT, dans lesquelles l’entraînement du modèle et l’ajustement des courbes de lumière sont réalisés séparément à partir de 
-jeux de données distincts. Les travaux présentés ici ont contribué à l’amélioration de la régularisation du modèle, à la mise en place de stratégies de compression des données 
-et au développement de la procédure d’entraînement. La première application de NaCl au jeu de données SNfactory démontre la viabilité de cette approche sur des observations 
-réelles et met en évidence les limites des paramétrisations de type SALT pour décrire la diversité des SNe Ia. Ces travaux ont conduit à l’intégration de NaCl dans le 
-pipeline d’analyse cosmologique LEMAITRE au sein de la collaboration ZTF. LEMAITRE est un nouveau projet complet dédié aux analyses cosmologiques des SNe Ia, combinant 
-un échantillon indépendant de SNe Ia, l’extraction et la calibration des courbes de lumière, ainsi qu’un pipeline d’inférence cosmologique. Il vise à fournir des 
-contraintes robustes sur l’histoire de l’expansion de l’Univers et à étudier d’éventuelles déviations par rapport au modèle $\Lambda$CDM, notamment par les analyses mentionnées 
-précédemment. Des validations sur simulations dédiées ont permis de vérifier que le pipeline n’introduit aucun biais systématique significatif dans les analyses 
-cosmologiques. La seconde partie de cette thèse explore l’application du cadre d’inférence au niveau du champ BORG aux observations de SNe Ia issues du relevé ZTF, avec 
-pour objectif de reconstruire le champ de vitesse cosmique et de mesurer $f\sigma_8$ au sein du consortium Aquila. En utilisant à la fois des simulations auto-cohérentes, 
-conçues pour valider le cadre d’inférence dans des conditions contrôlées, et des catalogues réalistes de SNe Ia similaires à ZTF générés à partir de la simulation 
-N-corps Uchuu, les performances de BORG pour la reconstruction des champs de densité et de vitesse ont été évaluées. Une attention particulière a été portée à l’impact du 
-modèle de biais supposé pour les SNe, à la précision des champs reconstruits, ainsi qu’aux effets systématiques provenant des différences entre la dynamique 
-gravitationnelle complète utilisée dans les simulations et les dynamiques approximatives COLA/LPT implémentées dans BORG. Cette étude établit les fondations de futures 
-analyses basées sur des catalogues simulés de plus en plus réalistes. Elle permettra également de futures analyses conjointes combinant les SNe Ia et les relevés de 
-galaxies dans un cadre unifié d’inférence au niveau des champs.
-
+Les résultats récents des collaborations DESI, DES et Union3 suggèrent de possibles déviations de $\Lambda$CDM lorsque les mesures issues des BAO, des supernovae de 
+type Ia (SNe Ia) et du CMB sont combinées. Ces résultats motivent des descriptions alternatives de l’accélération de l’expansion de l’Univers, incluant notamment 
+des modèles d’énergie noire dynamique ou de gravité modifiée. Cela nécessite des analyses cosmologiques des SNe Ia indépendantes et précises, capables de minimiser 
+les systématiques instrumentales, de modélisation et astrophysiques. Les analyses cosmologiques basées sur les SNe Ia reposent sur des mesures précises des distances 
+afin de contraindre l’histoire de l’expansion mais aussi la croissance des structures, généralement quantifiée par $f\sigma_8$. Cette thèse aborde deux défis complémentaires : 
+l’amélioration de la modélisation spectrophotométrique des SNe Ia et le développement de méthodes d’inférence au niveau du champ pour contraindre la croissance des structures 
+cosmiques. La première partie de cette thèse porte sur le développement du cadre NaCl (\textit{Nouveaux Algorithmes pour les Courbes de Lumières}), une nouvelle approche permettant 
+d’entraîner simultanément un modèle spectrophotométrique et d’effectuer l’ajustement des courbes de lumière, tout en propageant de manière cohérente les incertitudes 
+instrumentales et de modélisation. Cette méthodologie améliore les approches basées sur SALT, dans lesquelles l’entraînement du modèle et l’ajustement des courbes de 
+lumière sont réalisés séparément à partir de jeux de données distincts. Les travaux présentés ici ont contribué à l’amélioration de la régularisation du modèle, à la mise 
+en place de stratégies de compression des données et au développement de la procédure d’entraînement. La première application de NaCl au jeu de données SNfactory démontre 
+la viabilité de cette approche sur des observations réelles et met en évidence les limites des paramétrisations de type SALT pour décrire la diversité des SNe Ia. Ces 
+travaux ont conduit à l’intégration de NaCl dans le pipeline d’analyse cosmologique LEMAITRE au sein de la collaboration ZTF. LEMAITRE est un nouveau projet complet 
+dédié aux analyses cosmologiques des SNe Ia, combinant un échantillon indépendant de SNe Ia, l’extraction et la calibration des courbes de lumière, ainsi qu’un pipeline 
+d’inférence cosmologique. Il vise à fournir des contraintes robustes sur l’histoire de l’expansion de l’Univers et à étudier d’éventuelles déviations par rapport au 
+modèle $\Lambda$CDM, notamment par les analyses récentes. Des tests menés sur plusieurs dizaines de simulations dédiées permettent de quantifier les biais résiduels du pipeline et 
+de vérifier que la matrice de covariance reproduit correctement la dispersion empirique observée d’un mock à l’autre. La seconde partie de cette thèse explore l’application 
+du cadre d’inférence au niveau du champ BORG aux observations de SNe Ia issues du relevé ZTF, avec pour objectif de reconstruire le champ de vitesse cosmique et de mesurer 
+$f\sigma_8$ au sein du consortium Aquila. En utilisant à la fois des simulations auto-cohérentes, conçues pour valider le cadre d’inférence dans des conditions contrôlées, et des 
+catalogues réalistes de SNe Ia similaires à ZTF générés à partir de la simulation N-corps Uchuu, les performances de BORG pour la reconstruction des champs de densité et 
+de vitesse ont été évaluées. Une attention particulière a été portée à l’impact du modèle de biais supposé pour les SNe, à la précision des champs reconstruits, ainsi 
+qu’aux effets systématiques provenant des différences entre la dynamique gravitationnelle complète utilisée dans les simulations et les dynamiques approximatives COLA/LPT 
+implémentées dans BORG. Cette étude établit les fondations de futures analyses basées sur des catalogues simulés de plus en plus réalistes. Elle permettra également de 
+futures analyses conjointes combinant les SNe Ia et les relevés de galaxies dans un cadre unifié d’inférence au niveau des champs.
 
 {\bfseries Mots-clés :}
 
-Cosmologie, Energie noire, Taux de croissance de structure, Supernova type Ia
+Cosmologie, Energie noire, Taux de croissance de structure, Supernova de Type Ia
 
 \vspace*{3mm}
 \hrulefill
 \vspace*{3mm}
+
+\newpage
 
 \selectlanguage{english}
 
@@ -55,26 +56,29 @@ modeling to field level inference
 
 {\bfseries Abstract} \Gray{(in english)}{\bfseries:}
 
-Recent collaboration results from DESI, DES and UNION3 have suggested possible deviations from a cosmological constant $\Lambda$ when combining measurements from BAO, 
-Type Ia supernovae (SNe Ia) and CMB. This motivates alternative descriptions of the accelerated expansion of the Universe, including models involving evolving dark 
-energy or modified gravity. Addressing this requires independent and precise SN Ia cosmological analyses capable of minimizing instrumental, modelling, and astrophysical 
-systematics. Cosmological analyses with SNe Ia rely on accurate distance measurements to constrain the expansion history, but also the growth of structures $f\sigma_8$. This thesis 
-addresses two complementary challenges: improving spectrophotometric modeling of SNe Ia and developing field-level inference methods to constrain the growth of cosmic 
-structures. The first part of this thesis focuses on the development of the NaCl framework (\textit{Nouveaux Algorithmes pour les Courbes de Lumières}), a novel approach that 
-simultaneously trains a spectrophotometric model and performs light curve fitting while consistently propagating instrumental and modelling uncertainties. This 
-methodology improves upon SALT-based approaches, where model training and light-curve fitting are performed separately using different datasets. The work presented here 
-contributed to the regularization of the model, the implementation of data-compression strategies, and the development of the training procedure. The first application of 
-NaCl to the SNfactory dataset demonstrates the viability of the framework on real observations and highlights limitations of SALT-like parametrisations in describing the 
-diversity of SNe Ia. This work led to the integration of NaCl into the LEMAITRE cosmological analysis pipeline within the ZTF collaboration. LEMAITRE is a novel end-to-end 
-project for SN Ia cosmological analyses, combining an independent SN Ia dataset, light curve extraction and calibration, and cosmological inference pipeline. It aims to 
-provide robust constraints on the expansion history of the Universe and investigate possible deviations from the $\Lambda$CDM model, including the aforementioned analyses. Through 
-dedicated simulation challenges, the pipeline was validated to ensure that no significant systematic biases are introduced in cosmological analyses.  The second part of this 
-thesis explores the application of the BORG field-level inference framework to SNe Ia observations from the ZTF survey, with the goal of reconstructing the cosmic velocity 
-field and measuring $f\sigma_8$ within the Aquila Consortium. Using both self-consistent simulations, designed to validate the inference framework under controlled conditions, and 
-realistic ZTF-like SNe Ia catalogues generated from the Uchuu N-body simulation, the performance of BORG was assessed for the reconstruction of density and velocity fields. 
-Particular attention was given to the impact of the assumed SN bias model, the accuracy of the reconstructed fields, and systematic effects arising from differences between 
-the full gravitational dynamics used in the simulations and the approximate COLA/LPT dynamics implemented by BORG. This study establishes the foundations for future analyses 
-based on increasingly realistic mock catalogues. It will also enable future joint analyses combining SNe Ia and galaxy surveys within a unified field-level inference framework.
+
+Recent collaboration results from DESI, DES and Union3 have suggested possible deviations from $\Lambda$CDM when combining measurements from BAO, Type Ia supernovae (SNe Ia) and CMB. 
+This motivates alternative descriptions of the accelerated expansion of the Universe, including models involving evolving dark energy or modified gravity. Addressing this 
+requires independent and precise SN Ia cosmological analyses capable of minimizing instrumental, modelling, and astrophysical systematics. Cosmological analyses with SNe Ia 
+rely on accurate distance measurements to constrain the expansion history, but also the growth of structures, commonly quantified by $f\sigma_8$. This thesis addresses two 
+complementary challenges: improving spectrophotometric modeling of SNe Ia and developing field-level inference methods to constrain the growth of cosmic structures. The first 
+part of this thesis focuses on the development of the NaCl framework (\textit{Nouveaux Algorithmes pour les Courbes de Lumières})), a novel approach that simultaneously trains a 
+spectrophotometric model and performs light curve fitting while consistently propagating instrumental and modelling uncertainties. This methodology improves upon SALT-based 
+approaches, where model training and light-curve fitting are performed separately using different datasets. The work presented here contributed to the regularization of the 
+model, the implementation of data-compression strategies, and the development of the training procedure. The first application of NaCl to the SNfactory dataset demonstrates 
+the viability of the framework on real observations and highlights limitations of SALT-like parametrisations in describing the diversity of SNe Ia. This work led to the 
+integration of NaCl into the LEMAITRE cosmological analysis pipeline within the ZTF collaboration. LEMAITRE is a novel end-to-end project for SN Ia cosmological analyses, 
+combining an independent SN Ia dataset, light curve extraction and calibration, and a cosmological inference pipeline. It aims to provide robust constraints on the expansion 
+history of the Universe and investigate possible deviations from the $\Lambda$CDM model, including the aforementioned analyses. Tests conducted on several dozen dedicated simulations 
+make it possible to quantify the pipeline's residual biases and verify that the covariance matrix correctly reproduces the empirical dispersion observed across mock catalogs.  
+The second part of this thesis explores the application of the BORG field-level inference framework to SNe Ia observations from the ZTF survey, with the goal of 
+reconstructing the cosmic velocity field and measuring $f\sigma_8$ within the Aquila Consortium. Using both self-consistent simulations, designed to validate the inference framework 
+under controlled conditions, and realistic ZTF-like SNe Ia catalogues generated from the Uchuu N-body simulation, the performance of BORG was assessed for the reconstruction 
+of density and velocity fields. Particular attention was given to the impact of the assumed SN bias model, the accuracy of the reconstructed fields, and systematic effects 
+arising from differences between the full gravitational dynamics used in the simulations and the approximate COLA/LPT dynamics implemented by BORG. This study establishes 
+the foundations for future analyses based on increasingly realistic mock catalogues. It will also enable future joint analyses combining SNe Ia and galaxy surveys within a 
+unified field-level inference framework.
+
 
 {\bfseries Keywords:}
 

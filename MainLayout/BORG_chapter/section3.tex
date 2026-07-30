@@ -1,5 +1,5 @@
 \section{Towards a next generation of field-level inferences}
-Although field-level inferences present great potential in the future of cosmological analyses, there are ongoing efforts to imrpove some of its aspects its practical 
+Although field-level inferences present great potential in cosmological analyses, there are ongoing efforts to improve some of its aspects its practical 
 implementation. 
 
 \subsection{Gravity solvers}
@@ -24,7 +24,7 @@ However, since the N-body solver is entirely replaced by the emulator, any emula
 A complementary approach is the COmoving Computer Acceleration framework (COCA, \cite{Bartlett_2025}), a hybrid model that combines a machine 
 learning emulator with a physical N-body solver. Rather than replacing the gravity solver entirely, COCA uses a neural network to predict 
 particle trajectories in an emulated frame of reference, after which the equations of motion are solved for the residual displacement in this 
-frame. Since LPT already provides a good approximation to the particle trajectories, the emulator is trained on the displacement relative to 
+frame. Since LPT already provides a good approximation to the particle trajectories on large scales, the emulator is trained on the displacement relative to 
 LPT, reducing the magnitude of the residual that the physical solver must correct for. The total displacement can be written as:
 \begin{equation}
     \Psi(\mathbf{q}, a) = \Psi^{LPT}(\mathbf{q}, a) + \Psi^{\text{ML}}(\mathbf{q}, a)  + \Psi_{res}^{COCA}(\mathbf{q}, a)
@@ -72,7 +72,7 @@ More complex models exist such as the Effective Field Theory of Large Scale Stru
 \end{equation}
 where $\mathcal{O}_i$ are operators that are made of $\delta_m$, its derivatives, tidal field and shear. 
 
-For field-level inference, we can look at the bias model used in the Manticore-local Digital Twin (\cite{Mcalpine_2025}). The bias model is expressed as a sigmoid-truncated double 
+For field-level inference, we can look at the bias model used in the Manticore-Local Digital Twin (\cite{Mcalpine_2025}). The bias model is expressed as a sigmoid-truncated double 
 power law which follows:
 \begin{equation}
     b(\rho) = \frac{\rho^{\alpha}}{1+\exp \left[ \left( \gamma_t - \ln \rho \right)/\gamma_s \right]}. \left( 1 + \exp \left[ \beta \left( \ln \rho - \beta_0 \right)\right] \right)^{-\beta}
@@ -93,15 +93,15 @@ sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC).
     The final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
     \item \textbf{NUTS:} is a variant of HMC that automatically and dynamically adapts the trajectory. It adds sets of proposals along the 
     trajectories, which are stopped whenever they start to reverse direction, thereby avoiding redundant exploration and the need for manual tuning.
-    \item \textbf{MAMS:} Metropolis-Adjusted Microcanonical Sampler is a microcanonical counterpart to the canonical HMC. Instead of sampling the canonical ensemble of HMC $\mathcal{P}(\Theta, \textbf{p}) \propto \exp(-\mathcal{H}(\Theta, \textbf{p}))$, 
-    the sampling is done on a fixed energy level $\mathcal{P}(\Theta, \textbf{p}) \propto \delta(\mathcal{H}(\Theta, \textbf{p})- E)$ which avoids momentum resampling and random 
+    \item \textbf{MAMS:} Metropolis-Adjusted Microcanonical Sampler is a microcanonical counterpart of the canonical HMC. Instead of sampling the canonical ensemble of HMC $\mathcal{P}(\Theta, \textbf{p}) \propto \exp(-\mathcal{H}(\Theta, \textbf{p}))$, 
+    the sampling is done at a fixed energy level $\mathcal{P}(\Theta, \textbf{p}) \propto \delta(\mathcal{H}(\Theta, \textbf{p})- E)$, which avoids momentum resampling and random 
     jumps. Just like with HMC, the final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
-    \item \textbf{MCLM:} MicroCanonical Langevin Monte Carlo also samples from the microcanonical ensemble as MAMS but with the difference of refreshing the momentum at each steps. 
+    \item \textbf{MCLM:} MicroCanonical Langevin Monte Carlo also samples from the microcanonical ensemble as MAMS but with the difference of refreshing the momentum at each step. 
     This method allows the parameters to properly explore the entirety of the exploration space, i.e. ensure ergodicity. Unlike MAMS however, this sampler does not include 
     a Metropolis-Hastings adjustement step, meaning any biases introduced will have to be corrected at the level of the integration step.
 \end{itemize} 
 
-Results of the number of steps required per effective sample for each sampler is displayed in Figure \ref{fig:hugo_figure}. What the paper finds is that MCLMC outperforms all other samplers 
+Results of the number of steps required per effective sample for each sampler is displayed in Figure \ref{fig:hugo_figure}. The paper finds is that MCLMC outperforms all other samplers 
 achieving the same results with almost ten times less step. \\
 
 \begin{figure}[ht]
@@ -115,7 +115,8 @@ Another approach to improve the speed of parameter sampling involves the use of 
 These models are called diffusion models. These models are trained on many N-body simulations which is computationally expensive. However once the models have been generated, 
 their use is direct. An example of the application of a diffusion model can be found in \cite{Mudur_2023}. The diffusion model used here was trained to learn the 
 characteristics of a density given a set of cosmological parameters $(\Omega_m, \sigma_8)$. This was then used to infer the $(\Omega_m, \sigma_8)$ directly from the simulated fields. 
-Their results show that the diffusion model manages to sample correct parameters from the density field. We show their results in Figure (). This however emphasises the need 
+Their results show that the diffusion model manages to sample correct parameters from the density field. We show their results in Figure \ref{fig:diffusion_parameter}. 
+This however emphasises the need 
 of accurately reconstructing the underlying density field. \\
 
 \begin{figure}[ht]
@@ -129,14 +130,16 @@ of accurately reconstructing the underlying density field. \\
 
 \subsection{Scalability}
 
-Current and future generations of field-level inferences will have to deal with ever growing datasets covering larger volumes. This will daramatically increases the computational 
-complexity needed to conduct a field-level inference. Developments in order to adapt to this scalability has been an important pillar of in the construction of the next generation 
-of field-level inferences. The methods and models introduced the last sections all contribute towards accelerating the computational speed but not all address the computational cost 
-and memory usage. One of the key methods that directly deals with this has been applied in Manticore-local (\cite{Mcalpine_2025}) and Manticore-deep (\cite{Mcalpine_2026}) which is tiling. 
-Infering the density field of Manticore-deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
+Current and future generations of field-level inferences will have to deal with ever growing datasets covering larger volumes. This will daramatically increase the computational 
+complexity needed to conduct a field-level inference. Developments in order to adapt to this scalability have been an important pillar in the construction of next generation 
+field-level inferences. The methods and models introduced in the last sections all contribute towards accelerating the computational speed but do not address the computational cost 
+and memory usage. 
+At the core of it, it is mainly a question of simulating large volumes while preserving accuracy to resolve small-scale structures. 
+One of the key methods that directly deals with this has been applied in Manticore-Local (\cite{Mcalpine_2025}) and Manticore-Deep (\cite{Mcalpine_2026}) which is tiling. 
+Infering the density field of Manticore-Deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
 requires $1024^3$ parameters on the grid to be inferred, which exceeds the current field-level memory usage and runtime available. To overcome that, they separate the full volume into 
 $\left(1024 h^{-1} \text{Mpc}\right)^3$ subvolumes that would be inferred separately on a $256^3$. 
-The observational footprint of the surveys used in Manticore-deep covers only a subset of the full volume, with 27 subvolumes containing galaxy constraints. 
+The observational footprint of the surveys used in Manticore-Deep covers only a subset of the full volume, with 27 subvolumes actually containing galaxy data. 
 The remaining subvolumes, which do not overlap with the survey region, are populated with independent Gaussian white-noise realizations drawn from the $\Lambda$CDM prior 
 for each posterior sample. 
 To minimize artificial boundary effects resulting from the periodic boundary conditions imposed within individual tiles, neighbouring subvolumes are connected through 
@@ -145,4 +148,18 @@ boundary effects, while the inner half provides an overlap region where galaxies
 when individual posteriors are combined. 
 Following inference, the buffer regions are removed, leaving voxel cores containing only the reconstructed signal. These cores are then assembled into the full volume, 
 while the remaining unconstrained regions are completed using independent $\Lambda$CDM prior realizations. This produces a full initial condition realization spanning the entire 
-$\left(4096 h^{-1} \text{Mpc}\right)^3$ volume that remains consistent with the assumed cosmology while preserving the observationally constrained structures. \\
+$\left(4096 h^{-1} \text{Mpc}\right)^3$ volume that remains consistent with the assumed cosmology while preserving the observationally constrained structures. 
+Figure \ref{fig:manticore_deep} presents a visual representation of the mean final density field obtained in multiple subvolumes. 
+Although \cite{Mcalpine_2026} demonstrated the feasibility of reconstructing initial conditions over very large cosmological volumes using tiling, 
+the application of this strategy to the simultaneous inference of cosmological parameters has yet to be validated. \\
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{MainLayout/BORG_chapter/figures/manticore_deep.png}
+    \caption{Posterior mean of the final density field averaged over 15 independent posterior samples from Manticore-Deep (\cite{Mcalpine_2026}). 
+    Each panel corresponds to an individual subvolume. Subvolumes overlapping the survey footprint exhibit coherent large-scale structure, whereas those without 
+    observational data (grey panels) were not inferred and are therefore omitted. Within the inferred subvolumes, regions lying outside the survey footprint gradually 
+    revert to the $\Lambda$CDM prior mean, making the survey coverage visible.}
+    \label{fig:manticore_deep}
+\end{figure}

@@ -1,16 +1,74 @@
 \section{Applications on Uchuu-ZTF mocks}
 
+\subsection{ZTF-Uchuu mocks}
 
-\subsection{Supernova forward-model analysis}
+The ZTF simulations designed to test the impact of ZTF-supernovae peculiar velocities in a cosmological analysis are called DC PV (Data Challenge 
+Peculiar Velocity). These are generated within the ZTF collaboration mainly to test the methods to infer $f\sigma_8$. 
+The DC PV simulations are done similarly to the DC simulations  
+described in Chapter 4 with the main differences being that supernovae are simulated on top of large scale structures instead of a uniform distribution. 
+For that, we use the Uchuu N-body simulation 
+(\cite{Ishiyama_2021}), a high fidelity N-body dark matter simulation\footnote{N-body and hydrodynamical simulations 
+are considered the highest fidelity simulations we can get to describe structure formation as they solving the equations of motion for each particle/fluid without any 
+approximations or grid mesh} 
+in a $2^3 \text{Gpc}.h^{-1}$ box with 2.1 trillion particles that can be seen in Figure \ref{fig:uchuu_nbody} . 
+The full box is then subdivided into 27 subboxes where the supernovae are simulated up to a redshift of $z=0.11$, giving 27 quasi-independent 
+realizations of the DC PV. 
+Each supernova is simulated at the location of a dark matter halo is and is assigned the halo's velocity. This allows us to add proper motion to supernovae 
+that is driven by structure formation.\\
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{MainLayout/BORG_chapter/figures/uchuu_nbody.png}
+    \caption{Slice taken from the Uchuu simulation covering a box of 250 $\text{Mpc}.h^{-1}$ where each point represents a particle. Taken from \cite{Ishiyama_2021}}
+    \label{fig:uchuu_nbody}
+\end{figure}
+
+
+We opt to simplify a few aspects of the simulations in order to have an initial assessment of how well can a BORG analysis run on ZTF-like supernova. 
+Firstly, we have chosen to use only the distance moduli and redshifts of supernovae as inputs in BORG, as if we were doing the analysis after having run the full 
+LEMAITRE pipeline. 
+One could also infer the Tripp relation parameters ($\alpha_{\text{Tripp}}$, $\beta_{\text{Tripp}}$) in BORG. 
+Performing this inference at the BORG level would offer an 
+additional advantage: the 3-dimensional reconstruction of the matter 
+distribution in the nearby Universe provides a 
+correction for inhomogeneous Malmquist bias. In standard analyses, 
+Malmquist bias corrections rely on an assumed homogeneous distribution 
+of matter, which can introduce systematic errors in underdense and 
+overdense regions. Within BORG, the reconstructed density field 
+directly encodes the inhomogeneous matter distribution along each line 
+of sight, allowing a more accurate correction for the preferential 
+detection of supernovae in overdense environments near the survey 
+boundary.
+Secondly, we do not impose the ZTF DR2 cosmology quality cuts on photometry nor the ZTF footprint, so all of the supernovae that are 
+generated can be used. 
+For a more realistic set of simulations, we would have to account for the geometry of the survey as well as the Milky-Way dust. 
+This means introducing an 
+angular mask $M(\text{RA}, \text{Dec})$ in the likelihood's selection function. 
+This method was applied in BORG analyses such as 
+\cite{Mcalpine_2025} (Manticore-Local) and \cite{Mcalpine_2026} (Manticore-Deep). 
+Finally, we draw a set of 1000 randomly selected supernovae up to a redshift of $z=0.06$ to 
+match the expected number of supernovae in the volume-limited sample from ZTF. 
+We show in Figure \ref{fig:ztf_uchuu} an example of simulated supernovae on top of the Uchuu simulation.\\
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/BORG_chapter/figures/ztf_uchuu.png}
+    \caption{2D full-sky projection of the Uchuu density field at redshift of $z\approx0.04$ with the ZTF supernovae simulated on top of it represented by red dots.}
+    \label{fig:ztf_uchuu}
+\end{figure}
+
+
+\subsection{Forward model analysis: likelihood profile test}
 
 The methodology used to generate supernova in the self consistent simulations and DC PV are different as we have mentioned earlier. We want to ensure that we can 
-quantify any systematic biases introduced by those differences. To do this we start by generating an intial density field using BORG $\delta^{\text{BORG}}_{IC}$ using a 
+quantify any systematic biases introduced by those differences. To do this, we start by generating an initial density field using BORG $\delta^{\text{BORG}}_{IC}$ using a 
 Planck18 cosmology (\cite{Planck_2018_params}) and known bulk flow $\mathbf{V}$. The configuration of the generated field is given in Table \ref{tab:borg_nbody}. 
-We then let that field evolve using the LPT gravity model giving us the evolved density field 
+We then let that field evolve using LPT gravity model to obtain the evolved density field 
 $\delta^{\text{BORG}}_{F}$ and velocity field $\mathbf{v}^{\text{BORG}}_{IC}$. The ZTF simulations are designed to generate the supernovae on top of an N-body simulation, so 
-from the evolved density field we create a "synthetic" N-body simulation. The simplest way to do so would be taking each voxel-$i$ and generate within it $N_i$ particles proportional 
-to $(1+\lceil \delta^{\text{BORG}}_{F}\rceil )_i$ where $i$ denotes the voxel's index. We take the cieling of the evolved density field to ensure we get an integer number of 
-particles and to have at least 1 particle in empty voxels. We also generate less particles than the Uchuu simulation, around 200 million, due to memory and storage limiations. \\
+from the evolved density field we create a "synthetic" N-body simulation. The simplest way to do so is to take each voxel-$i$ and generate within it $N_i$ particles proportional 
+to $(1+\lceil \delta^{\text{BORG}}_{F}\rceil )_i$ where $i$ denotes the voxel index. We take the ceiling of the evolved density field to ensure we get an integer number of 
+particles and to have at least 1 particle in empty voxels. We also generate less particles than in the Uchuu simulation, around 2 million, due to memory and storage limiations. \\
 
 \begin{table}[ht]
     \centering
@@ -29,7 +87,7 @@ particles and to have at least 1 particle in empty voxels. We also generate less
         \hline
     \end{tabular}
 \end{table}
-We then use this "synthetic" N-body simulation to generate ZTF-like supernova and then evaluate the BORG-supernova likelihood described in Equation (ref) 
+We then use this "synthetic" N-body simulation to generate ZTF-like supernovae using skysurvey and then evaluate the BORG-supernova likelihood described in Equation (ref) 
 while varying the cosmological and model parameters in BORG. Essentially creating a likelihood profile for each parameter. This is particularly important not just to 
 determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also help us understand how we can relate some of the BORG-supernova model packagesarameters, 
 such as $\alpha$ to the ZTF simulations as they are not explicitly specified. \\
@@ -111,7 +169,7 @@ getting such values is possible and is indeed physical. The $\mu_A$ parameter se
 
 \section{Results of the field level inference on Uchuu-ZTF simulations}
 
-We present in this section the results obtained on the DC PV. The proceeder follows closely what was done on the self consistent simulations. We start our MCMC sampling of intial 
+We present in this section the results obtained on the DC PV. The proceeder follows closely what was done on the self consistent simulations. We start our MCMC sampling of initial 
 conditions for 1000 step while keeping the cosmological and supernova model parameters fixed in order to get an initial estimate of the true underlying field. We then sample the 
 model parameters $\alpha$ and $\mu_A$ alongside the bulk flow $\mathbf{V}$ and the velocity dispersion $\sigma_v$ for another 1000 step all while continuing to sample the 
 initial conditions. Finally, we sample $\Omega_m$ and $\sigma_8$ alongside the other parameters until we reach a state of convergence. \\
@@ -185,14 +243,14 @@ NEED SOME COLA RESULTS TO BETTER WRITE OFF THIS PART
  - covariance additions ?
  - full dataset with selection?
 
-\section{Comparison with other methods for $f\sigma_8$}
+\section{BONUS IF THERE IS TIME: Comparison with other methods for $f\sigma_8$}
 
-As with the self consistent simulation, we are restricted to a $\Lambda-CDM$ cosmology. Therefore if assume that $f\sigma_8$ is expressed as:
+\textit{As with the self consistent simulation, we are restricted to a $\Lambda-CDM$ cosmology. Therefore if assume that $f\sigma_8$ is expressed as:}
 \begin{equation}
     f \sigma_8 = \Omega_m^{0.55} \sigma_8
 \end{equation}
-by calculating this quantity, we can compare with other methods within the ZTF collaboration used to calculate $f\sigma_8$. Currently there is one ongoing work in doing so conducted by 
+\textit{by calculating this quantity, we can compare with other methods within the ZTF collaboration used to calculate $f\sigma_8$. Currently there is one ongoing work in doing so conducted by 
 Rafel Kebadian (Kebadian et al. in prep) where $f\sigma_8$ is determined using a maximum likelihood method on the DC PV supernovae. We present in Figure (ref) the results from the different methods. 
 We (hope) to see that using a field-level inference we obtain tighter constraints on $f\sigma_8$. However as mentioned before, we are limited to $\Lambda$CDM, so any deviations from 
 the expected value do not indicate what the strength of the underlying gravitational theory should be as much as it is a test on knowing whether the assumed gravitational theory (GR) 
-is correct or not. The maximum likelihood method however does not present that issue, but the $f\sigma_8$ constraints are looser.
+is correct or not. The maximum likelihood method however does not present that issue, but the $f\sigma_8$ constraints are looser.}

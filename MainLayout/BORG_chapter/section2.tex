@@ -1,61 +1,68 @@
-\section{The forward model}
-\subsection{The BORG algorithm}
+\section{The BORG algorithm} \label{sec:BORG}
 
 The Bayesian logic behind BORG makes it that we are exploring a large scale structure posterior 
-by infering a Gaussian prior for the initial density field $\delta_{IC}$. Modeling the evolving density field from $\delta_{IC}$ to $\delta_f$ requires a gravity model that 
+by infering a Gaussian prior for the initial density field $\delta^{IC}$. 
+These 
+initial conditions will then evolve to a final matter density field $\delta^F$ with an associated velocity field $\mathbf{v}$.
+Modeling the evolving density field requires a gravity model that 
 can capture 
 the non linear effects of structure formation. We will be explaining the details of the different parts of BORG in the next subsections. \\
+\subsection{Distribution and sampler}
 
-
-\subsubsection{BORG's Bayesian inference chain} \label{sec:borg_bayes}
-
-The logic behind BORG relies on Bayesian inference, as stated in the name of the algorithm, and this method is very well adapted for the problem we are trying to solve. 
-The Bayesian framework works in the following way: Based on the Bayes theorem, the probability $\mathcal{P}$ of a specific realization of an event or data $d$ being described by a set of parameters 
-$\theta$ can be written as:
-
- \begin{equation}
-    \mathcal{P}(\theta | d) = \frac{\mathcal{P}(d | \theta) \mathcal{P}(\theta)}{\mathcal{P}(d)}
- \end{equation}
-
-where $\mathcal{P}(d | \theta)$ is the probability that the data is known given a model which is also called the likelihood, $\mathcal{P}(\theta)$ the probability of the model 
-parameters in the absence of any data, also known as the prior, and $\mathcal{P}(d)$ the probability of the data before it is known, also called the evidence. The probability 
-$\mathcal{P}(\theta | d)$ is called the posterior. \\
-
-In the context of our problem, determining a prior on the evolved density field is a challenge due to the non-linear gravitational nature of structure formation (\cite{Fisher_1995}, \cite{Jasche_2010}). 
-So even if one assumes a Gaussian or a log-normal for the $\delta_f$ they will be missing the description of fine filamentary features of the observed cosmic web (\cite{Peebles_1980}). 
-Instead what is done in B0RG is treat the problem as a Bayesian inference on the initial conditions ($\delta_{IC}$). The biggest gain out of that, is that the prior is physically 
+\subsubsection{General distribution}
+The non-linear nature of gravitational structure formation makes it difficult to define an appropriate prior for the evolved density field (\cite{Fisher_1995}, \cite{Jasche_2010}). 
+So even if one assumes a Gaussian or a log-normal for the $\delta^F$ they will be missing the description of fine filamentary features of the observed cosmic web (\cite{Peebles_1980}). 
+Instead what is done in BORG is treat the problem as a Bayesian inference on the initial conditions. The biggest gain out of that, is that the prior is physically 
 motiviated from results obtained from Planck CMB data (\cite{Planck_2016}, \cite{Planck_2018}) and inflation which is a Gaussian prior. Combining that with a gravity model to evolve the density field 
 and by marginalizing over the final density fields, we can then constrain our initial conditions. 
-
-From \cite{Jasche_2019} we can obtain the final posterior as: 
+Equation \ref{eqn:bayesian_borg} shows the full posterior distribution for a field-level inference. For our analysis with BORG we will be restricting ourselves to $\Lambda$CDM, 
+rendering $M$ constant. We will concentrate on the posterior of the initial conditions for a moment $\mathcal{P}(\delta^{IC} | d, \theta)$. Using the Bayes theorem we get:
 \begin{equation}
-    \mathcal{P}( \{\delta_{IC}^{(i)} \} | \{N^{(i)} \}) = \frac{ \mathcal{P}(\{\delta_{IC}^{(i)}\}) \mathcal{P}(\{N^{(i)} \} | \{G^{(i)}(\{ \delta_{IC}^{(i)}\}) \} ) }
-    {\mathcal{P}(\{N^{(i)} \})}
+    \mathcal{P}(\delta^{IC} | d, \theta) = \frac{\mathcal{P}(\delta^{IC}) \cdot \mathcal{P}(d, \theta | \delta^{IC})}{\mathcal{P}(d, \theta)}
 \end{equation}
-
-$i$ being the index of the voxel we are evaluating with $N^{(i)}$ the number of objects within that voxel and $G^{(i)}(\{ \delta_{IC}^{(i)}\})$ is the gravity model or the structure formation model defined such that: 
-
+Where $\mathcal{P}(\delta^{IC})$ is the prior on the intial conditions, $\mathcal{P}(d, \theta | \delta^{IC})$ is the likelihood and $\mathcal{P}(d, \theta)$ the model evidence. 
+The CMB results mentioned previously motivate 
+Gaussian primordial perturbations giving us:
 \begin{equation}
-    G^{(i)}(\{ \delta_{IC}^{(i)}\}) = \delta_f^{(i)}
+    \mathcal{P}(\delta^{IC}) \propto \exp\left(-\frac{1}{2} 
+    \left (\delta^{IC} \right )^T \mathbf{C}^{-1} \left(\delta^{IC} \right) \right)
 \end{equation}
+where $\mathbf{C}$ is the covariance matrix of the initial conditions.
 
+This posterior can be made explicit by specifying the form of the 
+data $d$ and the likelihood $\mathcal{P}(d|\delta^{IC})$. Following 
+\cite{Jasche_2019}, we consider a dataset consisting of the number of 
+observed tracers $N^{(i)}$ in each voxel $i$ of a grid. The gravity 
+model $G^{(i)}$ maps the initial conditions to the final density field:
+\begin{equation}
+    G^{(i)}(\{\delta^{IC}_{(i)}\}) = \delta^F_{(i)}
+\end{equation}
+such that the likelihood $\mathcal{P}(d|\delta^{IC})$ becomes the 
+probability of observing $N^{(i)}$ tracers in each voxel given the 
+evolved density field $\delta^F_{(i)}$. The full posterior then becomes:
+\begin{equation}
+    \mathcal{P}(\{\delta^{IC}_{(i)}\} | \{N^{(i)}\}) = 
+    \frac{\mathcal{P}(\{\delta^{IC}_{(i)}\}) \cdot 
+    \mathcal{P}(\{N^{(i)}\} | \{G^{(i)}(\{\delta^{IC}_{(i)}\})\})}
+    {\mathcal{P}(\{N^{(i)}\})}
+\end{equation}
+where the Gaussian prior $\mathcal{P}(\delta^{IC})$ is the same as 
+defined above, and the likelihood now explicitly depends on the initial 
+conditions only through the gravity model $G^{(i)}$.
 
-Given the dimensionality of the problem at hand, directly integrating this equation is practically unfeasible due to the computational power required. The solution to that is to then explore the posterior distribution of initial conditions to find the best configuration set that matches our observations. This will require us 
+\subsubsection{Sampler}
+
+Given the dimensionality of the problem at hand, directly integrating this equation is practically unfeasible due to the computational power required. 
+The solution to that is to then explore the posterior distribution of initial conditions to find the best configuration set that matches our observations. 
+This will require us 
 to use a set of Markov Chain Monte Carlo (MCMC) sampling algorithms. 
-A Markov Chain is a set of sequences $\{ \theta_0, \theta_1, \theta_2, ..., \theta_n, ... \}$ where the conditional distribution of $\theta_{n+1}$ given the previous elements 
-only depends on $\theta_n$. If this distribution does not depend on $n$ we call it a stationary transition probability, which is what we are interested in. To guarantee that 
-distribution, the following condition must be satisfied: 
-
-\begin{equation}
-    \mathcal{T}(\theta|\theta')\mathcal{P}(\theta') = \mathcal{T}(\theta'|\theta)\mathcal{P}(\theta)
-\end{equation}
-
-where $\mathcal{T}$ is the transition probability distribution. A property of that condition is that the probability flux from $\theta \rightarrow \theta'$ is equal to 
-$\theta' \rightarrow \theta$ with respect to the target distribution. This is also known as the "balance flow". \\
+A Markov Chain is a set of sequences $\{ \theta_0, \theta_1, \theta_2, ..., \theta_n, ... \}$ where the conditional distribution of $\theta_{n+1}$ given the previous 
+elements 
+only depends on $\theta_n$. 
 
 \noindent \textbf{\underline{Metropolis-Hastings algorithm}} \\
-A very common example of an MCMC algorithm is the Metropolis-Hastings algorithm (\cite{Metropolis_1953}, \cite{Hastings_1970}). To summarize how it works : given a state $\theta_n$, a new state is drawn from a 
-proposal distribution which is often Gaussian $q$ such that: 
+The most common MCMC algorithm is the Metropolis-Hastings algorithm (\cite{Metropolis_1953}, \cite{Hastings_1970}). To summarize how it works: given a state $\theta_n$, a new state is drawn from a 
+proposal distribution which follows a Gaussian distribution $q$ such that: 
 \begin{equation}
     \theta' \sim q(\theta', \theta_n) 
 \end{equation}
@@ -83,7 +90,7 @@ in low-probability regions and get rejected, also making the computational time 
 \noindent \textbf{\underline{HMC algorithm}} \\
 The Hamiltonian Monte-Carlo algorithm (HMC, \cite{Brooks_2011}) is much more suitable for our problem and is currently what is implemented in BORG. The general idea of HMC is 
 to use concepts from Hamiltonian classical mechanics on high-dimensional problems. It uses gradient information to make significant proposals with a high acceptance rate. 
-Let us define $\Theta$ as the position vector containing the a set of parameters to solve, $\textbf{p}$ the momentum variables and $\mathcal{H}$ the Hamiltonian, 
+Let us define $\Theta$ as the position vector containing the set of parameters to solve, $\textbf{p}$ the momentum variables and $\mathcal{H}$ the Hamiltonian, 
 the Hamilton equations give us: 
 \begin{equation}
     \frac{\mathrm{d}\Theta}{\mathrm{d}t} = \frac{\partial \mathcal{H}}{\partial \textbf{p}}
@@ -149,13 +156,14 @@ up to:
 \end{equation}
 This is then repeated until a converged state is reached giving us the desired distribution. \\
 
-\subsubsection{Particle mass assignment}
+\subsection{Forward model}
+\subsubsection{Particle mass assignment} \label{sec:cic}
 
-The initial density field $\delta_{IC}$ is drawn from a Gaussian prior and represented as a set of particles distributed on a grid. The space we are working in is assigned on a grid so it 
-is important to be able to assign the particles to that grid. BORG addresses by doing a Cloud In Cell (CIC) mass assignment on the grid. This mass assignment 
+The initial density field $\delta^{IC}$ is drawn from a Gaussian prior and represented as a set of particles distributed on a grid. 
+BORG relies on a Cloud In Cell (CIC) mass assignment on the grid. This mass assignment 
 works by assigning a "cloud" to each particle and distributing its mass to the neighbouring grid points according to the overlap between the cloud and these points. 
 The assignment is done in the following way : Each particle is treated as a uniform-density cube having a mass of unity. Each particle overlaps with up to 8 neighbouring grid cells. 
-The fraction of the particle's mass assigned to each cell is proportional to the volume overlap between the particle cube and the grid cell. If we consider a 3D grid 
+The fraction of the particle's mass assigned to each cell is proportional to the volume overlap between the particle cube and the grid cell. Let us consider a 3D grid 
 with a cell size of $\Delta x$ and a particle at the position $X_p = (x_p, y_p, z_p)$ lives inside a cell whose lower-left corner is a grid point $(i, j, k)$ where: 
 \begin{equation}
     i = \biggl \lfloor \frac{x_p}{\Delta x} \biggr \rfloor, \quad j = \biggl \lfloor \frac{y_p}{\Delta x} \biggr \rfloor , \quad k = \biggl \lfloor \frac{z_p}{\Delta x} \biggr \rfloor
@@ -166,20 +174,20 @@ We define the fractional distance as:
 \end{equation} 
 
 So that $d_x,; d_y,; d_z \in [0,1[$. \\
-The particle's mass $m_p$ is distributed to the 8 surrounding nodes $(i+a, j+b, k+c)$ with $a,b,c \in {0,1}$ : 
+The particle's mass $m_p$ is distributed to the 8 surrounding nodes $(i+a, j+b, k+c)$ with $a,b,c \in [0,1[$ : 
 \begin{equation}
     \rho_{i+a, j+b, k+c} += \frac{m_p}{\Delta x ^ 3} . T_x ^{(a)} . T_y ^{(b)} . T_z ^{(c)}
 \end{equation}
 with $T_{x, y, z}^{0} = 1 - d_{x, y, z}$ and $T_{x, y, z}^{1} = d_{x, y, z}$. \\
 
 \subsubsection{Gravity Model} \label{sec:gravity_model}
-Simply evolving the $\delta_{IC}$ field using the equations of motion would be too computationally expensive since the number of particles in our field can go up to $10^9$ 
+Simply evolving the $\delta^{IC}$ field using the equations of motion would be too computationally expensive since the number of particles in our field can go up to $10^9$ 
 particle. Developments in the implmentation of a gravity model that is accurate and fast have been a very important topic in the development of BORG. I will be presenting the 
 main models that are used in BORG. Additionally, the movements of the particles in the density field directly gives us access to the underlying velocity field. \\
 
 \noindent \textbf{\underline{LPT}} \\
 
-The first gravity model is the Lagrangian Perturbation Theory or LPT, it can also be known as the Zeldovich approximation (\cite{zeldovich_1970}, \cite{Crocce_2006}). 
+The first gravity model is the Lagrangian Perturbation Theory or LPT, it is also known as the Zeldovich approximation (\cite{zeldovich_1970}, \cite{Crocce_2006}). 
 The idea is to expand the density field pertubatively $\delta(x, t) = \delta^{(1)}(x, t) + \delta^{(2)}(x, t) + ... $, which is the Eulerian expansion, as well 
 as the displacement field $\Psi(q, t)= \Psi^{(1)}(q, t) + \Psi^{(2)}(q, t) + ...$ which maps the initial positions $q$ (Lagrangian coordinates) to the final positions $x$ (Eulerian coordinates). 
 In comoving coordinates, the equations of motion for dark matter particles are: 
@@ -214,7 +222,7 @@ At first order, we can expand the determinant $\mathrm{det}(J) \simeq 1 + \nabla
     \delta^{(1)}(x,t) \simeq - \nabla_q . \Psi^{(1)}
 \end{equation}
 
-If we continue the demonstration, we can obtain what the first order approximation is for the position of the density field particles at a time $t$ 
+If we continue the demonstration, we can obtain the first order approximation for the position of the density field particles at a time $t$ 
 and its velocity as: 
 \begin{equation}
     \boxed{x(q, t) = q - D_1(t) \nabla_q \phi^{(1)}(q)}
@@ -222,7 +230,7 @@ and its velocity as:
 \begin{equation}
     \boxed{v(q, t) = -a H f D_1(t) \nabla_q \phi^{(1)}(q)}
 \end{equation}
-Where $D_1$ is the linear growth factor and $f=d \ln D_1 / d \ln a$ the linear growth rate of structures. 
+Where $D_1$ is the linear growth factor and $f=d \ln D_1 / d \ln a$ the linear growth rate of structures (seen in Chapter 1 Section \ref{sec:newton}). 
 It's important to note that this approximation breaks down when dense structures start to form such as halos, therefore this approximation is a good description of 
 structure formation at large scales. Going to higher orders such as 2LPT (2nd order approximation) delays this breakdown but does not prevent it. Physically, 
 it can be shown that this occurs around $k\approx10^{-1} h \mathrm{Mpc}^{-1}$ at $z=0$. \\
@@ -251,7 +259,7 @@ where $f_1$ is the linear growth factor $f_1=d \ln D_1 / d \ln a$ and $f_2 = d \
 
 \noindent \textbf{\underline{PM}} \\
 
-The goal of the Particle Mesh (PM) gravity model is to evolve the particles in the simulation after having done a mass assignment, like CIC. 
+The goal of the Particle Mesh (PM) gravity model is to evolve the particles in the simulation after having done a mass assignment, like CIC (Section \ref{sec:cic}). 
 The equations of motion and the Poisson are adapted to be solved on the BORG grid chosen, they are given by Equation \ref{eqn:eqn_of_motion_general} and 
 $ \frac{\mathrm{d}^2 \Psi(q, a)}{\mathrm{d} a^2} = - \nabla_x \phi(x, a) $. I will explaining the steps it takes to evolve the field from 
 a time $t_i$ to a time $t_{i+1}$ without going into the derivation of the equations at each step.\\
@@ -259,7 +267,7 @@ a time $t_i$ to a time $t_{i+1}$ without going into the derivation of the equati
 \begin{itemize}
     \item Mass assignment, like CIC, to obtain the density field $\delta$.
     \item Transform to Fourier space $\delta(x) \rightarrow \tilde{\delta}(k)$.
-    \item Solve the Poisson equation in Fourier space.
+    \item Solve the Poisson equation in Fourier space using a Fast Fourier Transform.
     \item Compute the force field, or the gravitational acceleration, in Fourier space $\tilde{g}(k)$ then transform it to cartesian space to get $g(x)$.
     \item Interpolate the forces back to particles.
     \item Time integration to get the next position and momentum of the particles.
@@ -271,7 +279,7 @@ repeat the full PM cycle at least 100 times (\cite{Tassev_2013}) which will prod
 
 \noindent \textbf{\underline{COLA}} \\
 
-The last model I will be presenting is COmoving Lagrangian Acceleration or COLA (\cite{Tassev_2013}). The goal of COLA is to be able to solve the equations of motion and the Poisson equation for 
+The last model I will present is COmoving Lagrangian Acceleration or COLA (\cite{Tassev_2013}). The goal of COLA is to be able to solve the equations of motion and the Poisson equation for 
 particles that undergo trajectories in LPT. This method allows us to trade accuracy at small scales to gain computational speed while maintaining accuracy at large scales. 
 This is done by decomposing the displacement field into two components: 
 \begin{equation}
@@ -319,7 +327,7 @@ their positions. The KDK scheme goes as follows : At an instant $n$, positions a
 where at each step, the force $F^{COLA}$ is computed using a PM solver from above. \\
 
 
-We can look at a visual difference between the 2LPT gravity solver, COLA and what a "true" density field like which is a N-body simulation named GADGET (\cite{Springel_2005}, \cite{Springel_2021}) in Figure \ref{fig:cola_nbody_2lpt}. 
+We can look at a visual difference between the 2LPT gravity solver, COLA and what a "true" density field looks like which is a N-body simulation named GADGET (\cite{Springel_2005}, \cite{Springel_2021}) in Figure \ref{fig:cola_nbody_2lpt}. 
 The 2LPT results are obtained in ~3 timesteps, the COLA results in ~10 timesteps and GADGET results are obtained in ~200 times. 
 As expected, the COLA results manage to capture a lot of the details found on small scales as opposed to the 2LPT results while requiring far fewer timesteps than a full N-body simulation. 
 
@@ -330,6 +338,11 @@ As expected, the COLA results manage to capture a lot of the details found on sm
     \label{fig:cola_nbody_2lpt}
 \end{figure}
 
-We have presented the essential elements of the BORG framework and necessary ingredients to make it work. The remaining part will be the determination of $\mathcal{P}(\{N^{(i)} \} | \{G^{(i)}(\{ \delta_{IC}^{(i)}\}) \} )$ 
-which we will do in Chapter 6 specifically for type Ia supernovae. As we have mentioned before, a key limitation of field-level inferences lie in the required computational 
+\subsubsection{Connecting the matter field to the observable}
+
+
+
+
+We have presented the essential elements of the BORG framework and necessary ingredients to make it work. The remaining part will be the determination of $\mathcal{P}(\{N_{(i)} \} | \{G_{(i)}(\{ \delta^{IC}_{(i)}\}) \} )$ 
+which we will do in Chapter 6 specifically for Type Ia supernovae. As we have mentioned before, a key limitation of field-level inferences lies in the required computational 
 power to conduct them. In the next section we will discuss the ongoing efforts to resolve some of the known issues with field-level inferences. \\

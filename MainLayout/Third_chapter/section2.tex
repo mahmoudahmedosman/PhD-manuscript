@@ -73,36 +73,27 @@ Once the light curves are calibrated, they go through a redshift-dependent blind
 
 \subsubsection{Georges analysis pipeline} \label{sec:georges}
 
-The Georges pipeline consists of mainly four modules: PeTS, NaCl, EDRIS, cosmologix.
+The Georges pipeline consists of mainly four modules: PeTS, NaCl, EDRIS, cosmologix. A schematic of the Georges pipeline is presented in Figure \ref{fig:georges_pipeline}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/Third_chapter/figures/pipeline_georges.pdf}
+    \caption{The Georges pipeline overview. The first step is the PeTS module which selects data that is well samplef for a cosmological analysis. The data is then blinded. 
+    NaCl is then used to train the spectrophotometric model as well as fitting the light curves. The data is compressed into $X_0$, $X_1$ and $c$ which is used 
+    as input in EDRIS alongside their covariance matrix. EDRIS determines the binned distance moduli $\mu$ as well their covariance matrix. This is then used by cosmologix to 
+    infer the cosmological parameters $w$ and $\Omega_m$.}
+    \label{fig:georges_pipeline}
+\end{figure}
 
 \subsubsection{PeTS}
 
 The PeTS module aims at ensuring the dataset we will be using in the cosmological analysis contains properly measured data points. The reason we need to do that is because 
 some of the supernova light curves can contain issues such as having very few measurements, very noisy data or a mix of both that can introduce 
-inaccurate results in the spectrophotometric model trained.\\
+inaccurate results in the spectrophotometric model trained. PeTS also allows us to have an initial guess of the light curve parameters close to the truth. \\
 
 In order to avoid that, PeTS applies a set of data quality cuts that will ensure that we select a subset on which we will be able to properly measure all of the 
-supernova parameters.\\
-
-The selection will be applied on supernovae that meet the following criteria:
-\begin{itemize}
-    \item The date of maximum emission ($t_{max}$) needs to be properly defined
-    \item The color and the stretch parameters need to be accurately measured
-    \item The supernova must contain at least 5 points with an SNR superior to 3, present in 2 bands and present within 50 days of the initial guess of $t_{max}$
-\end{itemize}
-
-An initial quality cut is applied on the datasets similar to the cuts applied to the ZTF DR2 (\cite{Rigault_2025}) which is presented below:
-\begin{itemize}
-    \item The supernova needs to be measured in at least 2 bands
-    \item The supernova needs to have at least 5 total measurements
-    \item The supernova needs to have at least 2 measurement points before $t_{max}$
-    \item The supernova needs to have at least 2 measurement points after $t_{max}$
-    \item $-0.2<c<0.8$
-    \item $|X_1|<3$
-    \item SNLS and HSC supernova need to be measured at $z>0.2$
-    \item The Milky Way galactic dust extinction needs to be $E(B-V)_{MW}<0.25$
-\end{itemize}
-
+supernova parameters. 
+An initial quality cut is applied on the datasets similar to the cuts applied to the ZTF DR2 (\cite{Rigault_2025}). 
 PeTS initially fits all of the light curves with the SALT2.4 model using sncosmo (\cite{sncosmo}). 
 \textbf{The sncosmo fit needs to converge in order to select a supernova in our final dataset}. That initial fit allows us to have an initial guess on 
 the parameters $c$, $X_1$ and $t_{max}$. \\
@@ -114,7 +105,8 @@ the parameter $t_{max}$:
     \item The log likelihood profile must present only 1 minimum within $3\sigma$
 \end{itemize}
 Lastly, the uncertainties on $c$ and $X_1$ need to be inferior to 0.3 and 1 respectively. If all of these conditions are met, the supernova will be present in the final dataset. 
-An example of a PeTS likelihood profile on a ZTF supernova can be seen in Figure \ref{fig:PeTS} \\
+An example of a PeTS likelihood profile on a ZTF supernova can be seen in Figures \ref{fig:PeTS} and \ref{fig:PeTS_2}. Figure \ref{fig:PeTS_2} shows a profile likelihood 
+with two local minimas for $t_{max}$. Without PeTS one could a assume that a generic $\chi^2$ minimizer could fit $t_{max}$ by reaching a local minima and not a global minima. \\
 
 \begin{figure}[ht]
     \centering
@@ -122,6 +114,14 @@ An example of a PeTS likelihood profile on a ZTF supernova can be seen in Figure
     \caption{Likelihood profile for a ZTF supernova in black. The blue region highlights where the stretch fit is $|X_1|<4$ and the color is $|c|<2$ with the SALT 2.4 model. 
     The obtained $t_{max}$ value from PeTS is $58878.19^{+0.065}_{-0.064}$ which is coherent with two sncosmo fits show values of $58878.19 \pm 0.068$. Credits: Thomas De Jaeger.}
     \label{fig:PeTS}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{MainLayout/Third_chapter/figures/photo_2026-07-27_11-22-12.jpg}
+    \caption{Likelihood profile with two minimas for $t_{max}$. This shows the importance of having a good initial 
+    guess of $t_{max}$ to reach the global minima. Credits: Thomas De Jaeger.}
+    \label{fig:PeTS_2}
 \end{figure}
 
 \subsubsection{Data compression}
