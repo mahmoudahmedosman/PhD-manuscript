@@ -1,15 +1,15 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}BORG-Peculiar Velocity}{\reset@font\mtcSfont 144}{section.6.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Initial likelihood}{\reset@font\mtcSSfont 144}{subsection.6.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Generating self-consistent mocks}{\reset@font\mtcSSfont 146}{subsection.6.1.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Issues with intial likelihood}{\reset@font\mtcSSfont 146}{subsection.6.1.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.1}Selection function}{\reset@font\mtcSSSfont 146}{subsubsection.6.1.3.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.2}Supernova prior}{\reset@font\mtcSSSfont 147}{subsubsection.6.1.3.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Improved likelihood}{\reset@font\mtcSSfont 149}{subsection.6.1.4}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Applications on self-consistent mocks}{\reset@font\mtcSfont 151}{section.6.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Forward model analysis: profile likelihood tests}{\reset@font\mtcSSfont 151}{subsection.6.2.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Results of the field level inference on self-consistent simulations}{\reset@font\mtcSSfont 151}{subsection.6.2.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Applications on Uchuu-ZTF mocks}{\reset@font\mtcSfont 158}{section.6.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}ZTF-Uchuu mocks}{\reset@font\mtcSSfont 158}{subsection.6.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Forward model analysis: likelihood profile test}{\reset@font\mtcSSfont 159}{subsection.6.3.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Results of the field level inference on Uchuu-ZTF simulations}{\reset@font\mtcSfont 163}{section.6.4}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}BONUS IF THERE IS TIME: Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 165}{section.6.5}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}BORG-Peculiar Velocity}{\reset@font\mtcSfont 148}{section.6.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Initial likelihood}{\reset@font\mtcSSfont 148}{subsection.6.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Generating self-consistent mocks}{\reset@font\mtcSSfont 150}{subsection.6.1.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Issues with intial likelihood}{\reset@font\mtcSSfont 150}{subsection.6.1.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.1}Selection function}{\reset@font\mtcSSSfont 150}{subsubsection.6.1.3.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.2}Supernova prior}{\reset@font\mtcSSSfont 151}{subsubsection.6.1.3.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Improved likelihood}{\reset@font\mtcSSfont 153}{subsection.6.1.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Applications on self-consistent mocks}{\reset@font\mtcSfont 155}{section.6.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Forward model analysis: profile likelihood tests}{\reset@font\mtcSSfont 155}{subsection.6.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Results of the field level inference on self-consistent simulations}{\reset@font\mtcSSfont 155}{subsection.6.2.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Applications on Uchuu-ZTF mocks}{\reset@font\mtcSfont 162}{section.6.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}ZTF-Uchuu mocks}{\reset@font\mtcSSfont 162}{subsection.6.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Forward model analysis: likelihood profile test}{\reset@font\mtcSSfont 163}{subsection.6.3.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Results of the field level inference on Uchuu-ZTF simulations}{\reset@font\mtcSfont 167}{section.6.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}BONUS IF THERE IS TIME: Comparison with other methods for $f\sigma _8$}{\reset@font\mtcSfont 169}{section.6.5}}

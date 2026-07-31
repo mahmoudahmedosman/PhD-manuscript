@@ -48,39 +48,51 @@ N-body simulation. The differences between COLA and COCA are illustrated in Figu
 
 \subsection{Galaxy bias models}
 
-Galaxies are the most abundent observables for cosmological analyses. The way galaxies trace dark matter has been a central question in modern cosmology as it intervenes 
-in many cosmological analyses. Relating the galaxy field $\delta_g$ to the matter field $\delta_m$ requires the introduction of a galaxy bias model. The need for a bias 
-model is not only useful for a field-level inference however an incorrect bias model can bias the inference of cosmological parameters as they degenerated. One simple way 
-to see this would be with the linear bias model (\cite{Kaiser_1984}). The model assumes a linear relation between the galaxy and dark matter densities which is written as:
-\begin{equation}
-    \delta_g(\mathbf{r}) = b \delta_m(\mathbf{r})
-\end{equation}
-with a $b$ a scalar. If we would write down the power spectrum of the galaxy field we get:
-\begin{equation}
-    P_{gg}(k) = b^2 P_{mm}(k)
-\end{equation}
-From Equation \ref{eqn:pk_lin}, we know that that the amplitude of the power spectrum depends on $A_s$ or $\sigma_8$. We see that the galaxy power spectrum's amplitude also 
-depends on $b$, rendering both parameters degenerate when trying to fit the power spectrum. Other examples of bias models include the 
-nonlinear local bias (\cite{Fry_1993}), which is expressed as:
-\begin{equation}
-    \delta_g = \sum_{i=1} b_i \frac{\delta_m^i}{i!}
-\end{equation}
-This model contains multiple bias parameters related both densities at different orders. 
-More complex models exist such as the Effective Field Theory of Large Scale Structure bias (EFTofLSS) (\cite{Mirbabayi_2015}). The model is written as:
-\begin{equation}
-    \delta_g = \sum_i b_{\mathcal{O}_i}\mathcal{O}_i
-\end{equation}
-where $\mathcal{O}_i$ are operators that are made of $\delta_m$, its derivatives, tidal field and shear. 
+While the bias models presented in Section \ref{sec:observable_to_dm} provide an effective description of the connection between the matter and galaxy fields, 
+improving this relation remains an active area of research. 
+\cite{Bartlett_2024} demonstrated the limitations of local-in-matter-density 
+(LIMD) bias models using a model-independent permutation test on the Quijote 
+N-body simulations (\cite{Villaescusa_2020}). By permuting halo counts between 
+voxels of approximately equal dark matter density, they showed that if LIMD 
+biasing were valid, the statistical properties of the permuted and unpermuted 
+fields would be indistinguishable. Instead, they found significant scale-dependent 
+deviations in the halo power spectrum, with more than 25\% excess power on the 
+largest scales probed, for halos less massive than $\sim 10^{15} \, h^{-1} 
+M_{\odot}$ and voxel sizes below $\sim 30 \, h^{-1}$ Mpc. This demonstrates 
+that halo formation depends on non-local information beyond the local matter 
+density, and that no LIMD bias model, however complex, can reproduce the 
+distribution of halos on these scales. This motivates the development of more 
+expressive bias models, such as EFT-based bias expansions (\cite{Schmidt_2021}).
 
-For field-level inference, we can look at the bias model used in the Manticore-Local Digital Twin (\cite{Mcalpine_2025}). The bias model is expressed as a sigmoid-truncated double 
-power law which follows:
-\begin{equation}
-    b(\rho) = \frac{\rho^{\alpha}}{1+\exp \left[ \left( \gamma_t - \ln \rho \right)/\gamma_s \right]}. \left( 1 + \exp \left[ \beta \left( \ln \rho - \beta_0 \right)\right] \right)^{-\beta}
-\end{equation}
-where $\rho = 1 + \delta_m$, $\gamma_t$ defines the transition point between the truncation and the first power-law regime, $\gamma_s$ controls the steepness of the 
-transition, $\alpha$ is the first power-law exponent, $\beta$ defines the slope of the second power-law component and $\beta_0$ sets the transition scale between the two power-law regimes. 
-The sigmoid truncation, regulates galaxy formation at low densities. The first power law represents the dominant relationship between the dark matter density and galaxy 
-formation. Finally the second power law allows for a gradual transition at higher densities. \\
+New approaches based on neural networks aim to improve the accuracy of 
+bias models while preserving the computational efficiency required for 
+field-level inference. One example is the PineTree model 
+(\cite{Ding_2024}), a generative differentiable halo model designed 
+for galaxy surveys. The neural network learns halo abundance and 
+stochasticity from dark matter density field simulations while 
+incorporating environmental information beyond a purely local 
+description. The model is computationally efficient, using only 17 
+parameters and GPU acceleration through JAX, and has been benchmarked 
+against N-body simulations run with GADGET (\cite{Springel_2021}) 
+using the ROCKSTAR halo finder. PineTree accurately reproduces halo 
+clustering statistics including on non-linear scales, making it 
+suitable for generating halo mock catalogues for field-level inference. 
+Figure \ref{fig:pinetree} compares the halo mass function, power 
+spectrum, and bispectrum obtained from PineTree against the N-body 
+truth.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/pinetree.png}
+    \caption{Halo mass function (left), power spectrum (centre), and 
+    reduced bispectrum (right) from PineTree compared to N-body truth, 
+    for halos with virial mass $3 \times 10^{12} \, h^{-1} M_{\odot} 
+    < M < 10^{13} \, h^{-1} M_{\odot}$ at a voxel resolution of 
+    $7.81 \, h^{-1}$ Mpc. Orange lines show the N-body truth and 
+    dashed green lines the PineTree model. Figure adapted from 
+    \cite{Ding_2024}.}
+    \label{fig:pinetree}
+\end{figure}
 
 \subsection{Parameter sampling}
 
@@ -89,7 +101,7 @@ time to determine. Therefore, efforts to reduce the computational expenses of th
 have been tested in \cite{Simon_2025}: Hamiltonian Monte Carlo (HMC), same as BORG, No-U-Turn Sampler (NUTS) with and without Gibbs scheme, an adjusted microcanonical 
 sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC). 
 \begin{itemize}
-    \item \textbf{HMC:} as described in Section \ref{sec:borg_bayes}, it treats the parameter space as the positions of the particles following the classical equations of motion. 
+    \item \textbf{HMC:} as described in Section \ref{sec:borg_sampler}, it treats the parameter space as the positions of the particles following the classical equations of motion. 
     The final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
     \item \textbf{NUTS:} is a variant of HMC that automatically and dynamically adapts the trajectory. It adds sets of proposals along the 
     trajectories, which are stopped whenever they start to reverse direction, thereby avoiding redundant exploration and the need for manual tuning.
