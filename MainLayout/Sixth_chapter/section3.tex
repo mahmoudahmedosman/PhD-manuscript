@@ -87,17 +87,20 @@ particles and to have at least 1 particle in empty voxels. We also generate less
         \hline
     \end{tabular}
 \end{table}
-We then use this "synthetic" N-body simulation to generate ZTF-like supernovae using skysurvey and then evaluate the BORG-supernova likelihood described in Equation (ref) 
-while varying the cosmological and model parameters in BORG. Essentially creating a likelihood profile for each parameter. This is particularly important not just to 
-determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also help us understand how we can relate some of the BORG-supernova model packagesarameters, 
-such as $\alpha$ to the ZTF simulations as they are not explicitly specified. \\
+We then use this "synthetic" N-body simulation to generate ZTF-like supernovae using skysurvey and then evaluate the BORG-supernova likelihood (Equation \ref{eqn:borg_pv_L}) 
+while varying the cosmological and model parameters in BORG. We create a likelihood profile for each parameter, not only to 
+determine whether the ZTF-like supernova simulations introduce systematic biases in BORG but also to help us understand how we can relate some of the BORG-supernova model 
+parameters, 
+such as $\alpha$ and $\sigma_v$ to the ZTF simulations as they are not explicitly specified. \\
 
-We obtain the following likelihood profiles for 1 synthetic N-body simulation in Figures \ref{fig:cosmo_lpt_L}, \ref{fig:params1_lpt_L}, \ref{fig:params2_lpt_L} and \ref{fig:params3_lpt_L}. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
-input cosmology. The bulk flow $V$ parameters are compatible with 0 km/s, indicating that no additional bulk flow is added with the ZTF simulation. The bias model parameter $\alpha$ 
-seems to prefer values around $0.9 -1.0$. This is not unexpected, if we assume that the ZTF supernova are generated where there are dark matter particles without a preference on whether 
-then the number of supernovae would simply scale as $\delta_F$. The velocity dispersion is prefered around $150$ km/s with a large scatter. Measurements from (ref smth regarding sigv like velocity olympics) 
-getting such values is possible and is indeed physical. The $\mu_A$ parameter seem to prefer a value of $1.024$ indicating that an offset of about $2.4\%$ regarding how distances are described in BORG. 
-(check where does it come from but it is not an issue for our needs).
+We obtain the following likelihood profiles for one synthetic N-body simulation in Figures \ref{fig:cosmo_lpt_L}, \ref{fig:params1_lpt_L}, \ref{fig:params2_lpt_L} and \ref{fig:params3_lpt_L}. We notice that the cosmological parameters $\Omega_m$ and $\sigma_8$ are unbiased and we recover the 
+input cosmology. The bulk flow $V$ parameters are compatible with 0 km/s, indicating that no additional bulk flow is added within the ZTF simulation. 
+The bias model parameter $\alpha$ 
+seems to prefer values around $0.9 -1.0$. 
+This is not unexpected, if we assume that the ZTF supernova are generated where there are dark matter particles without a preference on whether 
+then the number of supernovae would simply scale as $\delta_F$. 
+The velocity dispersion is prefered around $200$ km/s. 
+The $\mu_A$ parameter seem to prefer a value of $1.0$, meaning no additional sources of uncertainty are added to the distance modulus.
 
 \begin{figure}
     \centering
@@ -169,12 +172,15 @@ getting such values is possible and is indeed physical. The $\mu_A$ parameter se
 
 \section{Results of the field level inference on Uchuu-ZTF simulations}
 
-We present in this section the results obtained on the DC PV. The proceeder follows closely what was done on the self consistent simulations. We start our MCMC sampling of initial 
-conditions for 1000 step while keeping the cosmological and supernova model parameters fixed in order to get an initial estimate of the true underlying field. We then sample the 
-model parameters $\alpha$ and $\mu_A$ alongside the bulk flow $\mathbf{V}$ and the velocity dispersion $\sigma_v$ for another 1000 step all while continuing to sample the 
+We present in this section the results obtained on the DC PV. The procedure follows closely what was done on the self consistent simulations. 
+We start the sampling of initial 
+conditions during 1000 steps while keeping the cosmological and supernova model parameters fixed in order to get an initial estimate of the true underlying field. 
+We then sample the 
+model parameters $\alpha$ and $\mu_A$ alongside the bulk flow $\mathbf{V}$ and the velocity dispersion $\sigma_v$ for another 1000 steps, while continuing to sample the 
 initial conditions. Finally, we sample $\Omega_m$ and $\sigma_8$ alongside the other parameters until we reach a state of convergence. \\
 
-Firstly, we present the results obtained when using an LPT gravity solver. We show in Figures \ref{fig:ztf_dens} slices of the final reconstructed density field with BORG in comparison with the Uchuu 
+First, we present the results obtained when using the LPT gravity solver. 
+We show in Figures \ref{fig:ztf_dens} slices of the final reconstructed density field with BORG in comparison with the Uchuu 
 density. The red-dashed circle represents the limit of where the supernova are being generated (up to $z=0.06$). \\
 
 \begin{figure}[htpb]
@@ -194,14 +200,18 @@ density. The red-dashed circle represents the limit of where the supernova are b
         \caption{}
         \label{fig:ztf_dens_2}
     \end{subfigure}
-    \caption{Slices of the density field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu density field. The center column shows the mean posterior from BORG. The right column shows the standard deviation. Each row is a different slice in the box.}
+    \caption{Slices of the density field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. 
+    The left column shows the Uchuu density field. The center column shows the mean posterior from BORG. 
+    The right column shows the standard deviation. Each row is a different slice in the box.}
     \label{fig:ztf_dens}
     \end{figure}
 
 
 We notice that the field reconstructed with BORG-PV manages to capture 
-some of the underlying structure visible in Uchuu by comparing the overdense and underdense regions within the red-dashed circle. Notably, it is the largest structures that are 
-recovered while smal scales structures seem to be missed. We show in Figures \ref{fig:ztf_vel} slices of the final reconstructed velocity field with BORG in comparison with the Uchuu 
+some of the underlying structure visible in Uchuu by comparing the overdense and underdense regions within the red-dashed circle. 
+Notably, it is the largest structures that are 
+recovered while smal scales structures seem to be missed. 
+We show in Figures \ref{fig:ztf_vel} slices of the final reconstructed velocity field with BORG in comparison with the Uchuu 
 velocity. \\ 
 
 \begin{figure}[htpb]
@@ -221,16 +231,21 @@ velocity. \\
         \caption{}
         \label{fig:ztf_vel_2}
     \end{subfigure}
-    \caption{Slices of the velocity field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. The left column shows the Uchuu velocity field. The reight column shows the mean posterior from BORG. Each row is a different slice in the box. The first row is a slice in the $x$ axis. The second row is a slice in the $y$ axis.}
+    \caption{Slices of the velocity field from Uchuu and BORG reconstruction after having gone a CIC mass assignment. 
+    The left column shows the Uchuu velocity field. The reight column shows the mean posterior from BORG. 
+    Each row is a different slice in the box. The first row is a slice in the $x$ axis. The second row is a slice in the $y$ axis.}
     \label{fig:ztf_vel}
     \end{figure}
 
 
 
-Similarly to the density field reconstruction, the BORG velocity field seem to match the Uchuu velocity at large scales. It's important to note that the velocity field 
-at smal scales does not present the same variation as the density field, which could explain why the velocity field seems to be reconstructed more accurately than the density field. 
+Similarly to the density field reconstruction, the BORG velocity field seems to match the Uchuu velocity at large scales. 
+It is important to note that the velocity field 
+is known to be more linear and Gaussian than the density field. 
+
+---More results needed from here on out
 To quantify this, we compare the power spectra of the density and velocity field components $v_x$, $v_y$ and $v_z$ from Uchuu to the one inferred by BORG in Figures (ref) as well 
-as the cross correlation between them $r$ in Figures (ref). 
+as the cross correlation factor between them $r$ in Figures (ref). 
 We notice that the power spectrum of the matter density matches the Uchuu power spectrum up to a wavenumber of $k \approx$. For the velocity fields we notice a matching result up 
 to a wavenumber of $k \approx$. This confirms our qualitative results mentioned previously when looking directly at the reconstructed fields. \\
 
