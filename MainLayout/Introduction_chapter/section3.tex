@@ -1,7 +1,7 @@
 
 \section{Cosmological Observables}
 
-In this section we will briefly present some of the main observables that cosmologists are concerned with. \\
+In this Section we will briefly present some of the main observables that cosmologists are concerned with. \\
 
 \subsection{The Cosmic Microwave Background} \label{section:cmb}
 
@@ -16,15 +16,15 @@ an antenna for telecommunications and astronomy (\cite{Penzias_1965_a, Penzias_1
 
 The CMB has a nearly perfect blackbody spectrum with a mean temperature of $T_{CMB} = 2.7255 \pm 0.0006$ K (\cite{Fixsen_2009}) and temperature 
 anisotropies at the level of $\Delta T / T \sim 10^{-5}$. The two-point correlation function of these anisotropies, equivalently described by the angular 
-power spectrum $C_\ell$ (where $\ell$ denotes the degree if the spherical harmonic function, also known as the multipole number), 
+power spectrum $C_\ell$ (where $\ell$ denotes the degree of the spherical harmonic function, also known as the multipole number), 
 encodes the imprint of primordial matter density perturbations consistent with a Gaussian random field (\cite{Planck_2018}), which later evolved 
-into the large-scale structures we observe today. Secondary anisotropies, arising from effects such as gravitational lensing by galaxy clusters (\cite{Hu_2000}) and inverse Compton 
+into the large-scale structures we observe today. Secondary anisotropies, arising from effects such as gravitational lensing by large scale structures (\cite{Hu_2000}) and inverse Compton 
 scattering of CMB photons off hot intracluster gas (the Sunyaev-Zel'dovich effect \cite{Sunyaev_1972}), provide additional information on the late-time Universe. The polarisation of the 
 CMB, decomposed into curl-free E-modes and divergence-free B-modes, further constrains inflationary models and provides a potential window onto primordial gravitational waves (\cite{Kamionkowski_1997}).\\
 
 Through the detailed structure of the acoustic peaks in $C_\ell$, CMB observations allow precise constraints on multiple cosmological parameters, including $\Omega_m$, 
-$\Omega_b$, $H_0$, $n_s$, and $A_s$ (\cite{Planck_2018_params}). Figure \ref{fig:pk_planck_angular} shows angular power spectrum comparisons between different CMB 
-experiments (such as Planck or WMAP) and the $\Lambda$CDM prediction in a dashed grey line.\\
+$\Omega_b$, $H_0$, $n_s$, and $A_s$ (\cite{Planck_2018_params}). Figure \ref{fig:pk_planck_angular} shows angular power spectrum comparisons between different 
+measurements from experiments including Planck and WMAP, and the $\Lambda$CDM prediction in a dashed grey line.\\
 
 \begin{figure}[ht]
     \centering
@@ -44,7 +44,7 @@ constraints have been extracted. \\
 
 \subsubsection{The Matter Power Spectrum}
 
-As introduced in section \ref{sec:newton}, a key statistical tool for analysing galaxy surveys is the matter power spectrum $P(k)$, defined as the variance of density fluctuations as a function of scale $k$:
+As introduced in Section \ref{sec:newton}, a key statistical tool for analysing galaxy surveys is the matter power spectrum $P(k)$, defined as the variance of density fluctuations as a function of scale $k$:
 
 \begin{equation}
     \langle \delta(\mathbf{k})\delta^*(\mathbf{k}') \rangle = 
@@ -56,11 +56,11 @@ The primordial power spectrum can be related to late-time observations through t
 transfer function (\cite{Eisenstein_Hu_1998}):
 
 \begin{equation}
-    \mathcal{P}(k) = A_s \left(\frac{k}{k_*}\right)^{n_s - 1} T^2(k)\,D_1^2(z)
+    \mathcal{P}(k) = A_s \left(\frac{k}{k_*}\right)^{n_s - 1} T^2(k)\,D_+^2(z)
 \end{equation}
 
-where $k_* = 0.05\,\mathrm{Mpc}^{-1}$ is the pivot scale at which the primordial amplitude $A_s$ is defined (\cite{Planck_2018_inflation}), $T(k)$ is the transfer 
-function encoding the scale-dependent evolution of perturbations through radiation domination, and $D_1(z)$ is the linear growth factor describing the 
+\noindent where $k_* = 0.05\,\text{Mpc}^{-1}$ is the pivot scale at which the primordial amplitude $A_s$ is defined (\cite{Planck_2018_inflation}), $T(k)$ is the transfer 
+function encoding the scale-dependent evolution of perturbations through radiation domination, and $D_+(z)$ is the linear growth factor describing the 
 growth of structure during matter domination. \\
 
 
@@ -72,7 +72,7 @@ oscillations were frozen in at the \textbf{drag epoch} $z_d \approx 1060$, short
 photon fluid and the sound waves could no longer propagate. The comoving distance these sound waves had travelled by that time defines the \textbf{sound horizon}:
 
 \begin{equation}
-    r_s(z_d) = \int_{z_d}^{\infty} \frac{c_s(z)}{H(z)}\,dz \approx 147\,\mathrm{Mpc}
+    r_s(z_d) = \int_{z_d}^{\infty} \frac{c_s(z)}{H(z)}\,dz \approx 147\,\text{Mpc}
 \end{equation}
 
 This characteristic scale is imprinted in the distribution of matter as a preferred separation between galaxies, appearing as a distinct peak in the two-point 
@@ -83,8 +83,8 @@ can be measured at different redshifts to constrain the expansion history of the
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/desi_bao.png}
-    \caption{Correlation functions from the DESI DR2 results \cite{DESI_DR2_2025} for different galaxy catalogues (BGS, LRG, etc...). The BAO signal can be clearly seen as a bump 
-    around 100 $\text{Mpc}.h^{-1}$ accross all catalogues}
+    \caption{Correlation functions from the DESI DR2 results \cite{DESI_DR2_2025} for different galaxy catalogues (BGS, LRG, etc.). The BAO signal can be clearly seen as a bump 
+    around 100 $\text{Mpc}.h^{-1}$ across all catalogues}
     \label{fig:desi_bao}
 \end{figure}
 
@@ -99,7 +99,7 @@ an elongation of structures along the line of sight, known as the \textbf{Finger
 The amplitude of these distortions depends on the rate of structure growth, encapsulated in the parameter $f\sigma_8$, where $f = d\ln D_1/d\ln a \approx 
 \Omega_m(z)^{0.55}$ is the growth rate predicted by General Relativity. 
 Modified gravity theories predict different values of $f$, making measurements of $f\sigma_8$ a direct test of GR on cosmological scales (\cite{Guzzo_2008}, 
-\cite{Planck_2018_params}). Recent use of the RSD allowed to constrain the modified gravity using the DESI data (\cite{Adame_2025}). This is represented in Figure \ref{fig:desi_MG} where the parameters constrained 
+\cite{Planck_2018_params}). Recent analyses of DESI RSD measurements have placed constraints on modified gravity models (\cite{Adame_2025}). This is represented in Figure \ref{fig:desi_MG} where the parameters constrained 
 are generalized parameters for a modified theory of Gravity. The results show that GR is consistent with our observations.  \\
 
 \begin{figure}[ht]
@@ -112,18 +112,20 @@ are generalized parameters for a modified theory of Gravity. The results show th
 
 \subsection{Type Ia Supernovae}
 
-As discussed in Section \ref{sec:cosmological_distances}, it is possible to obtain the distance of an object through its luminosity. However, measuring the intrinsic luminosity 
-of celestial objects is a difficult task in itself. Type Ia Supernovae are thermonuclear explosions involving white dwarf stars that 
-are \textbf{standardizable candles}, meaning they're characterized by a reproducible intrinsic luminosity. By measuring their apparent brightness as a function of redshift, 
+Type Ia supernovae are thermonuclear explosions involving white dwarf stars that 
+are \textbf{standardizable candles}. 
+Their intrinsic luminosities are not identical, unlike true standard candles. 
+However, they can be standardized through empirical relations involving their observable properties. 
+By measuring their apparent brightness as a function of redshift, 
 one can reconstruct the luminosity distance-redshift relation $d_L(z)$ and constrain the expansion history of the Universe. 
 This led to the discovery of the accelerated expansion of the Universe (\cite{Riess_1998}, \cite{Perlmutter_1999}). A detailed discussion of Type Ia 
-Supernovae and their use as cosmological probes is presented in Chapter 2. \\
+supernovae and their use as cosmological probes is presented in Chapter 2. \\
 
 \subsection{Gravitational Lensing}
 
 According to general relativity, mass curves spacetime and light follows the geodesics of that curved geometry. As a result, the path of photons is deflected 
 when passing near massive objects, a phenomenon known as gravitational lensing. In a cosmological context, this deflection can be derived from the geodesic equation 
-applied to the perturbed FLRW metric, and it provides a direct probe of the total matter distribution,both baryonic and dark, along the line of sight. \\
+applied to the perturbed FLRW metric, and it provides a direct probe of the total matter distribution, both baryonic and dark, along the line of sight. \\
 
 Two main regimes of gravitational lensing are relevant for cosmology. \textbf{Strong lensing} occurs in the vicinity of objects with deep gravitational potentials, such 
 as massive galaxy clusters, producing dramatic and easily identifiable distortions such as multiple images, giant arcs, and Einstein rings. It provides precise 
@@ -133,12 +135,13 @@ by measuring the coherent distortion of the shapes of large samples of backgroun
 
 Since lensing responds to all matter along the line of sight, cosmic shear surveys provide a direct measurement of the projected matter distribution. 
 The amplitude of the cosmic shear signal is sensitive to both the amplitude of matter fluctuations $\sigma_8$ and the matter density $\Omega_m$, but these two parameters are largely degenerate in lensing observations. This degeneracy is 
-characterised by the parameter $S_8 = \sigma_8(\Omega_m / 0.3)^{0.5}$,  which current surveys constrain to percent-level precision (\cite{KiDS_2021} \cite{DES_Y3_2022} \cite{DES_y6}, \cite{Dalal_2023}).\\
+characterised by the parameter $S_8 = \sigma_8(\Omega_m / 0.3)^{0.5}$,  which current surveys constrain to percent-level precision (\cite{KiDS_2021,DES_Y3_2022,DES_y6,Dalal_2023}). 
+Figure \ref{fig:lensing} compares the cosmological constraints obtained from successive DES data releases with those from Planck and other CMB experiments, illustrating the progressive improvement in precision.\\
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{MainLayout/Introduction_chapter/figures/des_weak.png}
-    \caption{A comparison of the marginalized parameter constraints in the $\Lambda$CDM model from the Dark Energy Survey (DES) Year 6(\cite{DES_y6}) in red in comparison with previous data releases from DES (green year 3 and orange year 1) and Planck (brown) as well as a combination of CMB measurements (blue).}
+    \caption{A comparison of the marginalized parameter constraints in the $\Lambda$CDM model from the Dark Energy Survey (DES) Year 6 (\cite{DES_y6}) in red in comparison with previous data releases from DES (green year 3 and orange year 1) and Planck (brown) as well as a combination of CMB measurements (blue).}
     \label{fig:lensing}
 \end{figure}
 
@@ -152,20 +155,22 @@ an observed wavelength:
 \begin{equation}
     \lambda_{obs} = 1216\,(1+z)\;\text{\AA}
 \end{equation}
-where $1216\,\text{\AA}$ is the restframe Lyman-$\alpha$ wavelength. It's possible to show that the neutral hydrogen fraction in the IGM traces the 
-underlying total matter density field, making the Lyman-$\alpha$ forest an effective map of the matter distribution along the line of sight 
-(\cite{Gunn_1965}). \\
+where $1216\,\text{\AA}$ is the rest-frame Lyman-$\alpha$ wavelength. Because the neutral hydrogen fraction in the IGM traces the underlying matter density field, 
+the Lyman-$\alpha$ forest provides an effective probe of the matter distribution along the line of sight (\cite{Gunn_1965, Weinberg_2003}). 
+Figure \ref{fig:lyman_alpha} shows a quasar spectrum illustrating the dense sequence of absorption lines that constitute the Lyman-$\alpha$ forest. \\
 
-The cosmological information in the Lyman-$\alpha$ forest is extracted through the power spectrum of the transmitted flux fluctuations, which can be directly related 
+The cosmological information in the Lyman-$\alpha$ forest is extracted through the power spectrum of the transmitted flux fluctuations, which can be related through a physical model 
 to the three-dimensional matter power spectrum (\cite{Croft_1998}). A particularly powerful feature of this probe is that it is sensitive to scales 
-$k \sim 0.1$--$10\,h\,\mathrm{Mpc}^{-1}$ at high redshift, well beyond the reach of galaxy surveys, making it highly complementary to both CMB and galaxy clustering 
-measurements. This sensitivity to small scales and high redshifts allows the Lyman-$\alpha$ forest to constrain the sum of neutrino masses $\sum m_\nu$ through 
+$k \sim 0.1$--$10\,h\,\text{Mpc}^{-1}$ at high redshift, well beyond the reach of galaxy surveys, making it highly complementary to both CMB and galaxy clustering 
+measurements. This sensitivity to small scales and high redshifts allows the Lyman-$\alpha$ forest to constrain the sum of neutrino masses $\sum_{i=1}^3 m_{\nu,i}$ through 
 the small-scale suppression of the power spectrum (\cite{Palanque_2015}), the spectral index $n_s$ and the BAO standard ruler at $z \sim 2.3$ 
-(\cite{Adame_2025_lya}).\\
+(\cite{Adame_2025_lya}). The interpretation of the Lyman-$\alpha$ forest nevertheless requires accurate modelling of several astrophysical processes, 
+including the thermal state of the intergalactic medium, pressure smoothing, the ionizing ultraviolet background, and feedback from galaxies and 
+active galactic nuclei, all of which can modify the transmitted flux power spectrum (\cite{Weinberg_2003}, \cite{Palanque_2015}).\\
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Introduction_chapter/figures/lya.png}
-    \caption{High resolution spectrum of the Lyman-$\alpha$ forest part of a quasar measured at $z=3.63$ taken with the HIRES spectrograph on the 10 m Keck telescope in Hawaï.}
+    \caption{High-resolution spectrum of the Lyman-$\alpha$ forest part of a quasar measured at $z=3.63$ observed with the HIRES spectrograph on the 10 m Keck telescope in Hawaï. Taken from \cite{Womble_1996}.}
     \label{fig:lyman_alpha}
 \end{figure}

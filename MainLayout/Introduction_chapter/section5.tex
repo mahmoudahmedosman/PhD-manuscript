@@ -1,32 +1,37 @@
-\section{Physical explanations for the accelerated Universe}
+\section{Physical Explanations for the Accelerated Universe}
 
-Since the discovery of the acceleration of the Universe by \cite{Riess_1998} and \cite{Perlmutter_1999}, the quest to understand the underlying nature of this acceleration has 
-seen many theories arise on what it could be. We've seen one way this can be done by via the addition of a cosmological constant that introduces a new type of energy in the 
-Einstein equations. Due to the fact that we do not know enough about the nature of this energy it is called "dark energy". In the next subsections we will be discussing some 
-of the theoretical models that were proposed to explain this acceleration. \\
+Since the discovery of the accelerated expansion of the Universe by 
+\cite{Riess_1998} and \cite{Perlmutter_1999}, understanding its underlying origin has 
+become one of the major challenges in modern cosmology. One possible explanation is the 
+introduction of a cosmological constant $\Lambda$ in Einstein's equations. This constant 
+can be interpreted in different ways: as a geometrical contribution modifying the Einstein 
+equations, as an effective fluid with a constant energy density and equation of state 
+$w=-1$, or as a manifestation of the vacuum energy of quantum fields. When interpreted 
+as an additional energy component driving the accelerated expansion, it is referred to as 
+dark energy. In the following subsections, we discuss several theoretical models proposed 
+to explain the observed accelerated expansion.
 
-\subsection{Cosmological constant} \label{sec:expanding_universe}
+\subsection{Cosmological Constant} \label{sec:expanding_universe}
 
 The simplest way to account for the acceleration as we have mentioned before is by adding a cosmological constant $\Lambda$ to the Einstein equations \ref{eqn:einstein_lambda}, 
-which is what is done in the $\Lambda$CDM model. We can look at $\Lambda$ in two different lights, either a modification to the geometry of spacetime or as a part of the 
+which is what is done in the $\Lambda$CDM model. We can look at $\Lambda$ in two equivalent ways, either a modification to the geometry of spacetime or as a part of the 
 energy content of the Universe. Mathematically they are equivalent since the energy-momentum tensor $T_{\mu \nu}$ can include the $\Lambda g_{\mu \nu}$ and their 
 equations of state are indistinguishable in $\Lambda$CDM. \\
 
-\subsection{Dynamical dark energy}
+\subsection{Dynamical Dark Energy}
 
-One could naturally assume that if the acceleration of the Universe is driven by a fluid that its energy density would change throughout time. The common way to model this 
+One could naturally assume that if the acceleration of the Universe is driven by a fluid, its energy density would change throughout time. The common way to model this 
 is with the Chevallier-Polarski-Linder (CPL) model (\cite{Chevallier_2001}) characterized by two parameters $w_0$ and $w_a$ such that:
 \begin{equation}
     w(z) = w_0 + w_a \frac{z}{1+z} = w_0 + w_a(1-a)
 \end{equation}
 Therefore the Hubble parameter becomes:
 \begin{equation}
-    H(z) = H_0 \sqrt{\Omega_m(1+z)^3 + \Omega_r(1+z)^4 + \Omega_k(1+z)^2 + e^{\left( -3w_a\frac{z}{1+z} \right)} \Omega_{\Lambda}(1+z)^{3(1+w_0+w_a)} }
+    H(z) = H_0 \sqrt{\Omega_m(1+z)^3 + \Omega_r(1+z)^4 + \Omega_k(1+z)^2 + e^{\left( -3w_a\frac{z}{1+z} \right)} \Omega_{\text{DE}}(1+z)^{3(1+w_0+w_a)} }
 \end{equation}
+where $\Omega_{\text{DE}}$ is the energy density of this dynamical dark energy. $\Lambda$CDM then becomes a particular case where $w_0=-1$ and $w_a=0$.
 
-$\Lambda$CDM then becomes a particular case where $w_0=-1$ and $w_a=0$.
-
-\subsection{Quintessence field}
+\subsection{Quintessence Field}
 
 The quintessence model uses an approach similar to inflation where one assumes the accelerated expansion is driven by a scalar field $\phi$, here called the quintessence field. 
 The action associated to that field is written as:
@@ -44,13 +49,13 @@ For a FLRW metric, the pressure and energy density become:
 \begin{equation}
     \rho_{\phi} = \frac{1}{2}\dot{\phi}^2 + V(\phi)
 \end{equation}
-Giving us the following equation of state:
+This gives the following equation of state:
 \begin{equation}
     w = \frac{P_{\phi}}{\rho_{\phi}} = \frac{\frac{1}{2}\dot{\phi}^2 - V(\phi)}{\frac{1}{2}\dot{\phi}^2 + V(\phi)}
 \end{equation}
 Under a slow-roll approximation, the field evolves slowly such that $\dot{\phi} \simeq 0$ giving us $w\approx -1$ where we recover the results 
 of a cosmological constant. If we consider a fast rolling field where the potential is negligible in front of the evolution, the equation of state becomes $w\approx 1$ 
-however this is not physical since we know that for an accelerating Universe $w<-\frac{1}{3}$. Results from \cite{DESI_DR2_2025} show a preference for a 
+however this is not possible since we know that for an accelerating Universe $w<-\frac{1}{3}$. Results from \cite{DESI_DR2_2025} show a preference for a 
 dynamical dark energy in the CPL parameterization. \\ 
 
 \subsection{Modified Theories of Gravity} \label{sec:modified_gravity}
@@ -62,7 +67,7 @@ exist each modifying a certain aspect of GR. We will be presenting some of those
 The first class consists of adding an additional scalar field to the Einstein-Hilbert action. These fields need to have equations of motions of second-order time derivatives 
 at most to avoid any unphysical solutions. \\
 
-One of the models that do that are the $f(R)$ models (\cite{Sotiriou_2010}) which replaces the Ricci scalar $R$ by a general function of $R$. The action for an $f(R)$ gravity becomes:
+Models in this class include the $f(R)$ models (\cite{Sotiriou_2010}) which replaces the Ricci scalar $R$ by a general function of $R$. The action for an $f(R)$ gravity becomes:
 \begin{equation}
     S = \frac{c^4}{16\pi G}\int \sqrt{-g} f(R) d^4x + \int \sqrt{-g} \mathcal{L}_m d^4x
 \end{equation}
@@ -78,7 +83,7 @@ For the simplest case $f(R)=R-2\Lambda$ we recover GR. For a FLRW metric, the Fr
 \begin{equation}
     -2f'\dot{H} = 8 \pi G (\rho_m + P_m) + \ddot{f'} - H \dot{f'}
 \end{equation}
-If one rewrite Equation \ref{eqn:friedmann_fR} to match what we get in GR $3H^2 = 8\pi G\rho$, we can identify a and effective "curvature fluid" that under certain conditions 
+If one rewrites Equation \ref{eqn:friedmann_fR} to match what we get in GR $3H^2 = 8\pi G\rho$, we can identify an effective "curvature fluid" that under certain conditions 
 would cause an accelerated Universe. This gives us an effective equation of state on $w_{eff}$:
 \begin{equation}
     w_{eff} = -1 + \frac{1}{3f'H^2}\left[8\pi G(\rho_m + P_m) + \ddot{f'} - H \dot{f'} \right]
@@ -88,30 +93,31 @@ Since acceleration is possible for $w<-\frac{1}{3}$ this means that a condition 
     8\pi G(\rho_m + P_m) + \ddot{f'}-H\dot{f'}<2f'H^2
 \end{equation}
 $f(R)$ must also be able to reproduce GR during the early Universe and at high matter density regions to remain consistent with observational results. This screening effect is called 
-the chameleon mechanism and the most well known $f(R)$ theories do possess it. \\
+the chameleon mechanism and the best-known $f(R)$ theories do possess it. \\
 
 \noindent \textbf{\underline{Massive gravity}} \\
-In quantum field theory, forces are mediated by particles — for instance photons for electromagnetism and gluons for the strong force. 
-By analogy, gravity is expected to be mediated by a spin-2 particle called the graviton.The graviton is predicted to be massless 
+In quantum field theory, forces are mediated by particles, for instance photons for electromagnetism and gluons for the strong force. 
+By analogy, gravity is expected to be mediated by a spin-2 particle called the graviton. The graviton is predicted to be a massless 
 particle with an infinite interaction range, that can recover GR in a quantum field theory formalism. If we now assume that the graviton does in fact possess a mass, that would 
 decrease the range of its gravitational interaction as well as its strength between distant objects (\cite{Fierz_1939}, \cite{deRham_2011}). The gravitational potential is then modified as follows:
 \begin{equation}
     \Phi = - \frac{GM}{r}e^{-mr}
 \end{equation}
-where $r$ is the distance to an object, $M$ the mass of the object and $m$ the mass of the graviton. However, the introduction of a massive gravitons produces multiple 
-instabilities such as the inability to recover GR when $m$ goes to 0. It also suffers to produce flat FLRW solutions.\\
+where $r$ is the distance to an object, $M$ the mass of the object and $m$ the mass of the graviton. However, the introduction of massive gravitons produces multiple 
+instabilities such as the inability to recover GR when $m$ goes to 0. It also has difficulty producing flat FLRW solutions.\\
 
 \noindent \textbf{\underline{Breaking assumptions}} \\
 
 The last class of models we will present here are the ones that break physical assumptions. Here we present an example of a model proposed by Gia Dvali, Gregory Gabadadze 
-and Massimo Porrati (\cite{Dvali_2000}) where gravity can propagate in a 5-dimensional space time with an additional spatial dimension. We can think of it as our 4D world embedded 
+and Massimo Porrati (\cite{Dvali_2000}) where gravity can propagate in a 5-dimensional spacetime with an additional spatial dimension. We can think of it as our 4D world embedded 
 in an infinite volume 5D space. The idea being that the gravity on large scales appears to be in 5D while on small scales in 4D, this is due to the Vainshtein effect. 
 The action for such a theory looks like :
 \begin{equation}
     S = 2M_5^3 \int d^5X \sqrt{-\tilde{g}}\tilde{R} + 2M_{pl}^2 \int d^4x \sqrt{-g}R + \int \sqrt{-g}\mathcal{L}_m + S_{GH-} + S_{GH+}
 \end{equation}
-where $M_5$ is the Planck mass $M_{pl}$ in 5D, $\tilde{g}$ and $\tilde{R}$ are the norm of the metric and the Ricci scalar in 5D. The $S_{GH-}$ and $S_{GH+}$ are Gibbons-Hawkings 
+where $M_5$ is the Planck mass $M_{pl}$ in 5D, $\tilde{g}$ and $\tilde{R}$ are the norm of the metric and the Ricci scalar in 5D. The $S_{GH-}$ and $S_{GH+}$ are Gibbons-Hawkings-York 
 terms that serve as boundary terms commonly found in, but not limited to, quantum gravity theories.\\ 
-The theory does predict a late time acceleration (\cite{Deffayet_2001}), however it suffers theoretical instabilities and unphysical solutions (\cite{Koyama_2007}). Observations have also ruled the theory out 
+The theory does predict a late time acceleration (\cite{Deffayet_2001}), however it suffers theoretical instabilities and unphysical solutions (\cite{Koyama_2007}). 
+Observations have also ruled the theory out 
 DGP theories (\cite{Fang_2008}). \\
 
