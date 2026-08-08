@@ -7,13 +7,13 @@ Part of my PhD work, I took charge of the analysis of pre-DC1, a slightly differ
 All of the elements concerning the generation of the pre-DC1 supernovae can be summarized in the following list : 
 \begin{itemize}
     \item All of the supernova data was generated with SkySurvey \footnote{\url{https://github.com/MickaelRigault/skysurvey}}.
-    \item The cosmology that was used is Planck18 found in astropy.cosmology ($\Omega_m=0.30966$) (ref).
+    \item The cosmology that was used is Planck18 found in astropy.cosmology ($\Omega_m=0.30966$) (\cite{Planck_2018_params}).
     \item The color and stretch of the supernovae were drawn from a normal distribution centered around 0, with $\sigma(c) = 0.1$ and $\sigma(X_1) = 1$.
     \item There are no redshift errors added to any supernovae.
     \item A spectrum is generated for each supernova from ZTF and SNLS drawn from a phase when the SN was observed.
     \item Magnitude cuts were done before the application of any noise and intrinsic dispersion. For each survey the magnitude cuts are written in table \ref{tab:mag_cuts}. This ensures that there are no selection effects added to the simulations.
-    \item The rate of the supernovae were chosen to be Frohmaier+19 (ref).
-    \item The milky way dust extinction was drawn out from the Planck dust map (ref) and the $E(B-V)_{MW}$ values follow the CM89 dust law (ref).
+    \item The rate of the supernovae were chosen to be Frohmaier+19 (\cite{Frohmaier_2019}).
+    \item The milky way dust extinction was drawn out from the Planck dust map and the $E(B-V)_{MW}$ values follow the CM89 dust law (\cite{Cardelli_1989}).
     \item The addition of the intrinsic dispersion, $\sigma_{int}$, is applied on the observed magnitudes of each supernova.
     \item Lightcurve measurement uncertainties were drawn from sncosmo \footnote{\url{https://sncosmo.readthedocs.io/en/stable/}} as a function of the skynoise taken from the real observational logs.
     \item An error snake is also added to the lightcurves drawn from a normal distribution with a dispersion of 5\% of the flux. The error snake term is the same for a given band and given night for a given supernova.

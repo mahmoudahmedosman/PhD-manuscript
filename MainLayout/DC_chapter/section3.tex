@@ -1,9 +1,9 @@
-\section{Results : Potential biases \& systematics}
+\section{Results: Potential biases \& systematics}
 
 \subsection{Model \& data agreement}
 
-The results we present here are obtained on 1 realization of the pre-DC1 simulations. 
-The average time it takes to train one pre-DC1 sample of supernova is X. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. \\
+The results we present here are obtained on 1 realization of the pre-DC1 simulations. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. 
+%The average time it takes to train one pre-DC1 sample of supernova is X. \\
 
 \noindent In Figures \ref{fig:dc1_lc_resid} and \ref{fig:dc1_spec_resid} we are plotting the photometric and spectroscopic residuals weighted by the 
 measurement uncertainties. We see that after the model training, we are able to accurately describe the data with NaCl within the model's definition domain. 
@@ -53,7 +53,7 @@ We see that the reconstructed parameters match the input parameters within the s
 output uncertainties ($\sigma_{Fisher}$) from 1 pre-DC1 realization with the uncertainties extracted from the empirical covariance matrix ($\sigma_{Emp}$) constructed from the run 
 on the 100 pre-DC1 realizations. We see that for each block of parameters $X_0$, $X_1$ and $c$, $\sigma_{Fisher}$ is equivalent to $\sigma_{Emp}$ and well within 
 the statistical uncertainties of $\sigma_{Emp}$. This is also highlighted when we look at their ratios where they are centered around 1. We are now convinced that the NaCl can 
-produce unbiased parameters along their uncertainties in a LEMAITRE-like analysis. \\
+produce unbiased parameters along their uncertainties in a \textsc{Lemaître}-like analysis. \\
 
 \subsection{Distance modulus and cosmological parameters reconstruction}
 
@@ -73,9 +73,15 @@ We can now move on to determining the cosmological parameters with cosmologix. \
     \label{fig:dc1_hubble}
 \end{figure}
 
-\noindent In Figures \ref{fig:dc1_contour} and ref(om and w coverage plots) we show the results from 1 realization of pre-DC1 and from the 100 realizations of pre-DC1. 
+%\noindent In Figures \ref{fig:dc1_contour} and ref(om and w coverage plots) we show the results from 1 realization of pre-DC1 and from the 100 realizations of pre-DC1. 
+%We are plotting the contours for all the $\Omega_m$ and $w$ parameters obtained. 
+%What we see is that we recover unbiased results within $1\sigma$ ensuring that our pipeline works. \\
+
+
+\noindent In Figure \ref{fig:dc1_contour} we show the results from 1 realization of pre-DC1. 
 We are plotting the contours for all the $\Omega_m$ and $w$ parameters obtained. 
-What we see is that we recover unbiased results within $1\sigma$ ensuring that our pipeline works. \\
+What we see is that we recover biased results within $1\sigma$ ensuring that our pipeline works. \\
+
 
 \begin{figure}[ht]
     \centering
@@ -84,6 +90,9 @@ What we see is that we recover unbiased results within $1\sigma$ ensuring that o
     \caption{$\Omega_m$ and $w$ contours for 1 realization of pre-DC1}
     \label{fig:dc1_contour}
 \end{figure}
+
+
+
 
 %\begin{figure}[ht]
 %    \centering

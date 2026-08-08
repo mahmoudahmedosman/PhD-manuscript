@@ -73,9 +73,6 @@ much as possible. In order to determine $\mathbf{P}^{data}$, we define $\mathcal
 as a vector). We then introduce for each $\mathcal{N}_i$ a parameter $\mu_i$ which will act as a gate function of $\mathcal{N}_i$. This will determine the force of our 
 regularization. The idea is that if $\mathcal{N}_i=0$ we regularize model strongly, otherwise we don't.\\
 
-\textcolor{red}{COMMENT : This specific version of the regularization wasn't implemented in the final version of NaCl since we still had to test other things in between. 
-I will be rewriting this part of the manuscript again.}
-
 $\mu_i$ is then defined as: 
 
 \begin{equation}
@@ -114,9 +111,12 @@ Since the hyperparameters are now included in the  $\mathbf{P}$ matrix, the pena
     \label{eqn:chi2_reg_new}
 \end{equation}
 
+This adaptive regularization however presented issues when applied to supernova data. The minimization algorithm would not fully converge when this regularization is used. Moreover, 
+the recovered supernova parameters presented biases. 
+
 \subsection{NaCl training recipe}
 
-During the tests of NaCl on simulations of LEMAITRE-like supernova, we have noticed that fitting all of the parameters can cause issues. If the model parameters are not close to 
+During the tests of NaCl on simulations of \textsc{Lemaître}-like supernova, we have noticed that fitting all of the parameters can cause issues. If the model parameters are not close to 
 the truth we found cases where the error model would dominate. This is not problematic for the minimizer as it sees this as a way to describe the data but physically none of the 
 parameters are being fitted. Another issue encountered was the possibility of converging the minimizer at a local minima rather than a global minima. 
 We've developed during the PhD a training recipe that allows for having good initial guesses of the supernova and model parameters. 

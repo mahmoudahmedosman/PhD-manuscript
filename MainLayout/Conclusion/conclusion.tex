@@ -1,0 +1,85 @@
+\section{General Conclusion}
+
+Improving the constraints on the growth rate of large-scale structures 
+($f\sigma_8$) is one of the central challenges of modern cosmology, as it 
+provides a direct test of gravity on cosmological scales. During this PhD, 
+I addressed this challenge through two complementary fronts using Type Ia 
+supernovae from the ZTF survey: improving the precision of supernova 
+distance measurements, and applying a field-level inference pipeline 
+to reconstruct the velocity field of the nearby Universe. \\
+
+
+The first front focused on improving the distance measurements of supernovae through the continued development and applications of the 
+NaCl framework: an algorithm designed to train empirical Type Ia supernovae spectrophotometric models while fitting their light curves. 
+The trained model uses 
+the SALT2 parameterization consisting of two global surfaces ($M_0(p, \lambda)$ and $M_1(p, \lambda)$) and a color law $CL(\lambda)$. The framework normally 
+requires both photometric and spectroscopic data in order to train the model. For spectrophotometric data, such as SNfactory, this required the development of 
+additional conditions in NaCl in order to be able to use the data for the model training. This consisted in removing the spectrum recalibration polynomial, reintroducing 
+the color law in the spectral model as well as fitting the $X_0$ parameter for each supernova directly from their spectra. 
+This was then tested on the SNfactory dataset where the NaCl proved capable of training a model on real data as well as to highlight the limitations of the SALT2 parameterization 
+in capturing the supernova variability in the UV, Si II and Ca II regions. 
+My work also involved the development of an adaptive regularization in the model that would adapt the model in the regions where there is a lack of data. This regularization 
+is not currently implemented in NaCl due to the fact that in its current state, it does not allow the minimization to fully converge. 
+Further work is required to stabilize the minimization procedure, potentially through a reformulation of the regularization.
+
+NaCl is an essential a part of the \textsc{Lemaître} project, combining data from ZTF, SNLS and HSC surveys in order to construct a Hubble with $\sim$ 3000 independent Type Ia supernovae 
+within the redshift range $0<z<1.5$, the largest independent sample yet. With the development of the new Georges cosmological pipeline embedded within \textsc{Lemaître}, 
+additional validation tests on simulated datasets needed to be conducted on the pipeline: the DCs. The validation of NaCl within Georges was done with DC1 and pre-DC1. The 
+results show that NaCl manages to accurately describe the photometric evolution of Type Ia supernovae but still introduces biases in the cosmological results. Moreover, the 
+uncertainties obtained from the Fisher matrix of NaCl have been shown to be well estimated with the exception of the uncertainties obtained on two sets of parameters $X_1$ and 
+$c$. \\
+
+
+The second front focused on applying the BORG Bayesian field-level inference pipeline on ZTF Type Ia supernovae. The goal of this is to obtain the most accurate reconstruction 
+of the velocity field from the supernovae by directly inferring the initial conditions of the underlying matter field, and with the use of a gravity model, obtain the 
+large scale structures. BORG has proven to be more accurate than other widely used methods in reconstructing the velocity field. With the development of a novel BORG-PV pipeline 
+that includes an improved selection modeling and supernova prior, tests on self-consistent simulations showed the capability of accurate reconstruction of the density and velocity 
+fields. The pipeline also proved capable in inferring cosmological parameters such as $\Omega_m$ and $\sigma_8$ under the assumption of $\Lambda$CDM. 
+When applied to more realistic ZTF-like simulations generated from the 
+Uchuu N-body simulation, the pipeline successfully reconstructed the 
+density and velocity fields, though recovering the cosmological parameters 
+proved more challenging. 
+These results motivate further investigation of the simulation framework and supernova modeling before applying the pipeline to real ZTF data.
+These results pave the way for future analyses for the measurement of $f\sigma_8$ and for cross-survey analyses. 
+
+
+
+\section{Future Prospects}
+
+The work conducted during this PhD presents the base of a larger and more complete analysis of the data. On the side of NaCl, 
+additional testing on capturing calibration uncertainties is needed within DC3 and a color scatter implementation is needed for DC4 before finalizing the NaCl 
+framework.  
+Moreover, a more complex 
+error model needs to be implemented in order to capture uncertainties that are wavelength-phase-dependent as well as to spot outliers that may have 
+contaminated the training dataset. 
+Once that is complete, DC5 can be tested and the pipeline can operate on the full-blinded \textsc{Lemaître} dataset 
+in order to obtain 
+an independent measurement of the dark energy equation of state $w$ 
+and its potential time variation $w_a$, with a dataset of $\sim 3000$ 
+Type Ia supernovae spanning $0 < z < 1.5$. 
+Running the full pipeline will also give us access to accurate measurement of the supernovae distances which will then allow us to proceed to $f\sigma_8$ measurements. \\
+
+
+On the BORG-PV side, more realistic ZTF simulations are needed in order to validate the pipeline. This includes applying masks to only cover the ZTF footprint 
+as well as masking the Milky Way on the line of sight. 
+An important aspect not yet accounted for is the correlation between 
+supernova distance measurements, as seen in Chapter \ref{chap4}. 
+Accounting for these correlations within the BORG-PV likelihood is a challenge that must be met before operating on the ZTF data. 
+Lastly, in order to operate on the full ZTF dataset, a more complex selection function is needed within the likelihood. 
+
+Another aspect that can be explored within BORG-PV is the possibility of conducting a cross-survey analysis. 
+One approach would be to use the Manticore-Local constrained realization 
+of the local Universe as the density field for BORG-PV. 
+This would allow a joint inference 
+combining the velocity information from ZTF supernovae with the density 
+field information from the galaxy survey, effectively performing a 
+multi-tracer field-level inference. 
+The exact incorporation of a multi-probe analysis is yet to be determined, and extensive testing on simulations is required before moving on to applications on real data. \\
+
+The methods developed during this PhD lay the groundwork for future 
+analyses with the Vera C. Rubin Observatory's LSST, which will provide 
+an order of magnitude more Type Ia supernovae at low redshift, enabling 
+tighter constraints on $f\sigma_8$ and a rigorous test of $\Lambda$CDM.
+
+
+

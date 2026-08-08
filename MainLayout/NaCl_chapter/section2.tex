@@ -3,11 +3,63 @@
 The first part of my work for this thesis was the continuation of the development of a new framework designed to train spectrophotometric models of type Ia supernova called 
 NaCl ("Nouveaux Algorithmes de Courbes de Lumière") which was initially started by G. Augarde during his PhD, defended in September of 2022 (\cite{augar2022}).
 
+Following the exploratory work conducted in G. Augarde’s thesis, the 
+framework required substantial refactoring to make it fully 
+model-independent and capable of scaling to the approximately 3,000 
+objects in the \textsc{Lemaître} dataset. I contributed to the redesign and 
+implementation of the framework, performed the first tests on real 
+data, and carried out the first extensive validation of the new 
+framework using realistic simulated datasets.  
+
+\subsection{Why a spectrophotometric model? }
+
+
+NaCl is one of the main components of the cosmological inference 
+pipeline described in the previous chapter. Its primary purpose is to 
+infer from the supernova light-curves, measured in several 
+observer-frame passbands, the restframe quantities required to 
+determine standardized distances. \\
+
+In the standardization scheme introduced by \cite{Tripp_1999} (Equation \ref{eqn:full_tripp}), 
+these quantities are:
+\begin{enumerate}
+    \item $X_0$ or equivalently $m_B = -2.5 log_{10}(X_0)$ which represent the SN restframe broadband flux, conventionally defined in the B-band
+    \item $c$, a restframe color, conventionally defined in the B and V bands
+    \item $X_1$ a restframe light curve shape parameter measuring the width of the light curve.
+\end{enumerate}
+
+None of these quantities are directly measurable from the 
+observer-frame light curves. Instead, they must be inferred using a 
+spectrophotometric model: $\mathcal{S}(p, \lambda; \theta)$, where $p$ is 
+the rest-frame phase of the supernova and $\lambda$ the rest-frame 
+wavelength and $\theta$ a set of parameters describing the diversity 
+of supernovae: typically $X_1$ and $c$ in the Tripp scheme. \\
+
+When combined with models of the telescope bandpasses, such a model 
+predicts the observer frame supernova flux as a function of phase and 
+the parameters $X_0, X_1, c$. These can then be estimated by fitting 
+the predicted fluxes to the observed light curves through likelihood 
+minimization. \\
+
+The central challenge is therefore the determination of the model 
+$\mathcal{S}(p,\lambda,\theta)$. The standard approach is to learn it directly 
+from the data. The model may, for example, be decomposed on a spline 
+basis, or implemented as a neural network, and its parameters fitted 
+on a training sample. This sample typically includes light curves 
+spanning a redshift range as broad as possible, as well as spectra 
+that help capture the detailed spectral features of Type Ia supernovae 
+and their diversity. \\
+
+NaCl was developed specifically for the \textsc{Lemaître} cosmology inference 
+pipeline. It comprises all the code needed to learn the model and fit the set of parameters describing the diversity 
+of supernovae. In the following sections we will detail the idea behind the framework as well as the differences with the SALT models. We will then 
+detail the components of NaCl and their implementations before moving to its applications on real data and simulations. 
+
 
 \subsection{The idea behind the framework}
 
 The framework is meant to be able to easily train a spectrophotometric model all while being able to accurately propagate all known sources of uncertainties. 
-It is meant to be easy to use and manipulate in order to account for any new developments in how spectrophotmetric models are parameterized. 
+It is meant to be easy to use and manipulate in order to account for any new developments in how spectrophotometric models are parameterized. 
 The idea is to then have a framework that is fast and capable of conducting model training easily every time one can do so on a cosmological dataset of type Ia supernova. 
 We will see how this will allow us to overcome issues previous spectrophotometric models have encountered, such as calibration issues. The entirety of the framework 
 has been coded in Python3. \\
@@ -15,19 +67,20 @@ has been coded in Python3. \\
 \subsection{Differences with the SALT models}
 
 
-This parameterization, like SALT2, is a classic principal component analysis, or PCA, with the addition of a color law. The main differences with SALT models is in 
+This parameterization, like SALT2, is similar to a classic principal component analysis, or PCA, with the addition of a color law. 
+The main differences with SALT models is in 
 the training procedure. NaCl training and lightcurve fitting is done simultaneously on the same dataset used for the cosmological analysis. 
 This reduces the model systematics obtained from SALT models due to the change of datasets when conducting a cosmological analysis. It also means we can directly 
 obtain a covariance matrix containing the correlations between supernova lightcurve parameters and also model parameters. This directly affects the distance modulus. \\
 
 In NaCl the date of maximum emission $t_{max}$ is fitted during the training of NaCl. This is a big difference from what is done for the SALT models where $t_{max}$ is 
-fitted beforehand. The reason why in NaCl we do that is to account for the possible changes of $t_{max}$ that may arise due to the changes in the spectrophotmetric model
+fitted beforehand. The reason why in NaCl we do that is to account for the possible changes of $t_{max}$ that may arise due to the changes in the spectrophotometric model
 during the training. \\
 
 Calibration uncertainties are modeled as nuisance parameters in NaCl that are fitted during the training, held by a covariance matrix allowing us to account for the correlations 
 between filters. This also ensure we have an exact propagation of the calibration systematics in our training and prevents us from doing multiple trainings. \\
 
-\subsubsection{Practical implementation of the SALT2 model}
+\subsection{Practical implementation of the SALT2 model}
 
 In order to be able to determine the global model surfaces ($M_0$ and $M_1$), we will be describing them with the help of B-splines. 
 This is a particular set of polynomials of order $m-1$, called splines of degree $m$, that can form a basis. Their smoothness will allow our model surfaces to 
@@ -81,12 +134,17 @@ parameter constraints through Lagrange multipliers, both of which improve the nu
 
 
 
-\subsection{Constraints}
+\subsubsection{Constraints}
 
-Since this model is built empirically, we can see that there will be a lot of degeneracies between the individual and model parameters. To break those degeneracies we will be adding a set of constraints.\\ 
+Since this model is built empirically, we can see that there will be a lot of degeneracies between the individual and model parameters. To break those degeneracies we will 
+be adding a set of constraints.\\ 
 
 When NaCl was first developed, the constraints used were the same as the ones for SALT2 and SALT3 (\cite{Kenworthy_2021_SALT3}) models. 
-Although those constraints break the degeneracies that exist between parameters, we've decided to include a new set of constraints that would address two things : the first that one of the constraints is non linear which made the model training take a longer time, the other was that some constraints depended on the supernovae used in the training sample. An example such a constraint was $<X_1> = 0$ which defined the average stretch of a supernovae. This is isn't an issue if we are comparing the stretch of supernovae that were fitted using the same model. However since NaCl will be used to train different models on different datasets, it'll be more difficult to directly compare the parameters of the supernovae.\\
+Although those constraints break the degeneracies that exist between parameters, we've decided to include a new set of constraints that would address two things: 
+the first that one of the constraints is non linear which made the model training take a longer time, the other was that some constraints depended on the supernovae 
+used in the training sample. An example such a constraint was $<X_1> = 0$ which defined the average stretch of a supernovae. This is isn't an issue if we are comparing the 
+stretch of supernovae that were fitted using the same model. However since NaCl will be used to train different models on different datasets, it'll be more difficult 
+to directly compare the parameters of the supernovae.\\
 
 During this PhD, the following sets of constraints were developed. I will be detailing what they do and why they were developed.\\
 
@@ -116,13 +174,16 @@ $p = 0$, the model presents a maxima in the standard $B$-band :
 
 \noindent \textbf{\underline{\large{Color Law:}}} \\
 
-We also need to account for the degeneracy that exists between the spectral shape of the model and $CL$. Tilting the $M_0$ and $M_1$ can be completely corrected for by changing $CL$. We impose then that $CL(B) = 0$ and $CL(V ) = 1$ with $B$ and $V$ being the central wavelengths of the restframe standard $B$-band and $V$-band.\\
+We also need to account for the degeneracy that exists between the spectral shape of the model and $CL$. Tilting the $M_0$ and $M_1$ can be completely corrected for by 
+changing $CL$. We impose then that $CL(B) = 0$ and $CL(V ) = 1$ with $B$ and $V$ being the central wavelengths of the restframe standard $B$-band and $V$-band.\\
 
 
 \noindent \textbf{\underline{\large{Average color:}}} \\
 
-Another degeneracy exists between the individual supernova color $c$ and the $M_0$. Changing the spectral features of the model can be completely compensated by the value of $c$. For that we need to define the "average" supernova color. 
-We impose that the the $M_0$ surface would have its $B - V$ color equal to 0 at peak luminosity and that $c$ accounts for the relative variations in color with respect to that. The constraint now becomes :
+Another degeneracy exists between the individual supernova color $c$ and the $M_0$. Changing the spectral features of the model can be completely compensated by the 
+value of $c$. For that we need to define the "average" supernova color. 
+We impose that the the $M_0$ surface would have its $B - V$ color equal to 0 at peak luminosity and that $c$ accounts for the relative variations in color with 
+respect to that. The constraint now becomes:
 
 \begin{equation}
     \int \left[ M_0(\lambda, p=0)B(\lambda) - M_0(\lambda, p=0)V(\lambda)   \right] \frac{\lambda}{hc} d\lambda = 0
@@ -130,7 +191,9 @@ We impose that the the $M_0$ surface would have its $B - V$ color equal to 0 at 
 
 \noindent \textbf{\underline{\large{Average stretch:}}} \\
 
-A similar degeneracy also exists with $X_1$. A global change of the $X_1$’s can be absorbed by changing the shape of the $M_0$ surface along the phase axis. We have decided to fix the value of $X_1=1$ such that it would be equivalent to having the same $X_1$ value using SALT2. For that we fix the difference between the model evaluated for $X_1=0$ and $X_1 = 1$ at a phase of 15 :
+A similar degeneracy also exists with $X_1$. A global change of the $X_1$’s can be absorbed by changing the shape of the $M_0$ surface along the phase axis. 
+We have decided to fix the value of $X_1=1$ such that it would be equivalent to having the same $X_1$ value using SALT2. For that we fix the difference between 
+the model evaluated for $X_1=0$ and $X_1 = 1$ at a phase of 15:
 
 \begin{equation}
     \int \left[M_0(\lambda, p=15) + M_1(\lambda, p=15) \right] \frac{\lambda}{hc}B(\lambda) d\lambda - \alpha \int M_0(\lambda, p=15) \frac{\lambda}{hc}B(\lambda) d\lambda = 0
@@ -139,38 +202,24 @@ with $\alpha = 10^{-0.4 \times 0.162}$ the flux difference we have found in SALT
 
 \noindent \textbf{\underline{\large{Average width:}}} \\
 
-The last unwanted degree of freedom is regarding the width of the model. We can see that the definition of $X_1$ relies on a difference between the model with different stretch parameters but it doesn’t define what the width of the model is. We can always make the model larger or smaller while maintaining the constraints on all of the other parameters. One way to bypass that issue is to constrain the model at a certain phase. We choose to fix the model at a phase $p=15$, also known as $\Delta m_{15}$ as : 
+The last unwanted degree of freedom is regarding the width of the model. We can see that the definition of $X_1$ relies on a difference between the model with different 
+stretch parameters but it doesn’t define what the width of the model is. We can always make the model larger or smaller while maintaining the constraints on all of 
+the other parameters. One way to bypass that issue is to constrain the model at a certain phase. We choose to fix the model at a phase $p=15$, also 
+known as $\Delta m_{15}$ as: 
 
 \begin{equation}
     \int M_0(\lambda, p=15) \frac{\lambda}{hc} d\lambda = 10^{-0.4}
 \end{equation} \\
 
-In practice, we write down the constraints as a function $C_k(\beta) = \alpha_k $ where $C_k(\beta)$ is a function evaluating the $k$-th constraint of value $\alpha_k$. This is then added as penalty that takes the form $\mu_{cons}\sum_k (C_k(\beta)-\alpha_k)^2$ where $\mu_{cons}$ is hyperparameter that determines the strength of the penalty. We can write this in a matrix $\mathbf{C}(\beta)$ and we obtain :
+In practice, we write down the constraints as a function $C_k(\beta) = \alpha_k $ where $C_k(\beta)$ is a function evaluating the $k$-th constraint of value $\alpha_k$. 
+This is then added as penalty that takes the form $\mu_{cons}\sum_k (C_k(\beta)-\alpha_k)^2$ where $\mu_{cons}$ is hyperparameter that determines the strength of the 
+penalty. We can write this in a matrix $\mathbf{C}(\beta)$ and we obtain:
 
 \begin{equation}
     \boxed{\chi_{cons}^2 = \mu_{cons} \mathbf{C}(\beta)^T \mathbf{C}(\beta)}
 \end{equation}
 
-\subsection{Regularization}
-
-Because our training dataset contains a finite number of data points, it’s impossible that the entirety of the global parameters would be constrained by data. To deal with that we add regularization to the model during the fit, which is a penalty added to the model in the areas where we would have extremely large variations due to poor constraining power of the data. This is specifically really important for NaCl since we are fitting the date of maximum emission there are data points that could go outside of the model range. \\
-
-The regularization penalty that was initially developed was expressed as :
-
-\begin{equation}
-    \mu_{reg} \sum_{kl} \left(  \theta_{k,l}^2 + \left( \theta_{k+1,l} - \theta_{k,l} \right)^2   \right)
-    \label{eqn:old_reg}
-\end{equation}
-
- where $\theta_{kl}$ are the model parameters as seen in equation \ref{eqn:model_spline}. The first sum is a penalty that makes the $\theta$'s tend to zero when no data is available. The second term is a penalty of the phase derivatives of the surfaces that limits the sharp variations of the model observed when no data is available, or at poorly constrained regions of the model. Finally, $\mu_{reg}$ is a hyperparameter that determines the strength of the penalty. Writing this in a matrix form gives us :
-
- \begin{equation}
-     \chi^2_{reg} = \mu_{reg}\beta^T \mathbf{P} \beta
-     \label{eqn:chi2_reg_old}
- \end{equation}
- where $\mathbf{P}$ is what we call the regularization matrix, that allows us to obtain the expression in equation \ref{eqn:old_reg}, and $\beta$ our set of parameters. \\
-
-\subsection{Error models}
+\subsubsection{Error models}
 
 Dealing with an empirical model means that we expect that our model would not perfectly describe the data. More specifically, the residuals of the model would not be 
 explained solely by the measurement uncertainties on the data. This is a variability that exists between supernovae, unable to be captured by the SALT2 parameterization.\\
@@ -179,9 +228,8 @@ measurements of cosmological parameters as it has been shown in the most recent 
 \cite{vincenzi2024darkenergysurveysupernova}).\\
 We can account for both the supernova variability and calibration uncertainties with the help of error models.\\
 
-\subsubsection{Error Snake}
-
-The first error model is the Error Snake, which is supposed to capture errors directly due to variability in the flux. If we call $V$ the variance of the data points, then the error model is implemented as :
+The first error model employed is the Error Snake, which is supposed to capture errors directly due to variability in the flux. If we call $V$ the variance of the data points, 
+then the error model is implemented as:
 \begin{equation}
     V = \sigma_{meas}^2 + \sigma_{snake}^2
 \end{equation}
@@ -191,27 +239,30 @@ The general expression of this term is :
 \begin{equation}
     \sigma_{snake} = G(\lambda, p) \times \phi(\lambda,p)
 \end{equation}
-where $\phi$ is the concatenation of both the measured photometric and spectroscopic fluxes used in our training dataset. $G(\lambda, p)$ can take multiple forms depending on how we would like to model our Error snake. \\
+where $\phi$ is the concatenation of both the measured photometric and spectroscopic fluxes used in our training dataset. $G(\lambda, p)$ can take multiple forms 
+depending on how we would like to model our Error snake. \\
 
-The simplest way to model it would be as a constant. The expression becomes : 
+The simplest way to model it would be as a constant. The expression becomes: 
 \begin{equation}
     G(\lambda, p) = g
 \end{equation}
 Physically this means that the variability of the supernovae in our dataset are independent of phase and wavelength.\\
 
-Alternatively, we can imagine something more complex by modeling $G$ as a surface like $M_0$ and $M_1$ that is to be determined during the training. The expression then becomes:
+Alternatively, we can imagine something more complex by modeling $G$ as a surface like $M_0$ and $M_1$ that is to be determined during the training. 
+The expression then becomes:
 \begin{equation}
     G(\lambda, p) = g(\lambda, p)
 \end{equation}
 Here, the variability does depend on phase and wavelength.\\
 
-Lastly, we thought of adding a bit more complexity in our Error snake since we know that it's possible that our dataset could be contaminated by very peculiar supernovae or by objects that are hard to distinguish from type Ia supernova such as type Ib and type Ic supernovae or . We decided to also include an extra term in $G$ that takes up one value for each supernova in our dataset, we call it $\gamma_{SN}$. We expect that the $\gamma_{SN}$ value of a peculiar supernova would be larger than the others. The expression then becomes : 
+Lastly, we thought of adding a bit more complexity in our Error snake since we know that it's possible that our dataset could be contaminated by very peculiar 
+supernovae or by objects that are hard to distinguish from type Ia supernova such as type Ib and type Ic supernovae. We decided to also include an 
+extra term in $G$ that takes up one value for each supernova in our dataset, we call it $\gamma_{SN}$. We expect that the $\gamma_{SN}$ value of a 
+peculiar supernova would be larger than the others. The expression then becomes: 
 
 \begin{equation}
     G(\lambda, p) = \gamma_{SN} \times g(\lambda, p)
 \end{equation}
-
-which is what we would like to use in the final analysis of the LEMAÎTRE dataset. However it is important to note that for the data challenges, specifically DC1 (see Chapter 4), we will be using the simplest form of the Error snake.
 
 \begin{figure}[htpb]
 \centering
@@ -230,23 +281,48 @@ which is what we would like to use in the final analysis of the LEMAÎTRE datase
     \caption{}
     \label{fig:snake}
 \end{subfigure}
-\caption{Visual representation of the error snake on simulated lightcurves from DC1 (see section (reference)). In \ref{fig:nosnake} we see how the model represents the data without an error snake model. In \ref{fig:snake} we see a highlighted section for each lightcurves which are the variations modeled by the error snake.}
+\caption{Visual representation of the error snake on simulated lightcurves. In \ref{fig:nosnake} we see how the model 
+represents the data without an error snake model. In \ref{fig:snake} we see a highlighted section for each lightcurves which are the variations modeled by 
+the error snake.}
 \label{fig:errorsnake}
 \end{figure}
 
-\subsubsection{Color Scatter}
+\subsubsection{Regularization}
 
-\noindent \textcolor{red}{COMMENT : Waiting for the final implementation}
+Because our training dataset contains a finite number of data points, it’s impossible that the entirety of the global parameters would be constrained by data. 
+To deal with that we add regularization to the model during the fit, which is a penalty added to the model in the areas where we would have extremely large variations 
+due to poor constraining power of the data. This is specifically really important for NaCl since we are fitting the date of maximum emission there are data points 
+that could go outside of the model range. \\
+
+The regularization penalty that was initially developed was expressed as:
+
+\begin{equation}
+    \mu_{reg} \sum_{kl} \left(  \theta_{k,l}^2 + \left( \theta_{k+1,l} - \theta_{k,l} \right)^2   \right)
+    \label{eqn:old_reg}
+\end{equation}
+
+ where $\theta_{kl}$ are the model parameters as seen in equation \ref{eqn:model_spline}. The first sum is a penalty that makes the $\theta$'s tend to zero when no 
+ data is available. The second term is a penalty of the phase derivatives of the surfaces that limits the sharp variations of the model observed when no data is 
+ available, or at poorly constrained regions of the model. Finally, $\mu_{reg}$ is a hyperparameter that determines the strength of the penalty. Writing this in 
+ a matrix form gives us:
+
+ \begin{equation}
+     \chi^2_{reg} = \mu_{reg}\beta^T \mathbf{P} \beta
+     \label{eqn:chi2_reg_old}
+ \end{equation}
+ where $\mathbf{P}$ is what we call the regularization matrix, that allows us to obtain the expression in equation \ref{eqn:old_reg}, and $\beta$ our set of parameters. \\
+
 
 \subsubsection{Calibration Uncertainties}
 
-The calibration uncertainties are taken into account directly in the model. One parameter $\eta$ is added for each transmission band in our dataset held by a prior that is known beforehand. For the LEMAÎTRE project we have 12 bands, so we'll have 12 $\eta$ parameters. The expression of the photometric model becomes : 
+The calibration uncertainties are taken into account directly in the model. One parameter $\eta$ is added for each transmission band in our dataset held by 
+a prior that is known beforehand. For the LEMAÎTRE project we have 12 bands, so we'll have 12 $\eta$ parameters. The expression of the photometric model becomes: 
 
 \begin{equation}
     \phi_{phot}(\lambda, p) = X_0 (1+\eta) (1+z) \int S(\lambda, p) T(\lambda) \frac{\lambda}{hc}d\lambda
 \end{equation}
 
-With an additional penalty to the model :
+With an additional penalty to the model:
 
 \begin{equation}
     \chi^2_{calib} = \mathbf{\eta}^T \mathbf{V_{\eta}}^{-1}\eta
@@ -257,7 +333,7 @@ $\mathbf{V_{\eta}}$ being the $\eta$ covariance matrix that is already known.
 \subsection{NaCl output}
 
 At the end of a training, we get a vector containing all of the model and individual supernova parameters and the full covariance
- matrix calculated from the Hessian of the model : $  \mathbf{V} = 2 \mathbf{H}^{-1}$. For the cosmological analysis, we will be marginalizing 
+ matrix calculated from the Hessian of the model: $  \mathbf{V} = 2 \mathbf{H}^{-1}$. For the cosmological analysis, we will be marginalizing 
  over all but the $X_0$, $X_1$ and $c$ parameters. \\
 
 \begin{figure}[ht]
