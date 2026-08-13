@@ -11,54 +11,49 @@ represent the stretch and color in the Tripp relation. These models are particul
 Spectra are used to determine the spectral features of the model. Once the model has been obtained, one can directly use it on light curves to determine its parameters. \\
 
 We define $\mathcal{S}(\lambda, p)$ as the spectrophotometric evolution of 
-Type Ia supernova where $p$ is the phase of the supernova, defined as the difference between the observation date and the date of maximum emission $p = t - t_{max}$ in days, 
-and $\lambda$ the wavelength in $\AA$, both in observer-frame. The goal is to then obtain $S$. \\
+Type Ia supernova where $p$ is the phase of the supernova, defined as the difference between the observation date and the date of maximum emission $p = \frac{t_{\text{obs}} - t_{max}}{1+z}$ in days, 
+and $\lambda$ the wavelength in $\AA$, both in rest-frame. The goal is to then obtain $S$. \\
 
-We can define the spectral flux density as:
+We can define the observed spectral flux density as:
 \begin{equation}
-    \phi_{spec}(\lambda, p) = \frac{1}{4\pi d_L^2(z)} \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z}) 
+    \phi_{spec}((1+z)\lambda, (1+z)p) = \frac{1}{4\pi d_L^2(z)} \frac{1}{1+z} \mathcal{S}(\lambda, p) 
     \label{eqn:spectral_flux_density}
 \end{equation}
 
 With that we can also deduce the broadband flux observed through a pass-band $T(\lambda)$ as: 
 
 \begin{equation}
-    \phi_{phot}(p) = \frac{1}{4\pi d_L^2(z)} \frac{1}{1+z} \int \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})\frac{\lambda}{hc}T(\lambda) \mathrm{d}\lambda
-\end{equation}
-
-Since the goal of doing supernova cosmology is reconstructing the rest-frame fluxes, we can rewrite the expression in the rest-frame of the supernova as: 
-
-\begin{equation}
-    \phi_{phot}(p) = \frac{1}{4\pi d_L^2(z)} (1+z) \int \mathcal{S}(\lambda, \frac{p}{1+z})\frac{\lambda}{hc}T((1+z)\lambda) \mathrm{d}\lambda
+    \phi_{phot}((1+z)p) = \frac{1}{4\pi d_L^2(z)} (1+z) \int \mathcal{S}(\lambda, p)\frac{\lambda}{hc}T((1+z)\lambda) \text{d}\lambda
     \label{eqn:broadband_flux}
 \end{equation}
 
 As mentioned previously, the luminosity distances of supernovae are defined using the emitted flux in the standard B band at the time of maximum emission, observed at 
-$10\mathrm{pc}$ from the supernova: 
+$10\text{pc}$ from the supernova: 
 
 \begin{equation}
-    \Phi_B = \frac{1}{4\pi(10\mathrm{pc})^2} \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \mathrm{d}\lambda
+    \Phi_B = \frac{1}{4\pi(10\text{pc})^2} \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \text{d}\lambda
 \end{equation}
 
 By imposing the normalization of the model in the $B^*$ band at phase 0:
 
 \begin{equation}
-    \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \mathrm{d}\lambda = 1
+    \int \mathcal{S}(\lambda , p=0) \frac{\lambda}{hc}B(\lambda) \text{d}\lambda = 1
 \end{equation}
 
 And defining the following parameter: 
 
 \begin{equation}
-    X_0 = \Phi_B \frac{(10\mathrm{pc})^2}{d_L^2(z)}
+    X_0 = \Phi_B \frac{(10\text{pc})^2}{d_L^2(z)}
 \end{equation}
 
 We obtain: 
 
 \begin{equation}
-    \phi_{spec}(\lambda, p) = X_0 \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
+    \phi_{spec}((1+z)\lambda, (1+z)p) = X_0 \frac{1}{1+z} \mathcal{S}(\lambda, p)
 \end{equation}
 \begin{equation}
-    \phi_{phot}(\lambda, p) = X_0 (1+z) \int \mathcal{S}(\lambda, \frac{p}{1+z})\frac{\lambda}{hc}T((1+z)\lambda) \mathrm{d}\lambda
+    \phi_{phot}((1+z)p) = X_0 (1+z) \int \mathcal{S}(\lambda, p)\frac{\lambda}{hc}T((1+z)\lambda) \text{d}\lambda
+    \label{eqn:boradband_flux}
 \end{equation}
 
 The SALT parameterization of $\mathcal{S}$ is (\cite{Guy_2007_SALT2}):

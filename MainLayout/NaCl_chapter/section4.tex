@@ -1,136 +1,113 @@
-\section{Improving NaCl}
+\section{A Training Recipe for NaCl}
 
-The foundational framework of \texttt{NaCl} was established by Guy Augarde (\cite{augar2022}), whose work defined its structure and validated it on 
-LSST-like simulations. However, several improvements were identified as necessary to handle realistic data. As part of my PhD, I contributed to developing these 
-improvements, which are presented in the following sections.
+The application of NaCl to the \textsc{Lemaître} dataset presents a 
+different challenge from the training on SNfactory data. The \textsc{Lemaître} 
+sample contains a large number of supernovae and a correspondingly large 
+number of model parameters. In this setting, fitting all 
+parameters simultaneously from arbitrary initial values can lead to an 
+inefficient training procedure. 
 
-\subsection{Implementing a model for spectrophotometric data}
+In particular, we found that when the initial model parameters are far from 
+their optimal values, the error model can absorb part of the discrepancies 
+between the model and the data. Although this provides a valid direction for 
+the minimizer and can lead to a decrease in $\chi_{\text{tot}}^2$, it can prevent the 
+physical model parameters from being properly constrained during the initial 
+stages of the fit. The non-linear nature of the model can also lead the 
+minimizer towards undesirable local minima depending on the initial 
+parameters. \\
 
-Training a spectrophotometric model is done on two types of dataset. Classical models used in cosmological analyses like SALT2 or SALT3 rely on photometric and spectroscopic data 
-obtained separately. Models that aim at refinined the standardization scheme of supernovae rely on spectrophotometric data like the SNfactory data (\cite{snfactory}). The 
-SNIFS instrument used for SNfactory allows for us to obtain a series of well calibrated spectral sequences for each observed supernova making the need for separate photometric 
-data obselete. Being able to use such datasets in NaCl will then require us to add supplementary information in the model to account for that. \\
-
-If we recall in Chapter 2, the SALT parameterization is expressed as:
-\begin{equation}
-    \mathcal{S}(\lambda,p) = [M_0(\lambda,p) + X_1M_1(\lambda, p)]10^{0.4cCL(\lambda)}
-\end{equation}
-used to describe the following spectroscopic and photometric fluxes:
-\begin{equation}
-    \phi_{spec}(\lambda, p) = \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
-\end{equation}
-\begin{equation}
-    \phi_{phot}(\lambda, p) = X_0 (1+z) \int \mathcal{S}(\lambda, \frac{p}{1+z})\frac{\lambda}{hc}T((1+z)\lambda) \mathrm{d}\lambda
-\end{equation}
-
-For spectrophotometric data, the goal is to then describe one data-type that follows:
-\begin{equation}
-    \phi_{specphot}(\lambda, p) = X_0 \frac{1}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
-\end{equation}
-thus removing the need for a recalibration polynomial $SpecRecal$ and reintroducing the color law $CL$ which will determined on the spectra. My work 
-was to code this model in NaCl which lead to the first use of NaCl on a real dataset where the results are presented in Section \ref{sec:nacl_real_data}.\\ 
-
-
-\subsection{Regularization}
-
-
-An issue that we've had with the previously mentioned form of regularization is that it is very sensitive to the value of $\mu_{reg}$. If it's too small the model continues to present very 
-strong variations. If it's too strong the model becomes attenuated and this biases our parameters, which means the cosmological parameters calculated with the output of 
-NaCl would be biased. We show the effects of the strength of the regularization on the model in Figure \ref{fig:regularization} \\ 
-
-
-\begin{figure}[htpb]
-\centering
-\begin{subfigure}{0.9\textwidth}
-   \centering
-   \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e6_reg.pdf}
-   \caption{}
-   \label{fig:weak_reg}
-\end{subfigure}%
-
-\vspace{1em}
-
-\begin{subfigure}{0.9\textwidth}
-   \centering
-   \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e0_reg.pdf}
-   \caption{}
-   \label{fig:strong_reg}
-\end{subfigure}
-\caption{Effects of the strength of the regularization on the shape of the $M_0$. In \ref{fig:weak_reg} we see how the model behaves with a $\mu_{reg}=10^{-6}$. In \ref{fig:strong_reg} we see how the model behaves with a $\mu_{reg}=1$.}
-\label{fig:regularization}
-\end{figure}
-
-To try and overcome this issue, I've developed during this PhD a regularization scheme that adapts the force of the regularization based on the number of 
-points seen by each model parameter. This regularization scheme is inspired by \cite{lenz2022adaptiveregularizationbsplinemodels}. We can separate $\mathbf{P}$ matrix as 
-follows: 
-
-\begin{equation}
-   \mathbf{P} = \mathbf{P}^{data} + \mathbf{P}^{smooth}
-\end{equation}
-
-with $\mathbf{P}^{data}$ and $\mathbf{P}^{smooth}$ the matrices determining the strength based on the number of points and to smoothen the model where there is no data as 
-much as possible. In order to determine $\mathbf{P}^{data}$, we define $\mathcal{N}_i$ as the number of data points seen by each $\theta_{i}$ parameters ($\theta_{kl}$ written 
-as a vector). We then introduce for each $\mathcal{N}_i$ a parameter $\mu_i$ which will act as a gate function of $\mathcal{N}_i$. This will determine the force of our 
-regularization. The idea is that if $\mathcal{N}_i=0$ we regularize model strongly, otherwise we don't.\\
-
-$\mu_i$ is then defined as: 
-
-\begin{equation}
- \mu_i^{data} = \mathrm{max}(\mu_{reg}^{data} - \mathcal{N}_i, 0)
- \label{eqn:reg_mu}
-\end{equation}
-
-We can use that to define a diagonal matrix $\mathbf{M}^{data}$ where $\mathbf{M}_{ii}^{data} = \mu_i^{data}$. It is then clear that the simplest way to define 
-$\mathbf{P}^{data}$ will be to write it as:
-
-\begin{equation}
-   \mathbf{P}^{data} = \mathbf{M}^{data} \times \mathbb{1}
-\end{equation}
-
-\noindent We then define $\mathbf{P}^{smooth}$ as a penalty on the first order derivative of the model in phase, like in equation \ref{eqn:old_reg}. We apply the same 
-adaptive method mentioned previously and we get:
-
-\begin{equation}
-   \mathbf{P}^{smooth} = \mathbf{M}^{smooth} \times \mathbb{P}
-\end{equation}
-
-with $\mathbb{P}$ being : 
-\begin{equation}
-    \mathbb{P} = \begin{bmatrix} 
-    2  & -1& 0  &   &     &...  \\
-    -1 & 1 & -1 & 0 & ... & \\  
-    0  &   &    &...&     &  \\  
-       &   &... &   &     &  0\\ 
-       &...& 0  & -1& 1   & -1 \\  
-    ...&   &    & 0 & -1  & 2 \end{bmatrix}
-\end{equation}
-with $\mu_{reg}^{smooth}$ would be the hyperparameter determining the strength of the regularization on the derivatives.\\
-Since the hyperparameters are now included in the  $\mathbf{P}$ matrix, the penalty now becomes : 
-\begin{equation}
-    \boxed{\chi^2_{reg} = \beta^T \mathbf{P} \beta}
-    \label{eqn:chi2_reg_new}
-\end{equation}
-
-This adaptive regularization however presented issues when applied to supernova data. The minimization algorithm would not fully converge when this regularization is used. Moreover, 
-the recovered supernova parameters presented biases. 
-
-\subsection{NaCl training recipe}
-
-During the tests of NaCl on simulations of \textsc{Lemaître}-like supernova, we have noticed that fitting all of the parameters can cause issues. If the model parameters are not close to 
-the truth we found cases where the error model would dominate. This is not problematic for the minimizer as it sees this as a way to describe the data but physically none of the 
-parameters are being fitted. Another issue encountered was the possibility of converging the minimizer at a local minima rather than a global minima. 
-We've developed during the PhD a training recipe that allows for having good initial guesses of the supernova and model parameters. 
-This helps accelerate the fit and makes it more stable. 
-The current recipe is the following: 
+To address these issues, we developed a sequential training procedure that 
+provides increasingly informed initial estimates for the different components 
+of the model before performing the full fit. This approach reduces the 
+sensitivity of the minimization to the initial conditions, improves the 
+stability of the training, and reduces the computational cost of the full 
+optimization. The resulting training recipe is divided into five steps: 
 
 \begin{enumerate}
-    \item \underline{Lightcruve fit with the initial NaCl model.} In this part we are only fitting $X_0$, $X_1$, $c$ and $t_{max}$ for all supernova lightcurves.
-    \item \underline{$SpecRecal$ fit with the initial NaCl model.} Here we are estimating the recalibration polynomial coefficients. This part of the fit is near instantaneous due to the linearity of the polynomial.
-    \item \underline{Initial model guess.} In this part we aim to obtain relatively close initial guesses for $M_0$, $M_1$ and $CL$ to the truth. This also ensures that the model respects the constraints.
-    \item \underline{Initial error model guess.} Here we have an initial guess for the error model for a fixed model.
-    \item \underline{Full training.} All parameters are fitted.
+    \item \underline{Light curve fit with the initial NaCl model:} 
+    Only $X_0$, $X_1$, $c$, and $t_{max}$ are fitted for each 
+    supernova, while the global model parameters are kept fixed.
+
+    \item \underline{$SpecRecal$ fit with the initial NaCl model:} 
+    The coefficients describing the spectroscopic recalibration are 
+    estimated for each supernova. Since the recalibration model is linear 
+    in these coefficients, this step is computationally inexpensive.
+
+    \item \underline{Initial model guess:} 
+    The parameters describing the model surfaces $M_0$, $M_1$, and $CL$ are 
+    fitted to obtain an initial model that is sufficiently close to the 
+    solution and satisfies the required model constraints.
+
+    \item \underline{Initial error model guess:} 
+    With the spectrophotometric model fixed, the parameters of the error 
+    model are fitted to provide an initial estimate.
+
+    \item \underline{Full training:} 
+    All model, error model, and supernova parameters are released and 
+    simultaneously fitted.
 \end{enumerate}
 
-The first two steps of the recipe do not take a lof time to complete. The \underline{Initial model guess} step can take some time to converge due to large number of parameters 
-of the $M_0$ and $M_1$ surface, however the number of steps is limited to 15 in that step since the goal is to simply get an inital guess. The error model fit is also near instantaneous. 
-Finally, freeing all of the parameters in step 5 takes the most amount of time. \\
+The first two steps are computationally inexpensive. The initial model fit 
+in step 3 is more demanding because of the large number of parameters 
+associated with the $M_0$ and $M_1$ surfaces. Since the purpose of this step 
+is only to obtain a suitable starting point for the subsequent optimization, 
+the number of minimization iterations is limited to 15. The error-model fit 
+in step 4 is again relatively inexpensive. The final step, in which all 
+parameters are simultaneously released, constitutes the most computationally 
+expensive part of the training.
+
+%\subsection{Regularization}
+
+%To try and overcome this issue, I've developed during this PhD a regularization scheme that adapts the force of the regularization based on the number of 
+%points seen by each model parameter. This regularization scheme is inspired by \cite{lenz2022adaptiveregularizationbsplinemodels}. We can separate $\mathbf{P}$ matrix as 
+%follows: 
+
+%\begin{equation}
+%   \mathbf{P} = \mathbf{P}^{data} + \mathbf{P}^{smooth}
+%\end{equation}
+
+%with $\mathbf{P}^{data}$ and $\mathbf{P}^{smooth}$ the matrices determining the strength based on the number of points and to smoothen the model where there is no data as 
+%much as possible. In order to determine $\mathbf{P}^{data}$, we define $\mathcal{N}_i$ as the number of data points seen by each $\theta_{i}$ parameters ($\theta_{kl}$ written 
+%as a vector). We then introduce for each $\mathcal{N}_i$ a parameter $\mu_i$ which will act as a gate function of $\mathcal{N}_i$. This will determine the force of our 
+%regularization. The idea is that if $\mathcal{N}_i=0$ we regularize model strongly, otherwise we don't.\\
+
+%$\mu_i$ is then defined as: 
+
+%\begin{equation}
+% \mu_i^{data} = \mathrm{max}(\mu_{reg}^{data} - \mathcal{N}_i, 0)
+% \label{eqn:reg_mu}
+%\end{equation}
+
+%We can use that to define a diagonal matrix $\mathbf{M}^{data}$ where $\mathbf{M}_{ii}^{data} = \mu_i^{data}$. It is then clear that the simplest way to define 
+%$\mathbf{P}^{data}$ will be to write it as:
+
+%\begin{equation}
+%   \mathbf{P}^{data} = \mathbf{M}^{data} \times \mathbb{1}
+%\end{equation}
+
+%\noindent We then define $\mathbf{P}^{smooth}$ as a penalty on the first order derivative of the model in phase, like in equation \ref{eqn:old_reg}. We apply the same 
+%adaptive method mentioned previously and we get:
+
+%\begin{equation}
+%   \mathbf{P}^{smooth} = \mathbf{M}^{smooth} \times \mathbb{P}
+%\end{equation}
+
+%with $\mathbb{P}$ being : 
+%\begin{equation}
+%    \mathbb{P} = \begin{bmatrix} 
+%    2  & -1& 0  &   &     &...  \\
+%    -1 & 1 & -1 & 0 & ... & \\  
+%    0  &   &    &...&     &  \\  
+%       &   &... &   &     &  0\\ 
+%       &...& 0  & -1& 1   & -1 \\  
+%    ...&   &    & 0 & -1  & 2 \end{bmatrix}
+%\end{equation}
+%with $\mu_{reg}^{smooth}$ would be the hyperparameter determining the strength of the regularization on the derivatives.\\
+%Since the hyperparameters are now included in the  $\mathbf{P}$ matrix, the penalty now becomes : 
+%\begin{equation}
+%    \boxed{\chi^2_{reg} = \beta^T \mathbf{P} \beta}
+%    \label{eqn:chi2_reg_new}
+%\end{equation}
+
+%This adaptive regularization however presented issues when applied to supernova data. The minimization algorithm would not fully converge when this regularization is used. Moreover, 
+%the recovered supernova parameters presented biases. 

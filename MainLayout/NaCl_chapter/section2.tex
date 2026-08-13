@@ -1,4 +1,4 @@
-\section{NaCl framework}
+\section{NaCl Framework}
 
 The first part of my work for this thesis was the continuation of the development of a new framework designed to train spectrophotometric models of type Ia supernova called 
 NaCl ("Nouveaux Algorithmes de Courbes de Lumière") which was initially started by G. Augarde during his PhD, defended in September of 2022 (\cite{augar2022}).
@@ -11,7 +11,7 @@ implementation of the framework, performed the first tests on real
 data, and carried out the first extensive validation of the new 
 framework using realistic simulated datasets.  
 
-\subsection{Why a spectrophotometric model? }
+\subsection{Why a Spectrophotometric Model? }
 
 
 NaCl is one of the main components of the cosmological inference 
@@ -23,7 +23,7 @@ determine standardized distances. \\
 In the standardization scheme introduced by \cite{Tripp_1999} (Equation \ref{eqn:full_tripp}), 
 these quantities are:
 \begin{enumerate}
-    \item $X_0$ or equivalently $m_B = -2.5 log_{10}(X_0)$ which represent the SN restframe broadband flux, conventionally defined in the B-band
+    \item $X_0$ or equivalently $m_B = -2.5 \log_{10}(X_0)$ which represent the SN restframe broadband flux, conventionally defined in the B-band
     \item $c$, a restframe color, conventionally defined in the B and V bands
     \item $X_1$ a restframe light curve shape parameter measuring the width of the light curve.
 \end{enumerate}
@@ -51,107 +51,187 @@ that help capture the detailed spectral features of Type Ia supernovae
 and their diversity. \\
 
 NaCl was developed specifically for the \textsc{Lemaître} cosmology inference 
-pipeline. It comprises all the code needed to learn the model and fit the set of parameters describing the diversity 
-of supernovae. In the following sections we will detail the idea behind the framework as well as the differences with the SALT models. We will then 
-detail the components of NaCl and their implementations before moving to its applications on real data and simulations. 
+pipeline. It comprises all the code needed to learn the model and 
+determine the supernova parameters of interest.
+
+\subsection{The Idea Behind the Framework}
+
+Most existing models are separately trained on a specific dataset and 
+distributed for use in other cosmological analyses. This procedure 
+carries the uncertainties associated with the training sample into the 
+downstream analysis, including those arising from the finite size of 
+the training sample and from its calibration uncertainties. \\
+
+One of the specificities of NaCl is to merge training and light curve 
+fit. This makes it possible to propagate training and calibration 
+uncertainties consistently throughout the analysis, while ensuring 
+that the learned model captures the specific diversity of the 
+cosmological sample under study. \\
+
+NaCl has been designed to be model-agnostic. The model is cleanly 
+separated from the likelihood and minimization code, which makes it 
+easy to develop and test alternative parameterizations of the 
+supernova diversity. As of today, the main NaCl model follows the 
+SALT2/SALT3 parametrization, of the form: $$ \mathcal{S}(\lambda,p) = [M_0(\lambda,p) + X_1M_1(\lambda, p)]10^{0.4cCL(\lambda)} $$. 
+In this model, the diversity 
+of Type Ia supernovae is therefore described by two parameters, $X_1$ 
+and $c$, which determine how the mean spectrophotometric sequence is 
+modified for a given supernova. \\
+
+More generally, NaCl provides the inference machinery required to map 
+the information contained in the photometric and spectroscopic 
+observations onto the diversity space defined by a given supernova 
+model. For the SALT2/SALT3 parameterization, this amounts to 
+describing each supernova through the two parameters $X_1$ and $c$. 
+The same machinery can, however, use alternative models in which the 
+supernova diversity is described by a larger number of parameters, or 
+by more general, potentially non-linear latent spaces. 
+
+\subsection{Differences with the SALT Models}
 
 
-\subsection{The idea behind the framework}
+The NaCl implementation of the SALT2 model differs from the original 
+SALT2 training procedure in several respects. First, SALT2 relies on 
+an iterative procedure, alternating between the determination of the 
+date of maximum light for each supernova, $t_{max}$, and the estimation of the 
+spectrophotometric model. In NaCl, by contrast, the date of maximum 
+light of each supernova is included directly in the parameter vector 
+and optimized simultaneously with the model parameters. \\
 
-The framework is meant to be able to easily train a spectrophotometric model all while being able to accurately propagate all known sources of uncertainties. 
-It is meant to be easy to use and manipulate in order to account for any new developments in how spectrophotometric models are parameterized. 
-The idea is to then have a framework that is fast and capable of conducting model training easily every time one can do so on a cosmological dataset of type Ia supernova. 
-We will see how this will allow us to overcome issues previous spectrophotometric models have encountered, such as calibration issues. The entirety of the framework 
-has been coded in Python3. \\
+Second, the SALT2 training procedure, alternates between the 
+determination of the spectrophotometric model and that of the error 
+snake, which accounts for the remaining SN-to-SN variability not 
+captured by the model. In NaCl, the model and error model are inferred 
+jointly in a single simultaneous fit. \\
 
-\subsection{Differences with the SALT models}
+Finally, NaCl removes the formal distinction between model training 
+and light curve fitting. This unified formulation facilitates the 
+propagation of uncertainties associated with the finite size of the 
+sample, measurement noise, and calibration systematics throughout the 
+analysis. At the end of the fit, NaCl provides a covariance matrix 
+that consistently accounts for these different sources of uncertainty. 
+Marginalizing over the model-specific parameters then yields the 
+covariance matrix of the parameters of interest. \\
 
+A central challenge is to ensure that this covariance matrix correctly 
+captures the variability that would arise from one training sample to
+another. This is validated using ensembles of mock datasets, as 
+described in the final section of this chapter. \\
 
-This parameterization, like SALT2, is similar to a classic principal component analysis, or PCA, with the addition of a color law. 
-The main differences with SALT models is in 
-the training procedure. NaCl training and lightcurve fitting is done simultaneously on the same dataset used for the cosmological analysis. 
-This reduces the model systematics obtained from SALT models due to the change of datasets when conducting a cosmological analysis. It also means we can directly 
-obtain a covariance matrix containing the correlations between supernova lightcurve parameters and also model parameters. This directly affects the distance modulus. \\
+\subsection{Practical Implementation of the SALT2 Model}
 
-In NaCl the date of maximum emission $t_{max}$ is fitted during the training of NaCl. This is a big difference from what is done for the SALT models where $t_{max}$ is 
-fitted beforehand. The reason why in NaCl we do that is to account for the possible changes of $t_{max}$ that may arise due to the changes in the spectrophotometric model
-during the training. \\
+\subsubsection{Model}
 
-Calibration uncertainties are modeled as nuisance parameters in NaCl that are fitted during the training, held by a covariance matrix allowing us to account for the correlations 
-between filters. This also ensure we have an exact propagation of the calibration systematics in our training and prevents us from doing multiple trainings. \\
-
-\subsection{Practical implementation of the SALT2 model}
-
-In order to be able to determine the global model surfaces ($M_0$ and $M_1$), we will be describing them with the help of B-splines. 
-This is a particular set of polynomials of order $m-1$, called splines of degree $m$, that can form a basis. Their smoothness will allow our model surfaces to 
-have complex forms. We use splines of degree 4 in NaCl. $M_0$ and $M_1$ are then defined as:
-
+In order to determine the global model surfaces $M_0$ and $M_1$, 
+we describe them using two-dimensional cubic B-splines. B-splines are piecewise polynomial 
+basis functions defined over a set of knots, which can be irregularly spaced, and provide a 
+flexible way of modeling smooth empirical functions and surfaces. In NaCl, the $M_0$ and $M_1$ surfaces are defined on a 
+two-dimensional grid in rest-frame phase $p$ and wavelength $\lambda$ as products of one-dimensional B-spline 
+bases along each axis, with the corresponding coefficients fitted directly from the training data:
 \begin{equation}
     M_{0|1}=\sum_{k=1}^{n_p} \sum_{l=1}^{n_{\lambda}} \theta_{kl}^{[0|1]} \mathcal{B}_k(p) \mathcal{B}_l(\lambda)
     \label{eqn:model_spline}
 \end{equation}
 
-where $\mathcal{B}$ are the splines, $\theta$ are the model parameters that we will determine. Similarly, the evaluation of the filters is also done on the same 
-spline basis of the model. For the color law $CL(\lambda)$ it is implemented as a degree 5 polynomial. \\
+where $\mathcal{B}$ are the B-spline basis functions and 
+$\theta_{kl}^{[0|1]}$ are the model parameters inferred simultaneously 
+with the light curve parameters of each supernova during training. This 
+structure implies that the spectral shape at any given 
+phase is a linear combination of the same wavelength basis functions, 
+with coefficients that vary smoothly with phase. The total number of 
+free parameters per surface is $n_p \times n_\lambda$. We use $n_p=30$ between phases of -50 and 100 days and 
+$n_\lambda = 127$ for wavelengths between $2000\, \AA$ and $9000\, \AA$, amounting to 3810 parameters for each surface with a knot 
+every 5 days and $55 \, \AA$.
 
-Since we do not determine the magnitude of the supernova on the spectra, we add an extra polynomial that for each spectra in our dataset. The polynomial $SpecRecal(\lambda)$ 
-can be then added to the spectroscopic element of the model such that:
-\begin{equation}
-    \phi_{spec}(\lambda, p) = \frac{SpecRecal(\lambda)}{1+z} \mathcal{S}(\frac{\lambda}{1+z}, \frac{p}{1+z})
-\end{equation}
-This entails that there will be a degeneracy between the color law $CL$ and the recalibration polynomials, therefore during the fitting of the spectra we do not determine $CL$ 
-(essentially it is not treated as a parameter that can influence the overall shape of the spectral features of the model).\\
+Similarly, the filter transmission curves 
+are evaluated on the same spline basis as the model, ensuring 
+consistency between the model and the photometric predictions, they are expressed as $T(\lambda) = \sum_q t_q \mathcal{B}_q(\lambda)$. The 
+color law $CL(\lambda)$ is implemented as a degree 5 polynomial, 
+sufficient for its simpler one-dimensional structure. It introduces 4 free parameters to be determined alongside the rest of the model parameters.  \\
 
-\noindent The model parameters are then determined by minimizing a log-likelihood which takes the form of: 
-\begin{equation}
-    -2\ln(\mathcal{L}) = N\ln(2\pi) + \ln(|\mathbf{V}|) + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}
-\end{equation}
-where $\mathbf{R}$ are the model residuals and $\mathbf{V}$ the covariance matrix independent of the parameters. If $\mathbf{V}$ contains only measurement uncertainties, 
-the problem then becomes minimizing the following quantity: 
-\begin{equation}
-    \chi^2 = \mathbf{R}^T \mathbf{V}^{-1} \mathbf{R}
-\end{equation}
-which will be the case for us during this PhD. \\
+\subsubsection{Predicting Broadband Fluxes}
 
-The minimization of the log-likelihood is via the Fisher scoring algorithm. This method allows us to obtain the desired model parameters that best describe the data 
-using a second order descent of $\chi^2$ (slope and curvature information). If we denote $\mathbf{M}$ the model, $\mathbf{\beta}$ the model parameters, $\mathbf{J}$ the 
-model Jacobian and $\mathbf{H}_{\chi}$ the Hessian (second order derivatives matrix) of the $\chi^2$ then it possible to show using the Fisher scoring algorithm that for a set of 
-parameters $\mathbf{\beta}_{i}$ at an instance $i$ to be updated at an instance $i+1$ with $\mathbf{\beta}_{i+1} = \mathbf{\beta}_i + \delta \mathbf{\beta}$ we have:
+The broadband flux in a transmission band $X$ is expressed as (see Equation \ref{eqn:boradband_flux}):
 \begin{equation}
-    \delta \mathbf{\beta} = - (\mathbb{E}[\mathbf{H_{\chi}}])^{-1}(\mathbf{\beta}_i) \nabla \chi^2(\mathbf{\beta}_i)
+    f_X((1+z)p) = X_0 (1+z) [I_0(p) + X_1I_1(p)]
 \end{equation}
-where $\mathbb{E}$ is the expected value. It is possible to relate the the $\chi^2$ Hessian with the model Hessian in order to simplify this expression. Will be omitting this 
-demonstration but we get $\mathbb{E}[\mathbf{H_{\chi}}] = 2\mathbf{J}^{T} \mathbf{V}^{-1} \mathbf{J}$ for an unbiased model and this relation is 
-true at the minimum value of the log-likelihood. Additionally, the gradient of $\chi^2$ can be written as 
-$\nabla \chi^2 = -2\mathbf{J}^{T} \mathbf{V}^{-1} \mathbf{R}$ where $\mathbf{R}$ is the model residuals vector. Finally, we get the following expression for $\delta \beta$:
+with:
 \begin{equation}
-    \delta \mathbf{\beta} = \left(\mathbf{J}^{T} \mathbf{V}^{-1} \mathbf{J}  \right)^{-1} \mathbf{J}^{T} \mathbf{V}^{-1} \mathbf{R}
+    I_{0|1} = \int M_{0|1}(\lambda, p) \frac{\lambda}{hc}T_X((1+z)\lambda) 10^{0.4cCL(\lambda)} \text{d}\lambda
 \end{equation}
-This algorithm requires us to invert the Hessian matrix $\mathbf{H} = 2\mathbf{J}^{T} \mathbf{V}^{-1} \mathbf{J}$ at each step, which is 
-always positive definite by construction, allowing us to use efficient factorisation methods such as the Cholesky decomposition. In practice, minor 
-degeneracies are handled by augmenting the diagonal of the Hessian with a small damping term following the Levenberg-Marquardt approach, and by enforcing 
-parameter constraints through Lagrange multipliers, both of which improve the numerical stability of the inversion. \\
+By decomposing the model components on the B-spline basis we obtain:
+\begin{equation}
+    I_{0|1} = \sum_{klq} \theta_{kl,0|1} t_q[z] \mathcal{B}_k(p) \int \mathcal{B}_l(\lambda) \frac{\lambda}{hc} \mathcal{B}_q((1+z)\lambda) 10^{0.4cCL(\lambda)} \text{d}\lambda
+\end{equation}
+The color law has a slower variation compared to the other functions in the integral. Therefore to simplify and accelerate the calculation, we consider it as a constant in the 
+integration space yielding:
+\begin{equation}
+    I_{0|1} \approx \sum_{klq} \theta_{kl,0|1} t_q[z] \mathcal{B}_k(p) \int \mathcal{B}_l(\lambda) \frac{\lambda}{hc} \mathcal{B}_q((1+z)\lambda)\text{d}\lambda \times 10^{0.4cCL(\bar{\lambda})} 
+\end{equation}
+with:
+\begin{equation}
+    \bar{\lambda} \equiv \lambda_{lq}^{\text{eff}} \equiv \frac{
+        \int \lambda^2 \mathcal{B}_l(\lambda) \mathcal{B}_q((1+z)\lambda) \text{d}\lambda
+    }{
+        \int \lambda \mathcal{B}_l(\lambda) \mathcal{B}_q((1+z)\lambda) \text{d}\lambda
+    }
+\end{equation}
+The value $\bar{\lambda}$ is judiciously chosen as an effective wavelength, 
+weighted by the contribution of the basis functions 
+$\mathcal{B}_l(\lambda)$ and $\mathcal{B}_q((1+z)\lambda)$ to the integral. 
+The additional factor of $\lambda$ in this weighting directly arises 
+from the factor $\lambda$ present in the integrand. 
 
+The remaining integral only involves the B-spline basis functions, which are piecewise polynomials and can therefore be evaluated efficiently. 
+Moreover, these integrals define the elements of the Gramian matrix $G_{lq}[z]$. The expression can then be written as:
+\begin{equation}
+    I_{0|1} \approx \sum_{klq} \theta_{kl,0|1} t_q[z] \mathcal{B}_k(p) G_{lq}[z] \times 10^{0.4cCL(\bar{\lambda})} 
+\end{equation}
+$G_{lq}[z]$ is sparse and can be pre-calculated, enabling efficient evaluation of the integrals required to predict the broadband fluxes. 
+
+\subsubsection{Predicting Spectra} 
+
+
+In practice, the spectrophotometric model is constrained jointly by 
+light-curve and spectral data. Spectra are particularly important for 
+recovering the fine-scale spectral structure of Type Ia supernovae. 
+Their flux calibration, however, is generally much less accurate than 
+that of photometric light curves. While the latter can be calibrated 
+to sub-percent precision, long-slit spectra may suffer from 
+wavelength-dependent calibration errors at the level of 1 to 10\%, 
+depending on the instrument and reduction procedure. 
+
+It is therefore important to prevent these calibration errors from 
+biasing the broadband spectral shape of the trained model. During 
+training, the smooth wavelength-dependent component of each spectrum 
+is absorbed by a spectrum-specific nuisance polynomial, denoted $SpecRecal(\lambda)$, so that the 
+spectrum primarily constrains the small-scale spectral features. One 
+polynomial is introduced for each spectrum and fitted simultaneously 
+with the other model parameters. 
+
+The predicted spectrum for a supernova is then expressed as:
+\begin{equation}
+    f_{\text{spec}}((1+z)\lambda, (1+z)p) = \frac{SpecRecal(\lambda)}{1+z} [M_0(\lambda,p) + X_1M_1(\lambda, p)]
+\end{equation}
 
 
 \subsubsection{Constraints}
 
-Since this model is built empirically, we can see that there will be a lot of degeneracies between the individual and model parameters. To break those degeneracies we will 
-be adding a set of constraints.\\ 
+Because the model is fully empirical and highly flexible, some 
+transformations of the model surfaces can be compensated by 
+corresponding transformations of the individual supernova parameters. 
+This gives rise to degeneracies between the global model parameters 
+and the supernova parameters of interest. A set of constraints must 
+therefore be imposed during training in order to break these 
+degeneracies and define a unique parameterization of the model. \\
 
-When NaCl was first developed, the constraints used were the same as the ones for SALT2 and SALT3 (\cite{Kenworthy_2021_SALT3}) models. 
-Although those constraints break the degeneracies that exist between parameters, we've decided to include a new set of constraints that would address two things: 
-the first that one of the constraints is non linear which made the model training take a longer time, the other was that some constraints depended on the supernovae 
-used in the training sample. An example such a constraint was $<X_1> = 0$ which defined the average stretch of a supernovae. This is isn't an issue if we are comparing the 
-stretch of supernovae that were fitted using the same model. However since NaCl will be used to train different models on different datasets, it'll be more difficult 
-to directly compare the parameters of the supernovae.\\
+\noindent \textbf{\underline{Model normalization:}} \\
 
-During this PhD, the following sets of constraints were developed. I will be detailing what they do and why they were developed.\\
-
-\noindent \textbf{\underline{\large{Model normalization:}}} \\
-
-
-The model normalization is degenerated with the value of $X_0$. We impose that : 
+There is a degeneracy 
+between the surface parameters and the global values of the $X_0$ 
+parameters. We therefore need to fix the model normalization at 
+maximum luminosity. This is done with 4 constraints on the $M_0$ and $M_1$ 
+surfaces:
 
 \begin{align}
     \int M_0(\lambda,p=0)\frac{\lambda}{hc}B(\lambda) d\lambda = 1 \label{eqn:M0norm}\\
@@ -160,11 +240,11 @@ The model normalization is degenerated with the value of $X_0$. We impose that :
 where $B(\lambda)$ is the restframe standard $B$-band.\\
 
 
-\noindent \textbf{\underline{\large{Date of maximum emission:}}} \\
+\noindent \textbf{\underline{Date of maximum emission:}} \\
 
-There exists a degeneracy between the model and the date of maximum emission $t_{max}$. It’s possible to
-shift the entire model in order to compensate for a change in the date $t_{max}$. For that we impose that at
-$p = 0$, the model presents a maxima in the standard $B$-band :
+There is a degeneracy between the spectrophotometric model and the date of maximum emission $t_{\max}$, since a shift in $t_{\max}$ can be compensated by a 
+corresponding shift of the model along the phase axis. To fix this degeneracy, we impose that the model reaches its maximum in the standard B-band at $p=0$. 
+This condition is applied to $M_0$ and $M_1$:
 
 \begin{align}
     \frac{d}{dp} \int M_0(\lambda,p=0)\frac{\lambda}{hc}B(\lambda)d\lambda \Big{|}_{p=0} = 0 \\
@@ -172,97 +252,71 @@ $p = 0$, the model presents a maxima in the standard $B$-band :
 \end{align}
 \\
 
-\noindent \textbf{\underline{\large{Color Law:}}} \\
+\noindent \textbf{\underline{Color Law:}} \
 
-We also need to account for the degeneracy that exists between the spectral shape of the model and $CL$. Tilting the $M_0$ and $M_1$ can be completely corrected for by 
-changing $CL$. We impose then that $CL(B) = 0$ and $CL(V ) = 1$ with $B$ and $V$ being the central wavelengths of the restframe standard $B$-band and $V$-band.\\
-
-
-\noindent \textbf{\underline{\large{Average color:}}} \\
-
-Another degeneracy exists between the individual supernova color $c$ and the $M_0$. Changing the spectral features of the model can be completely compensated by the 
-value of $c$. For that we need to define the "average" supernova color. 
-We impose that the the $M_0$ surface would have its $B - V$ color equal to 0 at peak luminosity and that $c$ accounts for the relative variations in color with 
-respect to that. The constraint now becomes:
-
+A degeneracy also exists between the spectral shape of the model and the color law $CL$. A smooth tilt of the spectral components $M_0$ and $M_1$ can be 
+compensated by a corresponding change in $CL$. To fix this degeneracy, we impose:
 \begin{equation}
-    \int \left[ M_0(\lambda, p=0)B(\lambda) - M_0(\lambda, p=0)V(\lambda)   \right] \frac{\lambda}{hc} d\lambda = 0
-\end{equation}\\
+CL(\lambda^B) = 0, \qquad CL(\lambda^V) = 1,
+\end{equation}
+where $\lambda^B$ and $\lambda^V$ denote the central wavelengths of the rest-frame standard B and V bands, respectively. \\
 
-\noindent \textbf{\underline{\large{Average stretch:}}} \\
 
-A similar degeneracy also exists with $X_1$. A global change of the $X_1$’s can be absorbed by changing the shape of the $M_0$ surface along the phase axis. 
-We have decided to fix the value of $X_1=1$ such that it would be equivalent to having the same $X_1$ value using SALT2. For that we fix the difference between 
-the model evaluated for $X_1=0$ and $X_1 = 1$ at a phase of 15:
+\noindent \textbf{\underline{Average color:}} \\
+
+Another degeneracy exists between the average spectral color of $M_0$ and the individual supernova color parameter $c$. A change in the overall color of 
+$M_0$ can be compensated by a corresponding shift in $c$. To fix this degeneracy, we define the average supernova color such that $c$ describes the relative 
+color variation of individual supernovae with respect to this reference. We impose that the $M_0$ surface has $B-V=0$ at peak luminosity. 
+The corresponding constraint is:
+\begin{equation}
+\int M_0(\lambda,p=0) \left[B(\lambda)-V(\lambda)\right] \frac{\lambda}{hc} d\lambda=0
+\end{equation}
+\\
+
+\noindent \textbf{\underline{Average stretch:}} \\
+
+A similar degeneracy also exists with $X_1$. A global change of $X_1$ can be absorbed by changing the shape of the $M_0$ surface along the phase axis. 
+We therefore need to define the average stretch of the model. 
+We define the average stretch such that the effect of $X_1$ on the model is consistent with the SALT2 stretch convention. 
+To enforce this correspondence, we require the difference between the model evaluated at $X_1=0$ and $X_1=1$ at a 
+phase of $p=15$ days to match the corresponding flux difference measured in SALT2:
 
 \begin{equation}
     \int \left[M_0(\lambda, p=15) + M_1(\lambda, p=15) \right] \frac{\lambda}{hc}B(\lambda) d\lambda - \alpha \int M_0(\lambda, p=15) \frac{\lambda}{hc}B(\lambda) d\lambda = 0
 \end{equation}
-with $\alpha = 10^{-0.4 \times 0.162}$ the flux difference we have found in SALT2. \\
+with $\alpha = 10^{-0.4 \times 0.162}$ the flux difference found in SALT2. \\
 
-\noindent \textbf{\underline{\large{Average width:}}} \\
+\noindent \textbf{\underline{Average width:}} \\
 
-The last unwanted degree of freedom is regarding the width of the model. We can see that the definition of $X_1$ relies on a difference between the model with different 
-stretch parameters but it doesn’t define what the width of the model is. We can always make the model larger or smaller while maintaining the constraints on all of 
-the other parameters. One way to bypass that issue is to constrain the model at a certain phase. We choose to fix the model at a phase $p=15$, also 
-known as $\Delta m_{15}$ as: 
+The final remaining degree of freedom concerns the overall width of the model. While the definition of $X_1$ specifies the relative variation of the model with stretch, 
+it does not fix its overall scale. The model can therefore be rescaled without affecting the constraints imposed on the other parameters. We remove this freedom by 
+imposing a constraint at a fixed phase. We choose $p=15$ days, corresponding to $\Delta m_{15}$, and we impose:
 
 \begin{equation}
     \int M_0(\lambda, p=15) \frac{\lambda}{hc} d\lambda = 10^{-0.4}
 \end{equation} \\
 
-In practice, we write down the constraints as a function $C_k(\beta) = \alpha_k $ where $C_k(\beta)$ is a function evaluating the $k$-th constraint of value $\alpha_k$. 
-This is then added as penalty that takes the form $\mu_{cons}\sum_k (C_k(\beta)-\alpha_k)^2$ where $\mu_{cons}$ is hyperparameter that determines the strength of the 
-penalty. We can write this in a matrix $\mathbf{C}(\beta)$ and we obtain:
 
+\subsubsection{Error Models}
+
+Although the SALT2-like parametrization implemented in NaCl describes 
+the diversity of Type Ia supernova quite well, it does not fully capture the 
+supernova-to-supernova variability. Future models should be able to provide a better 
+description of the supernova diversity, as suggested in the exploratory work 
+of \cite{Stein_2022_PAE} for example. The remaining supernova-to-supernova diversity not 
+captured by the model is accounted for in an error snake, i.e. an 
+error model of the form:
 \begin{equation}
-    \boxed{\chi_{cons}^2 = \mu_{cons} \mathbf{C}(\beta)^T \mathbf{C}(\beta)}
+    \mathbf{V}_{\text{error}} = \sigma_{\text{SN}} \times \mathbf{M}(\lambda,p)
+    \label{eqn:error_model}
 \end{equation}
+where $M$ is the model evaluation and $\sigma_{\text{SN}}$ is the error model parameter which is fitted along 
+with the main model. 
 
-\subsubsection{Error models}
-
-Dealing with an empirical model means that we expect that our model would not perfectly describe the data. More specifically, the residuals of the model would not be 
-explained solely by the measurement uncertainties on the data. This is a variability that exists between supernovae, unable to be captured by the SALT2 parameterization.\\
-It's also important to note that all of the photometric measurements are affected by uncertainties of the photometric instruments. This can play a crucial role in our 
-measurements of cosmological parameters as it has been shown in the most recent analyses to be one of the leading systematics (\cite{rubin2024unionunitycosmology2000}, 
-\cite{vincenzi2024darkenergysurveysupernova}).\\
-We can account for both the supernova variability and calibration uncertainties with the help of error models.\\
-
-The first error model employed is the Error Snake, which is supposed to capture errors directly due to variability in the flux. If we call $V$ the variance of the data points, 
-then the error model is implemented as:
-\begin{equation}
-    V = \sigma_{meas}^2 + \sigma_{snake}^2
-\end{equation}
-where $\sigma_{meas}$ are the measurement uncertainties and $ \sigma_{snake}$ is the additional variance added that is our Error snake model.\\
-
-The general expression of this term is :
-\begin{equation}
-    \sigma_{snake} = G(\lambda, p) \times \phi(\lambda,p)
-\end{equation}
-where $\phi$ is the concatenation of both the measured photometric and spectroscopic fluxes used in our training dataset. $G(\lambda, p)$ can take multiple forms 
-depending on how we would like to model our Error snake. \\
-
-The simplest way to model it would be as a constant. The expression becomes: 
-\begin{equation}
-    G(\lambda, p) = g
-\end{equation}
-Physically this means that the variability of the supernovae in our dataset are independent of phase and wavelength.\\
-
-Alternatively, we can imagine something more complex by modeling $G$ as a surface like $M_0$ and $M_1$ that is to be determined during the training. 
-The expression then becomes:
-\begin{equation}
-    G(\lambda, p) = g(\lambda, p)
-\end{equation}
-Here, the variability does depend on phase and wavelength.\\
-
-Lastly, we thought of adding a bit more complexity in our Error snake since we know that it's possible that our dataset could be contaminated by very peculiar 
-supernovae or by objects that are hard to distinguish from type Ia supernova such as type Ib and type Ic supernovae. We decided to also include an 
-extra term in $G$ that takes up one value for each supernova in our dataset, we call it $\gamma_{SN}$. We expect that the $\gamma_{SN}$ value of a 
-peculiar supernova would be larger than the others. The expression then becomes: 
-
-\begin{equation}
-    G(\lambda, p) = \gamma_{SN} \times g(\lambda, p)
-\end{equation}
+As we will see below, fitting an error model complicates significantly 
+the log-likelihood, since the covariance matrix is no longer constant 
+but varies as a function of a subset of the fit parameters. An illustration 
+on the impact of the error model can be seen in Figure \ref{fig:errorsnake}.
 
 \begin{figure}[htpb]
 \centering
@@ -281,64 +335,341 @@ peculiar supernova would be larger than the others. The expression then becomes:
     \caption{}
     \label{fig:snake}
 \end{subfigure}
-\caption{Visual representation of the error snake on simulated lightcurves. In \ref{fig:nosnake} we see how the model 
-represents the data without an error snake model. In \ref{fig:snake} we see a highlighted section for each lightcurves which are the variations modeled by 
-the error snake.}
+\caption{Visual representation of the error model on simulated light curves. In \ref{fig:nosnake} we see how the model 
+represents the data without an error model. In \ref{fig:snake} the highlighted are on top of each light curve which is the error model.}
 \label{fig:errorsnake}
 \end{figure}
 
 \subsubsection{Regularization}
 
-Because our training dataset contains a finite number of data points, it’s impossible that the entirety of the global parameters would be constrained by data. 
-To deal with that we add regularization to the model during the fit, which is a penalty added to the model in the areas where we would have extremely large variations 
-due to poor constraining power of the data. This is specifically really important for NaCl since we are fitting the date of maximum emission there are data points 
-that could go outside of the model range. \\
+Since the training dataset contains a finite number of supernovae, not 
+all regions of the phase-wavelength space are equally well sampled. In 
+particular, the model surfaces $M_0$ and $M_1$ are poorly constrained 
+at phases far from maximum light, where fewer observations are available, 
+and near the boundaries of the phase range where data points may fall 
+outside the model support. Without additional constraints, the 
+optimization would produce large unphysical variations of the spline 
+parameters $\theta_{kl}$ in these regions. Regularization addresses 
+this by adding a penalty term that suppresses such 
+variations, effectively encoding the prior expectation that the model 
+surfaces should be smooth and close to zero in unconstrained regions.
 
-The regularization penalty that was initially developed was expressed as:
-
+The regularization penalty takes the form:
 \begin{equation}
-    \mu_{reg} \sum_{kl} \left(  \theta_{k,l}^2 + \left( \theta_{k+1,l} - \theta_{k,l} \right)^2   \right)
+    \mu_{\text{reg}} \sum_{kl} \left( \theta_{k,l}^2 + 
+    \left( \theta_{k+1,l} - \theta_{k,l} \right)^2 \right)
     \label{eqn:old_reg}
 \end{equation}
+where the first term penalises large values of the model parameters, 
+pulling them toward zero in regions with no constraining data, and the 
+second term penalises large differences between neighbouring parameters 
+along the phase axis, suppressing sharp variations in the model. The 
+hyperparameter $\mu_{\text{reg}}$ controls the overall strength of the 
+regularization: a large value enforces strong smoothness at the cost 
+of model flexibility, while a small value allows the model to follow 
+the data more closely at the risk of overfitting. 
+In matrix form this 
+penalty can be written as:
+\begin{equation}
+    \mu_{\text{reg}} \boldsymbol{\theta}^T 
+    \mathbf{P} \boldsymbol{\theta}
+    \label{eqn:chi2_reg_old}
+\end{equation}
+where $\mathbf{P}$ is the regularization matrix encoding both penalty 
+terms in Equation \ref{eqn:old_reg} and $\boldsymbol{\theta}$ is the 
+vector of all model parameters.
+Practically, this penalty is accounted for in the likelihood (Section \ref{sec:nacl_likelihood}).
 
- where $\theta_{kl}$ are the model parameters as seen in equation \ref{eqn:model_spline}. The first sum is a penalty that makes the $\theta$'s tend to zero when no 
- data is available. The second term is a penalty of the phase derivatives of the surfaces that limits the sharp variations of the model observed when no data is 
- available, or at poorly constrained regions of the model. Finally, $\mu_{reg}$ is a hyperparameter that determines the strength of the penalty. Writing this in 
- a matrix form gives us:
+This regularization, however, introduces a potential dependence on the 
+hyperparameter $\mu_{\text{reg}}$. If its value is too large, the 
+regularization can overly constrain the model and potentially bias the 
+recovered cosmological parameters. Conversely, if it is too small, the 
+model can develop strong variations in regions that are poorly 
+constrained by the data. An illustration of this effect is shown in 
+Figure \ref{fig:regularization}.
+\begin{figure}[htpb]
+    \centering
+    \begin{subfigure}{0.9\textwidth}
+       \centering
+       \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e6_reg.pdf}
+       \caption{}
+       \label{fig:weak_reg}
+    \end{subfigure}%
+    
+    \vspace{1em}
+    
+    \begin{subfigure}{0.9\textwidth}
+       \centering
+       \includegraphics[width=.7\textwidth]{MainLayout/NaCl_chapter/figures/m0_e0_reg.pdf}
+       \caption{}
+       \label{fig:strong_reg}
+    \end{subfigure}
+    \caption{Effects of the strength of the regularization on the shape of the $M_0$. In \ref{fig:weak_reg} we see how the model behaves with a $\mu_{reg}=10^{-6}$. In \ref{fig:strong_reg} we see how the model behaves with a $\mu_{reg}=1$.}
+    \label{fig:regularization}
+    \end{figure}
 
- \begin{equation}
-     \chi^2_{reg} = \mu_{reg}\beta^T \mathbf{P} \beta
-     \label{eqn:chi2_reg_old}
- \end{equation}
- where $\mathbf{P}$ is what we call the regularization matrix, that allows us to obtain the expression in equation \ref{eqn:old_reg}, and $\beta$ our set of parameters. \\
+As part of this work, we explored alternative forms of regularization 
+that could reduce this dependence on a fixed regularization strength. 
+An adaptive regularization scheme, inspired by 
+\cite{lenz2022adaptiveregularizationbsplinemodels}, was developed for 
+NaCl in which the local strength of the regularization is adjusted 
+according to the amount of data constraining each region of the model. 
+However, when applied during the determination of the best-fit parameters, 
+this approach introduced convergence issues and prevented the 
+minimizer from reaching a converged solution. It is therefore 
+not included in the current version of NaCl and would require further 
+development beyond the scope of this PhD. 
 
+\subsubsection{Propagation of the Calibration Uncertainties}
 
-\subsubsection{Calibration Uncertainties}
-
-The calibration uncertainties are taken into account directly in the model. One parameter $\eta$ is added for each transmission band in our dataset held by 
-a prior that is known beforehand. For the LEMAÎTRE project we have 12 bands, so we'll have 12 $\eta$ parameters. The expression of the photometric model becomes: 
+The calibration uncertainties are incorporated directly into the model through a set of nuisance parameters. 
+One parameter $\eta_X$ is introduced for each transmission band in the dataset, with a prior determined from 
+the corresponding calibration uncertainty. For the \textsc{Lemaître} project, we consider 12 transmission bands and 
+therefore introduce 12 calibration parameters. The predicted photometric flux in band $X$ becomes:
 
 \begin{equation}
-    \phi_{phot}(\lambda, p) = X_0 (1+\eta) (1+z) \int S(\lambda, p) T(\lambda) \frac{\lambda}{hc}d\lambda
+\phi_X((1+z)p) = (1+\eta_X) f_X((1+z)p),
 \end{equation}
 
-With an additional penalty to the model:
+where $f_X$ is the broadband flux predicted by the spectrophotometric model.
+
+
+\subsubsection{Log-likelihood} \label{sec:nacl_likelihood}
+
+Assembling all the constituants developed in the last sections,
+we are able to build the NaCl likelihood which indicates the probability 
+of observing a dataset $\mathbf{Y}$, comprised of $N$ photometric and spectroscopic measurements, given a set of parameters $\boldsymbol{\beta}$.
+We define the model residuals as $\mathbf{R}(\boldsymbol{\beta}) = \mathbf{Y} - \mathbf{M}(\boldsymbol{\beta})$ where $\mathbf{M}$ is the model evaluation. 
+We assume that the measurement uncertainties are Gaussian, meaning if our model $\mathbf{M}$ exactly predicts the measurements given a set of 
+parameters $\boldsymbol{\beta}_{\text{true}}$ then:
+\begin{equation}
+    \mathbf{Y} = \mathbf{M}(\boldsymbol{\beta}_{\text{true}}) + \mathbf{n}
+\end{equation}
+with 
+\begin{equation}
+    \mathbf{n} \sim \mathcal{N}(0, \mathbf{V})
+\end{equation}
+where $ \mathbf{V}$ is the covariance matrix. Therefore, the probability of observing the data given the model parameters is Gaussian. 
+The likelihood then becomes:
+\begin{equation}
+    \mathcal{L} = \frac{1}{\left(2 \pi \right)^{N/2} |\mathbf{V}|^{1/2}} \exp \left[
+        -\frac{1}{2}\mathbf{R}^{T} \mathbf{V}^{-1} \mathbf{R}
+    \right]
+\end{equation}
+By choosing the set of parameters that best describes the data, the quantity becomes maximal. Numerically, it is more stable to deal with the with the negative 
+log-likelihood written as:
+\begin{equation}
+    -2 \ln (\mathcal{L}) = N\ln(2\pi) + \ln(|\mathbf{V}|) + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}
+\end{equation}
+With $\mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}$ is also known as the $\chi^2$. The goal is to then minimize this quantity. \\
+
+The model constraints are enforced within the log-likelihood as a penalty. We define $\mathbf{C}(\boldsymbol{\beta})$ as the vector describing the distance from 
+each constraint to its expected value. The penalty on the log-likelihood is written as:
+\begin{equation}
+    \chi^2_{\text{cons}} = \mu_{\text{cons}} \mathbf{C}(\boldsymbol{\beta})^T \mathbf{C}(\boldsymbol{\beta})
+\end{equation}
+where $\mu_{\text{cons}}$ is a hyperparameter that is adjusted beforehand. 
+
+
+In a similar fashion, the regularization is also enforced as a penalty to the log-likelihood. The expression is identical to Equation \ref{eqn:chi2_reg_old}. 
+We denote this penalty as $\chi^2_{\text{reg}}$. 
+
+Accounting for the error model in the log-likelihood is done at the level of the covariance matrix. We denote $V_{\text{meas}}$ as the covariance matrix from the measurements 
+and $\mathbf{V}_{\text{error}}$ the covariance matrix from the error model as express in Equation \label{eqn:error_model}, then the full covariance matrix becomes:
+\begin{equation}
+    \mathbf{V}^{-1} = \left( \mathbf{V}_{\text{meas}} + \mathbf{V}_{\text{error}} \right)^{-1}
+\end{equation}
+We see that this implementation complicates the problem of minimizing the negative log-likelihood as the covariance matrix is now dependent on the $\gamma$ parameter which is 
+fitted during the minimization. 
+
+Lastly, we must account for the propagation of calibration uncertainties. 
+The calibration parameters are constrained by prior knowledge of the calibration uncertainties. 
+The expected amplitude of these calibration variations, as well as their correlations between transmission bands, 
+is determined from the calibration uncertainties. We model these uncertainties with a multivariate Gaussian prior centred on zero, 
+with covariance matrix $V_\eta$:
+\begin{equation}
+\boldsymbol{\eta} \sim \mathcal{N}(\mathbf{0},V_\eta)
+\end{equation}
+where $\boldsymbol{\eta}$ is the vector containing the calibration parameters for all transmission bands. 
+The covariance matrix $V_\eta$ therefore encodes both the uncertainty associated with each calibration parameter and the correlations between 
+parameters corresponding to different transmission bands. This results in a penalty contribution to the log-likelihood: 
+\begin{equation}
+\chi^2_{\text{calib}} =
+\boldsymbol{\eta}^{T}V_\eta^{-1}\boldsymbol{\eta}
+\end{equation}
+
+Regrouping all of these terms together, we obtain the full NaCl log-likelihood denoted as $\chi^2_{\text{tot}}$:
+%\begin{multline}
+%    \chi^2_{\text{tot}} = N\ln(2\pi) + \ln(|\mathbf{V}|) + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R} + \chi^2_{\text{cons}} + \chi^2_{\text{reg}} + \chi^2_{\text{calib}} \\
+%    = N\ln(2\pi) + \ln(|\left( \mathbf{V}_{\text{meas}} + \mathbf{V}_{\text{error}} \right)|) + \mathbf{R}^T\left( \mathbf{V}_{\text{meas}} + \mathbf{V}_{\text{error}} \right)^{-1}\mathbf{R} \\
+%    + \mu_{\text{cons}} \mathbf{C}(\boldsymbol{\beta})^T \mathbf{C}(\boldsymbol{\beta}) + \mu_{\text{reg}} \boldsymbol{\theta}^T \mathbf{P} \boldsymbol{\theta} + \boldsymbol{\eta}^{T}V_\eta^{-1}\boldsymbol{\eta}
+%\end{multline}
+\begin{equation}
+    \boxed{
+    \begin{aligned}
+    \chi^2_{\text{tot}}
+    ={}& N\ln(2\pi) + \ln(|\mathbf{V}|)
+    + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}
+    + \chi^2_{\text{cons}}
+    + \chi^2_{\text{reg}}
+    + \chi^2_{\text{calib}} \\[0.5em]
+    ={}& N\ln(2\pi)
+    + \ln\left(
+    \left|\mathbf{V}_{\text{meas}}+\mathbf{V}_{\text{error}}\right|
+    \right) \\
+    &+ \mathbf{R}^T
+    \left(\mathbf{V}_{\text{meas}}+\mathbf{V}_{\text{error}}\right)^{-1}
+    \mathbf{R} \\
+    &+ \mu_{\text{cons}}\mathbf{C}(\boldsymbol{\beta})^T
+    \mathbf{C}(\boldsymbol{\beta})
+    + \mu_{\text{reg}}\boldsymbol{\theta}^T
+    \mathbf{P}\boldsymbol{\theta}
+    + \boldsymbol{\eta}^T V_\eta^{-1}\boldsymbol{\eta}.
+    \end{aligned}
+    }
+    \end{equation}
+
+\subsubsection{Minimizer}
+ 
+The general idea of minimizing the log-likelihood, $\chi^2_{\text{tot}}$, is to start from a set of parameters $\boldsymbol{\beta}_i$ at an instance $i$ and determine the 
+step of the parameters $\delta \boldsymbol{\beta}$ that approaches to the optimal set of parameters that describes the data. 
+The procedure goes as follows. At each iteration, the $\chi^2_{\text{tot}}$ is approximated at its second order Taylor expansion:
+\begin{equation}
+    \chi^2_{\text{tot}}( \boldsymbol{\beta}_i + \delta \boldsymbol{\beta} ) \approx 
+    \chi^2_{\text{tot}}( \boldsymbol{\beta}_i) + \mathbf{g}_i^T \delta \boldsymbol{\beta} + \frac{1}{2} \delta \boldsymbol{\beta}^T \mathbf{H}_i \delta \boldsymbol{\beta}
+\end{equation}
+where $\mathbf{g}_i$ is the gradient of the log-likelihood evaluated at $\boldsymbol{\beta}_i$
+\begin{equation}
+    \mathbf{g}_i = \nabla_{\boldsymbol{\beta}_i} \chi^2_{\text{tot}}
+\end{equation}
+and $\mathbf{H}$ is the Hessian matrix evaluated at $\boldsymbol{\beta}_i$
+\begin{equation}
+    \mathbf{H}_i = \nabla_{\boldsymbol{\beta}_i}^2 \chi^2_{\text{tot}}
+\end{equation}
+The Newton-Raphson method is then employed to find the minimum value of the approximation by setting its derivative to zero:
+\begin{equation}
+    \frac{\partial \chi^2_{\text{tot}}}{\partial \delta \boldsymbol{\beta}} \approx \mathbf{g}_i + \mathbf{H}_i \delta \boldsymbol{\beta} = 0
+\end{equation}
+This gives the parameter update step:
+\begin{equation}
+    \delta \boldsymbol{\beta} = - \mathbf{H}_i^{-1} \mathbf{g}_i
+\end{equation}
+However, the inversion of the Hessian can be problematic if the matrix is not positive-definite. To overcome that, a Levenberg-Marquardt scheme is applied before 
+solving the equation. This consists in augmenting the diagonal of the Hessian as follows:
+\begin{equation}
+    \tilde{\mathbf{H}} = \mathbf{H} + \lambda \mathbf{D}
+\end{equation}
+where $\lambda$ is a damping parameter and $\mathbf{D}$ is a damping matrix that determines the charge of the diagonal of the Hessian. There are four different ways to modify
+the diagonal of the Hessian:
+\begin{equation}
+    \mathbf{D} = 
+    \begin{cases}
+        \mathbf{I} \qquad \qquad \qquad \qquad \text{Levenberg:} \quad \qquad \tilde{H}_{ii} = H_{ii} + \lambda \\
+        \text{diag}(\mathbf{H} ) \qquad \qquad \quad \text{Marquardt:} \qquad \quad \tilde{H}_{ii} = (1+ \lambda) H_{ii} \\
+        \max_j (H_{jj}) \mathbf{I} \qquad \quad \text{Marquardt-max:} \quad \tilde{H}_{ii} = H_{ii} + \lambda \max_j (H_{jj}) \\
+        \max_{\text{history}} (H_{jj}) \mathbf{I} \quad \text{Marquardt-lmax:} \quad \tilde{H}_{ii} = H_{ii} + \lambda \max_{\text{history}} (H_{ii}) 
+    \end{cases}
+\end{equation}
+The equation to solve then becomes:
+\begin{equation}
+    \delta \boldsymbol{\beta} = - \tilde{\mathbf{H}}_i^{-1} \mathbf{g}_i
+\end{equation}
+In practice, inverting the entire matrix at every step would be computationally taxing. Instead, we exploit the sparsity of the Hessian 
+and employ a Cholesky decomposition: $\tilde{\mathbf{H}} = \mathbf{L}\mathbf{L}^T$ where $\mathbf{L}$ is a lower triangular matrix. 
+This greatly reduces the computational cost of solving the linear 
+system $\tilde{\mathbf{H}}\delta\boldsymbol{\beta} = -\mathbf{g}$ 
+compared to direct matrix inversion.
+
+Lastly, to enforce that the model constraints are respected, 
+the optimization of the parameters becomes a constrained minimization via Lagrange multipliers. We denote the linearized constraints as:
+\begin{equation}
+    \mathbf{A}\boldsymbol{\beta} = \mathbf{c}
+\end{equation}
+where $\mathbf{A}$ is the constraint matrix and $\mathbf{c}$ are the constraint to be respected by each parameter in $\boldsymbol{\beta}$. In the case of our minimization this becomes:
+\begin{equation}
+    \mathbf{A}(\boldsymbol{\beta}_i + \delta \boldsymbol{\beta}) = \mathbf{c}
+\end{equation}
+\begin{equation}
+    \mathbf{A}\delta \boldsymbol{\beta} = \mathbf{c} - \mathbf{A}\boldsymbol{\beta}_i
+\end{equation}
+we denote $\mathbf{r}_{c,i} = \mathbf{c} - \mathbf{A}\boldsymbol{\beta}_i$ the constraint residuals
 
 \begin{equation}
-    \chi^2_{calib} = \mathbf{\eta}^T \mathbf{V_{\eta}}^{-1}\eta
+    \mathbf{A}\delta \boldsymbol{\beta} = \mathbf{r}_{c,i}
 \end{equation}
-$\mathbf{V_{\eta}}$ being the $\eta$ covariance matrix that is already known.
+This is a second requirement needed to satisfied by $\delta \boldsymbol{\beta}$ in order to obtain the next step. 
+This necessitates the introduction of additional Lagrange multipliers. We will omit the full demonstration of how the multipliers are injected in this thesis and only show the 
+final results on the step:
+\begin{equation}
+    \delta \boldsymbol{\beta} = - \tilde{\mathbf{H}}_i^{-1} (\mathbf{g}_i + \mathbf{A}^T \boldsymbol{\mu}_{L,i})
+\end{equation}
+where $\boldsymbol{\mu}_{L}$ are the Lagrange multipliers that are calculated with:
+\begin{equation}
+    \boldsymbol{\mu}_{L,i} = \left( \mathbf{A} \tilde{\mathbf{H}}_i^{-1} \mathbf{A}^T\right)^{-1} \left[ \mathbf{r}_{c,i} - \mathbf{A} \tilde{\mathbf{H}}_i^{-1} \mathbf{g}_i \right]
+\end{equation}
+
+Once the step  $\delta \boldsymbol{\beta}$ has been computed, we calculate the differences of the log-likelihood, $\delta \chi^2_{\text{tot}}$, with the new set of parameters. If the negative log-likelihood 
+is decreasing, the step is accepted. If not, the damping parameter $\lambda$ is updated at a larger value and the step is recalculated. The minimization stops once 
+$|\delta \chi^2_{\text{tot}}|<\delta_{\text{stop}}$ where $\delta_{\text{stop}}$ is chosen to be small enough that the log-likelihood is near its minimum. 
 
 
-\subsection{NaCl output}
+\subsubsection{Covariance Matrix}
 
-At the end of a training, we get a vector containing all of the model and individual supernova parameters and the full covariance
- matrix calculated from the Hessian of the model: $  \mathbf{V} = 2 \mathbf{H}^{-1}$. For the cosmological analysis, we will be marginalizing 
- over all but the $X_0$, $X_1$ and $c$ parameters. \\
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/NaCl_chapter/figures/covariance matrix.png}
-    \caption{Example of the NaCl covariance matrix after an output, marginalized over all but the $X_0$, $X_1$ and $c$ parameters.}
+    \caption{Example of the NaCl covariance matrix after an output, marginalized over all but the $X_0$, $X_1$, $c$ and $t_{max}$ parameters.}
     \label{fig:corr_mat_nacl}
 \end{figure}
+
+
+
+
+
+
+
+
+
+%Dealing with an empirical model means that we expect that our model would not perfectly describe the data. More specifically, the residuals of the model would not be 
+%explained solely by the measurement uncertainties on the data. This is a variability that exists between supernovae, unable to be captured by the SALT2 parameterization.\\
+%It's also important to note that all of the photometric measurements are affected by uncertainties of the photometric instruments. This can play a crucial role in our 
+%measurements of cosmological parameters as it has been shown in the most recent analyses to be one of the leading systematics (\cite{rubin2024unionunitycosmology2000}, 
+%\cite{vincenzi2024darkenergysurveysupernova}).\\
+%We can account for both the supernova variability and calibration uncertainties with the help of error models.\\
+
+%The first error model employed is the Error Snake, which is supposed to capture errors directly due to variability in the flux. If we call $V$ the variance of the data points, 
+%then the error model is implemented as:
+%\begin{equation}
+%    V = \sigma_{meas}^2 + \sigma_{snake}^2
+%\end{equation}
+%where $\sigma_{meas}$ are the measurement uncertainties and $ \sigma_{snake}$ is the additional variance added that is our Error snake model.\\
+
+%The general expression of this term is :
+%\begin{equation}
+%    \sigma_{snake} = G(\lambda, p) \times \phi(\lambda,p)
+%\end{equation}
+%where $\phi$ is the concatenation of both the measured photometric and spectroscopic fluxes used in our training dataset. $G(\lambda, p)$ can take multiple forms 
+%depending on how we would like to model our Error snake. \\
+
+%The simplest way to model it would be as a constant. The expression becomes: 
+%\begin{equation}
+%    G(\lambda, p) = g
+%\end{equation}
+%Physically this means that the variability of the supernovae in our dataset are independent of phase and wavelength.\\
+
+%Alternatively, we can imagine something more complex by modeling $G$ as a surface like $M_0$ and $M_1$ that is to be determined during the training. 
+%The expression then becomes:
+%\begin{equation}
+%    G(\lambda, p) = g(\lambda, p)
+%\end{equation}
+%Here, the variability does depend on phase and wavelength.\\
+
+%Lastly, we thought of adding a bit more complexity in our Error snake since we know that it's possible that our dataset could be contaminated by very peculiar 
+%supernovae or by objects that are hard to distinguish from type Ia supernova such as type Ib and type Ic supernovae. We decided to also include an 
+%extra term in $G$ that takes up one value for each supernova in our dataset, we call it $\gamma_{SN}$. We expect that the $\gamma_{SN}$ value of a 
+%peculiar supernova would be larger than the others. The expression then becomes: 
+
+%\begin{equation}
+%    G(\lambda, p) = \gamma_{SN} \times g(\lambda, p)
+%\end{equation}

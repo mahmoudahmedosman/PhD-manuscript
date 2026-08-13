@@ -1,9 +1,9 @@
-\section{Results: Potential biases \& systematics}
+\section{Results: Potential Biases \& Systematics}
 
-\subsection{Model \& data agreement}
+\subsection{Model \& Data Agreement}
 
-The results we present here are obtained on 1 realization of the pre-DC1 simulations. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. 
-%The average time it takes to train one pre-DC1 sample of supernova is X. \\
+The results we present here are obtained on one realization of the pre-DC1 simulations. This is done on the IN2P3 Computing Cluster\footnote{\url{https://cc.in2p3.fr/en/}}. 
+%The average time it takes to train one pre-DC1 sample of supernovae is X. \\
 
 \noindent In Figures \ref{fig:dc1_lc_resid} and \ref{fig:dc1_spec_resid} we are plotting the photometric and spectroscopic residuals weighted by the 
 measurement uncertainties. We see that after the model training, we are able to accurately describe the data with NaCl within the model's definition domain. 
@@ -14,7 +14,7 @@ This is also extended in Figure \ref{fig:dc1_lc_band_resid} when we look at the 
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
     \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/phot_chi2_phasespace.png}
-    \caption{Photometric residuals for 1 realization of pre-DC1}
+    \caption{Photometric residuals for one realization of pre-DC1}
     \label{fig:dc1_lc_resid}
 \end{figure}
 
@@ -22,7 +22,7 @@ This is also extended in Figure \ref{fig:dc1_lc_band_resid} when we look at the 
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
     \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/spec_chi2_phasespace.png}
-    \caption{Spectroscopic residuals for 1 realization of pre-DC1}
+    \caption{Spectroscopic residuals for one realization of pre-DC1}
     \label{fig:dc1_spec_resid}
 \end{figure}
 
@@ -30,14 +30,14 @@ This is also extended in Figure \ref{fig:dc1_lc_band_resid} when we look at the 
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
     \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/lc_pulls_per_band.png}
-    \caption{Photometric residuals per band for 1 realization of pre-DC1}
+    \caption{Photometric residuals per band for one realization of pre-DC1}
     \label{fig:dc1_lc_band_resid}
 \end{figure}
 
 
-\subsection{Parameter reconstruction and covariance matrix}
+\subsection{Parameter Reconstruction and Covariance Matrix}
 
-\noindent Since the pre-DC1 dataset is generated with a model that respects the NaCl constraints, we expect to reconstruct the exact same parameters used in the generation. 
+\noindent Since the pre-DC1 dataset is generated with a model that respects NaCl constraints, we expect to reconstruct the exact same parameters used in the generation. 
 In Figure \ref{fig:sn_pars_wres} we compare the generated and reconstructed parameters averaged over all 100 realizations of pre-DC1. 
 We see that the reconstructed parameters match the input parameters within the statistical uncertainties of the reconstruction.\\
 
@@ -52,17 +52,17 @@ We see that the reconstructed parameters match the input parameters within the s
 \noindent We are also interested in comparing the constructed empirical covariance matrix and the Fisher covariance matrix from NaCl. In Figure (ref), we compare the 
 output uncertainties ($\sigma_{Fisher}$) from 1 pre-DC1 realization with the uncertainties extracted from the empirical covariance matrix ($\sigma_{Emp}$) constructed from the run 
 on the 100 pre-DC1 realizations. We see that for each block of parameters $X_0$, $X_1$ and $c$, $\sigma_{Fisher}$ is equivalent to $\sigma_{Emp}$ and well within 
-the statistical uncertainties of $\sigma_{Emp}$. This is also highlighted when we look at their ratios where they are centered around 1. We are now convinced that the NaCl can 
-produce unbiased parameters along their uncertainties in a \textsc{Lemaître}-like analysis. \\
+the statistical uncertainties of $\sigma_{Emp}$. This is also highlighted when we look at their ratios where they are centered around 1. We are now convinced that NaCl can 
+produce unbiased parameters with correctly estimated uncertainties in a \textsc{Lemaître}-like analysis. \\
 
 \subsection{Distance modulus and cosmological parameters reconstruction}
 
-We use the EDRIS module to determine the distance modulus of the supernovae at the end of the lightcurve fit and model training with NaCl. It's important to note
-that we are not assessing the efficiency of EDRIS in reconstructing distances as this has been already established in D. Kuhn's 
+We use the EDRIS module to determine the distance modulus of the supernovae at the end of the light curve fit and model training with NaCl. It is important to note
+that we are not assessing the efficiency of EDRIS in reconstructing distances as this has already been established in D. Kuhn's 
 PhD thesis\footnote{\url{https://theses.hal.science/tel-05451069}} where it was shown that EDRIS does not bias supernova distances in our setup. If we do find biased distances, then
 it would come from NaCl. \\
-\noindent The results in Figure \ref{fig:dc1_hubble} show the mean binned distance residuals from 100 realizations of pre-DC1 as well as a comparison between between
-the empirical uncertainties on the binned distances and the Fisher uncertainties from EDRIS. We see that NaCl does not introduce biases on the supernova distances.
+\noindent The results in Figure \ref{fig:dc1_hubble} show the mean binned distance residuals from 100 realizations of pre-DC1 as well as a comparison between
+the empirical uncertainties on the binned distances and the Fisher uncertainties from EDRIS. We see that NaCl does not introduce bias in the distances.
 We can now move on to determining the cosmological parameters with cosmologix. \\
 
 \begin{figure}[ht]

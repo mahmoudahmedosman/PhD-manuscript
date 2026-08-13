@@ -1,18 +1,52 @@
-\section{NaCl on real data} \label{sec:nacl_real_data}
+\section{Testing NaCl on Real Data} \label{sec:nacl_real_data}
 
-There have been models that were empirically constructed in similar ways as the SALT models with SNfactory data, namely SNEMO (\cite{Saunders_2018_SNEMO}), 
-SUGAR (\cite{L_get_2020_SUGAR}), Twins Embedding (\cite{Boone_2021_twins_embedding}) and SuPAErnova (\cite{Stein_2022_PAE}) as presented earlier. 
-These models usually incorporate different parameterizations than SALT2 in order to try and fully understand the spectrophotometric evolution of supernovae. 
-One thing to note is that it is easy to implement different models in NaCl. So one could modify the current implementation of the SALT2 model and add 
-extra parameters and test if it improves the description of supernovae. \\
-For now, we present the results obtained when training NaCl on the SNfactory data with a SALT2 parameterization. \\
+An important part of this work is to validate the NaCl framework on observational data. We therefore apply the model to the SNfactory (\cite{snfactory}) 
+dataset, which provides a particularly well-suited test case for a spectrophotometric model. The SNfactory program obtained time-series 
+spectroscopy of Type Ia supernovae with the SNIFS instrument, providing a densely sampled spectrophotometric dataset for individual 
+supernovae. The accurate spectrophotometric calibration of the SNIFS observations allows the spectra to provide an absolute measurement of the flux, 
+eliminating the need for separate photometric observations.
+
+The SNfactory dataset is also particularly relevant in the context of NaCl because it has been used to develop several empirical models that 
+aim to describe supernova diversity beyond the standard SALT2 parameterization. These include SNEMO 
+(\cite{Saunders_2018_SNEMO}), SUGAR (\cite{L_get_2020_SUGAR}), Twins Embedding (\cite{Boone_2021_twins_embedding}), and SuPAErnova 
+(\cite{Stein_2022_PAE}). The use of SNfactory data in these studies motivates its use here as a test case for NaCl, while also providing a 
+natural framework for future extensions of the model to alternative parameterizations.
+
+In this work, however, we retain the SALT2 parameterization. The objective at this stage is to assess the 
+ability of NaCl to model real spectrophotometric data within a well-established parameterization. 
+We present here the results obtained by training NaCl on the SNfactory dataset using this SALT2 
+parameterization.
+
+\subsection{Implementing a Model for Spectrophotometric Data}
+
+
+For the SNfactory dataset, NaCl must directly model the spectrophotometric 
+observations rather than combining independently measured photometric and 
+spectroscopic data. The model is therefore trained directly on the 
+flux-calibrated spectra obtained at different phases of each supernova. 
+This requires adapting the model prediction and likelihood to the 
+spectrophotometric data format, so that the predicted spectra can be 
+compared directly to the observations.
+
+
+For spectrophotometric data, both the spectral shape and the 
+normalization are determined simultaneously from the same observation. 
+The predicted spectral flux is then given by:
+\begin{equation}
+    f_{\text{spectrophotometric}}((1+z)\lambda, (1+z)p) = X_0 \frac{1}{1+z} [M_0(\lambda,p) + X_1M_1(\lambda, p)] \times 10^{0.4c CL(\lambda)}
+\end{equation}
+This formulation removes the need for a spectral recalibration 
+polynomial $SpecRecal(\lambda)$ and reintroduces the colour law 
+$CL(\lambda)$, which is now constrained directly from the spectra. 
+The model derivatives have also been adjusted to enable model evaluation and log-likelihood minimization. 
+The results on the data are presented in the following section.
+
 
 \subsection{NaCl training results}
-\subsubsection{Data coverage}
-
-Training a SALT2-like model with NaCl on the SNfactory was the first time NaCl was used on real data and was part of the PhD to test the framework. 
-The SNfactory dataset used here contains 224 supernova and 3135 spectra. We can see in the coverage of the data on the model's $\lambda-p$ space in 
-Figure \ref{fig:snf_coverage} that we have a very rich dataset that covers a very large part of the model's domain of definition. 
+\subsubsection{Data Coverage}
+ 
+The SNfactory dataset used here contains 224 supernovae and 3135 spectra. We can see in the coverage of the data oin the $\lambda-p$ space in 
+Figure \ref{fig:snf_coverage}. 
 
 \begin{figure}[ht]
     \centering
@@ -21,13 +55,13 @@ Figure \ref{fig:snf_coverage} that we have a very rich dataset that covers a ver
     \label{fig:snf_coverage}
 \end{figure}
 
-\subsubsection{Fitting the spectra}
+\subsubsection{Fitting the Spectra}
 
-We present in Figure \ref{fig:snf_spectra} examples of spectra that were fitted with NaCl. These are 2 spectra randomly picked out that belong to two different supernova 
+We present in Figure \ref{fig:snf_spectra} examples of spectra that were fitted with NaCl. These are two randomly selected spectra that belong to two different supernovae 
 and are taken at different phases. What we see is that the trained model seems to accurately describe the evolution of those spectra. The errorsnake model employed 
-shows an intrinsic dispersion of the fluxes at an order of about 10\%. We present in the next subsection the results of full dataset.\\
+shows an intrinsic dispersion of the fluxes of order 10\%. We present in the next subsection the results of full dataset.\\
 
- The entirety of the model training takes around 30 minutes on a Dell Precision 3581 laptop 
+The entirety of the model training takes around 30 minutes on a Dell Precision 3581 laptop 
 equipped with an Intel(R) Core(TM) i7-13700H, 14 cores, up to 5.0 GHz, 32 GB RAM and a NVIDIA RTX A1000 6GB GPU. \\
 
 \begin{figure}[htpb]
@@ -47,17 +81,17 @@ equipped with an Intel(R) Core(TM) i7-13700H, 14 cores, up to 5.0 GHz, 32 GB RAM
     \caption{}
     \label{fig:snf_spec_2}
 \end{subfigure}
-\caption{Two spectra with the train NaCl model. The blue points are the data, the red line is the trained model and the highlighted area is the error model.}
+\caption{Two spectra with the trained NaCl model. The blue points are the data, the red line is the trained model and the highlighted area is the error model.}
 \label{fig:snf_spectra}
 \end{figure}
 
-\subsubsection{Training residuals}
+\subsubsection{Training Residuals}
 
-We would like to examine how well a SALT2 like parameterized model is able to describe the spectrophotometric evolution of supernovae. 
+We would like to examine how well a SALT2-like parameterized model is able to describe the spectrophotometric evolution of supernovae. 
 In order to do that, we will be looking at the weighted residuals of the model on the entirety of the data and check if there are any particular features that stand out. 
-This is presented in Figure \ref{fig:snf_pulls} where we have calculated the weighted residuals which represent by how many $\sigma$ our model differs from the data, 
+This is presented in Figure \ref{fig:snf_pulls} where we have calculated the weighted residuals which indicate by how many $\sigma$ our model differs from the data, 
 also known as pulls. We do that for each data point and stack them on top of each other if they have been observed at the same time. So for example if we have 2 spectra 
-measured at phase of $p= -1$ with data points at $5000{\AA}$, it'll appear as one point on the Figure and its value will be the average of the 2 pulls. We then get a 
+measured at phase of $p= -1$ with data points at $5000{\AA}$, it will ll appear as one point on the Figure and its value will be the average of the 2 pulls. We then get a 
 Figure that represents the accuracy of the model in the $\lambda-p$ space. This also means that each horizontal line represents on average how well a spectrum is modeled 
 at that particular restframe phases, while the vertical lines are for specific restframe wavelengths. \\
 
@@ -70,7 +104,7 @@ It is important to mention that the models mentioned in Chapter 2 that go beyond
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{MainLayout/NaCl_chapter/figures/snfactory/pulls.png}
-    \caption{Weighted residuals at the end of the training done with NaCl on the SNfactory data. The color bar represents by how many $\sigma$ our model differs from the data. We also use as examples 3 spectra at 3 different phases and show where they would be present on the plot.}
+    \caption{Weighted residuals at the end of the training done with NaCl on the SNfactory data. The color bar indicates by how many standard deviations our model differs from the data. We also use as examples 3 spectra at 3 different phases and show where they would be present on the plot.}
     \label{fig:snf_pulls}
 \end{figure}
 
