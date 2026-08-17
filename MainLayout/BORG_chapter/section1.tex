@@ -7,41 +7,42 @@ This definition is mostly taken from \cite{Leclercq_2025}. A field level inferen
 physical fields alongside a set of parameters from observations, without relying on compressed data from the corresponding field. 
 A field-level inference is a class of inverse problems, whose objective is to infer the underlying causes of a set of observations by modeling the processes 
 that generated them. In our case, we are interested in accessing the initial conditions of the underlying matter density field and velocity field. The goal is 
-to extract the maximum number of information regarding structure formation. 
+to extract the maximum amount of information regarding structure formation. 
 By modeling the full field instead of relying on compressed summary 
-statistics, they can incorporate more complex physical information. However, the inference becomes more sensitive to mismodeling and systematics and could lead to more biasing 
+statistics, one can incorporate more complex physical information. However, the inference becomes more sensitive to mismodeling and systematics, and could lead to more biased 
 results if not accounted for properly.
 
 \subsubsection{Motivations}
 
 There are a number of motivating factors favoring the use of field-level inference rather than summary statistics when it comes to the study of structure formation. 
-Unlike compressed statistics such as the matter power spectrum ($\left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2})\right \rangle$), a field-level inference preserves all statistical 
-information such as higher-order correlations. The structures 
-observed today are non-linear and non-Gaussian, meaning correlations of higher order such as the bispectrum ($\left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2}) \delta(\mathbf{k_3})\right \rangle$) 
-or trispectrum ($\left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2}) \delta(\mathbf{k_3}) \delta(\mathbf{k_4})\right \rangle$) are non-zero and therefore contain additional 
+Unlike compressed statistics such as the matter power spectrum ($ \propto \left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2})\right \rangle$), a field-level inference preserves all statistical 
+information such as higher-order correlations \cite{Leclercq_2021}. The structures 
+observed today are non-linear and non-Gaussian, meaning correlations of higher order such as the bispectrum ($ \propto \left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2}) \delta(\mathbf{k_3})\right \rangle$) 
+or trispectrum ($ \propto \left \langle \delta(\mathbf{k_1})  \delta(\mathbf{k_2}) \delta(\mathbf{k_3}) \delta(\mathbf{k_4})\right \rangle$) are non-zero and therefore contain additional 
 information on cosmological parameters. Since the field-level inference aims at reconstructing the entire underlying field as well as its structures, these correlations will always 
 be accounted for at all orders. Moreover it preserves phase information. The compressed statistics mainly calculates the amplitudes of the correlations that exist while missing out 
 on the phase for which these amplitudes are possible. 
 For example, the contribution of two overdense regions to the correlation function depends only on their separation and not on their absolute positions. 
 Consequently, relocating the pair elsewhere in the Universe while preserving their separation would leave their contribution unchanged.
 
-\noindent Another motivation for field-level inference is reducing the uncertainties that arise due to cosmic variance at the local-Universe. Traditional summary statistics assume ergodicity 
+\noindent Another motivation for field-level inference is reducing the uncertainties that arise due to cosmic variance of the local-Universe. Traditional summary statistics assume ergodicity 
 i.e. averaged measurements over a sufficiently large volume of the Universe approximates the averages over many hypothetical realizations, which becomes problematic in 
 the local Universe due to the limited volume. With field-level inference, the goal is to reconstruct the specific realization that produces our observations, allowing us to the 
-properly adjust our model parameters to that realization. 
+properly adjust our model parameters to that realization (e.g. \cite{Porqueres_2021, Ramanah_2019}). 
 The outcome of field-level inferences done on observations of our Universe is what we call a Digital Twin, a cosmic variance-aligned numerical simulation of the dark matter 
 density field that should, in theory, match the density field of our observable Universe. \\
 
 
 \subsubsection{Performing a field-level inference}
 
-Unlike the frequentist maximum likelihood approach adopted in the NaCl spectrophotometric framework, field-level inference requires a Bayesian 
+Unlike the frequentist maximum likelihood approach adopted in the NaCl spectrophotometric framework, field-level inference is more optimal using a Bayesian 
 statistical framework. In the frequentist approach, parameters are treated as fixed unknowns and inferred by maximizing the likelihood 
 $\mathcal{L}(d|\theta)$, where $d$ is the observed data and $\theta$ are a set of parameters, 
 with uncertainties estimated from Fisher information matrix. This is well suited for NaCl as the number of parameters can be handled by a single personal computer. 
 However, field-level inference involves a parameter space of order $N^3$ for an $N^3$ voxel 
-grid. In our case $N$ can go from $64$ to $256$ giving us $10^5 - 10^7$ initial condition parameters alongside the model parameters 
-rendering maximum likelihood estimation computationally intractable. 
+grid. In our case $N$ can go from $64$ to $256$ giving us $10^5 - 10^7$ initial condition parameters alongside the model parameters (\cite{Jasche_2019,Mcalpine_2025}). 
+Although maximum likelihood estimation can still be performed in such a high-dimensional space using gradient-based methods, 
+efficiently exploring the full posterior distribution becomes considerably more challenging. 
 
 
 The Bayesian framework addresses this by treating both data and parameters 
@@ -50,7 +51,7 @@ as random variables. The central equation comes from the Bayes theorem which sta
     \mathcal{P}(A|B) = \frac{\mathcal{P}(B|A) \cdot \mathcal{P}(A)}{\mathcal{P}(B)} = \frac{\mathcal{P}(A \cap  B)}{\mathcal{P}(B)}
 \end{equation}
 For a field-level inference, we are attempting to determine the initial conditions $\delta^{IC}$, a set of model parameters $\theta$ and a model of the Universe $M$ such as 
-$\Lambda$CDM given a set of observations $d$. The Bayes theorem is then written as:
+$\Lambda$CDM given a set of observations $d$. Bayes theorem is then written as:
 \begin{equation}
     \mathcal{P}(\delta^{IC}, \theta, M | d) = \frac{\mathcal{P}(d | \delta^{IC}, \theta, M) \cdot \mathcal{P}(\delta^{IC}, \theta, M)}{\mathcal{P}(d)}
 \end{equation}
@@ -69,9 +70,9 @@ We can see three distinct terms:
     \item The term $\mathcal{P}(\theta | d, M)$ estimates the model parameters given the data and a cosmological model ($\Omega_m$, $\sigma_8$, bias model parameters, etc...).
     \item The term $\mathcal{P}(\delta^{IC} | d, M, \theta)$ estimates the initial conditions for a specific realization of the Universe.
 \end{itemize}
-The posterior naturally distinguishes between regions of 
+This is the most general expression for the posterior, however for analysis we will not be sampling the model of the Universe $M$ (Section \ref{sec:BORG}). The posterior naturally distinguishes between regions of 
 the density field that are well constrained by the data and those that are not, where the posterior defaults to a prior specified beforehand. The nuisance parameters 
-are marginalised, integrated over their full posterior distribution, which correctly propagates all their uncertainty into the parameters of interest, unlike 
+can be marginalized, integrated over their full posterior distribution, which correctly propagates all their uncertainty into the parameters of interest, unlike 
 in the frequentist approach which explores only a restricted region of the full parameter space. \\
 
 The inherent high dimensionality of these analyses requires advanced statistical techniques. First, a differentiable forward model is generally employed to describe the 
@@ -90,7 +91,7 @@ The BORG framework is illustrated in Figure \ref{fig:BORG_schematic} and is comp
 the forward model generates Gaussian initial conditions on a grid of $N^3$ voxels, models the nonlinear 
 evolution with a gravity model and connects the nonlinear matter density field to the 
 observable of interest. Second, the data likelihood has an explicit functional form that depends on 
-the observable of interest, for instance for application to galaxy surveys, we use a Poisson 
+the observable of interest, for instance for application to galaxy surveys, we may use a Poisson 
 likelihood for galaxy counts. The third component is the parameter sampler that needs to be 
 efficient enough in order to sample the very high dimensional parameter space. Moreover, BORG 
 employs a modular parameter sampler design that allows any additional parameters introduced 
@@ -102,14 +103,14 @@ Applications of BORG to simulated and real data will be discussed in Section \re
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/BORG_sn_schematic.pdf}
     \caption{Schematic summarizing what BORG intends to do when faced with Type Ia supernova data. First we start with a set of initial conditions. The initial conditions 
-    then evolve using a gravity solver to obtain the density field today. Observational effects are applied to match the observed, such as the bias model, selection effects and 
-    survey footprint. Finally we evaluate a likelihood. The goal is to adjust the intial conditions and the model parameters to maximize the likelihood.}
+    then evolve using a gravity solver to obtain the density field today. Observational effects are applied to match the observed, such as selection effects and 
+    survey footprint. Finally we evaluate a likelihood. The goal is to adjust the intial conditions and the model parameters to maximize the likelihood. Adapted from \url{https://indico.ijclab.in2p3.fr/event/8881/contributions/28072/attachments/20421/28316/COPHY_Lavaux.pdf}.}
     \label{fig:BORG_schematic}
 \end{figure}
 
 \subsubsection{Other approaches}
 
-As described in the previous section, BORG is the most advanced end-to-end field-level inference 
+As described in the previous section, BORG is arguably the most advanced end-to-end field-level inference 
 pipeline. Other approaches have been developed, in this section we will describe two of them. 
 
 The first is the 
@@ -132,8 +133,9 @@ BAO signal reconstruction using field-level inference in comparison to standard 
 \subsubsection{Galaxy clustering}
 
 Examples of direct applications on real galaxy clustering data are the Manticore products obtained with the BORG forward model (\cite{Jens_2013, Jasche_2019}). Manticore-Local (\cite{Mcalpine_2025}) is the a set of reconstructed dark matter simulations to 
-match the observations in the 2M++ galaxy catalogue with galaxies up to a redshift of $z \lesssim 0.1$. Manticore-Deep (\cite{Mcalpine_2026}) extends the work done on Manticore-Local 
-by applying the algorithm on five galaxy catalogues 2M++, 6dFGS, 2dFGRS, SDSS, and BOSS reaching a redshift of $z \lesssim 0.7$, the largest Digital Twin that exists to date. 
+match the observations in the 2M++ galaxy catalogue (\cite{Lavaux_2011}) with galaxies up to a redshift of $z \lesssim 0.1$. Manticore-Deep (\cite{Mcalpine_2026}) extends the work done on Manticore-Local 
+by applying the algorithm on five galaxy catalogues 2M++, 6dFGS, 2dFGRS, SDSS, and BOSS (\cite{Lavaux_2011,Jones_2009_6dFGS,Colless_2003_2dFGRS,
+York_2000_SDSS,Dawson_2013_BOSS}) reaching a redshift of $z \lesssim 0.7$, the largest Digital Twin that exists to date at a resolution of $\sim 4 \, h^{-1}.\text{Mpc}$. 
 This gives us access to more than just cosmological parameters but a better understanding of the local 
 structures in the Universe by being able to observe them one by one like the Virgo cluster or the Great Attractor. 
 It also allows us to access hard-to-observe properties such as the velocity field, formation histories and tidal fields. 
@@ -159,7 +161,7 @@ and the mock used. Figure \ref{fig:nguyen} shows the constraints obtained from m
     \includegraphics[width=0.6\textwidth]{MainLayout/BORG_chapter/figures/nguyen.png}
     \caption{Posterior distribution of the reconstructed value of $\sigma_8 /\sigma_{8, \text{true}} $. In blue are the results from the field-level inference and 
     in yellow are the results from the $P+B$ method. The top Figure is for a limiting mode of $k_{\text{max}} = 0.10 h \text{Mpc}^{-1}$ and the bottom for 
-    $k_{\text{max}} = 0.12 h \text{Mpc}^{-1}$.}
+    $k_{\text{max}} = 0.12 h \text{Mpc}^{-1}$. Taken from \cite{Nguyen_2024}.}
     \label{fig:nguyen}
 \end{figure}
 
@@ -168,7 +170,7 @@ and the mock used. Figure \ref{fig:nguyen} shows the constraints obtained from m
 
 The following study highlights the constraining power of field-level inference was done by \cite{Porqueres_2023} on simulated weak lensing catalogues. 
 The study was conducted using the 
-BORG framework. The developped hierarchical forward model developped included astrophysical systematics of intrinsic alignment and bayron feedback in addition to the gravity 
+BORG framework. The developed hierarchical forward model developped included astrophysical systematics of intrinsic alignment and baryon feedback in addition to the gravity 
 solver. The resulting model has been called BORG-WL. The model was tested on self-consistent simulations and was used to constrain both the matter content $\Omega_m$ and 
 $\sigma_8$. This was then compared to the traditional summary statistics by infering the parameters using the angular power spectrum. They obtain the following results in 
 Figure \ref{fig:porqueres}. The results show a much tighter constraints on both parameters as well as being able to break the degeneracy between them. \\
@@ -176,27 +178,62 @@ Figure \ref{fig:porqueres}. The results show a much tighter constraints on both 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{MainLayout/BORG_chapter/figures/porqueres.png}
-    \caption{Comparison of $\Omega_m$-$\sigma_8$ constraints from BORG-WL (blue) and the angular power spectrum (yellow) for self-consistent mocks.}
+    \caption{Comparison of $\Omega_m$-$\sigma_8$ constraints from BORG-WL (blue) and the angular power spectrum (yellow) for self-consistent mocks. Taken from \cite{Porqueres_2023}.}
     \label{fig:porqueres}
 \end{figure}
+
+
+\subsubsection{Primordial non-Gaussianities}
+
+Primordial non-Gaussianities (PNGs) are small deviations from the Gaussian statistics of the primordial density perturbations. 
+Their detection would provide valuable insight into the physics of inflation, as different inflationary scenarios predict distinct non-Gaussian signatures (\cite{Chen_2010}). 
+An application of field-level inference to this problem was first presented by \cite{Andrews_2023}, where the BORG framework was extended to 
+jointly infer the initial conditions and the local primordial non-Gaussianity parameter $f_{\text{NL}}$. 
+Applied to SDSS-III/BOSS-like mock galaxy catalogues, the method achieved a factor of $\sim2.5$ improvement over the observational constraints available at the time.
+
+More recently, \cite{Andrews_2026} extended this framework to realistic halo catalogues generated from the Quijote N-body simulations (\cite{Villaescusa_2020}). 
+Compared to a joint power spectrum and bispectrum analysis, the field-level approach achieved a factor of $\sim1.3$ improvement in the 
+uncertainty on $f_{\text{NL}}$. The inference was also tested on multiple gravity solvers to assess the impact of resolving for small-scales on the measurement of $f_{\text{NL}}$.
 
 
 \subsubsection{Peculiar velocities}
 
 
-We present several studies that assess the performance of field-level inference for reconstructing the cosmic velocity field. The first is the work of 
-\cite{Boruah_2020}, in which BORG was applied to the 2M++ galaxy survey (\cite{Lavaux_2011}) to reconstruct the underlying matter density and velocity field. The 
-recovered velocity field was subsequently compared with independent peculiar velocity measurements from Type Ia supernovae and Tully–Fisher catalogues. 
-This work demonstrated the ability of BORG to reconstruct the large-scale velocity field from real galaxy survey data. By comparing the reconstructed velocity field with 
-independent peculiar velocity measurements, it also provided the first determination of $f\sigma_8$ 
-using a BORG reconstruction. \\
+We present several studies that assess the performance of field-level inference for reconstructing the cosmic velocity field. 
+A widely used approach for reconstructing the local velocity field is the linear reconstruction method of \cite{Carrick_2015}, 
+which uses the luminosity-weighted galaxy density field from the 2M++ survey \cite{Lavaux_2011}. 
+While such linear reconstructions provide an effective description of the large-scale velocity field, they do not fully capture the non-linear gravitational 
+evolution of structure on smaller scales. 
+Recent comparisons of local Universe reconstructions have demonstrated the importance of 
+accounting for these non-linearities when reconstructing the velocity field \cite{Stiskalek_2025_b}. 
 
 
-The second study, by \cite{Prideaux_Ghee_2022}, extended the BORG framework to reconstruct the initial matter density and velocity fields directly from peculiar velocity 
-tracers. The method was validated using mock catalogues extracted from \texttt{GADGET2} N-body simulations. It demonstrated that accurate velocity field reconstructions can 
-be achieved when the inference relies on approximate gravitational forward models. This showed that field-level inference is 
-capable of recovering the velocity field well into the mildly non-linear regime as seen in Figure \ref{fig:james_vel}. \\
+We first consider the work of \cite{Boruah_2020}, which reconstructed the large-scale velocity field from the 2M++ galaxy survey \cite{Lavaux_2011} using the linear 
+reconstruction method of \cite{Carrick_2015}. The reconstructed velocity field was subsequently compared with independent peculiar velocity measurements 
+from Type Ia supernovae and Tully-Fisher catalogues, allowing for a measurement of $f\sigma_8$. 
+However, subsequent work has shown that the inferred $f\sigma_8$ is sensitive to calibration effects and to the cosmic variance associated 
+with the finite survey volume (\cite{Hollinger_2024}). 
+The field-level approach adopted in this work instead incorporates the peculiar velocity tracers directly into the inference of the underlying density and velocity fields. 
+This provides a unified framework in which the information from the tracers, together with the measurement uncertainties and the 
+uncertainties associated with the reconstructed fields, is propagated jointly through the inference. 
+Rather than using the peculiar velocity measurements only to assess an independently reconstructed velocity field, they directly contribute to constraining the field itself. \\
 
+
+The second study, by \cite{Prideaux_Ghee_2022}, extended the BORG framework to reconstruct the initial matter density and velocity fields directly from peculiar velocity tracers. 
+The method was validated using mock catalogues extracted from \texttt{GADGET2} N-body simulations (\cite{Springel_2005}). 
+Their results demonstrated that accurate velocity field reconstructions can be achieved by incorporating peculiar velocity tracers directly into a Bayesian field-level 
+inference, even when using an approximate gravitational forward model. 
+In particular, the use of Lagrangian perturbation theory allowed the reconstruction to extend into the mildly non-linear regime, as illustrated in Figure \ref{fig:james_vel}.
+This motivates the use of non-linear 
+gravity-solvers when attempting to reconstruct the velocity field from 
+peculiar velocity tracers.  
+However, the implementation remains a proof of concept. 
+The authors identify the use of more accurate non-linear gravity and velocity models as an important direction for future work. 
+Furthermore, their validation is performed using mock tracers, with some 
+simplifying assumptions regarding the observed distances. 
+Applications to real data would therefore require accounting for the fact 
+that the observed distance modulus provides an estimate of the true distance, 
+and propagating the associated uncertainty through the field-level inference. \\
 
 \begin{figure}[ht]
     \centering
@@ -211,41 +248,43 @@ capable of recovering the velocity field well into the mildly non-linear regime 
 
 Lastly, we present the study conducted by \cite{Stiskalek_2025_b} on the reconstruction of velocity fields. The paper compares different methods in reconstructing the velocity field 
 from a reconstructions of the local Universe to peculiar velocity catalogues from direct distance tracers.  
-Each reconstruction can be used to infer the velocity field. We will be listing the different local Universe reconstruction methods 
-in Table \ref{tab:velocity_olympics} and showing the results from the different methods in Figure \ref{fig:olympics_dens}. What is important to note is that amongst those methods, 
+Each reconstruction can be used to infer the velocity field. We will list the different local Universe reconstruction methods 
+in Table \ref{tab:velocity_olympics} and show the results from the different methods in Figure \ref{fig:olympics_dens}, which highlights how accounting for non-linearities in the 
+gravity model translates onto the small scales of the density fields. 
+It is important to note is that amongst those methods, 
 the CSiBORG1 and CSiBORG2 reconstruction are field-level inferences with BORG.  
 
 \begin{table}[ht]
     \centering
     \caption{Different local Universe reconstruction methods.}
     \label{tab:velocity_olympics}
-    \begin{tabularx}{\textwidth}{|l|c|X|}
+    \begin{tabularx}{\textwidth}{|l|c|X|c|}
     \hline
-    Model & Alias & Description \\
+    Model & Alias & Description & Resolution \\
     \hline
     \cite{Carrick_2015}
     & C15
-    & Linear inverse modelling using a luminosity-weighted galaxy density field. Used the 2M++ galaxy catalogue \cite{Lavaux_2011}. Resolution: $4\,h^{-1}\,\mathrm{Mpc}$. \\
+    & Linear inverse modelling using a luminosity-weighted galaxy density field. Used the 2M++ galaxy catalogue \cite{Lavaux_2011}. & $4\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \cite{Lilow_2024}
     & L24
-    & Machine-learning inverse method trained on Quijote simulations. Used the 2MRS galaxy catalogue \cite{Huchra_2012}. Resolution: $3.1\,h^{-1}\,\mathrm{Mpc}$. \\
+    & Machine-learning inverse method trained on Quijote simulations. Used the 2MRS galaxy catalogue \cite{Huchra_2012}. & $3.1\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \cite{Jasche_2019}
     & CSiBORG1
-    & BORG forward model. Used the 2M++ galaxy catalogue. Resolution: $2.6\,h^{-1}\,\mathrm{Mpc}$. \\
+    & BORG forward model. Used the 2M++ galaxy catalogue. & $2.6\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \cite{Stopyra_2023}
     & CSiBORG2
-    & BORG forward model with an improved gravity solver. Used the 2M++ galaxy catalogue. Resolution: $2.6\,h^{-1}\,\mathrm{Mpc}$. \\
+    & BORG forward model with an improved gravity solver. Used the 2M++ galaxy catalogue. & $2.6\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \cite{Sorce_2018, Sorce_2020}
     & S18
-    & Constrained realization with a Wiener filter and reverse Zel'dovich approximation. Used CosmicFlows-2 peculiar velocities \cite{Tully_2013}. Resolution: $1.9\,h^{-1}\,\mathrm{Mpc}$. \\
+    & Constrained realization using a Wiener filter, which combines the peculiar velocity measurements with prior statistical information, and the reverse Zel'dovich approximation. Used CosmicFlows-2 peculiar velocities \cite{Tully_2013}. & $1.9\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \cite{Courtois_2023}
     & C23
-    & HMC sampling of the density field at $z=0$ constrained by peculiar velocities. Used CosmicFlows-4 peculiar velocities \cite{Tully_2023}. Resolution: $3.9\,h^{-1}\,\mathrm{Mpc}$. \\
+    & HMC sampling of the density field at $z=0$ constrained by peculiar velocities. Used CosmicFlows-4 peculiar velocities \cite{Tully_2023}. & $3.9\,h^{-1}\,\text{Mpc}$. \\
     \hline
     \end{tabularx}
     \end{table}
@@ -260,29 +299,24 @@ the CSiBORG1 and CSiBORG2 reconstruction are field-level inferences with BORG.
 \end{figure}
 
 The velocity fields are then compared to peculiar velocities from Tully-Fisher and one from Type Ia supernova catalogues. 
-There are multiple metrics used to assess how accurate the velocity field reconstructions are, mainly rely on computing the evidence $\mathcal{Z}$ , i.e the probability of observing the 
-peculiar velocities given a model. This is presneted in Figure \ref{fig:olympics_rank} where we can see that the BORG reconstruction outmatches the other models. This highlights the importance 
-of accounting for non-linearities when it comes to assessing velocity fields. \\ 
+There are multiple metrics used to assess how accurate the velocity field reconstructions are, mainly relying on computing the evidence $\mathcal{Z}$ , i.e the probability of observing the 
+peculiar velocities given a model. This is presented in Figure \ref{fig:olympics_rank} where we can see that the BORG reconstruction outmatches the other models. This highlights the importance 
+of accounting for non-linearities when it comes to assessing velocity fields. 
+The better performance of the BORG reconstructions 
+therefore demonstrates the importance of modeling non-linear gravitational 
+evolution when predicting the velocity field on the scales probed by peculiar 
+velocity tracers. This motivates moving beyond traditional linear velocity 
+reconstructions and incorporating non-linear structure formation directly 
+within the inference. \\
+
+In this work, we adopt such a field-level approach using the BORG framework, 
+where the peculiar velocity tracers directly constrain the underlying density 
+and velocity fields through a non-linear forward model. In the next section we will describe the core of the BORG framework. 
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{MainLayout/BORG_chapter/figures/olympics_rank.png}
     \caption{Logarithmic evidence for each method highlighting in gold the most accurate reconstruction then silver, bronze and green in that order. The evidence was calculated 
-    for six peculiar velocity catalogues. The LOSS and Foundation catalogues are supernova catalogues while the reamining ones are Tully-Fisher catalogues.}
+    for six peculiar velocity catalogues. The LOSS and Foundation catalogues are supernova catalogues while the reamining ones are Tully-Fisher catalogues. Taken from \cite{Stiskalek_2025_b}.}
     \label{fig:olympics_rank}
 \end{figure}
-
-\subsubsection{Primordial non-Gaussianities}
-
-Primordial non-Gaussianities (PNGs) are small deviations from the Gaussian statistics of the primordial density perturbations. 
-Their detection would provide valuable insight into the physics of inflation, as different inflationary scenarios predict distinct non-Gaussian signatures. 
-An application of field-level inference to this problem was first presented by \cite{Andrews_2023}, where the BORG framework was extended to 
-jointly infer the initial conditions and the local primordial non-Gaussianity parameter $f_{\mathrm{NL}}$. 
-Applied to SDSS-III/BOSS-like mock galaxy catalogues, the method achieved a factor of $\sim2.5$ improvement over the observational constraints available at the time.
-
-More recently, \cite{Andrews_2026} extended this framework to realistic halo catalogues generated from the Quijote N-body simulations (\cite{Villaescusa_2020}). 
-Compared to a joint power spectrum and bispectrum analysis, the field-level approach achieved a factor of $\sim1.3$ improvement in the 
-uncertainty on $f_{\mathrm{NL}}$. The inference was also tested on multiple gravity solvers to assess the impact of resolving for small-scales on the measurement of $f_{\mathrm{NL}}$.
-
-These results have motiviated us to pursue an analysis using field-level inference on Type Ia supernova. In the next section we will describe the core of the BORG framework, 
-which we will be using in our analysis. 

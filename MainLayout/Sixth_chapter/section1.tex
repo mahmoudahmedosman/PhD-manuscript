@@ -158,7 +158,7 @@ where $n(r)$ is the number density of supernovae. This can be related to the obs
 \end{equation}
 where $T_{\text{obs}}$ is the time of observation and $\mathrm{S}$ is a selection function that would account for the survey footprint, galactic extinction and any 
 instrumental effects that would decrease the number of observed supernovae. For our application on self-consistent simulations and the 
-ZTF-Uchuu mocks, we generate supernovae on the full-sky and do not include any Malmquist bias effects. Therefore $\mathrm{S}$ becomes unity. 
+Uchuu-ZTF mocks, we generate supernovae on the full-sky and do not include any Malmquist bias effects. Therefore $\mathrm{S}$ becomes unity. 
 If we assume a constant rate, then $dN \propto r^2 dr$ giving the $r^2$ geometric dependence in the prior described earlier. 
 If we assume that this is not the case, then we get:
 \begin{equation}
@@ -176,37 +176,39 @@ determined by the cosmology. We get $\frac{dr}{dz} = \frac{c}{H(z)}$. Finally, w
     \quad \text{with } n(r) \, \text{expressed by Equation \ref{eqn:n_r_new}}.
     \label{eqn:new_prior}
 \end{equation}
-Finally, we fit the inferred $n(r)$ with a smooth differentiable function that is then implemented in the likelihood as seen in Figure \ref{fig:n_r_test}.
+Finally, we fit the inferred $n(r)$ with a smooth differentiable function that is then implemented in the likelihood as seen in Figure \ref{fig:n_r_test}. 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/n_r_tests.png}
-    \caption{ %(PLOT NEEDS TO BE REMADE) 
-    The number density as a function of the comoving distance from the observer. 
-    The red line represents a cubic spline fit. 
-    The green line represents a fit using a Cumulative Distribution Function convoluted with a Gaussian.}
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/n_r.pdf}
+    \caption{ 
+    The supernova number density as a function of the comoving distance from the observer for the Uchuu-ZTF mock. The mock was limited to $z\lesssim 0.06$ to be consistent with the 
+    volume limited sample of ZTF. The plot displays 32 bins. 
+    The red line represents a cubic spline fit. The dashed black line represents the mean number density as well as its uncertainty shaded in grey. 
+    We can see that the spline fit manages to capture regions where the number of supernovae is slightly different than expected at different scales. }
     \label{fig:n_r_test}
 \end{figure}
 
 
-This new prior lies in the motivated by the comparison self-consistent simulations with the ZTF-Uchuu simulations containing the exact same number of supernovae. 
+This new prior lies in the motivated by the comparison self-consistent simulations with the Uchuu-ZTF simulations containing the exact same number of supernovae. 
 We generate a set of self-consistent mocks each with a different value for $\alpha$. 
 We bin the number of supernovae based on the overdensity. 
 If the simulations are generated in the same way, we would expect to see a match between the bins for a given $\alpha$ value. 
-We notice that there is not a single value of $\alpha$ for which the self-consistent simulations match the ZTF-Uchuu simulations. 
-We obtain a best match with $\alpha = 1.4$ presented in Figure \ref{fig:nsn_vs_dens}. 
-Moreover, we notice a regime change based on the overdensity for the ZTF-Uchuu simulations, which could possibly hint that the difference can be captured using two 
+We notice that there is not a single value of $\alpha$ for which the self-consistent simulations match the Uchuu-ZTF simulations as presented in Figure \ref{fig:nsn_vs_dens}. 
+Moreover, we notice a regime change based on the overdensity for the Uchuu-ZTF simulations, which could possibly hint that the difference can be captured using two 
 bias model parameters. 
 During this PhD I have not explored this avenue but instead relied on the new supernova 
 prior to capture the differences between the simulations thanks to the inclusion of this $n(r)$. \\
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/nsn_delta_borg.png}
-    \caption{ %(PLOT NEEDS TO BE REMADE) 
-    Comparing a self-consistent simulation generated with $\alpha=1.4$ with the ZTF-Uchuu simulation by plotting the number of supernova in a voxel 
-    with respect to the overdensity of that voxel. The blue dots are measured on the self-consistent simulation while the red dots are measured on the ZTF-Uchuu simulation. The thicker dots 
-    are the averaged value of the number of supernovae obsereved.}
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/sn_bias.pdf}
+    \caption{ 
+    Comparing a self-consistent simulation generated with different values of $\alpha$ (0.5, 1.0, 1.5, 2.0, 3.0 and 5.0) with the Uchuu-ZTF simulation (black). 
+    \textit{Top:} plot of the supernova overdensity $1+\delta_{\text{SN}}$ in a voxel 
+    with respect to the matter overdensity of that voxel. \textit{Bottom:} Differences with regards to the Uchuu-ZTF supernova overdensity. 
+    The results highlight how different values of $\alpha$ seem to fail to describe the relation between supernova positions 
+    and matter overdensity in the Uchuu-ZTF mock used.}
     \label{fig:nsn_vs_dens}
 \end{figure}
 

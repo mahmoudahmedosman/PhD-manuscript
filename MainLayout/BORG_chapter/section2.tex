@@ -1,88 +1,109 @@
 \section{The BORG algorithm} \label{sec:BORG}
 
-The Bayesian logic behind BORG makes it that we are exploring a large scale structure posterior 
-by infering a Gaussian prior for the initial density field $\delta^{IC}$. 
+Within the BORG framework, we explore and sample the posterior for the large scale structure in the local environment, as captured by its initial conditions $\delta^{IC}$. We assume a 
+Gaussian prior for these initial conditions.  
 These 
 initial conditions will then evolve to a final matter density field $\delta^F$ with an associated velocity field $\mathbf{v}$.
 Modeling the evolving density field requires a gravity model that 
 can capture 
-the non linear effects of structure formation. We will be explaining the details of the different parts of BORG in the next subsections. \\
+the non linear effects of structure formation. We explain the details of the different parts of BORG in the next subsections. \\
 \subsection{Distribution and sampler}
 
 \subsubsection{General distribution}
 The non-linear nature of gravitational structure formation makes it difficult to define an appropriate prior for the evolved density field (\cite{Fisher_1995}, \cite{Jasche_2010}). 
 So even if one assumes a Gaussian or a log-normal for the $\delta^F$ they will be missing the description of fine filamentary features of the observed cosmic web (\cite{Peebles_1980}). 
-Instead what is done in BORG is treat the problem as a Bayesian inference on the initial conditions. The biggest gain out of that, is that the prior is physically 
+Instead what is done in BORG is treat the problem as a Bayesian inference on the initial conditions. The biggest gain out of that is that the prior is physically 
 motiviated from results obtained from Planck CMB data (\cite{Planck_2016}, \cite{Planck_2018}) and inflation which is a Gaussian prior. Combining that with a gravity model to evolve the density field 
 and by marginalizing over the final density fields, we can then constrain our initial conditions. 
 Equation \ref{eqn:bayesian_borg} shows the full posterior distribution for a field-level inference. For our analysis with BORG we will be restricting ourselves to $\Lambda$CDM, 
-rendering $M$ constant. We will concentrate on the posterior of the initial conditions for a moment $\mathcal{P}(\delta^{IC} | d, \theta)$. Using the Bayes theorem we get:
+rendering $M$ constant. We will consider the joint posterior of the initial conditions and model 
+parameters, $\mathcal{P}(\delta^{IC},\theta | d)$. Using Bayes theorem we get: 
 \begin{equation}
-    \mathcal{P}(\delta^{IC} | d, \theta) = \frac{\mathcal{P}(\delta^{IC}) \cdot \mathcal{P}(d, \theta | \delta^{IC})}{\mathcal{P}(d, \theta)}
+    \mathcal{P}(\delta^{IC},\theta | d) =
+    \frac{
+        \mathcal{P}(d | \delta^{IC},\theta)
+        \cdot
+        \mathcal{P}(\delta^{IC} | \theta)
+        \cdot
+        \mathcal{P}(\theta)
+    }{
+        \mathcal{P}(d)
+    }.
 \end{equation}
-Where $\mathcal{P}(\delta^{IC})$ is the prior on the intial conditions, $\mathcal{P}(d, \theta | \delta^{IC})$ is the likelihood and $\mathcal{P}(d, \theta)$ the model evidence. 
-The CMB results mentioned previously motivate 
-Gaussian primordial perturbations giving us:
-\begin{equation}
-    \mathcal{P}(\delta^{IC}) \propto \exp\left(-\frac{1}{2} 
-    \left (\delta^{IC} \right )^T \mathbf{C}^{-1} \left(\delta^{IC} \right) \right)
-\end{equation}
-where $\mathbf{C}$ is the covariance matrix of the initial conditions.
+Here $\mathcal{P}(\delta^{IC} | \theta)$ is the prior on the initial 
+conditions, $\mathcal{P}(\theta)$ is the prior on the model parameters, 
+$\mathcal{P}(d | \delta^{IC},\theta)$ is the likelihood and 
+$\mathcal{P}(d)$ the model evidence. 
 
-This posterior can be made explicit by specifying the form of the 
-data $d$ and the likelihood $\mathcal{P}(d|\delta^{IC})$. Following 
+The CMB results mentioned previously motivate 
+Gaussian primordial perturbations giving us: 
+\begin{equation}
+    \mathcal{P}(\delta^{IC} | \theta) \propto
+    \exp\left(-\frac{1}{2}
+    \left (\delta^{IC} \right )^T
+    \mathbf{C}^{-1}
+    \left(\delta^{IC} \right) \right)
+\end{equation}
+where $\mathbf{C}$ is the covariance matrix of the initial conditions. 
+
+This posterior can be made explicit by specifying the form of the
+data $d$ and the likelihood $\mathcal{P}(d|\delta^{IC},\theta)$. Following 
 \cite{Jasche_2019}, we consider a dataset consisting of the number of 
 observed tracers $N^{(i)}$ in each voxel $i$ of a grid. The gravity 
-model $G^{(i)}$ maps the initial conditions to the final density field:
+model $G$ maps the initial conditions to the final density field:
 \begin{equation}
-    G^{(i)}(\{\delta^{IC}_{(i)}\}) = \delta^F_{(i)}
+    G(\{\delta^{IC}_{(i)}\}) = \delta^F_{(i)}
 \end{equation}
-such that the likelihood $\mathcal{P}(d|\delta^{IC})$ becomes the 
+such that the likelihood $\mathcal{P}(d|\delta^{IC}, \theta)$ becomes the 
 probability of observing $N^{(i)}$ tracers in each voxel given the 
 evolved density field $\delta^F_{(i)}$. The full posterior then becomes:
 \begin{equation}
     \mathcal{P}(\{\delta^{IC}_{(i)}\} | \{N^{(i)}\}) = 
     \frac{\mathcal{P}(\{\delta^{IC}_{(i)}\}) \cdot 
-    \mathcal{P}(\{N^{(i)}\} | \{G^{(i)}(\{\delta^{IC}_{(i)}\})\})}
+    \mathcal{P}(\{N^{(i)}\} | \{G(\{\delta^{IC}_{(i)}\})\})}
     {\mathcal{P}(\{N^{(i)}\})}
 \end{equation}
 where the Gaussian prior $\mathcal{P}(\delta^{IC})$ is the same as 
 defined above, and the likelihood now explicitly depends on the initial 
-conditions only through the gravity model $G^{(i)}$.
+conditions only through the gravity model $G$.
 
 \subsubsection{Sampler} \label{sec:borg_sampler}
 
-Given the dimensionality of the problem at hand, directly integrating this equation is practically unfeasible due to the computational power required. 
+Given the dimensionality of the problem at hand, directly evaluating the 
+high-dimensional integrals required to marginalize the posterior is 
+practically unfeasible due to the computational power required. 
 The solution to that is to then explore the posterior distribution of initial conditions to find the best configuration set that matches our observations. 
 This will require us 
 to use a set of Markov Chain Monte Carlo (MCMC) sampling algorithms. 
 A Markov Chain is a set of sequences $\{ \theta_0, \theta_1, \theta_2, ..., \theta_n, ... \}$ where the conditional distribution of $\theta_{n+1}$ given the previous 
 elements 
-only depends on $\theta_n$. 
+only depends on $\theta_n$. The goal of an MCMC algorithm is to obtain a numerical representation of the posterior distribution by drawing samples from it. \\
 
 \noindent \textbf{\underline{Metropolis-Hastings algorithm}} \\
 The most common MCMC algorithm is the Metropolis-Hastings algorithm (\cite{Metropolis_1953}, \cite{Hastings_1970}). To summarize how it works: given a state $\theta_n$, a new state is drawn from a 
-proposal distribution which follows a Gaussian distribution $q$ such that: 
+proposal distribution which follows a distribution $q$ such that: 
 \begin{equation}
     \theta' \sim q(\theta', \theta_n) 
 \end{equation}
-With a Gaussian distribution we get $ \theta' = \theta_n + \epsilon; \quad \epsilon \sim \mathcal{N}(0, \sigma)$ with $\epsilon$ being a random perturbation drawn from the normal 
+If $q$ is a Gaussian distribution, we get $ \theta' = \theta_n + \epsilon; \quad \epsilon \sim \mathcal{N}(0, \sigma)$ with $\epsilon$ being a random perturbation drawn from the normal 
 distribution where $\sigma$ controls the step size. 
 The next step is to then compute an acceptance ratio:
 \begin{equation}
-    \alpha = \mathrm{min}\left(1, \frac{\mathcal{P}(\theta'|d)q(\theta_n | \theta')}{\mathcal{P}(\theta_n|d)q(\theta'| \theta_n)} \right)
+    \alpha = \text{min}\left(1, \frac{\mathcal{P}(\theta'|d)q(\theta_n | \theta')}{\mathcal{P}(\theta_n|d)q(\theta'| \theta_n)} \right)
 \end{equation}
 
 The state then becomes: 
 \begin{equation}
     \theta_{n+1}=
     \begin{cases}
-        \theta' & \mathrm{With\; probability\;} \alpha \\
-        \theta_n & \mathrm{With\; probability\;} 1-\alpha \\
+        \theta' & \text{With\; probability\;} \alpha \\
+        \theta_n & \text{With\; probability\;} 1-\alpha \\
     \end{cases}
 \end{equation}
 
-This guarantees that better proposals are more likely to be accepted while worse proposal have a probability proportional to how much worse they are. The problem BORG 
+This guarantees that better proposals are more likely to be accepted while worse proposal have a probability proportional to how much worse they are. 
+Moreover, under certain conditions this guarantees that the samples converge to the posterior. 
+The problem BORG 
 might have with this algorithm is the step size and the computation time since the complexity of the algorithm is $\mathcal{O}(D)$ where $D$ is the dimension of the parameter space. 
 We expect BORG to have around $10^7$ parameters to fit so if the step size that is chosen is too small the chain will only make tiny steps and take a very long time to reach a converged state, while if the step size is too large most proposals will land 
 in low-probability regions and get rejected, also making the computational time too long and inefficient. \\
@@ -90,32 +111,53 @@ in low-probability regions and get rejected, also making the computational time 
 \noindent \textbf{\underline{HMC algorithm}} \\
 The Hamiltonian Monte-Carlo algorithm (HMC, \cite{Brooks_2011}) is much more suitable for our problem and is currently what is implemented in BORG. The general idea of HMC is 
 to use concepts from Hamiltonian classical mechanics on high-dimensional problems. It uses gradient information to make significant proposals with a high acceptance rate. 
-Let us define $\Theta$ as the position vector containing the set of parameters to solve, $\textbf{p}$ the momentum variables and $\mathcal{H}$ the Hamiltonian, 
+Let us define $\Theta$ as the position vector containing the set of parameters to solve, $\textbf{p}$ the momentum variables that has the same 
+dimension as $\Theta$ and $\mathcal{H}$. The Hamiltonian, 
 the Hamilton equations give us: 
 \begin{equation}
-    \frac{\mathrm{d}\Theta}{\mathrm{d}t} = \frac{\partial \mathcal{H}}{\partial \textbf{p}}
+    \frac{\text{d}\Theta}{\text{d}t} = \frac{\partial \mathcal{H}}{\partial \textbf{p}}
 \end{equation}
 \begin{equation}
-    \frac{\mathrm{d}\textbf{p}}{\mathrm{d}t} = -\frac{\partial \mathcal{H}}{\partial \Theta}
+    \frac{\text{d}\textbf{p}}{\text{d}t} = -\frac{\partial \mathcal{H}}{\partial \Theta}
 \end{equation}
 
 with the Hamiltonian being constant in time. Let $\textbf{M}$ be the mass matrix which is symmetric and positive definite, then the Hamiltonian is: 
 \begin{equation}
-    \mathcal{H} = \frac{1}{2} \textbf{p}^{\mathrm{T}}\textbf{M}^{-1}\textbf{p} + U(\Theta)
+    \mathcal{H} = \frac{1}{2} \textbf{p}^{\text{T}}\textbf{M}^{-1}\textbf{p} + U(\Theta)
 \end{equation}
-where $U(\Theta)$ is the potential energy and $\frac{1}{2} \textbf{p}^{\mathrm{T}}\textbf{M}^{-1}\textbf{p}$ the kinetic energy. It's important to note that the choice of 
+where $U(\Theta)$ is the potential energy and $\frac{1}{2} \textbf{p}^{\text{T}}\textbf{M}^{-1}\textbf{p}$ the kinetic energy. It is important to note that the choice of 
 the mass matrix can strongly impact the performance of the sampler. 
+At the beginning of each HMC iteration, the
+momentum variables are randomly drawn from their conditional distribution
+given the current position $\Theta$. For the quadratic kinetic energy defined
+above, this distribution is a multivariate Gaussian,
+\begin{equation}
+    \mathcal{P}(\textbf{p}|\Theta)
+    \propto
+    \exp\left(
+    -\frac{1}{2}
+    \textbf{p}^{\text{T}}\textbf{M}^{-1}\textbf{p}
+    \right),
+\end{equation}
+such that
+\begin{equation}
+    \textbf{p} \sim \mathcal{N}(\mathbf{0},\mathbf{M}).
+\end{equation}
+The momentum variables are auxiliary variables and are resampled at each
+iteration to generate a new Hamiltonian trajectory; they are not parameters
+of interest.
+
 The link between Hamiltonian dynamics and probabilities can be established with the concept of canonical distributions from statistical mechanics. The probability 
 distribution over the states and momenta are written as:
 
 \begin{equation}
-    \mathcal{P}(\Theta, \textbf{p}) = \frac{1}{Z} \mathrm{exp}\left(\frac{-\mathcal{H}}{k_B T} \right)
+    \mathcal{P}(\Theta, \textbf{p}) = \frac{1}{Z} \text{exp}\left(\frac{-\mathcal{H}}{k_B T} \right)
 \end{equation}
 
 where $k_B$ is the Boltzmann constant, $T$ the temperature of the system and $Z$ is the partition function. We can impose $k_B T=1$ for simplicity and 
 absorbing the $Z$ partition function into the normalization which leads us to:
 \begin{equation}
-    -\ln \mathcal{P}(\Theta, \textbf{p}) = \mathcal{H}(\Theta, \textbf{p}) = \frac{1}{2} \textbf{p}^{\mathrm{T}}\textbf{M}^{-1}\textbf{p} + U(\Theta)
+    -\ln \mathcal{P}(\Theta, \textbf{p}) = \mathcal{H}(\Theta, \textbf{p}) = \frac{1}{2} \textbf{p}^{\text{T}}\textbf{M}^{-1}\textbf{p} + U(\Theta)
 \end{equation}
 
 We can see that the Hamiltonian formalism naturally allows the parameters $\Theta$ to be displaced along trajectories of a constant $\mathcal{H}$, guided by the gradient 
@@ -126,33 +168,37 @@ is:
 \end{equation}
 We can then the same acceptance condition as the Metropolis-Hastings algorithm where we have :
 \begin{equation}
-    \alpha(\Theta', \textbf{p}', \Theta, \textbf{p}) = \mathrm{min}\left( 1, \frac{\mathcal{P}(\Theta', \textbf{p}')}{\mathcal{P}(\Theta, \textbf{p})} \right) = \mathrm{min}\left( 1, \exp(-\mathcal{H}(\Theta', \textbf{p}') + \mathcal{H}(\Theta, \textbf{p})) \right)
+    \alpha(\Theta', \textbf{p}', \Theta, \textbf{p}) = \text{min}\left( 1, \frac{\mathcal{P}(\Theta', \textbf{p}')}{\mathcal{P}(\Theta, \textbf{p})} \right) = \text{min}\left( 1, \exp(-\mathcal{H}(\Theta', \textbf{p}') + \mathcal{H}(\Theta, \textbf{p})) \right)
 \end{equation}
 
 In exact Hamiltonian dynamics, $\mathcal{H}$ is conserved so the expected acceptance rate is unity but due to numerical errors we expect to see a lower acceptance rate. Lastly, 
 we marginalize over the momenta to obtain the final posterior on our parameters, for us that will be the initial conditions. \\
 
 \begin{equation}
-    \mathcal{P}(\Theta) = \int \mathcal{P}(\Theta, \textbf{p}) \mathrm{d} \textbf{p}
+    \mathcal{P}(\Theta) = \int \mathcal{P}(\Theta, \textbf{p}) \text{d} \textbf{p}
 \end{equation}
 
+
+
+
 \noindent \textbf{\underline{Gibbs sampler}} \\
-Sampling additional parameters on top alongside the initial conditions is done using the Gibbs sampler in BORG. Suppose we have a set of $n$ additional parameters to sample 
-${X_1, X_2, X_3, ..., X_n}$ given a dataset $d$. Then the desired distribution of these parameters is:
+Sampling additional parameters on top alongside the initial conditions is done using the Gibbs sampler in BORG. Suppose we have a set of $n$ parameters to sample 
+${X_1, X_2, X_3, ..., X_n}$ grouped in some way given a dataset $d$. For example one group may be the initial conditions, one may be the cosmological parameters and one may be other model parameters. 
+Then the desired distribution of these parameters is:
 \begin{equation}
     \mathcal{P}(X_1, X_2, X_3, ..., X_n | d)
 \end{equation}
 The Gibbs scheme works by sampling each of these parameters individually rather than jointly from a complicated distribution. The scheme starts from an intial guess of the parameters 
 ${X_1^t, X_2^t, X_3^t, ..., X_n^t}$ at an instance $t$. The parameters are then sampled in $n$ steps as:
 \begin{equation}
-    X_1^{t+1} \sim \mathcal{P}(X_1^t | X_2^t, X_3^t, ..., X_n^t, d)
+    X_1^{t+1} \sim \mathcal{P}(X_1^{t+1} | X_2^t, X_3^t, ..., X_n^t, d)
 \end{equation}
 \begin{equation}
-    X_2^{t+1} \sim \mathcal{P}(X_2^t | X_1^t, X_3^t, ..., X_n^t, d)
+    X_2^{t+1} \sim \mathcal{P}(X_2^{t+1} | X_1^{t+1}, X_3^t, ..., X_n^t, d)
 \end{equation}
 up to:
 \begin{equation}
-    X_n^{t+1} \sim \mathcal{P}(X_n^t | X_1^t, X_2^t, ..., X_{n-1}^t, d)
+    X_n^{t+1} \sim \mathcal{P}(X_n^{t+1} | X_1^{t+1}, X_2^{t+1}, ..., X_{n-1}^{t+1}, d)
 \end{equation}
 This is then repeated until a converged state is reached giving us the desired distribution. \\
 
@@ -186,12 +232,12 @@ of spreading each particle's mass over $3^3$ or $4^3$ cells rather than the $2^3
 
 \subsubsection{Gravity Model} \label{sec:gravity_model}
 Simply evolving the $\delta^{IC}$ field using the equations of motion would be too computationally expensive since the number of particles in our field can go up to $10^9$ 
-particle. Developments in the implmentation of a gravity model that is accurate and fast have been a very important topic in the development of BORG. I will be presenting the 
+particle. Developments in the implementation of a gravity model that is accurate and fast have been a very important topic in the development of BORG. I will be presenting the 
 main models that are used in BORG. Additionally, the movements of the particles in the density field directly gives us access to the underlying velocity field. \\
 
 \noindent \textbf{\underline{LPT}} \\
 
-The first gravity model is the Lagrangian Perturbation Theory or LPT, it is also known as the Zeldovich approximation (\cite{zeldovich_1970}, \cite{Crocce_2006}). 
+The first gravity model is the Lagrangian Perturbation Theory or LPT; it is also known as the Zeldovich approximation (\cite{zeldovich_1970}, \cite{Crocce_2006}). 
 The idea is to expand the density field pertubatively $\delta(x, t) = \delta^{(1)}(x, t) + \delta^{(2)}(x, t) + ... $, which is the Eulerian expansion, as well 
 as the displacement field $\Psi(q, t)= \Psi^{(1)}(q, t) + \Psi^{(2)}(q, t) + ...$ which maps the initial positions $q$ (Lagrangian coordinates) to the final positions $x$ (Eulerian coordinates). 
 In comoving coordinates, the equations of motion for dark matter particles are: 
@@ -214,14 +260,14 @@ This means we can rewrite the equations of motion as:
 \end{equation}
 To ensure the mass conservation, the continuity equation in the Lagrangian formalism gives us:  
 \begin{equation}
-    1+\delta(x, t) = \frac{1}{|\mathrm{det}(J)|}
+    1+\delta(x, t) = \frac{1}{|\text{det}(J)|}
 \end{equation} 
 With $J$ being the Jacobian that maps $q$ to $x$. 
 \begin{equation}
     J_{ij} = \frac{\partial x_i}{\partial q_j} = \delta_{ij} + \frac{\partial \Psi_i}{\partial q_j}
 \end{equation}
 
-At first order, we can expand the determinant $\mathrm{det}(J) \simeq 1 + \nabla_q . \Psi^{(1)}$ giving the first term in the expansion of the density field as: 
+At first order, we can expand the determinant $\text{det}(J) \simeq 1 + \nabla_q . \Psi^{(1)}$ giving the first term in the expansion of the density field as: 
 \begin{equation}
     \delta^{(1)}(x,t) \simeq - \nabla_q . \Psi^{(1)}
 \end{equation}
@@ -235,13 +281,19 @@ and its velocity as:
     \boxed{v(q, t) = -a H f D_1(t) \nabla_q \phi^{(1)}(q)}
 \end{equation}
 Where $D_1$ is the linear growth factor, defined earlier in Chapter 1 as $D_+$, and $f=d \ln D_1 / d \ln a$ the linear growth rate of structures (seen in Chapter 1 Section \ref{sec:newton}). 
-It's important to note that this approximation breaks down when dense structures start to form such as halos, therefore this approximation is a good description of 
-structure formation at large scales. Going to higher orders such as 2LPT (2nd order approximation) delays this breakdown but does not prevent it. Physically, 
-it can be shown that this occurs around $k\approx10^{-1} h \mathrm{Mpc}^{-1}$ at $z=0$. \\
+It is important to note that the first-order approximation becomes 
+increasingly inaccurate as density fluctuations grow and structure formation 
+enters the non-linear regime. In this regime, the higher-order terms in the 
+perturbative expansion of the displacement field become increasingly 
+important, particularly for the formation of dense structures such as halos. 
+The first-order approximation therefore provides a good description of 
+structure formation on large and mildly non-linear scales, but becomes 
+inaccurate on smaller scales. Going to higher orders such as 2LPT (2nd order approximation) delays this breakdown but does not prevent it. Physically, 
+it can be shown that this occurs around $k\approx10^{-1} h \text{Mpc}^{-1}$ at $z=0$ \cite{Chan_2014}. \\
 
 \noindent \textbf{\underline{2LPT}} \\
 
-We can also use the second order approximation of the Lagrangian Perturbation Theory (2LPT) as our gravity solver. That means the displacement field is written as 
+We can also use the second order approximation of the Lagrangian Perturbation Theory (2LPT \cite{Bouchet_1994}) as our gravity solver. That means the displacement field is written as 
 $\Psi(q,t) = \Psi^{(1)}(q, t) + \Psi^{(2)}(q, t)$ and one can demonstrate that the second order term of the displacement is: 
 
 \begin{equation}
@@ -264,22 +316,28 @@ where $f_1$ is the linear growth factor $f_1=d \ln D_1 / d \ln a$ and $f_2 = d \
 \noindent \textbf{\underline{PM}} \\
 
 The goal of the Particle Mesh (PM) gravity model is to evolve the particles in the simulation after having done a mass assignment, like CIC (Section \ref{sec:cic}). 
+The use of a grid and Fast Fourier Transforms (FFT) 
+to solve the Poisson equation reduces the computational complexity of 
+calculating the gravitational forces from $\sim\mathcal{O}(N^2)$ for direct 
+interactions between particles to $\sim\mathcal{O}(N\log N)$.  
 The equations of motion and the Poisson are adapted to be solved on the BORG grid chosen, they are given by Equation \ref{eqn:eqn_of_motion_general} and 
-$ \frac{\mathrm{d}^2 \Psi(q, a)}{\mathrm{d} a^2} = - \nabla_x \phi(x, a) $. I will explaining the steps it takes to evolve the field from 
+$ \frac{\text{d}^2 \Psi(q, a)}{\text{d} a^2} = - \nabla_x \phi(x, a) $. I will explaining the steps it takes to evolve the field from 
 a time $t_i$ to a time $t_{i+1}$ without going into the derivation of the equations at each step.\\
 
 \begin{itemize}
     \item Mass assignment, like CIC, to obtain the density field $\delta$.
-    \item Transform to Fourier space $\delta(x) \rightarrow \tilde{\delta}(k)$.
-    \item Solve the Poisson equation in Fourier space using a Fast Fourier Transform.
+    \item Transform to Fourier space $\delta(x) \rightarrow \tilde{\delta}(k)$ using a Fast Fourier Transform.
+    \item Solve the Poisson equation in Fourier space.
     \item Compute the force field, or the gravitational acceleration, in Fourier space $\tilde{g}(k)$ then transform it to cartesian space to get $g(x)$.
     \item Interpolate the forces back to particles.
     \item Time integration to get the next position and momentum of the particles.
 \end{itemize} 
 
 The PM gravity model is accurate up to the resolution of the grid, which is the most accurate gravity model we can use in BORG at the current moment. 
-It allows us to have very accurate density and velocity fields but getting there requires having to 
-repeat the full PM cycle at least 100 times (\cite{Tassev_2013}) which will produce very long computational time. If we decide to reduce the steps in PM we would lose accuracy on all scales.\\
+It therefore 
+provides a more accurate description of the density and velocity fields down 
+to the scale resolved by the mesh (\cite{Feng_2016}). However, reaching this accuracy requires 
+repeating the full PM cycle at least 100 times (\cite{Tassev_2013}) which will produce very long computational time. If we decide to reduce the steps in PM we would lose accuracy on all scales.\\
 
 \noindent \textbf{\underline{COLA}} \\
 
@@ -292,15 +350,15 @@ This is done by decomposing the displacement field into two components:
 where $\Psi^{LPT}(q, a)$ is the LPT displacement field and $\Psi_{res}^{COLA}(q,a)$ the residual displacement of each particle as observed from a frame comoving with 
 with an "LPT observer" whose trajectory is defined by $\Psi^{LPT}$. If we temporarily omitt the Hubble expansion, we get the following equations of motion: 
 \begin{equation}
-    \frac{\mathrm{d}^2 \Psi(q, a)}{\mathrm{d} a^2} = - \nabla_x \phi(x, a)
+    \frac{\text{d}^2 \Psi(q, a)}{\text{d} a^2} = - \nabla_x \phi(x, a)
 \end{equation}
 This can be rewritten in the comoving frame of the "LPT" observer as:
 \begin{equation}
-    \boxed{\frac{\mathrm{d}^2 \Psi_{res}^{COLA}(q,a)}{\mathrm{d} a^2} = - \nabla_x \phi(x, a) - \frac{\mathrm{d}^2 \Psi^{LPT}(q,a)}{\mathrm{d} a^2}}
+    \boxed{\frac{\text{d}^2 \Psi_{res}^{COLA}(q,a)}{\text{d} a^2} = - \nabla_x \phi(x, a) - \frac{\text{d}^2 \Psi^{LPT}(q,a)}{\text{d} a^2}}
 \end{equation}
 We can think of the LPT as an additional force acting on the particles due to the use of a non-inertial frame of reference. LPT also experiences lower 
 typical accelerations compared to the natural cosmological frame. Numerically, this produces equivalent accuracy to solving the full equations of motion while 
-using fewer steps (\cite{Tassev_2013}). The expected number of STEPS in COLA is around $10$ unlike PM. 
+using fewer steps (\cite{Tassev_2013}). The expected number of steps in COLA is around $10$ unlike PM. 
 A visual representation of what COLA does can be seen in Figure \ref{fig:cola_schematic}. \\
 
 \begin{figure}[ht]
@@ -312,11 +370,11 @@ A visual representation of what COLA does can be seen in Figure \ref{fig:cola_sc
 
 If we denote $x(a) = x_{LPT}(a) + x_{COLA}(a)$ and the momentum $p = p_{LPT} + p_{COLA}$ the equations to solve then become : 
 \begin{equation}
-    \frac{\mathrm{d}x}{\mathrm{d}a} =  \mathcal{D}(a) p_{COLA} - \frac{\mathrm{d}D_1}{\mathrm{d}\Psi^{(1)}} +  \frac{\mathrm{d}D_2}{\mathrm{d}\Psi^{(2)}}
+    \frac{\text{d}x}{\text{d}a} =  \mathcal{D}(a) p_{COLA} - \frac{\text{d}D_1}{\text{d}\Psi^{(1)}} +  \frac{\text{d}D_2}{\text{d}\Psi^{(2)}}
 \end{equation}
 
 \begin{equation}
-    \frac{\mathrm{d}p_{COLA}}{\mathrm{d}a} = \mathcal{K}(a) \left[ \nabla(\Delta^{-1}\delta) - \mathcal{V}[D_1](a)\Psi^{(1)} + \mathcal{V}[D_2](a) \Psi^{(2)} \right]
+    \frac{\text{d}p_{COLA}}{\text{d}a} = \mathcal{K}(a) \left[ \nabla(\Delta^{-1}\delta) - \mathcal{V}[D_1](a)\Psi^{(1)} + \mathcal{V}[D_2](a) \Psi^{(2)} \right]
 \end{equation}
 
 with $\mathcal{D}(a) = \frac{f(a)}{a^2}$, also called the "drift" prefactor, and $\mathcal{K}(a) = -\frac{3}{2} \Omega_m H_0^2 f(a)/a$, also called the "kick" prefactor. 
@@ -338,7 +396,7 @@ As expected, the COLA results manage to capture a lot of the details found on sm
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/BORG_chapter/figures/cola_gadget_2lpt_florent.png}
-    \caption{Evolution of the same initial density field with three gravity solvers 2LPT, COLA and GADGET}
+    \caption{Evolution of the same initial density field with three gravity solvers 2LPT, COLA and GADGET. Taken from \cite{Leclercq_Thesis}.}
     \label{fig:cola_nbody_2lpt}
 \end{figure}
 
@@ -383,12 +441,12 @@ power law which follows:
 \end{equation}
 where $\rho = 1 + \delta^F$, $\gamma_t$ defines the transition point between the truncation and the first power-law regime, $\gamma_s$ controls the steepness of the 
 transition, $\alpha$ is the first power-law exponent, $\beta$ defines the slope of the second power-law component and $\beta_0$ sets the transition scale between the two power-law regimes. 
-The sigmoid truncation, regulates galaxy formation at low densities. The first power law represents the dominant relationship between the dark matter density and galaxy 
+The sigmoid truncation regulates galaxy formation at low densities. The first power law represents the dominant relationship between the dark matter density and galaxy 
 formation. Finally the second power law allows for a gradual transition at higher densities. 
 
 The ingredients introduced so far define the generative model linking the density field to the observed galaxy distribution. 
 The Bayesian inference is completed by specifying a likelihood for the observations and a prior. 
-Traditional approaches assume the galaxy field to follow a Poisson sampling process within each voxel, but recent studies have observed super-Poissonian behavior (variance $\neq$ mean) 
+Traditional approaches assume the galaxy field to follow a Poisson sampling process within each voxel, but recent studies (\cite{Ata_2015, Gruen_2018, Britt_2024}) have observed super-Poissonian behavior (variance $\neq$ mean) 
 in the scatter of galaxy counts, particularly in high-density regions. For Manticore-Local and Manticore-Deep, a Generalized Poisson likelihood was introduced to regulate the 
 galaxy count variance independently from the mean in galaxy subcatalogues. The likelihood is expressed as:
 \begin{equation}

@@ -6,10 +6,16 @@ implementation.
 
 Gravity solvers such as LPT, COLA, and PM are non-linear approximations of the full equations of motion derived from the GR 
 framework. They are used because solving the exact equations of motion would be computationally too expensive, rendering Bayesian sampling of the 
-initial conditions intractable. The closest approximation to the full solution is the PM model, which solves the equations of motion on a 
+initial conditions intractable. The closest approximation to the full solution is the PM model in field-level inference, which solves the equations of motion on a 
 discretised grid. Recent efforts have focused on developing faster and more accurate gravity solvers to improve upon these approximations. One 
 example is JaxPM\footnote{\url{https://github.com/DifferentiableUniverseInitiative/JaxPM}}, which accelerates the PM gravity solver by parallelizing computational 
-tasks on GPUs. The solver is also fully differentiable, as a natural consequence of its JAX implementation.
+tasks on GPUs. The solver is also fully differentiable, as a natural consequence of its JAX implementation. Another example of an accelerated PM gravity solver is 
+FastPM (\cite{Feng_2016}) which is also differentiable. 
+More recently, BullFrog (\cite{Rampf_2025}) has been developed as an 
+alternative gravity solver that combines perturbative calculations with 
+efficient time integration to provide an accurate and computationally 
+efficient approximation to full $N$-body evolution. 
+
 
 Another development is the introduction of a machine learning-based field-level emulator within BORG by \cite{Doeser_2024}, which completely 
 replaces the gravity solver. The initial conditions are first evolved with LPT and then corrected by a differentiable emulator trained on 
@@ -19,7 +25,8 @@ N-body simulations, following the scheme:
     \delta^F_{\text{emulated}} \approx \delta^F_{\text{true}}
 \end{equation}
 This provides a fast method to obtain an evolved density field that accounts for non-linearities beyond the reach of perturbation theory. 
-However, since the N-body solver is entirely replaced by the emulator, any emulation errors cannot be corrected by design.
+However, since the N-body solver is entirely replaced by the emulator, any emulation errors cannot be corrected by design. 
+This can put into question the reliability of the inferred field-level if not properly accounted for. 
 
 A complementary approach is the COmoving Computer Acceleration framework (COCA, \cite{Bartlett_2025}), a hybrid model that combines a machine 
 learning emulator with a physical N-body solver. Rather than replacing the gravity solver entirely, COCA uses a neural network to predict 
@@ -30,7 +37,9 @@ LPT, reducing the magnitude of the residual that the physical solver must correc
     \Psi(\mathbf{q}, a) = \Psi^{LPT}(\mathbf{q}, a) + \Psi^{\text{ML}}(\mathbf{q}, a)  + \Psi_{res}^{COCA}(\mathbf{q}, a)
 \end{equation}
 where $\Psi^{\text{ML}}(\mathbf{q}, a)$ is the displacement predicted by the emulator and $\Psi_{res}^{COCA}(\mathbf{q}, a)$ 
-is the residual displacement, which is smaller than the corresponding residual in COLA. Crucially, because the physical equations of motion are 
+is the residual displacement, which is smaller than the corresponding residual in COLA. 
+Therefore fewer steps are required to reach a converged density field. 
+Crucially, because the physical equations of motion are 
 still solved in the emulated frame, any emulation error is corrected by design. This 
 guarantees convergence to the true solution as the number of force evaluations increases, while requiring fewer evaluations than a full 
 N-body simulation. The differences between COLA and COCA are illustrated in Figure \ref{fig:cola_vs_coca}.
@@ -108,13 +117,22 @@ sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC).
     \item \textbf{MAMS:} Metropolis-Adjusted Microcanonical Sampler is a microcanonical counterpart of the canonical HMC. Instead of sampling the canonical ensemble of HMC $\mathcal{P}(\Theta, \textbf{p}) \propto \exp(-\mathcal{H}(\Theta, \textbf{p}))$, 
     the sampling is done at a fixed energy level $\mathcal{P}(\Theta, \textbf{p}) \propto \delta(\mathcal{H}(\Theta, \textbf{p})- E)$, which avoids momentum resampling and random 
     jumps. Just like with HMC, the final state is used as a proposal for the Metropolis-Hastings adjustement step after which the dynamics are repeated.
-    \item \textbf{MCLM:} MicroCanonical Langevin Monte Carlo also samples from the microcanonical ensemble as MAMS but with the difference of refreshing the momentum at each step. 
-    This method allows the parameters to properly explore the entirety of the exploration space, i.e. ensure ergodicity. Unlike MAMS however, this sampler does not include 
-    a Metropolis-Hastings adjustement step, meaning any biases introduced will have to be corrected at the level of the integration step.
+    \item \textbf{MCLMC:} MicroCanonical Langevin Monte Carlo also samples from the microcanonical ensemble as MAMS but with the difference of refreshing the momentum at each step. 
+    This method allows the parameters to properly explore the entirety of the exploration space, i.e. ensure ergodicity. Unlike MAMS, however, 
+    MCLMC does not include a Metropolis-Hastings correction step. Consequently, 
+    the numerical errors introduced by the integration scheme are not corrected, 
+    and the sampler is not guaranteed to converge to the exact target 
+    distribution. In practice, the resulting bias can remain sufficiently small 
+    if the integration errors are well controlled, making the method a useful 
+    approximation when the computational gain from removing the 
+    Metropolis-Hastings step justifies the loss of this guarantee. 
 \end{itemize} 
 
 Results of the number of steps required per effective sample for each sampler is displayed in Figure \ref{fig:hugo_figure}. The paper finds is that MCLMC outperforms all other samplers 
-achieving the same results with almost ten times less step. \\
+achieving the same results with almost ten times less step. This improvement comes at the cost of removing the 
+Metropolis-Hastings correction, meaning that the accuracy of the resulting 
+samples depends on keeping the numerical integration errors sufficiently 
+small.\\
 
 \begin{figure}[ht]
     \centering
@@ -124,7 +142,7 @@ achieving the same results with almost ten times less step. \\
 \end{figure}
 
 Another approach to improve the speed of parameter sampling involves the use of trained sample generation set neural networks to directly infer the posteriors of sets of parameters. 
-These models are called diffusion models. These models are trained on many N-body simulations which is computationally expensive. However once the models have been generated, 
+These models are called diffusion models (\cite{Song_2021}). These models are trained on many N-body simulations which is computationally expensive. However once the models have been generated, 
 their use is direct. An example of the application of a diffusion model can be found in \cite{Mudur_2023}. The diffusion model used here was trained to learn the 
 characteristics of a density given a set of cosmological parameters $(\Omega_m, \sigma_8)$. This was then used to infer the $(\Omega_m, \sigma_8)$ directly from the simulated fields. 
 Their results show that the diffusion model manages to sample correct parameters from the density field. We show their results in Figure \ref{fig:diffusion_parameter}. 
@@ -142,15 +160,18 @@ of accurately reconstructing the underlying density field. \\
 
 \subsection{Scalability}
 
-Current and future generations of field-level inferences will have to deal with ever growing datasets covering larger volumes. This will daramatically increase the computational 
-complexity needed to conduct a field-level inference. Developments in order to adapt to this scalability have been an important pillar in the construction of next generation 
-field-level inferences. The methods and models introduced in the last sections all contribute towards accelerating the computational speed but do not address the computational cost 
-and memory usage. 
+Current and future generations of field-level inferences will have to deal with increasingly large survey volumes while maintaining sufficient spatial resolution to 
+resolve small-scale structures. This poses a significant computational challenge, as the number of initial-condition parameters scales with the volume for a fixed 
+resolution. For example, reconstructing a $(4096\,h^{-1}\,\text{Mpc})^3$ volume at a resolution of $4\,h^{-1}\,\text{Mpc}$, as done in 
+Manticore-Deep (\cite{Mcalpine_2026}), requires a $1024^3 \simeq 10^9$ dimensional initial-condition space. Future surveys such as DESI will 
+cover similarly large cosmological volumes, making field-level inference at comparable spatial resolutions increasingly challenging. 
+Developments in order to adapt to this scalability have been an important pillar in the construction of next generation 
+field-level inferences. 
 At the core of it, it is mainly a question of simulating large volumes while preserving accuracy to resolve small-scale structures. 
 One of the key methods that directly deals with this has been applied in Manticore-Local (\cite{Mcalpine_2025}) and Manticore-Deep (\cite{Mcalpine_2026}) which is tiling. 
 Infering the density field of Manticore-Deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
 requires $1024^3$ parameters on the grid to be inferred, which exceeds the current field-level memory usage and runtime available. To overcome that, they separate the full volume into 
-$\left(1024 h^{-1} \text{Mpc}\right)^3$ subvolumes that would be inferred separately on a $256^3$. 
+$\left(1024 h^{-1} \text{Mpc}\right)^3$ subvolumes that would be inferred separately on a $256^3$ grid. 
 The observational footprint of the surveys used in Manticore-Deep covers only a subset of the full volume, with 27 subvolumes actually containing galaxy data. 
 The remaining subvolumes, which do not overlap with the survey region, are populated with independent Gaussian white-noise realizations drawn from the $\Lambda$CDM prior 
 for each posterior sample. 
@@ -158,7 +179,7 @@ To minimize artificial boundary effects resulting from the periodic boundary con
 "buffer" regions. The outer half of each buffer is excluded from the likelihood and evolves solely according to the prior, thereby absorbing 
 boundary effects, while the inner half provides an overlap region where galaxies near tile boundaries contribute to multiple neighbouring inferences to keep continuity 
 when individual posteriors are combined. 
-Following inference, the buffer regions are removed, leaving voxel cores containing only the reconstructed signal. These cores are then assembled into the full volume, 
+Following inference, the buffer regions are removed, leaving voxel cores containing only the reconstructed signal. These cores are then placed back at their corresponding positions in the full volume, reconstructing the regions constrained by the data, 
 while the remaining unconstrained regions are completed using independent $\Lambda$CDM prior realizations. This produces a full initial condition realization spanning the entire 
 $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume that remains consistent with the assumed cosmology while preserving the observationally constrained structures. 
 Figure \ref{fig:manticore_deep} presents a visual representation of the mean final density field obtained in multiple subvolumes. 
