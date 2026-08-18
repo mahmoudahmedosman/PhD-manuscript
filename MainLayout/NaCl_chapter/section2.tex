@@ -463,15 +463,14 @@ log-likelihood written as:
 \end{equation}
 With $\mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}$ is also known as the $\chi^2$. The goal is to then minimize this quantity. \\
 
-The model constraints are enforced within the log-likelihood as a penalty. We define $\mathbf{C}(\boldsymbol{\beta})$ as the vector describing the distance from 
-each constraint to its expected value. The penalty on the log-likelihood is written as:
-\begin{equation}
-    \chi^2_{\text{cons}} = \mu_{\text{cons}} \mathbf{C}(\boldsymbol{\beta})^T \mathbf{C}(\boldsymbol{\beta})
-\end{equation}
+%The model constraints are enforced within the log-likelihood as a penalty. We define $\mathbf{C}(\boldsymbol{\beta})$ as the vector describing the distance from 
+%each constraint to its expected value. The penalty on the log-likelihood is written as:
+%\begin{equation}
+%    \chi^2_{\text{cons}} = \mu_{\text{cons}} \mathbf{C}(\boldsymbol{\beta})^T \mathbf{C}(\boldsymbol{\beta})
+%\end{equation}
 where $\mu_{\text{cons}}$ is a hyperparameter that is adjusted beforehand. 
 
-
-In a similar fashion, the regularization is also enforced as a penalty to the log-likelihood. The expression is identical to Equation \ref{eqn:chi2_reg_old}. 
+The model regularization is enforced within the log-likelihood as a penalty. The expression of this penalty is identical to Equation \ref{eqn:chi2_reg_old}. 
 We denote this penalty as $\chi^2_{\text{reg}}$. 
 
 Accounting for the error model in the log-likelihood is done at the level of the covariance matrix. We denote $V_{\text{meas}}$ as the covariance matrix from the measurements 
@@ -498,7 +497,7 @@ parameters corresponding to different transmission bands. This results in a pena
 \boldsymbol{\eta}^{T}V_\eta^{-1}\boldsymbol{\eta}
 \end{equation}
 
-Regrouping all of these terms together, we obtain the full NaCl log-likelihood denoted as $\chi^2_{\text{tot}}$:
+Regrouping all of these terms together, we obtain the full NaCl log-likelihood denoted as $Q(\boldsymbol{\beta})$:
 %\begin{multline}
 %    \chi^2_{\text{tot}} = N\ln(2\pi) + \ln(|\mathbf{V}|) + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R} + \chi^2_{\text{cons}} + \chi^2_{\text{reg}} + \chi^2_{\text{calib}} \\
 %    = N\ln(2\pi) + \ln(|\left( \mathbf{V}_{\text{meas}} + \mathbf{V}_{\text{error}} \right)|) + \mathbf{R}^T\left( \mathbf{V}_{\text{meas}} + \mathbf{V}_{\text{error}} \right)^{-1}\mathbf{R} \\
@@ -507,7 +506,7 @@ Regrouping all of these terms together, we obtain the full NaCl log-likelihood d
 \begin{equation}
     \boxed{
     \begin{aligned}
-    \chi^2_{\text{tot}}
+    Q(\boldsymbol{\beta})
     ={}& N\ln(2\pi) + \ln(|\mathbf{V}|)
     + \mathbf{R}^T\mathbf{V}^{-1}\mathbf{R}
     + \chi^2_{\text{cons}}
@@ -520,8 +519,8 @@ Regrouping all of these terms together, we obtain the full NaCl log-likelihood d
     &+ \mathbf{R}^T
     \left(\mathbf{V}_{\text{meas}}+\mathbf{V}_{\text{error}}\right)^{-1}
     \mathbf{R} \\
-    &+ \mu_{\text{cons}}\mathbf{C}(\boldsymbol{\beta})^T
-    \mathbf{C}(\boldsymbol{\beta})
+    %&+ \mu_{\text{cons}}\mathbf{C}(\boldsymbol{\beta})^T
+    %\mathbf{C}(\boldsymbol{\beta})
     + \mu_{\text{reg}}\boldsymbol{\theta}^T
     \mathbf{P}\boldsymbol{\theta}
     + \boldsymbol{\eta}^T V_\eta^{-1}\boldsymbol{\eta}.
@@ -531,24 +530,24 @@ Regrouping all of these terms together, we obtain the full NaCl log-likelihood d
 
 \subsubsection{Minimizer}
  
-The general idea of minimizing the log-likelihood, $\chi^2_{\text{tot}}$, is to start from a set of parameters $\boldsymbol{\beta}_i$ at an instance $i$ and determine the 
+The general idea of minimizing the log-likelihood, $Q(\boldsymbol{\beta})$, is to start from a set of parameters $\boldsymbol{\beta}_i$ at an instance $i$ and determine the 
 step of the parameters $\delta \boldsymbol{\beta}$ that approaches to the optimal set of parameters that describes the data. 
-The procedure goes as follows. At each iteration, the $\chi^2_{\text{tot}}$ is approximated at its second order Taylor expansion:
+The procedure goes as follows. At each iteration, the $Q$ is approximated at its second order Taylor expansion:
 \begin{equation}
-    \chi^2_{\text{tot}}( \boldsymbol{\beta}_i + \delta \boldsymbol{\beta} ) \approx 
-    \chi^2_{\text{tot}}( \boldsymbol{\beta}_i) + \mathbf{g}_i^T \delta \boldsymbol{\beta} + \frac{1}{2} \delta \boldsymbol{\beta}^T \mathbf{H}_i \delta \boldsymbol{\beta}
+    Q( \boldsymbol{\beta}_i + \delta \boldsymbol{\beta} ) \approx 
+    Q( \boldsymbol{\beta}_i) + \mathbf{g}_i^T \delta \boldsymbol{\beta} + \frac{1}{2} \delta \boldsymbol{\beta}^T \mathbf{H}_i \delta \boldsymbol{\beta}
 \end{equation}
 where $\mathbf{g}_i$ is the gradient of the log-likelihood evaluated at $\boldsymbol{\beta}_i$
 \begin{equation}
-    \mathbf{g}_i = \nabla_{\boldsymbol{\beta}_i} \chi^2_{\text{tot}}
+    \mathbf{g}_i = \nabla_{\boldsymbol{\beta}_i} Q
 \end{equation}
 and $\mathbf{H}$ is the Hessian matrix evaluated at $\boldsymbol{\beta}_i$
 \begin{equation}
-    \mathbf{H}_i = \nabla_{\boldsymbol{\beta}_i}^2 \chi^2_{\text{tot}}
+    \mathbf{H}_i = \nabla_{\boldsymbol{\beta}_i}^2 Q
 \end{equation}
 The Newton-Raphson method is then employed to find the minimum value of the approximation by setting its derivative to zero:
 \begin{equation}
-    \frac{\partial \chi^2_{\text{tot}}}{\partial \delta \boldsymbol{\beta}} \approx \mathbf{g}_i + \mathbf{H}_i \delta \boldsymbol{\beta} = 0
+    \frac{\partial Q}{\partial \delta \boldsymbol{\beta}} \approx \mathbf{g}_i + \mathbf{H}_i \delta \boldsymbol{\beta} = 0
 \end{equation}
 This gives the parameter update step:
 \begin{equation}
@@ -608,13 +607,110 @@ where $\boldsymbol{\mu}_{L}$ are the Lagrange multipliers that are calculated wi
     \boldsymbol{\mu}_{L,i} = \left( \mathbf{A} \tilde{\mathbf{H}}_i^{-1} \mathbf{A}^T\right)^{-1} \left[ \mathbf{r}_{c,i} - \mathbf{A} \tilde{\mathbf{H}}_i^{-1} \mathbf{g}_i \right]
 \end{equation}
 
-Once the step  $\delta \boldsymbol{\beta}$ has been computed, we calculate the differences of the log-likelihood, $\delta \chi^2_{\text{tot}}$, with the new set of parameters. If the negative log-likelihood 
+Once the step  $\delta \boldsymbol{\beta}$ has been computed, we calculate the differences of the log-likelihood, $\delta Q$, with the new set of parameters. If the negative log-likelihood 
 is decreasing, the step is accepted. If not, the damping parameter $\lambda$ is updated at a larger value and the step is recalculated. The minimization stops once 
-$|\delta \chi^2_{\text{tot}}|<\delta_{\text{stop}}$ where $\delta_{\text{stop}}$ is chosen to be small enough that the log-likelihood is near its minimum. 
+$|\delta Q|<\delta_{\text{stop}}$ where $\delta_{\text{stop}}$ is chosen to be small enough that the log-likelihood is near its minimum. 
 
 
 \subsubsection{Covariance Matrix}
 
+Due to the presence of constraints, the derivation of the fit 
+covariance matrix presents a small subtlety that needs to be 
+documented here. The $n_{id}$ independent constraints restrict the 
+parameter space to an affine subspace of dimension $n-n_{id}$, $n$ being the total number of measurements, and 
+therefore suppress fluctuations along $n_{id}$ independent directions. As a 
+consequence, fluctuations of the fit parameters are restricted to the 
+directions compatible with the constraints, and the covariance matrix 
+inferred directly from the Fisher matrix must be modified accordingly. 
+
+In the present implementation, the unconstrained Fisher matrix 
+contains exact or nearly exact degeneracies associated with the model 
+parametrization. A very small regularization is applied in practice in 
+order to make its inversion numerically well defined. In the 
+following, $\mathbf{W}$ denotes the inverse of this slightly regularized Fisher 
+matrix. 
+
+
+Formally, the corresponding local Gaussian approximation can be 
+written as 
+\begin{equation}
+    \boldsymbol{\beta} \sim \mathcal{N}(\boldsymbol{\mu}_0, \mathbf{W})
+\end{equation}
+while the $n_{id}$ linear 
+constraints are expressed in matrix form as: 
+\begin{equation}
+    \mathbf{A} \boldsymbol{\beta} = \mathbf{c}
+\end{equation}
+Imposing these constraints amount to conditioning the Gaussian 
+distribution on $\mathbf{A} \boldsymbol{\beta} =\mathbf{c}$. The resulting distribution is again 
+Gaussian: 
+\begin{equation}
+    \boldsymbol{\beta} \mid \mathbf{A} \boldsymbol{\beta}=\mathbf{c} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{W}_{\text{cond}})
+\end{equation}
+where $\boldsymbol{\mu}$ is the solution of the constrained problem. 
+
+
+Let us first recall the general expression for the conditional 
+covariance of a multivariate Gaussian. If $\mathbf{x}$ and $\mathbf{y}$ are jointly 
+Gaussian: 
+\begin{equation}
+    \begin{pmatrix} \mathbf{x} \\ \mathbf{y} \end{pmatrix}
+    \sim \mathcal{N}(
+        \begin{pmatrix}\boldsymbol{\mu}_x\\ \boldsymbol{\mu}_y\end{pmatrix}, 
+        \begin{pmatrix} \mathbf{W}_{xx} & 
+            \mathbf{W}_{xy} \\ \mathbf{W}_{yx} & \mathbf{W}_{yy}\end{pmatrix})
+\end{equation}
+then the distribution of $\mathbf{x}$ 
+conditional on $\mathbf{y}=\mathbf{c}$ is also Gaussian (e.g. \cite{Bishop_2006}, Chapter 2.3.1), 
+\begin{equation}
+    \mathbf{x} \mid \mathbf{y}=\mathbf{c} \sim \mathcal{N}(\boldsymbol{\mu}_{\text{cond}},\mathbf{W}_{\text{cond}})
+\end{equation}
+with
+\begin{equation}
+    \boldsymbol{\mu}_{\text{cond}} = \boldsymbol{\mu}_x + \mathbf{W}_{xy}\mathbf{W}_{yy}^{-1}(\mathbf{c}-\boldsymbol{\mu}_y)
+\end{equation}
+and 
+\begin{equation}
+    \mathbf{W}_{\text{cond}} = \mathbf{W}_{xx} - \mathbf{W}_{xy} \mathbf{W}_{yy}^{-1} \mathbf{W}_{yx}
+\end{equation}
+
+For our problem, we identify 
+\begin{equation}
+    \mathbf{x}= \boldsymbol{\beta}, \mathbf{y}=\mathbf{A} \boldsymbol{\beta}
+\end{equation}
+so that 
+\begin{equation}
+    \boldsymbol{\mu}_x = \boldsymbol{\mu}_0, \qquad \boldsymbol{\mu}_y = \mathbf{A} \boldsymbol{\mu}_0
+\end{equation}
+and
+\begin{equation}
+    \mathbf{W}_{xx} = \mathbf{W} \qquad \mathbf{W}_{xy} = \mathbf{W} \mathbf{A}^T \qquad \mathbf{W}_{yy} = \mathbf{A} \mathbf{W} \mathbf{A}^T, \boldsymbol{\mu}_y = \mathbf{A} \boldsymbol{\mu}_0
+\end{equation}
+
+
+The mean of the conditional distribution is thus 
+\begin{equation}
+    \boldsymbol{\mu}_0 + \mathbf{W}\mathbf{A}^T(\mathbf{A}\mathbf{W}\mathbf{A}^T)^{-1}(\mathbf{c}-\mathbf{A}\boldsymbol{\mu}_0)
+\end{equation}
+showing that the constraints generally 
+shift the solution with respect to the center of the unconstrained 
+Gaussian approximation. In practice, this expression does not need to 
+be evaluated, since $\boldsymbol{\mu}$ is obtained directly from the constrained 
+minimization. 
+
+The covariance matrix under constraints is therefore: 
+\begin{equation}
+    \mathbf{W}_{\text{cond}} = \mathbf{W} - \mathbf{W} \mathbf{A}^T (\mathbf{A} \mathbf{W} \mathbf{A}^T)^{-1} \mathbf{A} \mathbf{W} 
+\end{equation}
+Unlike the conditional mean, this 
+covariance does not depend on $\mathbf{c}$: it only depends on the orientation 
+of the constraint subspace, through $\mathbf{A}$, and on the local curvature of 
+the likelihood, through $\mathbf{W}$. 
+
+This is the covariance matrix associated with the fit parameters once 
+the linear constraints are imposed. 
+
+%/sps/ztf/users/regnault/lemaitre/data_challenges/predc1/georges/workflow/results.predc1.regul_001/nacl/dc1.v2-70-selection/5_trained
 
 \begin{figure}[ht]
     \centering
