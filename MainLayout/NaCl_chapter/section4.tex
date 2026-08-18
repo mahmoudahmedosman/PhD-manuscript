@@ -10,7 +10,7 @@ inefficient training procedure.
 In particular, we found that when the initial model parameters are far from 
 their optimal values, the error model can absorb part of the discrepancies 
 between the model and the data. Although this provides a valid direction for 
-the minimizer and can lead to a decrease in $\chi_{\text{tot}}^2$, it can prevent the 
+the minimizer and can lead to a decrease in $Q(\boldsymbol{\beta})$, it can prevent the 
 physical model parameters from being properly constrained during the initial 
 stages of the fit. The non-linear nature of the model can also lead the 
 minimizer towards undesirable local minima depending on the initial 
@@ -30,17 +30,19 @@ optimization. The resulting training recipe is divided into five steps:
 
     \item \underline{$SpecRecal$ fit with the initial NaCl model:} 
     The coefficients describing the spectroscopic recalibration are 
-    estimated for each supernova. Since the recalibration model is linear 
-    in these coefficients, this step is computationally inexpensive.
+    estimated for each spectrum. Since the recalibration model is linear 
+    in these coefficients, this step is computationally inexpensive. During this step, all other parameters are fixed at the best value found in the previous step. 
 
     \item \underline{Initial model guess:} 
     The parameters describing the model surfaces $M_0$, $M_1$, and $CL$ are 
-    fitted to obtain an initial model that is sufficiently close to the 
+    fitted alongside $X_0$, $X_1$, $c$, $t_{max}$ and $SpecRecal$ with a fixed error model. 
+    This is done to obtain an initial model that is sufficiently close to the 
     solution and satisfies the required model constraints.
 
     \item \underline{Initial error model guess:} 
     With the spectrophotometric model fixed, the parameters of the error 
-    model are fitted to provide an initial estimate.
+    model are fitted while the all of the other parameters are fixed to the value found in the previous step. 
+    This is done to provide an initial estimate of the error model.
 
     \item \underline{Full training:} 
     All model, error model, and supernova parameters are released and 

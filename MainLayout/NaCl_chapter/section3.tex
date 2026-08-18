@@ -4,7 +4,7 @@ An important part of this work is to validate the NaCl framework on observationa
 dataset, which provides a particularly well-suited test case for a spectrophotometric model. The SNfactory program obtained time-series 
 spectroscopy of Type Ia supernovae with the SNIFS instrument, providing a densely sampled spectrophotometric dataset for individual 
 supernovae. The accurate spectrophotometric calibration of the SNIFS observations allows the spectra to provide an absolute measurement of the flux, 
-eliminating the need for separate photometric observations.
+reducing the need for separate photometric measurements. 
 
 The SNfactory dataset is also particularly relevant in the context of NaCl because it has been used to develop several empirical models that 
 aim to describe supernova diversity beyond the standard SALT2 parameterization. These include SNEMO 
@@ -35,6 +35,7 @@ The predicted spectral flux is then given by:
 \begin{equation}
     f_{\text{spectrophotometric}}((1+z)\lambda, (1+z)p) = X_0 \frac{1}{1+z} [M_0(\lambda,p) + X_1M_1(\lambda, p)] \times 10^{0.4c CL(\lambda)}
 \end{equation}
+expressed in $\text{erg}/\text{cm}^{2}/\text{s} / \AA$. 
 This formulation removes the need for a spectral recalibration 
 polynomial $SpecRecal(\lambda)$ and reintroduces the colour law 
 $CL(\lambda)$, which is now constrained directly from the spectra. 
@@ -45,7 +46,7 @@ The results on the data are presented in the following section.
 \subsection{NaCl training results}
 \subsubsection{Data Coverage}
  
-The SNfactory dataset used here contains 224 supernovae and 3135 spectra. We can see in the coverage of the data oin the $\lambda-p$ space in 
+The SNfactory dataset used here contains 224 supernovae and 3135 spectra. We can see in the coverage of the data in the $\lambda-p$ space in 
 Figure \ref{fig:snf_coverage}. 
 
 \begin{figure}[ht]
@@ -58,8 +59,8 @@ Figure \ref{fig:snf_coverage}.
 \subsubsection{Fitting the Spectra}
 
 We present in Figure \ref{fig:snf_spectra} examples of spectra that were fitted with NaCl. These are two randomly selected spectra that belong to two different supernovae 
-and are taken at different phases. What we see is that the trained model seems to accurately describe the evolution of those spectra. The errorsnake model employed 
-shows an intrinsic dispersion of the fluxes of order 10\%. We present in the next subsection the results of full dataset.\\
+and are taken at different phases. What we see is that the trained model seems to accurately describe the evolution of those spectra. The error snake model employed 
+shows an intrinsic dispersion of the fluxes of order 10\%. We present in the next subsection the results from the full dataset.\\
 
 The entirety of the model training takes around 30 minutes on a Dell Precision 3581 laptop 
 equipped with an Intel(R) Core(TM) i7-13700H, 14 cores, up to 5.0 GHz, 32 GB RAM and a NVIDIA RTX A1000 6GB GPU. \\
@@ -88,18 +89,18 @@ equipped with an Intel(R) Core(TM) i7-13700H, 14 cores, up to 5.0 GHz, 32 GB RAM
 \subsubsection{Training Residuals}
 
 We would like to examine how well a SALT2-like parameterized model is able to describe the spectrophotometric evolution of supernovae. 
-In order to do that, we will be looking at the weighted residuals of the model on the entirety of the data and check if there are any particular features that stand out. 
-This is presented in Figure \ref{fig:snf_pulls} where we have calculated the weighted residuals which indicate by how many $\sigma$ our model differs from the data, 
+In order to do that, we will be looking at the weighted training residuals of the model on the entirety of the data and check if there are any particular features that stand out. 
+This is presented in Figure \ref{fig:snf_pulls} where we have calculated the weighted training residuals which indicate by how many standard deviations ($\sigma$) our model differs from the data, 
 also known as pulls. We do that for each data point and stack them on top of each other if they have been observed at the same time. So for example if we have 2 spectra 
-measured at phase of $p= -1$ with data points at $5000{\AA}$, it will ll appear as one point on the Figure and its value will be the average of the 2 pulls. We then get a 
-Figure that represents the accuracy of the model in the $\lambda-p$ space. This also means that each horizontal line represents on average how well a spectrum is modeled 
-at that particular restframe phases, while the vertical lines are for specific restframe wavelengths. \\
+measured at phase of $p= -1$ with data points at $5000{\AA}$, it will ll appear as one point on the figure and its value will be the average of the 2 pulls. We then get a 
+figure that represents the accuracy of the model in the $\lambda-p$ space. This also means that each horizontal line represents on average how well a spectrum is modeled 
+at that particular rest-frame phases, while the vertical lines are for specific rest-frame wavelengths. \\
 
-\noindent We see in the Figure \ref{fig:snf_pulls} that for most of the $\lambda-p$ space the residuals show good agreement between the model and the data. 
+\noindent We see in Figure \ref{fig:snf_pulls} that for most of the $\lambda-p$ space the training residuals show good agreement between the model and the data. 
 But what also stands out is that we can identify three distinct wavelength regions where the model is unable to capture the variability of the data. 
 These three regions are found at $\sim 3500 {\AA}$, $\sim 6000 {\AA}$ and $\sim 8000 {\AA}$, which correspond to UV, Si II and Ca II. These are known to 
 have very diverse forms (\cite{Wang_2012_UV}, \cite{Parrent_2016_Si_II}) and we can see here that they are not captured by a SALT2 parameterization. 
-It is important to mention that the models mentioned in Chapter 2 that go beyond the SALT2 parameterization can capture those variabilities with the help of extra parameters.
+It is important to mention that the models mentioned in Chapter 2 that go beyond the SALT2 parameterization can capture this additional variability with the help of extra parameters.
 
 \begin{figure}[ht]
     \centering

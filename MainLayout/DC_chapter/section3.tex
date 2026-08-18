@@ -1,10 +1,12 @@
 \section{pre-DC1}
 
-As part of my PhD work, I led of the analysis of pre-DC1, a slightly different version of the \textsc{Lemaître} DC1 where we use a SALT model that respects the NaCl constraints 
-to generate the supernova light curves. This allows us to remain coherent in assessing whether the pipeline introduces internal biases at the level of the 
-model training or not. 
+As part of my PhD work, I led the analysis of pre-DC1, a modified version of the \textsc{Lemaître} DC1 in which the supernova light curves 
+are generated using a SALT model that satisfies the NaCl constraints. This ensures that the simulations are self-consistent with the model 
+assumptions used in the analysis, allowing us to isolate potential biases introduced by the pipeline itself, rather than those arising 
+from a mismatch between the simulation and the fitted model. Using these self-consistent pre-DC1 simulations, we can assess the accuracy 
+of the reconstructed parameters and their uncertainties on \textsc{Lemaître}-like datasets.
 
-\subsection{Data generation: simulation}
+\subsection{Simulation step}
 
 All of the elements concerning the generation of the pre-DC1 supernovae can be summarized in the following list: 
 \begin{itemize}
@@ -13,9 +15,9 @@ All of the elements concerning the generation of the pre-DC1 supernovae can be s
     \item The color and stretch of the supernovae were drawn from a normal distribution centered around 0, with $\sigma(c) = 0.1$ and $\sigma(X_1) = 1$.
     \item There are no redshift errors added to any supernovae.
     \item A spectrum is generated for each supernova from ZTF and SNLS drawn from a phase when the SN was observed.
-    \item Magnitude cuts were done before the application of any noise and intrinsic dispersion. For each survey the magnitude cuts are written in table \ref{tab:mag_cuts}. This ensures that there are no selection effects added to the simulations.
+    \item Magnitude cuts were applied before the application of any noise and intrinsic dispersion. For each survey the magnitude cuts are written in table \ref{tab:mag_cuts}. This ensures that there are no selection effects added to the simulations.
     \item The rate of the supernovae was chosen to be Frohmaier+19 (\cite{Frohmaier_2019}).
-    \item The Milky Way dust extinction was drawn from the Planck dust map and the $E(B-V)_{MW}$ values follow the CM89 dust law (\cite{Cardelli_1989}).
+    \item The Milky Way dust extinction was drawn from the Planck dust map and the $E(B-V)_{MW}$ values follow the CCM89 dust law (\cite{Cardelli_1989}).
     \item The addition of the intrinsic dispersion, $\sigma_{int}$, is applied on the observed magnitudes of each supernova.
     \item Light curve measurement uncertainties were drawn from sncosmo \footnote{\url{https://sncosmo.readthedocs.io/en/stable/}} as a function of the skynoise taken from the real observational logs.
     \item An error snake is also added to the light curves drawn from a normal distribution with a dispersion of 5\% of the flux. The error snake term is the same for a given band and given night for a given supernova.
@@ -40,7 +42,7 @@ All of the elements concerning the generation of the pre-DC1 supernovae can be s
 \subsection{Goals}
 
 The goal of the pre-DC1 analysis is to assess the consistency of the 
-Georges pipeline in reconstructing the input supernova distances and 
+Georges pipeline (see Section \ref{sec:georges}) in reconstructing the input supernova distances and 
 cosmological parameters. To this end, the complete analysis chain is applied 
 to 100 realizations of the pre-DC1 dataset, which allows us to assess both the 
 accuracy of the reconstructed parameters and the validity of their estimated 
@@ -51,7 +53,7 @@ parameters $X_0$, $X_1$, $c$, and $t_{max}$ are unbiased with respect
 to their input values. We then assess whether the reconstructed distance 
 moduli $\mu$ are unbiased. The reliability of the parameter uncertainties is 
 tested by comparing the uncertainties obtained from the inverse Fisher 
-matrix, $\sigma_{\text{Fisher}}$, with those derived from the empirical 
+matrix described in Equation \ref{eqn:nacl_cov}, $\sigma_{\text{Fisher}}$, with those derived from the empirical 
 covariance matrix measured across the 100 realizations, 
 $\sigma_{\text{Emp}}$. Finally, we test whether the cosmological parameters 
 $\Omega_m$ and $w$ are unbiased when the analysis is performed assuming a 
@@ -133,7 +135,7 @@ We see that the reconstructed parameters match the input parameters within the s
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
     \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/new_fig/sn_pars_wres.png}
-    \caption{Weighted residuals of each supernova parameter for 100 realization of pre-DC1}
+    \caption{Weighted residuals of each supernova parameter for 100 realizations of pre-DC1}
     \label{fig:sn_pars_wres}
 \end{figure}
 
