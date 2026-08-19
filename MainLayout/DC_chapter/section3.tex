@@ -50,12 +50,12 @@ uncertainties.
 
 More specifically, we first verify that the reconstructed supernova 
 parameters $X_0$, $X_1$, $c$, and $t_{max}$ are unbiased with respect 
-to their input values. We then assess whether the reconstructed distance 
-moduli $\mu$ are unbiased. The reliability of the parameter uncertainties is 
+to their input values. The reliability of the parameter uncertainties is 
 tested by comparing the uncertainties obtained from the inverse Fisher 
 matrix described in Equation \ref{eqn:nacl_cov}, $\sigma_{\text{Fisher}}$, with those derived from the empirical 
 covariance matrix measured across the 100 realizations, 
-$\sigma_{\text{Emp}}$. Finally, we test whether the cosmological parameters 
+$\sigma_{\text{Emp}}$. We then assess whether the reconstructed distance 
+moduli $\mu$ are unbiased. Finally, we test whether the cosmological parameters 
 $\Omega_m$ and $w$ are unbiased when the analysis is performed assuming a 
 flat $w$CDM cosmology with a constant equation-of-state parameter $w$. 
 
@@ -90,45 +90,112 @@ The duration of each step in the training recipe can be summarized in Table \ref
 
 \subsection{Model \& Data Agreement}
 
-In Figures \ref{fig:dc1_lc_resid} and \ref{fig:dc1_spec_resid} we show the photometric and spectroscopic residuals weighted by the 
-measurement uncertainties. 
-We see that after model training, NaCl accurately describes the 
-photometric and spectroscopic data within the model's definition 
-domain, with weighted residuals consistent with a standard normal 
-distribution. The pull distributions in Figure 
-\ref{fig:dc1_lc_band_resid} show means consistent with zero all bands, indicating 
-that NaCl does not introduce band-dependent biases in its photometric description.\\
+We present the model and data agreement results on a randomly selected 
+realization of pre-DC1.
 
+\subsubsection{Photometry}
+
+Figure \ref{fig:dc1_lc_pulls} shows the photometric weighted 
+residuals normalized by the measurement uncertainties (pulls) as a function 
+of phase. The pulls are centred around zero across the full phase 
+range covered by the model, indicating that NaCl describes the 
+photometric data without systematic phase-dependent biases. 
+Figure \ref{fig:dc1_lc_band_resid} shows the pull distributions 
+per band. Each distribution is fitted with a Gaussian that has a standard deviation of 1. 
+The fitted means are 
+consistent with zero, confirming that the model does not 
+introduce band-dependent biases.
+
+To assess whether the description of the data is accurate accross different redshifts, Figure \ref{fig:dc1_lc_chi2} shows 
+the local $\chi^2_{\text{SN}}$ evaluated per supernova as a function of 
+redshift. 
+No redshift-dependent trend is observed, demonstrating 
+that NaCl provides a uniform description across the full redshift 
+range of the sample. Finally, Figure \ref{fig:dc1_lc_resid} shows 
+the stacked local $\chi^2_{\text{loc}}$ calculated for each each photometric observation as a function of both phase and wavelength. 
+The description remains accurate throughout the model's domain of 
+definition.
 
 \begin{figure}[ht]
     \centering
-    %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
+    \includegraphics[width=0.5\textwidth]{MainLayout/DC_chapter/figures/new_fig/lc_pulls.png}
+    \caption{Photometric pulls as a function of phase for one 
+    realization of pre-DC1. The pulls are centred around zero 
+    across the full phase range.}
+    \label{fig:dc1_lc_pulls}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/new_fig/lc_pulls_per_band.png}
+    \caption{\textit{Left}: Photometric pulls per band for one 
+    realization of pre-DC1. \textit{Right}: Histogram of the pulls 
+    per band, each fitted with a Gaussian (solid line). The fitted 
+    means are consistent with zero.}
+    \label{fig:dc1_lc_band_resid}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/lc_chi2_z.png}
+    \caption{Photometric $\chi^2_{\text{SN}}$ per supernova as a function 
+    of redshift for one realization of pre-DC1.}
+    \label{fig:dc1_lc_chi2}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
     \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/phot_chi2_edit.jpeg}
-    \caption{Photometric weighted residuals (pulls) for one realization of pre-DC1. }
+    \caption{Stacked photometric $\chi^2_{\text{loc}}$ as a function of phase 
+    and wavelength for one realization of pre-DC1.}
     \label{fig:dc1_lc_resid}
 \end{figure}
 
+\subsubsection{Spectroscopy}
+
+The spectroscopic analysis yields consistent results. 
+Figure 
+\ref{fig:dc1_spec_pulls} shows the spectroscopic pulls as a 
+function of wavelength. They are centred around zero across 
+the full wavelength range. 
+Figure \ref{fig:dc1_spec_chi2} shows the supernova $\chi^2_{\text{SN}}$ calculated using the spectroscopic data 
+as a function of redshift, which again shows no 
+redshift-dependent trend. Figure \ref{fig:dc1_spec_resid} 
+shows the stacked $\chi^2_{\text{loc}}$ over wavelength confirming a 
+uniformly accurate spectroscopic description.
+
 \begin{figure}[ht]
     \centering
-    %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
-    \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/spec_chi2_edit.jpeg}
-    \caption{Spectroscopic weighted residuals (pulls) for one realization of pre-DC1.}
-    \label{fig:dc1_spec_resid}
+    \includegraphics[width=0.5\textwidth]{MainLayout/DC_chapter/figures/new_fig/spec_pulls.png}
+    \caption{Spectroscopic pulls as a function of wavelength for 
+    one realization of pre-DC1.}
+    \label{fig:dc1_spec_pulls}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
-    \includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/new_fig/lc_pulls_per_band.png}
-    \caption{\textit{Left}: Photometric pulls per band for one realization of pre-DC1. \textit{Right}: Histogram of the pulls per band fitted with a Gaussian function.}
-    \label{fig:dc1_lc_band_resid}
+    \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/spec_chi2_z.png}
+    \caption{Spectroscopic $\chi^2$ per supernova as a 
+    function of redshift for one realization of pre-DC1.}
+    \label{fig:dc1_spec_chi2}
 \end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/spec_chi2_edit.jpeg}
+    \caption{Stacked spectroscopic $\chi^2$ as a function of 
+    wavelength for one realization of pre-DC1.}
+    \label{fig:dc1_spec_resid}
+\end{figure}
+
 
 
 \subsection{Parameter Reconstruction and Covariance Matrix}
 
 Since the pre-DC1 dataset is generated with a model that respects NaCl constraints, we expect to reconstruct the exact same parameters used in the generation. 
 In Figure \ref{fig:sn_pars_wres} we compare the generated and reconstructed $X_0$, $X_1$, $c$ and $t_{max}$ parameters averaged over all 100 realizations of pre-DC1. 
+This is done by calculating the pulls for each parameter. This is observed as a function of redshift 
+to verify whether NaCl introduces redshift-dependent biases on the supernova parameters. 
 We see that the reconstructed parameters match the input parameters within the statistical uncertainties of the reconstruction.\\
 
 \begin{figure}[ht]
@@ -150,11 +217,11 @@ To assess whether 100 realizations are sufficient to estimate the
 empirical covariance, a previous iteration of pre-DC1 with $\sim 1000$ 
 supernovae per realization was used to generate 900 realizations. 
 Comparing the empirical covariance constructed from 100 vs 900 
-realizations showed that the ratio $\sigma_{text{Emp}}/\sigma_{\text{Fisher}}$ 
+realizations showed that the ratio $\sigma_{\text{Emp}}/\sigma_{\text{Fisher}}$ 
 converges toward unity with increasing sample size, confirming that 
 the residual excess in the 100-realization estimate is a finite-sample 
 effect rather than a systematic bias in the NaCl uncertainty 
-propagation. The slight overestimate of $\sigma_{text{Emp}}$ relative 
+propagation. The slight overestimate of $\sigma_{\text{Emp}}$ relative 
 to $\sigma_{\text{Fisher}}$ seen in Figure \ref{fig:pars_cov} is 
 therefore not a cause for concern.
 
@@ -188,7 +255,7 @@ PhD thesis\footnote{\url{https://theses.hal.science/tel-05451069}} where it was 
 
 \noindent The results in Figure \ref{fig:pre_dc1_hubble_tot} show the mean binned distance residuals from 100 realizations of pre-DC1 as well as a comparison between
 the empirical uncertainties on the binned distances and the Fisher uncertainties from EDRIS. 
-We notice significant biases in the mean distance residuals near 
+We notice significant biases in the mean distance residuals up to $\sim 9$ standard deviations near 
 $z \approx 0.1$ and $z \approx 1$, corresponding to the survey 
 transition regions between ZTF and SNLS, and at the end of the SNLS and HSC 
 surveys. 
@@ -210,12 +277,22 @@ some supernovae and may therefore modify the properties of the resulting sample 
 \end{figure}
 
 
-\noindent Results from \texttt{cosmologix} are shown in Figure \ref{fig:dc1_contour} where we show the $\Omega_m$-$w$ contours for six randomly selected individual 
-realizations of pre-DC1. We see that amongst them are realizations that recover the input cosmological parameters within 1 standard deviations while others do not. 
-The distribution of the recovered $\Omega_m$-$w$ parameters from the 100 realizations is seen Figure \ref{fig:w_om_dist}. We notice strong biases in both cosmological parameters $\Omega_m$ 
-and $w$. This remains as well if consider a fixed $w=-1$ and measure $\Omega_m$ as seen in Figure \ref{fig:om_dist}.
-The origin of this bias is currently unknown but is likely related to the same biases hypothesized for the distance moduli bias since the cosmological 
-parameters are inferred from the distances. \\
+\noindent 
+The \textsc{Lemaître} pipeline outputs constraints on 
+$\Omega_{bc} = \Omega_b + \Omega_c$, the combined baryon and cold 
+dark matter density parameter. The neutrino mass is fixed to 
+its Planck 2018 minimal mass value and the 
+neutrino density parameter $\Omega_\nu$ is small compared to $\Omega_{bc}$ (less than 5\% contributtion to $\Omega_m$)
+and therefore approximate $\Omega_m \approx \Omega_{bc}$. 
+Results from \texttt{cosmologix} are shown in Figure \ref{fig:dc1_contour} where we show the $\Omega_m$-$w$ contours for six randomly selected individual 
+realizations of pre-DC1. We see that amongst them are realizations that we recover the input cosmological parameters within 1 standard deviation while others show significant deviations. 
+The distribution of the recovered $\Omega_m$-$w$ parameters from the 100 realizations is seen Figure \ref{fig:w_om_dist}. 
+
+Across the 100 realizations, we find strong biases in the recovered cosmological parameters, with the mean values of $\Omega_m$ and $w$ displaced from their input values by
+$15.5 \sigma$ and $10.4 \sigma$ respectively. 
+This bias persists when fixing  $w=-1$ and fitting only for $\Omega_m$ for which the recovered mean is displaced from the input value by $19.4 \sigma$ as seen in Figure \ref{fig:om_dist}.
+The origin of this bias is currently unknown, but it is likely related to the biases identified in the reconstructed distance moduli, 
+since the cosmological parameters are inferred from these distances. \\
 
 \begin{figure}[ht]
     \centering
@@ -237,7 +314,7 @@ parameters are inferred from the distances. \\
 \begin{figure}[ht]
     \centering
     %\includegraphics[width=1\textwidth]{MainLayout/DC_chapter/figures/band_resid.pdf}
-    \includegraphics[width=0.8\textwidth]{MainLayout/DC_chapter/figures/new_fig/flcdm.png}
+    \includegraphics[width=0.6\textwidth]{MainLayout/DC_chapter/figures/new_fig/flcdm.png}
     \caption{Distribution of $\Omega_m$ for a fixed value of $w=-1$. 
     The red line represents the mean value the recovered $\Omega_m$ as well its 
     standard deviation. The black line represents the expected results used as input for the simulation.}
@@ -268,6 +345,7 @@ biases is the primary objective before the pipeline can be applied to the blinde
 also of significant importance for the $f\sigma_8$ analysis, making this 
 validation work directly relevant to both the dark energy and 
 growth rate science goals of the \textsc{Lemaître} project.
+
 
 %\begin{figure}[ht]
 %    \centering
