@@ -1,32 +1,32 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}NaCl Framework}{\reset@font\mtcSfont 98}{section.4.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Why a Spectrophotometric Model? }{\reset@font\mtcSSfont 98}{subsection.4.1.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}The Idea Behind the Framework}{\reset@font\mtcSSfont 98}{subsection.4.1.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Differences with the SALT Models}{\reset@font\mtcSSfont 99}{subsection.4.1.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Practical Implementation of the SALT2 Model}{\reset@font\mtcSSfont 100}{subsection.4.1.4}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.1}Model}{\reset@font\mtcSSSfont 100}{subsubsection.4.1.4.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.2}Predicting Broadband Fluxes}{\reset@font\mtcSSSfont 100}{subsubsection.4.1.4.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.3}Predicting Spectra}{\reset@font\mtcSSSfont 101}{subsubsection.4.1.4.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.4}Constraints}{\reset@font\mtcSSSfont 101}{subsubsection.4.1.4.4}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.5}Error Models}{\reset@font\mtcSSSfont 103}{subsubsection.4.1.4.5}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.6}Regularization}{\reset@font\mtcSSSfont 103}{subsubsection.4.1.4.6}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.7}Propagation of the Calibration Uncertainties}{\reset@font\mtcSSSfont 105}{subsubsection.4.1.4.7}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.8}Log-likelihood}{\reset@font\mtcSSSfont 105}{subsubsection.4.1.4.8}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.9}Minimizer}{\reset@font\mtcSSSfont 107}{subsubsection.4.1.4.9}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.10}Covariance Matrix}{\reset@font\mtcSSSfont 109}{subsubsection.4.1.4.10}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Testing NaCl on Real Data}{\reset@font\mtcSfont 112}{section.4.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Implementing a Model for Spectrophotometric Data}{\reset@font\mtcSSfont 112}{subsection.4.2.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}NaCl training results}{\reset@font\mtcSSfont 112}{subsection.4.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.1}Data Coverage}{\reset@font\mtcSSSfont 112}{subsubsection.4.2.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.2}Fitting the Spectra}{\reset@font\mtcSSSfont 112}{subsubsection.4.2.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.3}Training Residuals}{\reset@font\mtcSSSfont 113}{subsubsection.4.2.2.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}A Training Recipe for NaCl}{\reset@font\mtcSfont 116}{section.4.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}pre-DC1}{\reset@font\mtcSfont 117}{section.4.4}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Simulation step}{\reset@font\mtcSSfont 117}{subsection.4.4.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.2}Goals}{\reset@font\mtcSSfont 118}{subsection.4.4.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Results: Potential Biases \& Systematics}{\reset@font\mtcSfont 118}{section.4.5}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.1}Model \& Data Agreement}{\reset@font\mtcSSfont 118}{subsection.4.5.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.1}Photometry}{\reset@font\mtcSSSfont 118}{subsubsection.4.5.1.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.2}Spectroscopy}{\reset@font\mtcSSSfont 119}{subsubsection.4.5.1.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.2}Parameter Reconstruction and Covariance Matrix}{\reset@font\mtcSSfont 119}{subsection.4.5.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.3}Distance modulus and cosmological parameters reconstruction}{\reset@font\mtcSSfont 120}{subsection.4.5.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Conclusion}{\reset@font\mtcSfont 122}{section.4.6}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}NaCl Framework}{\reset@font\mtcSfont 100}{section.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Why a Spectrophotometric Model? }{\reset@font\mtcSSfont 100}{subsection.4.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}The Idea Behind the Framework}{\reset@font\mtcSSfont 100}{subsection.4.1.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Differences with the SALT Models}{\reset@font\mtcSSfont 101}{subsection.4.1.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.4}Practical Implementation of the SALT2 Model}{\reset@font\mtcSSfont 102}{subsection.4.1.4}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.1}Model}{\reset@font\mtcSSSfont 102}{subsubsection.4.1.4.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.2}Predicting Broadband Fluxes}{\reset@font\mtcSSSfont 102}{subsubsection.4.1.4.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.3}Predicting Spectra}{\reset@font\mtcSSSfont 103}{subsubsection.4.1.4.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.4}Constraints}{\reset@font\mtcSSSfont 103}{subsubsection.4.1.4.4}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.5}Error Models}{\reset@font\mtcSSSfont 105}{subsubsection.4.1.4.5}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.6}Regularization}{\reset@font\mtcSSSfont 105}{subsubsection.4.1.4.6}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.7}Propagation of the Calibration Uncertainties}{\reset@font\mtcSSSfont 107}{subsubsection.4.1.4.7}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.8}Log-likelihood}{\reset@font\mtcSSSfont 107}{subsubsection.4.1.4.8}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.9}Minimizer}{\reset@font\mtcSSSfont 109}{subsubsection.4.1.4.9}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.4.10}Covariance Matrix}{\reset@font\mtcSSSfont 111}{subsubsection.4.1.4.10}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}Testing NaCl on Real Data}{\reset@font\mtcSfont 114}{section.4.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Implementing a Model for Spectrophotometric Data}{\reset@font\mtcSSfont 114}{subsection.4.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}NaCl training results}{\reset@font\mtcSSfont 114}{subsection.4.2.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.1}Data Coverage}{\reset@font\mtcSSSfont 114}{subsubsection.4.2.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.2}Fitting the Spectra}{\reset@font\mtcSSSfont 114}{subsubsection.4.2.2.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.3}Training Residuals}{\reset@font\mtcSSSfont 115}{subsubsection.4.2.2.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}A Training Recipe for NaCl}{\reset@font\mtcSfont 118}{section.4.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}pre-DC1}{\reset@font\mtcSfont 119}{section.4.4}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Simulation step}{\reset@font\mtcSSfont 119}{subsection.4.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.2}Goals}{\reset@font\mtcSSfont 120}{subsection.4.4.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Results: Potential Biases \& Systematics}{\reset@font\mtcSfont 120}{section.4.5}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.1}Model \& Data Agreement}{\reset@font\mtcSSfont 120}{subsection.4.5.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.1}Photometry}{\reset@font\mtcSSSfont 120}{subsubsection.4.5.1.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.2}Spectroscopy}{\reset@font\mtcSSSfont 121}{subsubsection.4.5.1.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.2}Parameter Reconstruction and Covariance Matrix}{\reset@font\mtcSSfont 121}{subsection.4.5.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.3}Distance modulus and cosmological parameters reconstruction}{\reset@font\mtcSSfont 122}{subsection.4.5.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Conclusion}{\reset@font\mtcSfont 124}{section.4.6}}

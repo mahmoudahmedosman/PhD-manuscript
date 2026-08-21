@@ -1,8 +1,8 @@
-\section{Applications on self-consistent mocks}
+\section{Applications on Self-Consistent Mocks}
 Before running BORG-PV on the Uchuu-ZTF mocks, we need to ensure that if we run it on simulations that are generated with the exact same model as the one used in BORG-PV, 
 it does not introduce systematic biases in the reconstructed density and velocity fields as well as in the parameters. \\
 
-\subsection{Forward model analysis: profile likelihood tests}
+\subsection{Forward Model Analysis: Likelihood Tests} \label{sec:profile_self}
 We conduct an initial test on the forward model where we realize likelihood profiles for each model parameter and cosmological parameters. We do that by evaluating 
 the forward model on the initial conditions $\delta^{IC}$ used to generate the supernovae while varying each parameters and evaluating the likelihood. We 
 expect to see a peak in the likelihood profiles of each parameter at the value used to generate the mock. We show in Table \ref{tab:borg_self_table} the configuration 
@@ -15,6 +15,9 @@ used to generate the self-consistent simulations. \\
         \hline
         Parameters & Values \\
         \hline
+        Box size & $700^3 \, (\text{Mpc}.h^{-1})^3$ \\
+        Generated supernovae & $\sim 1000$ \\
+        Maximum supernova redshift & $z=0.06$ \\
         Gravity model & LPT \\
         Resolution & 10.9 $\text{Mpc}.h^{-1}$ \\
         $\alpha$ & 1.4 \\
@@ -23,184 +26,253 @@ used to generate the self-consistent simulations. \\
         $V_x$ & 0 km/s \\
         $V_y$ & 0 km/s \\
         $V_z$ & 0 km/s \\
-        $\Omega_m$ & 0.315 \\
+        $\Omega_m$ & 0.31 \\
         $\sigma_8$ & 0.81 \\
         \hline
     \end{tabular}
+    \label{tab:self_params}
 \end{table}
-We obtain the following Figure \ref{fig:L_self_1} that show the likelihood profiles for 1 simulation. We notice that the recovered parameters match the 
-input values within 1$\sigma$.  
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.1\textwidth]{MainLayout/Sixth_chapter/figures/L_profile_self.pdf}
-    \caption{Profile likelihoods from one realization of the self-consistent simulation for the model and cosmological parameters.}
-    \label{fig:L_self_1}
-\end{figure}
-
-
-To assess the statistical robustness of the forward model, we generate 100 self-consistent mock realisations of the supernova catalogue, each drawn from 
+To assess the statistical robustness of the forward model, we generate 100 self-consistent mock realizations of the supernova catalogue, each drawn from 
 a different set of initial conditions while keeping the model parameters fixed at their fiducial values. For each realization, we evaluate the likelihood 
-profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 87 realizations. 
+profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 100 realizations. 
 We expect that the averaged parameters coincide with the fiducial input values within the expected standard deviation. Any systematic offset would indicate a 
 bias in the forward model that must be understood and corrected before applying the pipeline to real data. We plot the results in 
-Figures \ref{fig:cosmo_coverage}, \ref{fig:params1_coverage}, \ref{fig:params2_coverage} and \ref{fig:params3_coverage}. We notice that the all of the parameters are well 
+Figure \ref{fig:params_coverage}. We notice that the all of the parameters are well 
 recovered. 
 The likelihood profile of $\sigma_v$ also exhibits an unphysical peak near 0 $\text{km}.\text{s}^{-1}$. 
 This feature is a numerical artifact that occurs as the denominator of the likelihood approaches zero. 
-It can be avoided by imposing a more restrictive lower bound on the prior of $\sigma_v$.
 \\
 
 
-\begin{figure}
+
+\begin{figure}[htbp]
     \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/omegam_coverage.png}
-        \caption{Coverage for $\Omega_m$}
+
+    % Row 1
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/omegam_coverage.png}
+        \caption{Distribution of $\Omega_m$.}
         \label{fig:omega_m_coverage_self}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/sigma8_coverage.png}
-        \caption{Coverage for $\sigma_8$}
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/sigma8_coverage.png}
+        \caption{Distribution of $\sigma_8$.}
         \label{fig:sigma8_coverage_self}
     \end{subfigure}
-    \caption{Coverage for the cosmological parameters using 100 realizations of self-consistent simulations}
-    \label{fig:cosmo_coverage}
-\end{figure}
 
+    \vspace{0.1cm}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/muA_coverage.png}
-        \caption{Coverage for $\mu_a$}
+    % Row 2
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/muA_coverage.png}
+        \caption{Distribution of $\mu_A$.}
         \label{fig:mu_A_coverage_self}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/alpha_coverage.png}
-        \caption{Coverage for $\alpha8$}
-        \label{fig:alpha_coverage_self}
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/alpha_coverage.png}
+        \caption{Distribution of $\alpha$.}
+        \label{fig:fig4}
     \end{subfigure}
-    \caption{Coverage for $\mu_A$ and $\alpha$ using 100 realizations of self-consistent simulations}
-    \label{fig:params1_coverage}
-\end{figure}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/sig_v_coverage.png}
-        \caption{Coverage for $\sigma_v$}
-        \label{fig:sigma_v_coverage_self}
+    \vspace{0.1cm}
+
+    % Row 3
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/sig_v_coverage.jpg}
+        \caption{Distribution of $\sigma_v$.}
+        \label{fig:fig5}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_x_coverage.png}
-        \caption{Coverage for $V_x$}
-        \label{fig:Vx_coverage_self}
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/bulk_flow_x_coverage.png}
+        \caption{Distribution ofr $V_x$.}
+        \label{fig:fig6}
     \end{subfigure}
-    \caption{Coverage for $\sigma_v$ and $V_x$ using 100 realizations of self-consistent simulations}
-    \label{fig:params2_coverage}
-\end{figure}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_y_coverage.png}
-        \caption{Coverage for $V_y$}
-        \label{fig:Vy_coverage_self}
+    \vspace{0.1cm}
+
+    % Row 4
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/bulk_flow_y_coverage.png}
+        \caption{Distribution of $V_y$.}
+        \label{fig:fig7}
     \end{subfigure}
     \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/bulk_flow_z_coverage.png}
-        \caption{Coverage for $V_z$}
-        \label{fig:Vz_coverage_self}
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/bulk_flow_z_coverage.png}
+        \caption{Distribution of $V_z$.}
+        \label{fig:fig8}
     \end{subfigure}
-    \caption{Coverage for $V_y$ and $V_z$ using 100 realizations of self-consistent simulations}
-    \label{fig:params3_coverage}
+
+    \caption{Distribution of the parameters for which the likelihood reaches its maximum after 100 realizations of self-consistent simulations.}
+    \label{fig:params_coverage}
 \end{figure}
 
-\subsection{Results of the field level inference on self-consistent simulations}
 
-We present the results of applying BORG-PV on self-consistent simulations. In Figures \ref{fig:dens_self_1}, \ref{fig:dens_self_2}, \ref{fig:dens_self_3}, \ref{fig:dens_self_4}, \ref{fig:dens_self_5} 
-we show on the left the generated density field and on the right the reconstructed density field. 
+
+
+
+\subsection{Inference Results on a Self-Consistent Simulation}
+
+We present the results of applying BORG-PV on a self-consistent simulation. We generate a mock with almost 1000 Type Ia supernovae up to a redshift of $z=0.06$ using the parameters in Table \ref{tab:self_params} 
+in a $700 \, \text{Mpc}.h^{-1}$ box. The box is chosen to be larger than the limit at which the supernova are generated to numerical integration errors when marginalizing over 
+the supernova distances. 
+The priors set on the parameters are:
+\begin{itemize}
+    \item $\alpha \sim \mathcal{U}[0.5, \, 2.5]$
+    \item $\mu_A \sim \mathcal{U}[0.5, \, 1.5]$
+    \item $\sigma_v \sim \mathcal{U}[50, \, 400] \, \text{km.s}^{-1}$
+    \item Each bulk flow component $\sim \mathcal{U}[-200, \, +200] \, \text{km.s}^{-1}$ 
+    \item $\Omega_m \sim \mathcal{U}[0.1, \, 0.8]$
+    \item $\sigma_8 \sim \mathcal{U}[0.1, \, 1.5]$
+\end{itemize}
+The inference runs in three steps: 
+\begin{enumerate}
+ \item An initial warm-up phase is dedicated to sample the initial density perturbations $\delta^{IC}$ while all of other parameters are fixed. 
+ During this phase the intial perturbations go through a "burn-in" process where $\delta^{IC}$ start giving rise to evolved density fields with the correct 
+ power and serves as an initial guess of the underlying density field. This is done in 1000 MCMC steps.
+ \item In the following step we simultaneously $\delta^{IC}$ alongside nuisance and model parameters, specifically 
+ $\sigma_v$, bulk flow, $\alpha$ and $\mu_A$. This serves to obtain an initial guess for the model parameters before sampling the cosmological parameters. This is done in 2000 MCMC steps.
+ \item Lastly, we sample all of the parameters simultaneously including $\Omega_m$ and $\sigma_8$. This step lasts until we have reached a converged state. For this run, the 
+results displayed go to 7000 MCMC steps. 
+\end{enumerate}
+
+The starting point of our inference is the generated density field scaled down by a factor of 10. This is done intentionally to ensure our inference pipeline 
+recovers the true power of the field. In Figure \ref{fig:dens_self_evolution} we display the evolution of the mean density field $\delta^{F}$ within a slice at the center of the box. 
+We can indentify the central region where the supernova where generated due to the fact that it evolves into clear structures 
+while the outer regions falls back to the cosmic mean set by $\Lambda$CDM prior. 
+
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.2\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/density_evolution.pdf}}
+    \caption{Evolution of $\delta^{F}$ within an inference in log scale expressed as $\log(2+\delta^{F})$. From left to right: The initial $\delta^{F}$ evolved from the starting point of $\delta^{IC}$. Then the 
+    mean of $\delta^{F}$ after having completed the warmup step. The following panel shows the mean $\delta^{F}$ after having initially sampled the model and 
+    nuisance parameters. 
+    Last panel shows the mean $\delta^{F}$ after adding the cosmological parameters to our sampler. It is averaged over all of the steps from the moment the cosmological 
+    parameters are added to the sampler.}
+    \label{fig:dens_self_evolution}
+\end{figure}
+
+\subsubsection{Field Reconstruction}
+
+We compare the simulated density field used to generated the supernova mock with the reconstructed field. Figure 
+\ref{fig:stacked_dens_self} shows both fields through different slices near the center of the box. 
 We notice that the reconstructed field manages to capture some of the underlying structures visible in the true density field. We can compare 
 the overdense and underdense regions within the white-dashed circle where the supernovae have been generated. 
-The largest structures are recovered while small scales structures seem to be missed. 
-This is expected due to the resolution of our grid ($10 \, \text{Mpc}.h^{-1}$).\\
-
+The largest structures are mostly recovered while small scales structures seem to be missed. Outside the supernova region, we see that the density field falls back to the cosmic mean. 
+This behaviour is also seen in the associated velocity field reconstruction seen in Figure \ref{fig:stacked_vel_self}, although with less 
+smaller differences on small scales. \\
 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/dens_slice_x_30.pdf}
-    \caption{Slice 30 on the x-axis of the generated density field and posterior mean using self-consistent simulations.}
-    \label{fig:dens_self_1}
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/dens_slice_x_30.pdf}
+
+    \vspace{0.5cm}
+
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/dens_slice_x_32.pdf}
+
+    \vspace{0.5cm}
+
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/dens_slice_z_32.pdf}
+
+    \caption{Comparison between the true density field on the left panels with the reconstructed density field on the right panels. Each row represents a different 
+    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \label{fig:stacked_dens_self}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/dens_slice_x_32.pdf}
-    \caption{Slice 32 on the x-axis of the generated density field and posterior mean using self-consistent simulations.}
-    \label{fig:dens_self_2}
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/vel_slice_x_30.pdf}
+
+    \vspace{0.5cm}
+
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/vel_slice_x_32.pdf}
+
+    \vspace{0.5cm}
+
+    \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/vel_slice_z_32.pdf}
+
+    \caption{Comparison between the true velocity field on the left panels with the reconstructed velocity field on the right panels. Each row represents a different 
+    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \label{fig:stacked_vel_self}
 \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/dens_slice_y_32.pdf}
-    \caption{Slice 32 on the y-axis of the generated density field and posterior mean using self-consistent simulations.}
-    \label{fig:dens_self_3}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/dens_slice_z_30.pdf}
-    \caption{Slice 30 on the z-axis of the generated density field and posterior mean using self-consistent simulations.}
-    \label{fig:dens_self_4}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/dens_slice_z_32.pdf}
-    \caption{Slice 32 on the z-axis of the generated density field and posterior mean using self-consistent simulations.}
-    \label{fig:dens_self_5}
-\end{figure}
-
-
-A more quantitative result is shown in Figure \ref{fig:Pk_self} where we plot the power spectrum of the 
-final density field $\delta^{F}$ calculated in the largest box within the region where the supernovae are generated and the posterior mean density field. 
-We notice that the reconstructed mean density field power spectrum is in good 
-agreement with the one from the generated mock within the region where the supernovae exist. The plot on the left represents the cross correlation factor $r$ defined as: 
+A more quantitative result is shown in Figure \ref{fig:Pk_self} where we compare the power spectrum of the 
+reconstructed density field $\delta^{F}$ with the power spectrum of the true field as well as calculate their cross correlations. The power spectra are 
+calculated in the largest box within the region where the supernovae are generated. 
+The cross correlation factor $r$ defined as: 
 \begin{equation}
     r(k) = \frac{P_{\text{cross}(k)}}{\sqrt{ P_{\text{true}} P_{\text{recon}} }}
 \end{equation} 
 where $P_{\text{cross}}(k)$ is the cross power spectrum. This metric indicates how correlated the positions of the overdensities are, where $r(k) = 1$ 
-represents a perfect reconstruction. We observe a significant correlation at large scales that decreases toward smaller scales. This is expected, as the 
+represents a perfect reconstruction. 
+We see that the reconstructed mean density field power spectrum is in good 
+agreement with the one from the generated mock within the region where the supernovae exist. 
+Moreover, we observe a significant correlation at large scales of $\approx 0.7$ that decreases toward smaller scales. This is expected, as the 
 number of supernovae used to constrain the density field is small compared to 
-the number of initial condition voxels. The $64^3$ grid amounts to $\sim 260,000$ free parameters sampled from only $\sim 1000$ supernovae. 
-Since the supernovae are approximately uniformly distributed within the survey volume, their mean separation is of order $\sim 50 \, \text{Mpc}/h$, meaning 
-that only modes on scales larger than this separation are properly constrained by the data. At smaller scales the reconstructed field loses correlation with the truth. \\
+the number of initial condition voxels. The central region where the supernova are generated maintains around $\sim 19\,000$ free parameters that sampled from 
+only $\sim 1000$ supernovae. At smaller scales the reconstructed field loses correlation with the truth. \\
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/power_spectra.pdf}
-    \caption{\textit{Left:} Matter power spectrum of the generated density field as well as the mean power spectrum and its standard deviation from the inference. \textit{Right:} 
-    Cross correlation between the generated density field and the posterior mean field. The red dotted line represents a value of 0.5 where the correlations are at 50\%.}
+    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/power_spectra.pdf}
+    \caption{\textit{Left}: Matter power spectrum of the generated density field as well as the mean power spectrum and its standard deviation from the inference. \textit{Right}: 
+    Cross correlation between the generated density field and the posterior mean field. }
     \label{fig:Pk_self}
 \end{figure}
 
-We can also look at the reconstructed model and cosmological parameters in 
-Figure \ref{fig:param_self}. We notice that $\mu_A$, $\alpha$ and $\Omega_m$ are recovered within $1\sigma$ of their true values, while $\sigma_v$, the 
-bulk flow $\mathbf{V}$ and $\sigma_8$ appear biased for this realisation. However, the number of MCMC steps is insufficient for the chain to have fully 
-converged, and it is possible that running the sampler for longer would bring the parameters closer to their true values. Furthermore, we present results 
-for a single simulation only. A coverage test over many realisations, as performed for the likelihood profiles, would be required to draw conclusive 
-results, but was beyond the scope of the time available during this PhD. %(Convergence by cutting chain in half still not done.)
+\subsubsection{Model Parameters Reconstruction}
+
+In this section we will be examining the reconstructed parameters in the inference chain. Figure \ref{fig:param_self} shows the trace plots of the reconstructed parameters 
+from the moment we start sampling the cosmological parameters. We can instantly notice that the parameter sampling has not yet reached a converged state as seen with parameters 
+such as $\Omega_m$ where the parameter space is still being explored. However, certain parameters are being sampled in specific regions that could hint at the preferred values 
+of those parameters. At the current stage of the inference, the $\mu_A$ parameter is larger than the expected value by almost $0.15$\%, or equivalently $\sim 3 \times 10^{-3}$mag 
+on the distance modulus. 
+The parameters $\alpha$ and $\sigma_v$ are being sampled in the expected regions with current means that are in agreement with the input values. 
+The bulk flow parameters seem to bias in a specific direction with strong biases in $x$ and $z$ direction. It is possible that this bias is due that we are analyzing one realization 
+of the mock. We have attempted to run multiple inference chains during the developement of BORG-PV and the bias in the bulk flow did not persist between different runs. 
+The cosmological parameters $\Omega_m$ and $\sigma_8$ have chains that have not yet converged but the current mean of the parameters is consistent with the truth. 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/mcmc_traces.pdf}
+    \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/mcmc_traces.pdf}
     \caption{\textit{Left:} reconstructed parameter values with respect to the MCMC step in blue. The yellow curve is the cumulative mean as well as its standard deviation. 
-    The red curve is the true value \textit{Right:} Distribution of the reconstructed parameters as well their mean and 
+    The red curve is the true value. \textit{Right:} Distribution of the reconstructed parameters as well their mean and 
     standard deviation in yellow, and the true value in red.}
     \label{fig:param_self}
 \end{figure}
+
+As mentioned previously in Chapter \ref{chap5}, the current implementation of BORG assumes a fixed $\Lambda$CDM cosmology, and therefore does not allow for a direct inference 
+of $f\sigma_8$. Nevertheless, we can perform a consistency check by estimating $f\sigma_8$ from the inferred $\Omega_m$ and $\sigma_8$ using the 
+approximation:
+\begin{equation}
+    f \simeq \Omega_m^{0.55}
+\end{equation} 
+Although this does not constitute a cosmological constraint on $f\sigma_8$, it provides a useful preliminary 
+assessment of the impact of the inference on its recovery by testing whether the analysis introduces biases in $f\sigma_8$. 
+This will also provide an initial indication of the expected accuracy that could be achieved in a future implementation where the cosmological parameters are varied once 
+the parameter chains have converged. We see in Figure \ref{fig:param_self_fs8} that the mean of the estimated $f\sigma_8$ is in agreement with the true value.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/mcmc_fs8.pdf}
+    \caption{\textit{Left:} Estimation of $f\sigma_8$ divided by its true value with respect to the MCMC step in blue. 
+    The yellow curve is the cumulative mean as well as its standard deviation. 
+    The red curve is the true value. \textit{Right:} Distribution of the estimated $f\sigma_8$.}
+    \label{fig:param_self_fs8}
+\end{figure}
+
+The convergence of the parameters is taking more time than expected and is the reason why we have presented the full chain in this thesis. However, at the current stage 
+the results do indicate that we are able to extract valuable cosmological information on Type Ia supernovae using BORG-PV.

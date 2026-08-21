@@ -14,7 +14,7 @@ the observables.
 For the case of supernovae we will be relying on a simple phenomonological approach which will be described in the 
 following section alongside the supernova modeling and likelihood. \\ 
 
-\subsection{Initial likelihood}
+\subsection{Initial Likelihood}
 
 In this section we describe the initial version of the BORG-PV likelihood. This likelihood was developped by Deaglan J. Bartelett during the beginning of my PhD
 and it describes how well we can infer the supernova velocities. We start by defining the likelihood for one supernova indexed by $i$. 
@@ -99,7 +99,7 @@ Assuming all supernovae are independent and behave the same, then the full BORG-
 \end{equation}
 Where $N_{\text{SN}}$ is the total number of supernovae considered.
 
-\subsection{Generating self-consistent mocks}
+\subsection{Generating Self-Consistent Mocks}
 
 The self-consistent supernova mocks are simulated to mach the model description above. We start by generating a random Gaussian initial density field $\delta^{IC}$ and let it evolve 
 using a gravity solver until we obtain a final density field $\delta^{F}$ and a velocity field $\mathbf{v}$. We then define an amplitude function $\Phi$ containing the bias model and 
@@ -122,8 +122,8 @@ is obtained the same way as Equation \ref{eqn:mu_r} and is then scattered so we 
 \end{equation}
 Finally, the right ascension and declination angles are reported by converting the cartesian coordinates into spherical coordinates. \\
 
-\subsection{Issues with intial likelihood}
-\subsubsection{Selection function}
+\subsection{Issues with Intial Likelihood}
+\subsubsection{Selection Function}
 
 While testing different parameter configurations for the previously mentioned selection function, we have noticed a strong dependency in the $\lambda$ parameter that can bias the 
 sampling of the other model parameters as well as the cosmology. We plot in Figure \ref{fig:L_old} the likelihood profile of a self-consistent simulation 
@@ -143,7 +143,7 @@ an incorrect initial estimation of $\lambda$ can be greatly problematic. Moreove
 limited sample as the selection function does not match the hard cutoff at a redshift of $z=0.06$. We can even attempt to set $\lambda$ to 0 since the volume limited sample 
 should be a complete sample but this results in the same issue as seen in Figure \ref{fig:L_old}. \\
 
-\subsubsection{Supernova prior}
+\subsubsection{Supernova Prior}
 
 Recent results from \cite{Lordet_2026} have shown that supernovae tend to be found in overly dense regions of the Universe with a large number of supernovae being present at a 
 redshift of $z \approx 0.02-0.03$ creating what we see as a "bump" in the supernovae distribution accross redshift. This means that the assumption that the supernovae density is 
@@ -158,7 +158,7 @@ where $n(r)$ is the number density of supernovae. This can be related to the obs
 \end{equation}
 where $T_{\text{obs}}$ is the time of observation and $\mathrm{S}$ is a selection function that would account for the survey footprint, galactic extinction and any 
 instrumental effects that would decrease the number of observed supernovae. For our application on self-consistent simulations and the 
-Uchuu-ZTF mocks, we generate supernovae on the full-sky and do not include any Malmquist bias effects. Therefore $\mathrm{S}$ becomes unity. 
+Uchuu-ZTF mocks (see Section \ref{sec:uchuu_ztf}), we generate supernovae on the full-sky and do not include any Malmquist bias effects. Therefore $\mathrm{S}$ becomes unity. 
 If we assume a constant rate, then $dN \propto r^2 dr$ giving the $r^2$ geometric dependence in the prior described earlier. 
 If we assume that this is not the case, then we get:
 \begin{equation}
@@ -182,7 +182,7 @@ Finally, we fit the inferred $n(r)$ with a smooth differentiable function that i
     \centering
     \includegraphics[width=0.9\textwidth]{MainLayout/Sixth_chapter/figures/n_r.pdf}
     \caption{ 
-    The supernova number density as a function of the comoving distance from the observer for the Uchuu-ZTF mock. The mock was limited to $z\lesssim 0.06$ to be consistent with the 
+    The supernova number density as a function of the comoving distance from the observer for the Uchuu-ZTF mock (Section \ref{sec:uchuu_ztf}). The mock was limited to $z\lesssim 0.06$ to be consistent with the 
     volume limited sample of ZTF. The plot displays 32 bins. 
     The red line represents a cubic spline fit. The dashed black line represents the mean number density as well as its uncertainty shaded in grey. 
     We can see that the spline fit manages to capture regions where the number of supernovae is slightly different than expected at different scales. }
@@ -190,7 +190,7 @@ Finally, we fit the inferred $n(r)$ with a smooth differentiable function that i
 \end{figure}
 
 
-This new prior lies in the motivated by the comparison self-consistent simulations with the Uchuu-ZTF simulations containing the exact same number of supernovae. 
+This new prior lies in the motivated by the comparison self-consistent simulations with the Uchuu-ZTF simulations (Section \ref{sec:uchuu_ztf}) containing the exact same number of supernovae. 
 We generate a set of self-consistent mocks each with a different value for $\alpha$. 
 We bin the number of supernovae based on the overdensity. 
 If the simulations are generated in the same way, we would expect to see a match between the bins for a given $\alpha$ value. 
@@ -213,7 +213,7 @@ prior to capture the differences between the simulations thanks to the inclusion
 \end{figure}
 
 
-\subsection{Improved likelihood}
+\subsection{Improved Likelihood}
 
 Our first improvement to the likelihood is the implementation of the 
 prior $p_{\text{SN}}$ presented in Equation \ref{eqn:new_prior}. The 
