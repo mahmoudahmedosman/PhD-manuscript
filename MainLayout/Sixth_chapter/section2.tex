@@ -1,4 +1,4 @@
-\section{Applications on Self-Consistent Mocks}
+\section{Applications on Self-Consistent Mocks} \label{sec:borg_self}
 Before running BORG-PV on the Uchuu-ZTF mocks, we need to ensure that if we run it on simulations that are generated with the exact same model as the one used in BORG-PV, 
 it does not introduce systematic biases in the reconstructed density and velocity fields as well as in the parameters. \\
 
@@ -94,7 +94,7 @@ This feature is a numerical artifact that occurs as the denominator of the likel
     \begin{subfigure}{0.35\textwidth}
         \centering
         \includegraphics[width=\linewidth]{MainLayout/Sixth_chapter/figures/bulk_flow_x_coverage.png}
-        \caption{Distribution ofr $V_x$.}
+        \caption{Distribution of $V_x$.}
         \label{fig:fig6}
     \end{subfigure}
 
@@ -228,8 +228,8 @@ only $\sim 1000$ supernovae. At smaller scales the reconstructed field loses cor
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/power_spectra.pdf}
-    \caption{\textit{Left}: Matter power spectrum of the generated density field as well as the mean power spectrum and its standard deviation from the inference. \textit{Right}: 
-    Cross correlation between the generated density field and the posterior mean field. }
+    \caption{\textit{Left}: Matter power spectrum of the reconstructed density field as well as the mean power spectrum and its standard deviation from the inference. \textit{Right}: 
+    Cross correlation between the true density field and the reconstructed mean field. }
     \label{fig:Pk_self}
 \end{figure}
 
@@ -242,7 +242,7 @@ of those parameters. At the current stage of the inference, the $\mu_A$ paramete
 on the distance modulus. 
 The parameters $\alpha$ and $\sigma_v$ are being sampled in the expected regions with current means that are in agreement with the input values. 
 The bulk flow parameters seem to bias in a specific direction with strong biases in $x$ and $z$ direction. It is possible that this bias is due that we are analyzing one realization 
-of the mock. We have attempted to run multiple inference chains during the developement of BORG-PV and the bias in the bulk flow did not persist between different runs. 
+of the mock. We have attempted to run multiple inference chains during the developement of BORG-PV and the bias in the bulk flow did not persist between different runs. Moreover, this bias did not appear in the likelihood distribution seen in Figure \ref{fig:params_coverage}. 
 The cosmological parameters $\Omega_m$ and $\sigma_8$ have chains that have not yet converged but the current mean of the parameters is consistent with the truth. 
 
 \begin{figure}[ht]
