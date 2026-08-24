@@ -1,8 +1,8 @@
-\section{Towards a next generation of field-level inferences}
-Although field-level inferences present great potential in cosmological analyses, there are ongoing efforts to improve some of its aspects its practical 
+\section{Towards a Next Generation of Field-level Inferences}
+Although field-level inferences present great potential in cosmological analyses, there are ongoing efforts to improve several aspects of their practical 
 implementation. 
 
-\subsection{Gravity solvers}
+\subsection{Gravity Solvers}
 
 Gravity solvers such as LPT, COLA, and PM are non-linear approximations of the full equations of motion derived from the GR 
 framework. They are used because solving the exact equations of motion would be computationally too expensive, rendering Bayesian sampling of the 
@@ -26,7 +26,7 @@ N-body simulations, following the scheme:
 \end{equation}
 This provides a fast method to obtain an evolved density field that accounts for non-linearities beyond the reach of perturbation theory. 
 However, since the N-body solver is entirely replaced by the emulator, any emulation errors cannot be corrected by design. 
-This can put into question the reliability of the inferred field-level if not properly accounted for. 
+This can call into question the reliability of the inferred field-level if not properly accounted for. 
 
 A complementary approach is the COmoving Computer Acceleration framework (COCA, \cite{Bartlett_2025}), a hybrid model that combines a machine 
 learning emulator with a physical N-body solver. Rather than replacing the gravity solver entirely, COCA uses a neural network to predict 
@@ -55,7 +55,7 @@ N-body simulation. The differences between COLA and COCA are illustrated in Figu
     \label{fig:cola_vs_coca}
 \end{figure}
 
-\subsection{Galaxy bias models}
+\subsection{Galaxy Bias Models}
 
 While the bias models presented in Section \ref{sec:observable_to_dm} provide an effective description of the connection between the matter and galaxy fields, 
 improving this relation remains an active area of research. 
@@ -103,10 +103,10 @@ truth.
     \label{fig:pinetree}
 \end{figure}
 
-\subsection{Parameter sampling}
+\subsection{Parameter Sampling}
 
-As we have mentioned previously, the number of parameters sampled in a field-level inference can reach very large numbers ($\approx 10^9$) which can take a lot of computational 
-time to determine. Therefore, efforts to reduce the computational expenses of the parameter sampling have been ongoing in the context of field-level inferences. Different samplers 
+As we have mentioned previously, the number of parameters sampled in a field-level inference can reach very large numbers ($\approx 10^9$), which is computationally demanding. 
+Therefore, efforts to reduce the computational expenses of the parameter sampling have been ongoing in the context of field-level inferences. Different samplers 
 have been tested in \cite{Simon_2025}: Hamiltonian Monte Carlo (HMC), same as BORG, No-U-Turn Sampler (NUTS) with and without Gibbs scheme, an adjusted microcanonical 
 sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC). 
 \begin{itemize}
@@ -128,8 +128,8 @@ sampler (MAMS) and an unadjusted microcanonical sampler (MCLMC).
     Metropolis-Hastings step justifies the loss of this guarantee. 
 \end{itemize} 
 
-Results of the number of steps required per effective sample for each sampler is displayed in Figure \ref{fig:hugo_figure}. The paper finds is that MCLMC outperforms all other samplers 
-achieving the same results with almost ten times less step. This improvement comes at the cost of removing the 
+Results of the number of steps required per effective sample for each sampler is shown in Figure \ref{fig:hugo_figure}. The paper finds that MCLMC outperforms all other samplers 
+achieving the same results with nearly ten times fewer steps. This improvement comes at the cost of removing the 
 Metropolis-Hastings correction, meaning that the accuracy of the resulting 
 samples depends on keeping the numerical integration errors sufficiently 
 small.\\
@@ -141,13 +141,12 @@ small.\\
     \label{fig:hugo_figure}
 \end{figure}
 
-Another approach to improve the speed of parameter sampling involves the use of trained sample generation set neural networks to directly infer the posteriors of sets of parameters. 
+Another approach to accelerating parameter sampling is to use neural networks trained to generate samples directly from the posterior distribution. 
 These models are called diffusion models (\cite{Song_2021}). These models are trained on many N-body simulations which is computationally expensive. However once the models have been generated, 
 their use is direct. An example of the application of a diffusion model can be found in \cite{Mudur_2023}. The diffusion model used here was trained to learn the 
 characteristics of a density given a set of cosmological parameters $(\Omega_m, \sigma_8)$. This was then used to infer the $(\Omega_m, \sigma_8)$ directly from the simulated fields. 
 Their results show that the diffusion model manages to sample correct parameters from the density field. We show their results in Figure \ref{fig:diffusion_parameter}. 
-This however emphasises the need 
-of accurately reconstructing the underlying density field. \\
+This however emphasises the need to accurately reconstruct the underlying density field. \\
 
 \begin{figure}[ht]
     \centering
@@ -161,15 +160,15 @@ of accurately reconstructing the underlying density field. \\
 \subsection{Scalability}
 
 Current and future generations of field-level inferences will have to deal with increasingly large survey volumes while maintaining sufficient spatial resolution to 
-resolve small-scale structures. This poses a significant computational challenge, as the number of initial-condition parameters scales with the volume for a fixed 
+resolve small-scale structures. This poses a significant computational challenge, as the number of initial condition parameters scales with the volume for a fixed 
 resolution. For example, reconstructing a $(4096\,h^{-1}\,\text{Mpc})^3$ volume at a resolution of $4\,h^{-1}\,\text{Mpc}$, as done in 
 Manticore-Deep (\cite{Mcalpine_2026}), requires a $1024^3 \simeq 10^9$ dimensional initial-condition space. Future surveys such as DESI will 
 cover similarly large cosmological volumes, making field-level inference at comparable spatial resolutions increasingly challenging. 
-Developments in order to adapt to this scalability have been an important pillar in the construction of next generation 
+Addressing this scaling challenge has become an important pillar in the construction of next generation 
 field-level inferences. 
-At the core of it, it is mainly a question of simulating large volumes while preserving accuracy to resolve small-scale structures. 
+At its core, it is mainly a question of simulating large volumes while preserving accuracy to resolve small-scale structures. 
 One of the key methods that directly deals with this has been applied in Manticore-Local (\cite{Mcalpine_2025}) and Manticore-Deep (\cite{Mcalpine_2026}) which is tiling. 
-Infering the density field of Manticore-Deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
+Inferring the density field of Manticore-Deep is done on a $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume with a resolution of $\left(4 h^{-1} \text{Mpc}\right)^3$ which 
 requires $1024^3$ parameters on the grid to be inferred, which exceeds the current field-level memory usage and runtime available. To overcome that, they separate the full volume into 
 $\left(1024 h^{-1} \text{Mpc}\right)^3$ subvolumes that would be inferred separately on a $256^3$ grid. 
 The observational footprint of the surveys used in Manticore-Deep covers only a subset of the full volume, with 27 subvolumes actually containing galaxy data. 
@@ -184,7 +183,7 @@ while the remaining unconstrained regions are completed using independent $\Lamb
 $\left(4096 h^{-1} \text{Mpc}\right)^3$ volume that remains consistent with the assumed cosmology while preserving the observationally constrained structures. 
 Figure \ref{fig:manticore_deep} presents a visual representation of the mean final density field obtained in multiple subvolumes. 
 Although \cite{Mcalpine_2026} demonstrated the feasibility of reconstructing initial conditions over very large cosmological volumes using tiling, 
-the application of this strategy to the simultaneous inference of cosmological parameters has yet to be validated. \\
+the application of this strategy to infer cosmological parameters jointly with the initial conditions has yet to be validated. \\
 
 
 \begin{figure}[ht]
@@ -196,3 +195,21 @@ the application of this strategy to the simultaneous inference of cosmological p
     revert to the $\Lambda$CDM prior mean, making the survey coverage visible.}
     \label{fig:manticore_deep}
 \end{figure}
+
+
+\section{Conclusion}
+
+In this chapter we presented why a field-level inference is particularly promising for the reconstruction of peculiar velocities because it exploits the 
+full spatial information and jointly reconstructs the underlying density and velocity fields. Applications of field-level inference to different 
+cosmological probes have demonstrated its potential to improve the accuracy of velocity field reconstructions compared with more traditional approaches. 
+This makes it particularly well suited to the measurement of the growth of structure through $f\sigma_8$.
+
+Among the available field-level inference frameworks, we adopt BORG, which provides 
+the necessary framework for jointly reconstructing the initial conditions and evolving them to the observed epoch. In BORG, the initial conditions constitute 
+a high-dimensional set of parameters, from which the nonlinear density and velocity fields are obtained through a gravity solver. The posterior of thes parameters is 
+explored using HMC, while additional cosmological and nuisance parameters can be sampled hierarchically using a Gibbs scheme. The 
+availability of nonlinear gravity solvers within this framework further allows the reconstructed velocity field to retain information beyond the linear regime.
+
+These elements provide the basis for the field-level reconstruction presented in this work. In the following chapter, we introduce the new supernova likelihood 
+specifically developed to incorporate Type Ia supernova distance and peculiar-velocity information into the BORG framework. 
+This connects the observed supernovae to the initial conditions, enabling the joint reconstruction of the underlying density and velocity fields.

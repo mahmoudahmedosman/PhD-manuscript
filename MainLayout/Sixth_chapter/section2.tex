@@ -3,8 +3,8 @@ Before running BORG-PV on the Uchuu-ZTF mocks, we need to ensure that if we run 
 it does not introduce systematic biases in the reconstructed density and velocity fields as well as in the parameters. \\
 
 \subsection{Forward Model Analysis: Likelihood Tests} \label{sec:profile_self}
-We conduct an initial test on the forward model where we realize likelihood profiles for each model parameter and cosmological parameters. We do that by evaluating 
-the forward model on the initial conditions $\delta^{IC}$ used to generate the supernovae while varying each parameters and evaluating the likelihood. We 
+We conduct an initial test on the forward model where we compute likelihood profiles for each model parameter and cosmological parameters. We do that by evaluating 
+the forward model on the initial conditions $\delta^{IC}$ used to generate the supernovae while varying each parameter and evaluating the likelihood. We 
 expect to see a peak in the likelihood profiles of each parameter at the value used to generate the mock. We show in Table \ref{tab:borg_self_table} the configuration 
 used to generate the self-consistent simulations. \\
 \begin{table}[ht]
@@ -15,11 +15,11 @@ used to generate the self-consistent simulations. \\
         \hline
         Parameters & Values \\
         \hline
-        Box size & $700^3 \, (\text{Mpc}.h^{-1})^3$ \\
+        Box size & $700^3 \, (h^{-1}\text{Mpc})^3$ \\
         Generated supernovae & $\sim 1000$ \\
         Maximum supernova redshift & $z=0.06$ \\
         Gravity model & LPT \\
-        Resolution & 10.9 $\text{Mpc}.h^{-1}$ \\
+        Resolution & 10.9 $h^{-1}\text{Mpc}$ \\
         $\alpha$ & 1.4 \\
         $\mu_A$ & 1.00 \\
         $\sigma_v$ & 150 km.s$^{-1}$ \\
@@ -38,7 +38,7 @@ a different set of initial conditions while keeping the model parameters fixed a
 profile for every model and cosmological parameter, and compute the mean and standard deviation of the profile peaks across the 100 realizations. 
 We expect that the averaged parameters coincide with the fiducial input values within the expected standard deviation. Any systematic offset would indicate a 
 bias in the forward model that must be understood and corrected before applying the pipeline to real data. We plot the results in 
-Figure \ref{fig:params_coverage}. We notice that the all of the parameters are well 
+Figure \ref{fig:params_coverage}. We notice that all of the parameters are well 
 recovered. 
 The likelihood profile of $\sigma_v$ also exhibits an unphysical peak near 0 $\text{km}.\text{s}^{-1}$. 
 This feature is a numerical artifact that occurs as the denominator of the likelihood approaches zero. 
@@ -126,7 +126,7 @@ This feature is a numerical artifact that occurs as the denominator of the likel
 \subsection{Inference Results on a Self-Consistent Simulation}
 
 We present the results of applying BORG-PV on a self-consistent simulation. We generate a mock with almost 1000 Type Ia supernovae up to a redshift of $z=0.06$ using the parameters in Table \ref{tab:self_params} 
-in a $700 \, \text{Mpc}.h^{-1}$ box. The box is chosen to be larger than the limit at which the supernova are generated to numerical integration errors when marginalizing over 
+in a $700 \, h^{-1}\text{Mpc}$ box. The box is chosen to be larger than the limit at which the supernova are generated to avoid numerical integration errors when marginalizing over 
 the supernova distances. 
 The priors set on the parameters are:
 \begin{itemize}
@@ -142,7 +142,7 @@ The inference runs in three steps:
  \item An initial warm-up phase is dedicated to sample the initial density perturbations $\delta^{IC}$ while all of other parameters are fixed. 
  During this phase the intial perturbations go through a "burn-in" process where $\delta^{IC}$ start giving rise to evolved density fields with the correct 
  power and serves as an initial guess of the underlying density field. This is done in 1000 MCMC steps.
- \item In the following step we simultaneously $\delta^{IC}$ alongside nuisance and model parameters, specifically 
+ \item In the following step we simultaneously sample $\delta^{IC}$ alongside nuisance and model parameters, specifically 
  $\sigma_v$, bulk flow, $\alpha$ and $\mu_A$. This serves to obtain an initial guess for the model parameters before sampling the cosmological parameters. This is done in 2000 MCMC steps.
  \item Lastly, we sample all of the parameters simultaneously including $\Omega_m$ and $\sigma_8$. This step lasts until we have reached a converged state. For this run, the 
 results displayed go to 7000 MCMC steps. 
@@ -150,8 +150,8 @@ results displayed go to 7000 MCMC steps.
 
 The starting point of our inference is the generated density field scaled down by a factor of 10. This is done intentionally to ensure our inference pipeline 
 recovers the true power of the field. In Figure \ref{fig:dens_self_evolution} we display the evolution of the mean density field $\delta^{F}$ within a slice at the center of the box. 
-We can indentify the central region where the supernova where generated due to the fact that it evolves into clear structures 
-while the outer regions falls back to the cosmic mean set by $\Lambda$CDM prior. 
+We can identify the central region where the supernova were generated due to the fact that it evolves into clear structures 
+while the outer regions fall back to the cosmic mean set by $\Lambda$CDM prior. 
 
 \begin{figure}[htbp]
     \centering
@@ -167,13 +167,12 @@ while the outer regions falls back to the cosmic mean set by $\Lambda$CDM prior.
 
 \subsubsection{Field Reconstruction}
 
-We compare the simulated density field used to generated the supernova mock with the reconstructed field. Figure 
+We compare the simulated density field used to generate the supernova mock with the reconstructed field. Figure 
 \ref{fig:stacked_dens_self} shows both fields through different slices near the center of the box. 
 We notice that the reconstructed field manages to capture some of the underlying structures visible in the true density field. We can compare 
 the overdense and underdense regions within the white-dashed circle where the supernovae have been generated. 
-The largest structures are mostly recovered while small scales structures seem to be missed. Outside the supernova region, we see that the density field falls back to the cosmic mean. 
-This behaviour is also seen in the associated velocity field reconstruction seen in Figure \ref{fig:stacked_vel_self}, although with less 
-smaller differences on small scales. \\
+The largest structures are mostly recovered while small-scale structures seem to be missed. Outside the supernova region, we see that the density field falls back to the cosmic mean. 
+This behaviour is also seen in the associated velocity field reconstruction seen in Figure \ref{fig:stacked_vel_self}, although with smaller discrepancies on small scales. \\
 
 
 \begin{figure}[ht]
@@ -188,8 +187,8 @@ smaller differences on small scales. \\
 
     \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/dens_slice_z_32.pdf}
 
-    \caption{Comparison between the true density field on the left panels with the reconstructed density field on the right panels. Each row represents a different 
-    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \caption{Comparison of the true density field (left) with the reconstructed density field (right). Each row represents a different 
+    slice of the box associated by an index in a given direction. The white dashed circle indicates the region where the supernovae are generated.}
     \label{fig:stacked_dens_self}
 \end{figure}
 
@@ -205,8 +204,8 @@ smaller differences on small scales. \\
 
     \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/self_consistent_run/vel_slice_z_32.pdf}
 
-    \caption{Comparison between the true velocity field on the left panels with the reconstructed velocity field on the right panels. Each row represents a different 
-    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \caption{Comparison between the true velocity field (left) with the reconstructed velocity field (right). Each row represents a different 
+    slice of the box associated by an index in a given direction. The white dashed circle indicates the region where the supernovae are generated.}
     \label{fig:stacked_vel_self}
 \end{figure}
 
@@ -223,7 +222,7 @@ We see that the reconstructed mean density field power spectrum is in good
 agreement with the one from the generated mock within the region where the supernovae exist. 
 Moreover, we observe a significant correlation at large scales of $\approx 0.7$ that decreases toward smaller scales. This is expected, as the 
 number of supernovae used to constrain the density field is small compared to 
-the number of initial condition voxels. The central region where the supernova are generated maintains around $\sim 19\,000$ free parameters that sampled from 
+the number of initial condition voxels. The central region where the supernova are generated maintains around $\sim 19\,000$ free parameters that are sampled from 
 only $\sim 1000$ supernovae. At smaller scales the reconstructed field loses correlation with the truth. \\
 \begin{figure}[ht]
     \centering
@@ -235,15 +234,15 @@ only $\sim 1000$ supernovae. At smaller scales the reconstructed field loses cor
 
 \subsubsection{Model Parameters Reconstruction}
 
-In this section we will be examining the reconstructed parameters in the inference chain. Figure \ref{fig:param_self} shows the trace plots of the reconstructed parameters 
+In this section we examine the reconstructed parameters in the inference chain. Figure \ref{fig:param_self} shows the trace plots of the reconstructed parameters 
 from the moment we start sampling the cosmological parameters. We can instantly notice that the parameter sampling has not yet reached a converged state as seen with parameters 
 such as $\Omega_m$ where the parameter space is still being explored. However, certain parameters are being sampled in specific regions that could hint at the preferred values 
 of those parameters. At the current stage of the inference, the $\mu_A$ parameter is larger than the expected value by almost $0.15$\%, or equivalently $\sim 3 \times 10^{-3}$mag 
 on the distance modulus. 
 The parameters $\alpha$ and $\sigma_v$ are being sampled in the expected regions with current means that are in agreement with the input values. 
-The bulk flow parameters seem to bias in a specific direction with strong biases in $x$ and $z$ direction. It is possible that this bias is due that we are analyzing one realization 
-of the mock. We have attempted to run multiple inference chains during the developement of BORG-PV and the bias in the bulk flow did not persist between different runs. Moreover, this bias did not appear in the likelihood distribution seen in Figure \ref{fig:params_coverage}. 
-The cosmological parameters $\Omega_m$ and $\sigma_8$ have chains that have not yet converged but the current mean of the parameters is consistent with the truth. 
+The bulk flow parameters appear to be biased in a specific direction with strong biases in $x$ and $z$ direction. 
+This effect is likely related to the particular realization considered, as no such bias is observed in the likelihood distributions shown in Figure \ref{fig:params_coverage}. 
+The cosmological parameters $\Omega_m$ and $\sigma_8$ have not yet converged but the current mean of the parameters is consistent with the truth. 
 
 \begin{figure}[ht]
     \centering
@@ -274,5 +273,5 @@ the parameter chains have converged. We see in Figure \ref{fig:param_self_fs8} t
     \label{fig:param_self_fs8}
 \end{figure}
 
-The convergence of the parameters is taking more time than expected and is the reason why we have presented the full chain in this thesis. However, at the current stage 
-the results do indicate that we are able to extract valuable cosmological information on Type Ia supernovae using BORG-PV.
+The parameter chains have not yet fully converged within the timeframe of writing this thesis, and we therefore do not present the complete chains here. Nevertheless, 
+at the current stage the results do indicate that we are able to extract valuable cosmological information from Type Ia supernovae using BORG-PV.

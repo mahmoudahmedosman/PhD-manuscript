@@ -1,9 +1,9 @@
-\section{Cosmological distances} \label{sec:cosmological_distances}
+\section{Cosmological Distances} \label{sec:cosmological_distances}
 
 Observables such as the redshift or distances are used in order to constrain the matter content of the Universe as well as its expansion history and 
 cosmological parameters. There are multiple ways one can define a distance in cosmology, each relying on a different set of parameters. \\
 
-\subsection{Comoving distances}
+\subsection{Comoving Distances}
 
 Under a FLRW metric, we can define the transverse comoving distance as the distance separating the observer and an event happening at $\chi$:
 \begin{equation}
@@ -39,7 +39,7 @@ In a flat Universe, this expression is reduced to:
 In practice, this distance isn't directly measurable as it requires to measure the values $H$ at every redshift along the line of sight. However, other observable distances exist 
 that we can relate to the physical distance.\\
 
-\subsection{Angular distances}
+\subsection{Angular Distances}
 
 We can first define the distance of an object based on its apparent size $D$ and angle $\Delta \theta$. We call this the angular distance which is defined as:
 \begin{equation}
@@ -47,7 +47,7 @@ We can first define the distance of an object based on its apparent size $D$ and
 \end{equation}
 Therefore knowing the redshift, the apparent angle and the size of an object gives us access to its distance.\\
 
-\subsection{Luminosity distances}
+\subsection{Luminosity Distances}
 
 The luminosity distance $d_L$ relates the intrinsic luminosity of a 
 source to the flux measured by a distant observer:
@@ -96,10 +96,10 @@ where we can see that we recover the Hubble law. We compare in Figure \ref{fig:d
     \label{fig:different_distances}
 \end{figure}
 
-\section{Cosmology with type Ia supernova distances}
-\subsection{Hubble diagram}
+\section{Cosmology with Type Ia Supernova Distances}
+\subsection{Hubble Diagram}
 
-The main tool used to constrain the expansion of the Universe with type Ia supernovae is the Hubble diagram. For supernovae, the Hubble diagram maps their luminosity distances 
+The main tool used to constrain the expansion of the Universe with Type Ia supernovae is the Hubble diagram. For supernovae, the Hubble diagram maps their luminosity distances 
 to their redshifts. In practice what we attempt to recover the supernova distances from their observed fluxes. The challenge is then to reconstruct the restframe fluxes 
 of each supernova in one specific passband from observations. Hence, the requirement for measurements in multiple observer-frame passbands due to the redshifted fluxes. 
 Conventionally, we attempt to reconstruct the restframe flux observed in the standard B band. 
@@ -110,7 +110,7 @@ encoded in a single quantity, the distance modulus $\mu$, which is
 directly related to the luminosity distance $d_L$ and therefore 
 interchangeable with it throughout the cosmological analysis. We 
 define these quantities as follows: 
-The type Ia supernova's magnitude in the standard B band denoted as $m_B$, is defined as:
+The Type Ia supernova's magnitude in the standard B band denoted as $m_B$, is defined as:
 \begin{equation}
     m_B = -2.5 \log_{10}\left( \frac{f}{f_0} \right)
 \end{equation}
@@ -119,7 +119,7 @@ luminosity $L$ as the apparent magnitude if it was located at 10 pc from the obs
 \begin{equation}
     M = -2.5 \log_{10}\left( \frac{L}{f_0 4 \pi (10 \, \text{pc})^2} \right)
 \end{equation}
-We can finally define the distance modulus of a type Ia supernova as:
+We can finally define the distance modulus of a Type Ia supernova as:
 \begin{equation}
     \mu = m_B - M
 \end{equation}
@@ -216,18 +216,18 @@ Cepheids can be calibrated using objects sufficiently close to the Milky Way for
     \label{fig:cepheids}
 \end{figure}
 
-If we can identify nearby galaxies that contain both Cepheids and type Ia supernovae, we can use the Leavitt relation to measure the Cepheid distance modulus 
+If we can identify nearby galaxies that contain both Cepheids and Type Ia supernovae, we can use the Leavitt relation to measure the Cepheid distance modulus 
 $\mu_{\text{Cepheid}}$, which in turn calibrates the absolute magnitude $M$ of the supernova:
 \begin{equation}
     M = m_B - \mu_{\text{Cepheid}}
 \end{equation}
-where $m_B$ is the observed peak magnitude of the type Ia supernova in the rest-frame 
+where $m_B$ is the observed peak magnitude of the Type Ia supernova in the rest-frame 
 B band. This breaks the degeneracy between $L$ and $H_0$, as $M$ is now determined independently of the Hubble expansion. Applying this calibrated 
-$M$ to type Ia supernovae at low redshift, we can compute the luminosity distance $d_L$ from the observed magnitude and directly infer $H_0$ from Equation 
+$M$ to Type Ia supernovae at low redshift, we can compute the luminosity distance $d_L$ from the observed magnitude and directly infer $H_0$ from Equation 
 \ref{eqn:dl_approx}, averaged over a large sample of supernovae. The most recent measurement using this method yields $H_0 = 73.04 \pm 1.04$ km s$^{-1}$ Mpc$^{-1}$ 
 (\cite{Riess_2022}).
 
-\subsection{Peculiar velocities} \label{sec:vp_methods}
+\subsection{Peculiar Velocities} \label{sec:vp_methods}
 
 We define the peculiar velocity of a celestial object as the velocity of an object relative to the homogeneous Hubble flow. This is particularly important for 
 cosmological analyses as it can be used as a test for GR. If we assume peculiar velocities originate from the infall into gravitational potential wells then the detection 
@@ -240,7 +240,7 @@ of structures in $\Lambda$CDM is:
 Where $\gamma$ is the growth index. For GR $\gamma$ is expected to be 0.55 therefore deviations from this value will indicate that GR is not the most suitable gravitational 
 theory for the description of the large scale Universe. \\
 
-\subsubsection{Extracting peculiar velocities}
+\subsubsection{Extracting Peculiar Velocities}
 
 Supernova peculiar velocity information is encoded in the observed redshift. If we define $z_{pv}$ as the redshift due to the transverse peculiar velocity of the supernova 
 and $z_{cosmo}$ as the redshift due to the cosmic expansion, we get the following formula for the observed redshift $z_{obs}$ : 
@@ -297,15 +297,15 @@ The density field reconstruction infers the velocity field of matter from a gala
 \begin{equation}
     \mathbf{v} = \frac{aH \beta}{4\pi} \int d^3\mathbf{x'} \frac{\mathbf{x'} - \mathbf{x}}{|\mathbf{x'} - \mathbf{x}|^3} \delta_g(\mathbf{x'})
 \end{equation}
-where $\beta = \frac{f}{b}$. Comparing this to the velocity field inferred from type Ia supernovae, one can determine $\beta$. If then this is combined with 
+where $\beta = \frac{f}{b}$. Comparing this to the velocity field inferred from Type Ia supernovae, one can determine $\beta$. If then this is combined with 
 external measurements of $\sigma_{8,g} = b \sigma_8$, we can compute the growth rate of structures with $f\sigma_8 = \beta \sigma_{8,g}$. This has been done in 
 \cite{Lavaux_2011}. \\
 
 \noindent \textbf{\underline{Field level forward modeling}} \\
 
-The field level forward model treats the density and velocity field in itself as a free parameter. The idea is to evolve an initial simulated density field using a gravity model 
-to obtain a final density field. The observables are modelled from the obtained field to compare to actual observations such as galaxies or supernovae. 
+The field level forward model treats the density field in itself as a free parameter. The idea is to evolve an initial simulated density field using a gravity model 
+to obtain a final density and velocity field. The observables such as galaxies or supernovae are modeled within the inference to obtain the underlying density field. 
 $$ \text{Initial field} \longrightarrow \text{Final field} \longrightarrow \text{Model observables} \Longleftrightarrow \text{Compare to observations} $$
 Due to the nature of this method, the growth rate of structures can be directly determined via the final constrained simulation. The challenge of this method relies 
 in multiple stages such as: determining an accurate gravity model while maintaining reasonable computational time and accurately modeling the relation between the observables 
-and the density field. \\
+and the density field. More details on field-level inferences is given in Chapter \ref{chap5}. \\

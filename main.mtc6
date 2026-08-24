@@ -1,26 +1,27 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}Introduction to field-level inference}{\reset@font\mtcSfont 134}{section.5.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Definition and motivations}{\reset@font\mtcSSfont 134}{subsection.5.1.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1}Introduction to Field-level Inference}{\reset@font\mtcSfont 134}{section.5.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.1}Definition and Motivations}{\reset@font\mtcSSfont 134}{subsection.5.1.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.1.1}Definition}{\reset@font\mtcSSSfont 134}{subsubsection.5.1.1.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.1.2}Motivations}{\reset@font\mtcSSSfont 134}{subsubsection.5.1.1.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.1.3}Performing a field-level inference}{\reset@font\mtcSSSfont 134}{subsubsection.5.1.1.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Field-level inference pipeline}{\reset@font\mtcSSfont 135}{subsection.5.1.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.1}The BORG framework}{\reset@font\mtcSSSfont 135}{subsubsection.5.1.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.2}Other approaches}{\reset@font\mtcSSSfont 136}{subsubsection.5.1.2.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Applications of field-level inference in cosmology}{\reset@font\mtcSSfont 137}{subsection.5.1.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.1}Galaxy clustering}{\reset@font\mtcSSSfont 137}{subsubsection.5.1.3.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.2}Weak lensing}{\reset@font\mtcSSSfont 138}{subsubsection.5.1.3.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.3}Primordial non-Gaussianities}{\reset@font\mtcSSSfont 138}{subsubsection.5.1.3.3}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.4}Peculiar velocities}{\reset@font\mtcSSSfont 139}{subsubsection.5.1.3.4}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}The BORG algorithm}{\reset@font\mtcSfont 143}{section.5.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Distribution and sampler}{\reset@font\mtcSSfont 143}{subsection.5.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.1}General distribution}{\reset@font\mtcSSSfont 143}{subsubsection.5.2.1.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.1.3}Performing a Field-level Inference}{\reset@font\mtcSSSfont 134}{subsubsection.5.1.1.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.2}Field-level Inference Pipeline}{\reset@font\mtcSSfont 136}{subsection.5.1.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.1}The BORG Framework}{\reset@font\mtcSSSfont 136}{subsubsection.5.1.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.2.2}Other Approaches}{\reset@font\mtcSSSfont 136}{subsubsection.5.1.2.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {1.3}Applications of Field-level Inference in Cosmology}{\reset@font\mtcSSfont 136}{subsection.5.1.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.1}Galaxy Clustering}{\reset@font\mtcSSSfont 136}{subsubsection.5.1.3.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.2}Weak Lensing}{\reset@font\mtcSSSfont 138}{subsubsection.5.1.3.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.3}Primordial non-Gaussianities}{\reset@font\mtcSSSfont 139}{subsubsection.5.1.3.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {1.3.4}Peculiar Velocities}{\reset@font\mtcSSSfont 139}{subsubsection.5.1.3.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {2}The BORG Algorithm}{\reset@font\mtcSfont 143}{section.5.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Distribution and Sampler}{\reset@font\mtcSSfont 143}{subsection.5.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.1}General Distribution}{\reset@font\mtcSSSfont 143}{subsubsection.5.2.1.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.1.2}Sampler}{\reset@font\mtcSSSfont 144}{subsubsection.5.2.1.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Forward model}{\reset@font\mtcSSfont 146}{subsection.5.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.1}Particle mass assignment}{\reset@font\mtcSSSfont 146}{subsubsection.5.2.2.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}Forward Model}{\reset@font\mtcSSfont 146}{subsection.5.2.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.1}Particle Mass Assignment}{\reset@font\mtcSSSfont 146}{subsubsection.5.2.2.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.2}Gravity Model}{\reset@font\mtcSSSfont 146}{subsubsection.5.2.2.2}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.3}Connecting the dark matter field to observables}{\reset@font\mtcSSSfont 150}{subsubsection.5.2.2.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Towards a next generation of field-level inferences}{\reset@font\mtcSfont 153}{section.5.3}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Gravity solvers}{\reset@font\mtcSSfont 153}{subsection.5.3.1}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Galaxy bias models}{\reset@font\mtcSSfont 154}{subsection.5.3.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.3}Parameter sampling}{\reset@font\mtcSSfont 154}{subsection.5.3.3}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.3}Connecting the Dark Matter Field to Observables}{\reset@font\mtcSSSfont 150}{subsubsection.5.2.2.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}Towards a Next Generation of Field-level Inferences}{\reset@font\mtcSfont 153}{section.5.3}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.1}Gravity Solvers}{\reset@font\mtcSSfont 153}{subsection.5.3.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.2}Galaxy Bias Models}{\reset@font\mtcSSfont 154}{subsection.5.3.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.3}Parameter Sampling}{\reset@font\mtcSSfont 154}{subsection.5.3.3}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {3.4}Scalability}{\reset@font\mtcSSfont 156}{subsection.5.3.4}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}Conclusion}{\reset@font\mtcSfont 158}{section.5.4}}

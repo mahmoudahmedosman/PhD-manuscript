@@ -17,16 +17,18 @@
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.1}Implementing a Model for Spectrophotometric Data}{\reset@font\mtcSSfont 114}{subsection.4.2.1}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {2.2}NaCl training results}{\reset@font\mtcSSfont 114}{subsection.4.2.2}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.1}Data Coverage}{\reset@font\mtcSSSfont 114}{subsubsection.4.2.2.1}}
-{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.2}Fitting the Spectra}{\reset@font\mtcSSSfont 114}{subsubsection.4.2.2.2}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.2}Fitting the Spectra}{\reset@font\mtcSSSfont 115}{subsubsection.4.2.2.2}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {2.2.3}Training Residuals}{\reset@font\mtcSSSfont 115}{subsubsection.4.2.2.3}}
 {\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {3}A Training Recipe for NaCl}{\reset@font\mtcSfont 118}{section.4.3}}
 {\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4}pre-DC1}{\reset@font\mtcSfont 119}{section.4.4}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Simulation step}{\reset@font\mtcSSfont 119}{subsection.4.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1}Simulation Step}{\reset@font\mtcSSfont 119}{subsection.4.4.1}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.2}Goals}{\reset@font\mtcSSfont 120}{subsection.4.4.2}}
 {\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {5}Results: Potential Biases \& Systematics}{\reset@font\mtcSfont 120}{section.4.5}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.1}Model \& Data Agreement}{\reset@font\mtcSSfont 120}{subsection.4.5.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.1}Photometry}{\reset@font\mtcSSSfont 120}{subsubsection.4.5.1.1}}
 {\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.1.2}Spectroscopy}{\reset@font\mtcSSSfont 121}{subsubsection.4.5.1.2}}
 {\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.2}Parameter Reconstruction and Covariance Matrix}{\reset@font\mtcSSfont 121}{subsection.4.5.2}}
-{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.3}Distance modulus and cosmological parameters reconstruction}{\reset@font\mtcSSfont 122}{subsection.4.5.3}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Conclusion}{\reset@font\mtcSfont 124}{section.4.6}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.1}Parameter Reconstruction}{\reset@font\mtcSSSfont 121}{subsubsection.4.5.2.1}}
+{\reset@font\mtcSSSfont\mtc@string\contentsline{subsubsection}{\noexpand \leavevmode \numberline {5.2.2}Covariance Matrix}{\reset@font\mtcSSSfont 123}{subsubsection.4.5.2.2}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {5.3}Distance Modulus and Cosmological Parameters Reconstruction}{\reset@font\mtcSSfont 124}{subsection.4.5.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {6}Conclusion}{\reset@font\mtcSfont 126}{section.4.6}}

@@ -2,29 +2,29 @@
 
 \subsection{Uchuu-ZTF Mocks} \label{sec:uchuu_ztf}
 
-The ZTF simulations are designed to test the impact of ZTF-supernovae peculiar velocities in a cosmological analysis are called DC PV (Data Challenge 
+The ZTF simulations designed to test the impact of ZTF-supernovae peculiar velocities in a cosmological analysis are referred to as DC PV (Data Challenge 
 Peculiar Velocity). These are generated within the ZTF collaboration mainly to test the methods to infer $f\sigma_8$. 
 The DC PV simulations are done similarly to the DC simulations  
 described in Chapter 4 with the main differences being that supernovae are simulated on top of large scale structures instead of a uniform distribution. 
 For that, we use the Uchuu N-body simulation 
-(\cite{Ishiyama_2021}), a high fidelity N-body dark matter simulation\footnote{N-body and hydrodynamical simulations 
+(\cite{Ishiyama_2021}), a high-fidelity N-body dark matter simulation\footnote{N-body and hydrodynamical simulations 
 are considered the highest fidelity simulations we can get to describe structure formation as they solving the equations of motion for each particle/fluid without any 
 approximations or grid mesh} 
-in a $(2 \text{Gpc}.h^{-1})^3$ box with 2.1 trillion particles that can be seen in Figure \ref{fig:uchuu_nbody} . 
+in a $(2 \, \text{Gpc}.h^{-1})^3$ box with 2.1 trillion particles that can be seen in Figure \ref{fig:uchuu_nbody} . 
 The full box is then subdivided into 27 subboxes where the supernovae are simulated up to a redshift of $z=0.11$, giving 27 quasi-independent 
 realizations of the DC PV. 
-Each supernova is simulated at the location of a dark matter halo is and is assigned the halo's velocity. This allows us to add proper motion to supernovae 
+Each supernova is simulated at the location of a dark matter halo and is assigned the halo's velocity. This allows us to add proper motion to supernovae 
 that is driven by structure formation.\\
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.7\textwidth]{MainLayout/BORG_chapter/figures/uchuu_nbody.png}
-    \caption{Slice taken from the Uchuu simulation covering a box of 250 $\text{Mpc}.h^{-1}$ where each point represents a particle. Taken from \cite{Ishiyama_2021}}
+    \caption{Slice taken from the Uchuu simulation covering a box of 250 $h^{-1}\text{Mpc}$ where each point represents a particle. Taken from \cite{Ishiyama_2021}}
     \label{fig:uchuu_nbody}
 \end{figure}
 
 
-We opt to simplify a few aspects of the simulations in order to have an initial assessment of how well can a BORG analysis run on ZTF-like supernova. 
+We opt to simplify a few aspects of the simulations in order to have an initial assessment of how well a BORG analysis run on supernova performs. 
 Firstly, we have chosen to use only the distance moduli and redshifts of supernovae as inputs in BORG, as if we were doing the analysis after having run the full 
 LEMAITRE pipeline. 
 One could also infer the Tripp relation parameters ($\alpha_{\text{Tripp}}$, $\beta_{\text{Tripp}}$) in BORG. 
@@ -44,7 +44,7 @@ generated can be used.
 For a more realistic set of simulations, we would have to account for the geometry of the survey as well as the Milky-Way dust. This is trivial to account for, but 
 for simplicity we opted not to include it. 
 It consists in introducing an 
-angular mask $M(\text{RA}, \text{Dec})$ in the likelihood's selection function. 
+angular mask $M(\text{RA}, \text{Dec})$ in the likelihood selection function. 
 This method was applied in BORG analyses such as 
 \cite{Mcalpine_2025} (Manticore-Local) and \cite{Mcalpine_2026} (Manticore-Deep). 
 Finally, we simulate ZTF-like supernova up to a redshift of $z=0.11$ and draw a set of 1000 randomly selected supernovae whose observed redshift goes up to $z=0.06$ in order to 
@@ -54,18 +54,18 @@ match the expected number of supernovae in the volume-limited sample from ZTF. \
 
 The methodology used to generate supernova in the self consistent simulations and Uchuu-ZTF mocks are different as 
 we have mentioned earlier. We want to ensure that we can 
-quantify any systematic biases introduced by those differences and to have an intial guess of the model parameters that is close to the truth when running the full inference. 
-To do this, we start by generating an initial density field with BORG $\delta^{\text{BORG}}_{IC}$ using the 
+quantify any systematic biases introduced by those differences and to have an initial guess of the model parameters that is close to the truth when running the full inference. 
+To do this, we start by generating an initial density field with BORG $\delta^{IC}$ using the 
 Planck18 cosmological parameters (\cite{Planck_2018_params}) and known bulk flow $\mathbf{V}$. 
 The configuration of the generated field is given in Table \ref{tab:borg_nbody}. 
 We then let that field evolve using COLA gravity model to obtain the evolved density field 
-$\delta^{\text{BORG}}_{F}$ and velocity field $\mathbf{v}^{\text{BORG}}_{IC}$. The ZTF simulations are designed to generate the supernovae on top of an N-body simulation, so 
+$\delta^{F}$ and velocity field $\mathbf{v}$. The ZTF simulations are designed to generate the supernovae on top of an N-body simulation, so 
 from the evolved density field we create a "synthetic" N-body simulation. We use COLA to have the most accurate version of this synthetic N-body simulation. 
 The simplest way to do so is to take each voxel-$i$ and generate within it $N_i$ particles proportional 
-to $(1+\lceil \delta^{\text{BORG}}_{F}\rceil )_i$ where $i$ denotes the voxel index.
+to $(1+\lceil \delta^{F}\rceil )_i$ where $i$ denotes the voxel index.
  We take the ceiling of the evolved density field to ensure we get an integer number of 
 particles and to have at least 1 particle in empty voxels. We also generate fewer particles than in the Uchuu simulation, 
-around 2 million, due to memory and storage limiations. \\
+around 2 million, due to memory and storage limitations. \\
 
 \begin{table}[ht]
     \centering
@@ -75,11 +75,11 @@ around 2 million, due to memory and storage limiations. \\
         \hline
         Parameters & Values \\
         \hline
-        Box size & $700^3 \, (\text{Mpc}.h^{-1})^3$ \\
+        Box size & $700^3 \, (h^{-1}\text{Mpc})^3$ \\
         Generated supernovae & $\sim 1000$ \\
         Maximum supernova redshift & $z=0.06$ \\
         Gravity model & COLA \\
-        Resolution & 10.9 $\text{Mpc}.h^{-1}$ \\
+        Resolution & 10.9 $h^{-1}\text{Mpc}$ \\
         $V_x$ & 0 km/s \\
         $V_y$ & 0 km/s \\
         $V_z$ & 0 km/s \\
@@ -102,7 +102,9 @@ indicating that no additional bulk flow is added within the ZTF simulation.
 The bias model parameter $\alpha$ 
 seems to prefer values around $\sim 0.8$. Intuitively, we expect $\alpha$ to be closer to 1 since the supernovae are most likely simulated on top of the particles.  
 The velocity dispersion is preferred around $200$ km/s. 
-The $\mu_A$ parameter seem to prefer a value of $1.0$, meaning no additional sources of uncertainty are added to the distance modulus.
+The $\mu_A$ parameter seem to prefer a value of $1.0$, meaning no additional sources of uncertainty are added to the distance modulus. 
+While a statistically robust assessment would require an ensemble of 100 independent realizations, similar to what was done with the self-consistent simulations, 
+the present analysis is restricted to a single realization and should therefore be considered as a preliminary validation of the method.
 
 \begin{figure}[htbp]
     \centering
@@ -197,20 +199,30 @@ The inference runs in four steps:
 \begin{enumerate}
  \item An initial warm-up phase is dedicated to sample the initial density perturbations $\delta^{IC}$ while all of other parameters are fixed using an LPT gravity solver. 
  This is done in 1000 MCMC steps.
- \item The following step we simultaneously $\delta^{IC}$ alongside nuisance and model parameters, specifically 
+ \item In the following step, we simultaneously sample $\delta^{IC}$ alongside nuisance and model parameters, specifically 
  $\sigma_v$, bulk flow, $\alpha$ and $\mu_A$ also using LPT. This is done for 3000 MCMC steps. 
  \item We keep on sampling the same parameters but switch to COLA for the gravity solver. The idea is that since LPT is much faster than COLA, to use it to initially guess some 
  of the model parameters so that sampling the parameters is then easier with COLA. For this run, it was done for 800 MCMC steps. 
  \item Lastly, we sample all of the parameters simultaneously including $\Omega_m$ and $\sigma_8$ using COLA. This step 
- takes a lot of computational on CPU. A converged state would be achieved during the timeline of this PhD. Efforts to parallelize the computations on GPUs is ongoing to accelerate this step.
+ computationally expensive on CPU. A converged state could not be achieved during the timeline of this PhD. 
+ Efforts to parallelize the computations on GPUs are ongoing to accelerate this step.
 \end{enumerate}
 We can see that now we have an additional step in the inference compared to what was done for the self-consistent simulations. 
 This is represented in Figure \ref{fig:dens_ztf_evolution} where we compare the mean density field $\delta^{F}$ within a slice at the center of the 
 box when during the phase where the initial 
-conditions are sampled wiht LPT described in step 2, and when we switch to COLA, described in steps 3 and 4. 
+conditions are sampled with LPT described in step 2, and when we switch to COLA, described in steps 3 and 4. 
 
-Figure \ref{fig:stacked_dens_ztf} compares the Uchuu density field with the reconstructed field in different slices near the center of the box. We can immediately notice the 
-that the amplitude of the Uchuu field is way larger than the reconstructed field with BORG-PV. The reconstructed field does manage to capture some of the underlying structures 
+\begin{figure}[htbp]
+    \centering
+    \makebox[\textwidth][c]{%
+        \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/ztf_mock_run/density_evolution.pdf}}
+    \caption{Evolution of $\delta^{F}$ within an inference in log scale expressed as $\log(2+\delta^{F})$. 
+    \textit{Left}: Sampled density in step 2 using LPT. \textit{Right}: Sampled density field in steps 3 and 4.}
+    \label{fig:dens_ztf_evolution}
+\end{figure}
+
+Figure \ref{fig:stacked_dens_ztf} compares the Uchuu density field with the reconstructed field in different slices near the center of the box. We can immediately notice 
+that the amplitude of the Uchuu field is much larger than the reconstructed field with BORG-PV. The reconstructed field does manage to capture some of the underlying structures 
 in the Uchuu field at large scales but at a much lower amplitude. Moreover, looking at the reconstructed velocity field in Figure \ref{fig:stacked_vel_ztf}, we notice 
 that the reconstructed field has much smaller velocities than the expected.
 
@@ -226,8 +238,8 @@ that the reconstructed field has much smaller velocities than the expected.
 
     \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/ztf_mock_run/dens_slice_z_32.pdf}
 
-    \caption{Comparison between the Uchuu density field on the left panels with the reconstructed density field on the right panels. Each row represents a different 
-    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \caption{Comparison between the Uchuu density field (left) with the reconstructed density field (right). Each row represents a different 
+    slice of the box associated by an index in a given direction. The white dashed circle indicates the region where the supernovae are generated.}
     \label{fig:stacked_dens_ztf}
 \end{figure}
 
@@ -243,14 +255,24 @@ that the reconstructed field has much smaller velocities than the expected.
 
     \includegraphics[width=\textwidth]{MainLayout/Sixth_chapter/figures/ztf_mock_run/vel_slice_z_32.pdf}
 
-    \caption{Comparison between the Uchuu velocity field on the left panels with the reconstructed velocity field on the right panels. Each row represents a different 
-    slice of the box associated by an index in a given direction. The circle area in white dashes is the region where the supernovae are generated.}
+    \caption{Comparison between the Uchuu velocity field (left) with the reconstructed velocity field (right). Each row represents a different 
+    slice of the box associated by an index in a given direction. The white dashed circle indicates the region where the supernovae are generated.}
     \label{fig:stacked_vel_ztf}
 \end{figure}
 
 This trend is also observed when we look at the power spectrum of the field as well as the cross-correlations between the true and reconstructed field in Figure \ref{fig:Pk_ztf}. 
 We observe that the power spectrum of the reconstructed field is about 10 times smaller than the power spectrum of the Uchuu field. However, the cross-correlations do indicate that 
-is a non-negligeable correlation at large scales of $\sim 0.6$ that decreases at small scales. 
+is a non-negligible correlation at large scales of $\sim 0.6$ that decreases at small scales. Compared to the results in Section \ref{sec:borg_self}, the 
+cross-correlation with the Uchuu-ZTF mock is weaker and decreases 
+more rapidly toward small scales, dropping to $\sim 0.3$ at 
+$k = 0.1 \, h \, \text{Mpc}^{-1}$ compared to $\sim 0.5$ for 
+the self-consistent case. This is expected given the gravity model 
+mismatch in the Uchuu-ZTF case: while the self-consistent 
+simulations use the same LPT solver for both generation and 
+reconstruction, the Uchuu mocks are generated with a full N-body 
+simulation whose small-scale non-linearities cannot be fully 
+captured by the approximate COLA dynamics used in the BORG forward 
+model.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1.0\textwidth]{MainLayout/Sixth_chapter/figures/ztf_mock_run/power_spectra.pdf}
@@ -261,12 +283,12 @@ is a non-negligeable correlation at large scales of $\sim 0.6$ that decreases at
 
 \subsection{Model Mismatch}
 
-The previous results on the reconstructed fields indicate that the inference pipeline is not currently capable at reconstructed the underlying matter and velocity fields 
-when the supernova are generated from an external source to BORG. This hints at the fact that there are strong model mismatches that introduce biases in the pipeline. 
+The previous results on the reconstructed fields indicate that the inference pipeline is not currently capable at reconstructing the underlying matter and velocity fields 
+when confronted with a simulation external to the BORG forward model. This hints at the fact that there are strong model mismatches that introduce biases in the pipeline. 
 
 
 A possible explanation for these mismatches is related to the bias model. 
-The current implementation of the bias model $b_{\text{SN}} = (1+\delta^F)^{\alpha}$ was constructed based on a phenomonological approach and may overly simplify the 
+The current implementation of the bias model $b_{\text{SN}} = (1+\delta^F)^{\alpha}$ was constructed based on a phenomenological approach and may overly simplify the 
 true relation between the positions of supernovae and the overdensities used in Uchuu-ZTF. 
 If we were to construct a field of supernova overdensities, the current bias model would effectively impose the relation:
 \begin{equation}
@@ -274,7 +296,7 @@ If we were to construct a field of supernova overdensities, the current bias mod
 \end{equation}
 where $\delta_{\text{SN}}$ denotes the supernova overdensities. We can compare this relation from the Uchuu-ZTF simulations to self-consistent simulations with varying values of 
 $\alpha$ to see if the current bias model can represent the Uchuu-ZTF supernovae overdensities. We obtain the results in Figure \ref{fig:nsn_vs_dens}. We see that no value of $\alpha$ 
-seem to be capable at fully describing the Uchuu-ZTF data. At most, we find certain values of $\alpha$ being able to describe a portion of the relation between overdensities. 
+seems to be capable of fully describing the Uchuu-ZTF data. At most, we find certain values of $\alpha$ being able to describe a portion of the relation between overdensities. 
 This indicates that we need a more complex bias model to be able to run BORG-PV on the Uchuu-ZTF mock.
 \begin{figure}[ht]
     \centering
@@ -293,10 +315,10 @@ This indicates that we need a more complex bias model to be able to run BORG-PV 
 
 \section{Conclusion}
 
-This chapter presented the first application of the BORG pipeline directly to simulated supernova data representative of the ZTF volume-limited dataset.
+This chapter presents the first application of the BORG pipeline directly to simulated supernova data representative of the ZTF volume-limited dataset.
 
 The results obtained from self-consistent simulations demonstrate the ability of BORG to reconstruct the underlying matter and velocity fields directly from supernova 
-distances. The reconstruction successfully recovers the large-scale structure, while small-scale features are less well constrained due to the limited number of supernovae. 
+distances. The reconstruction successfully recovers the large-scale structure, while small-scale features being less well constrained due to the limited number of supernovae. 
 Although the sampling of the model parameters has not yet fully converged, preliminary results indicate that the parameters describing the supernova bias model and velocity 
 dispersion are accurately recovered, while the bulk-flow parameters appear to be biased. Likelihood profile tests suggest that this discrepancy may be realization-specific, 
 with the bulk flow being sampled around a value different from that of the input realization. Preliminary results from the parameter sampling also indicate that the 

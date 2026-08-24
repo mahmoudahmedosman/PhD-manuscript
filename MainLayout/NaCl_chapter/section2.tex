@@ -720,8 +720,6 @@ covariance does not depend on $\mathbf{c}$: it only depends on the orientation
 of the constraint subspace, through $\mathbf{A}$, and on the local curvature of 
 the likelihood, through $\mathbf{W}$. 
 
-This is the covariance matrix associated with the fit parameters once 
-the linear constraints are imposed. 
 
 The covariance matrix can be converted into a correlation matrix $\mathbf{R}$, which provides a normalized measure of the correlations between the fitted parameters. 
 The elements of the correlation matrix are calculated with:
@@ -730,6 +728,22 @@ The elements of the correlation matrix are calculated with:
 \end{equation}
 The correlation matrix is particularly useful for visualizing parameter correlations, as its elements range from -1 to 1.
 %/sps/ztf/users/regnault/lemaitre/data_challenges/predc1/georges/workflow/results.predc1.regul_001/nacl/dc1.v2-70-selection/5_trained
+
+
+For visualization purposes, it is preferable to display the correlation 
+matrix $\mathbf{R}$, whose elements are defined as:
+
+\begin{equation}
+    R_{ij} =   \frac{V_{\text{cond}, ij}}{\sqrt{ V_{\text{cond}, ii} V_{\text{cond}, jj} }}
+\end{equation}
+
+Figure \ref{fig:corr_mat_nacl} shows an example of the correlation matrix of the NaCl supernova 
+parameters, after marginalization over all nuisance parameters, including the 
+model parameters and the spectral-recalibration parameters. As can be seen, 
+jointly training a flexible model induces significant correlations among the 
+supernova parameters. In Figure \ref{fig:corr_mat_nacl}, the 
+supernovae are ordered by sample. The strength of the correlations is seen to depend 
+on the sample, in particular on its redshift range. 
 
 \begin{figure}[ht]
     \centering

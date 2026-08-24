@@ -1,52 +1,92 @@
 \section{General Conclusion}
 
-Improving the constraints on the growth rate of large-scale structures 
-($f\sigma_8$) is one of the central challenges of modern cosmology, as it 
-provides a direct test of gravity on cosmological scales. During this PhD, 
-I addressed this challenge through two complementary fronts using Type Ia 
-supernovae from the ZTF survey: improving the precision of supernova 
-distance measurements, and applying a field-level inference pipeline 
-to reconstruct the velocity field of the nearby Universe. \\
 
+Improving constraints on the growth rate of large-scale structures, 
+$f\sigma_8$, is one of the central challenges of modern cosmology, as it 
+provides a direct test of gravity on cosmological scales. During this 
+PhD, I addressed this challenge along two complementary directions using 
+Type Ia supernovae from the ZTF survey: improving the precision and 
+characterization of supernova distance measurements, and developing a 
+field-level inference approach to reconstruct the density and velocity 
+fields of the nearby Universe. \\
 
-The first front focused on improving the distance measurements of supernovae through the continued development and applications of the 
-NaCl framework: an algorithm designed to train empirical Type Ia supernovae spectrophotometric models while fitting their light curves. 
-The trained model uses 
-the SALT2 parameterization consisting of two global surfaces ($M_0(p, \lambda)$ and $M_1(p, \lambda)$) and a color law $CL(\lambda)$. The framework normally 
-requires both photometric and spectroscopic data in order to train the model. For spectrophotometric data, such as SNfactory, this required the development of 
-additional conditions in NaCl in order to be able to use the data for the model training. This consisted in removing the spectrum recalibration polynomial, reintroducing 
-the color law in the spectral model as well as fitting the $X_0$ parameter for each supernova directly from their spectra. 
-This was then tested on the SNfactory dataset where the NaCl proved capable of training a model on real data as well as to highlight the limitations of the SALT2 parameterization 
-in capturing the supernova variability in the UV, Si II and Ca II regions. 
-My work also involved the development of an adaptive regularization in the model that would adapt the model in the regions where there is a lack of data. This regularization 
-is not currently implemented in NaCl due to the fact that in its current state, it does not allow the minimization to fully converge. 
-Further work is required to stabilize the minimization procedure, potentially through a reformulation of the regularization.
+The first direction focused on improving supernova distance measurements 
+through the continued development and application of the NaCl framework, 
+an algorithm designed to train empirical Type Ia supernova 
+spectrophotometric models while simultaneously fitting their light 
+curves. In its current implementation, the trained model adopts a 
+SALT2-like parameterization consisting of two global spectral surfaces, 
+$M_0(p,\lambda)$ and $M_1(p,\lambda)$, together with a color law, 
+$CL(\lambda)$. 
 
-NaCl is an essential a part of the \textsc{Lemaître} project, combining data from ZTF, SNLS and HSC surveys in order to construct a Hubble with $\sim$ 3000 independent Type Ia supernovae 
-within the redshift range $0<z<1.5$, the largest independent sample yet. With the development of the new Georges cosmological pipeline embedded within \textsc{Lemaître}, 
-additional validation tests on simulated datasets needed to be conducted on the pipeline: the DCs. The validation of NaCl within Georges was done with DC1 and pre-DC1. The 
-results show that NaCl manages to accurately describe the photometric evolution of Type Ia supernovae but still introduces biases in the cosmological results. Moreover, the 
-uncertainties obtained from the Fisher matrix of NaCl have been shown to be well estimated with the exception of the uncertainties obtained on two sets of parameters $X_1$ and 
-$c$. \\
+After its initial development, NaCl required a substantial rewrite to 
+make it suitable for \textsc{Lemaître}-scale datasets, and I contributed to this  
+effort. Among the developments introduced during this rewrite, I 
+extended NaCl to handle spectrophotometric data directly. In particular, 
+the use of the SNfactory dataset required adapting the framework so that 
+accurately flux-calibrated spectra could be modeled without introducing 
+the spectral recalibration polynomial normally used for heterogeneous 
+spectroscopic data. This also required reintroducing the color law in 
+the spectral model and fitting the $X_0$ parameter of each supernova 
+directly from its spectra. Applied to the SNfactory dataset, NaCl 
+successfully trained a model on real spectrophotometric data and 
+revealed some of the limitations of the SALT2 parameterization in 
+describing supernova diversity, in particular in the UV and around the 
+Si II and Ca II spectral features.
+
+My work also included the development of an adaptive regularization 
+scheme designed to strengthen the model constraints in regions of 
+phase-wavelength space where the training data are sparse. This scheme 
+is not currently part of the production version of NaCl, as its present 
+implementation prevents the minimization from fully converging. Further 
+work will therefore be required to stabilize the procedure, possibly 
+through a reformulation of the regularization term. 
+
+NaCl is also an essential component of the \textsc{Lemaître} project, which 
+combines data from the ZTF, SNLS, and HSC surveys to construct an 
+independent Hubble diagram containing approximately 3000 Type Ia 
+supernovae over the redshift range $0<z<1.5$. The development of the new 
+georges cosmological analysis pipeline within \textsc{Lemaître} required an 
+extensive programme of validation on simulated datasets through a series 
+of data challenges. The pre-DC1 and DC1 exercises presented in this 
+thesis were used to validate the NaCl component and its propagation 
+through the downstream analysis. 
+
+These tests show that NaCl is able to reproduce the simulated 
+photometric and spectroscopic observations accurately and to recover the 
+supernova parameters and their covariance structure with good precision. 
+The uncertainties inferred from the Fisher matrix are overall consistent 
+with the empirical uncertainties measured across repeated realizations, 
+although residual discrepancies remain for some parameters and require 
+further investigation. 
+
+However, once the complete NaCl-EDRIS-\texttt{cosmologix} chain is considered, 
+significant biases are observed in the reconstructed distance moduli, 
+particularly near the transitions between the different survey samples. 
+These biases propagate into the inferred cosmological parameters. Their 
+origin has not yet been conclusively identified and may involve model 
+regularization, effective selection effects introduced by the analysis 
+cuts, or limitations in the propagation of the covariance matrix. 
+Resolving these effects is an essential step before the pipeline can be 
+applied to the blinded \textsc{Lemaître} dataset. \\
 
 
 The second front focused on applying the BORG Bayesian field-level inference pipeline on ZTF Type Ia supernovae. The goal of this is to obtain the most accurate reconstruction 
 of the velocity field from the supernovae by directly inferring the initial conditions of the underlying matter field, and with the use of a gravity model, obtain the 
 large scale structures. BORG has proven to be more accurate than other widely used methods in reconstructing the velocity field. With the development of a novel BORG-PV pipeline 
-that includes an improved selection modeling and supernova prior, tests on self-consistent simulations showed the capability of accurate reconstruction of the density and velocity 
-fields. The pipeline also proved capable in inferring cosmological parameters such as $\Omega_m$ and $\sigma_8$ under the assumption of $\Lambda$CDM. 
+that includes an improved selection modeling and supernova prior, tests on self-consistent simulations have shown the capability of accurate reconstruction of the density and velocity 
+fields. The pipeline has also proved capable in inferring cosmological parameters such as $\Omega_m$ and $\sigma_8$ under the assumption of $\Lambda$CDM. 
 When applied to more realistic ZTF-like simulations generated from the 
-Uchuu N-body simulation, the pipeline successfully reconstructed the 
-density and velocity fields, though recovering the cosmological parameters 
-proved more challenging. 
+Uchuu N-body simulation, the pipeline has proven to struggle in reconstructing the 
+density and velocity fields. Further investigation has shown that may be due to model mismatches. 
 These results motivate further investigation of the simulation framework and supernova modeling before applying the pipeline to real ZTF data.
-These results pave the way for future analyses for the measurement of $f\sigma_8$ and for cross-survey analyses. 
+These results pave the way for future analyses for the measurement of $f\sigma_8$ and for cross-survey analyses with galaxy clustering. 
 
 
 
 \section{Future Prospects}
 
-The work conducted during this PhD presents the base of a larger and more complete analysis of the data. On the side of NaCl, 
+The work conducted during this PhD presents the base of a larger and more complete analysis of the ZTF Type Ia supernova data. On the side of NaCl, 
 additional testing on capturing calibration uncertainties is needed within DC3 and a color scatter implementation is needed for DC4 before finalizing the NaCl 
 framework.  
 Moreover, a more complex 
@@ -57,20 +97,20 @@ in order to obtain
 an independent measurement of the dark energy equation of state $w$ 
 and its potential time variation $w_a$, with a dataset of $\sim 3000$ 
 Type Ia supernovae spanning $0 < z < 1.5$. 
-Running the full pipeline will also give us access to accurate measurement of the supernovae distances which will then allow us to proceed to $f\sigma_8$ measurements. \\
+Running the full pipeline will also give us access to accurate measurement of the supernovae distances, which will then allow us to proceed with $f\sigma_8$ measurements. \\
 
 
 On the BORG-PV side, more realistic ZTF simulations are needed in order to validate the pipeline. This includes applying masks to only cover the ZTF footprint 
 as well as masking the Milky Way on the line of sight. 
 An important aspect not yet accounted for is the correlation between 
-supernova distance measurements, as seen in Chapter \ref{chap4}. 
+supernova distance measurements, which were seen in Chapter \ref{chap4}. 
 Accounting for these correlations within the BORG-PV likelihood is a challenge that must be met before operating on the ZTF data. 
 Lastly, in order to operate on the full ZTF dataset, a more complex selection function is needed within the likelihood. 
 
 Another aspect that can be explored within BORG-PV is the possibility of conducting a cross-survey analysis. 
 One approach would be to use the Manticore-Local constrained realization 
 of the local Universe as the density field for BORG-PV. 
-This would allow a joint inference 
+This would enable a joint inference 
 combining the velocity information from ZTF supernovae with the density 
 field information from the galaxy survey, effectively performing a 
 multi-tracer field-level inference. 

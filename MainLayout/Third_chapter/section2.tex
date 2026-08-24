@@ -1,7 +1,7 @@
 \section{Pipeline} \label{sec:pipeline}
 
 
-\subsection{Pipeline overview}
+\subsection{Pipeline Overview}
 
 
 The \textsc{Lemaître} analysis pipeline initiates at the light curve extraction from the ZTF, SNLS and HSC surveys up until the inference of cosmological parameters. 
@@ -18,7 +18,7 @@ We present a brief schematic overview of the pipeline in Figure \ref{fig:lemaitr
     \label{fig:lemaitre_pipeline}
 \end{figure}
 
-\subsubsection{Light curve extraction and calibration}
+\subsubsection{Light Curve Extraction and Calibration}
 
 The first part of the \textsc{Lemaître} pipeline is to extract the supernova light curves from the images taken by the surveys. The method used here is the Scene Modeling Photometry (SMP) (\cite{Astier_2013}, \cite{Holtzman_2008}), 
 which was recently applied on the ZTF data in \cite{Lacroix_2025}. The idea is to isolate the supernovae and their host galaxies into "cutouts", a subimage from the full image 
@@ -71,7 +71,7 @@ Once the light curves are calibrated, they go through a redshift-dependent blind
     \label{fig:SMP}
 \end{figure}
 
-\subsubsection{Georges analysis pipeline} \label{sec:georges}
+\subsubsection{Georges Analysis Pipeline} \label{sec:georges}
 
 The Georges pipeline consists of mainly four modules: PeTS, NaCl, EDRIS, cosmologix. A schematic of the Georges pipeline is presented in Figure \ref{fig:georges_pipeline}.
 
@@ -124,7 +124,7 @@ with two local minimas for $t_{max}$. Without PeTS one could a assume that a gen
     \label{fig:PeTS_2}
 \end{figure}
 
-\subsubsection{Data compression}
+\subsubsection{Data Compression}
 
 To accelerate the model training in the next step of the pipeline, the photometric and spectroscopic data have been compressed. \\
 
@@ -210,14 +210,14 @@ a large sample of supernovae. \\
 \subsubsection{\texttt{cosmologix}}
 
 The final step of the pipeline is to infer the cosmological parameters from the distances and we do that with 
-\texttt{cosmologix} \footnote{\url{https://lemaitre.pages.in2p3.fr/cosmologix/home.html}}  (Betoule et al in review), a fast JAX-coded software designed to accurately 
+\texttt{cosmologix} \footnote{\url{https://lemaitre.pages.in2p3.fr/cosmologix/home.html}} (\cite{Betoule_2026}), a fast JAX-coded software designed to accurately 
 infer cosmological parameters. It is also possible to combine the supernova results with other probes such as BAO and CMB. This will be useful in the analysis of the real data
 to obtain the most accurate results by breaking the degeneracies between cosmological parameters.\\
 
 The cosmological pipeline has been developed and fully integrated in the \textsc{Lemaître} project. Running the cosmological pipeline takes a few hours to obtain contours 
 on the cosmological parameters. It is currently undergoing tests to ensure the full chain does propagate any significant biases. 
 
-\subsection{Cosmological analyses with \textsc{Lemaître}}
+\subsection{Cosmological Analyses with \textsc{Lemaître}}
 
 As we have mentioned earlier, a strong motivator for the \textsc{Lemaître} project is dealing with the $(w_0, w_a)$ tension so the first and main analysis will be constraining the 
 equation of state for two different parameterizations, a constant $w$ and the CPL parameterizations $(w_0, w_a)$. Secondly, the measurements of supernova magnitudes alongside their 

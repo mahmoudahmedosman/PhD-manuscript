@@ -2,8 +2,11 @@
 
 An important part of this work is to validate the NaCl framework on observational data. We therefore apply the model to the SNfactory (\cite{snfactory}) 
 dataset, which provides a particularly well-suited test case for a spectrophotometric model. The SNfactory program obtained time-series 
-spectroscopy of Type Ia supernovae with the SNIFS instrument, providing a densely sampled spectrophotometric dataset for individual 
-supernovae. The accurate spectrophotometric calibration of the SNIFS observations allows the spectra to provide an absolute measurement of the flux, 
+spectroscopy of Type Ia supernovae with the SNIFS instrument (\cite{Lantz_2004}), providing a densely sampled spectrophotometric dataset for individual 
+supernovae. 
+SNIFS is an integral-field spectrograph rather than a conventional slit spectrograph. Its integral-field design  
+allows the full supernova flux to be captured across the observed wavelength range, enabling the extraction of accurately flux-calibrated spectra. 
+The accurate spectrophotometric calibration of the SNIFS observations allows the spectra to provide an absolute measurement of the flux, 
 reducing the need for separate photometric measurements. 
 
 The SNfactory dataset is also particularly relevant in the context of NaCl because it has been used to develop several empirical models that 
@@ -20,13 +23,15 @@ parameterization.
 \subsection{Implementing a Model for Spectrophotometric Data}
 
 
-For the SNfactory dataset, NaCl must directly model the spectrophotometric 
-observations rather than combining independently measured photometric and 
-spectroscopic data. The model is therefore trained directly on the 
-flux-calibrated spectra obtained at different phases of each supernova. 
-This requires adapting the model prediction and likelihood to the 
-spectrophotometric data format, so that the predicted spectra can be 
-compared directly to the observations.
+The main difference introduced by the SNfactory dataset is that its 
+spectrophotometric calibration can be trusted directly. NaCl must therefore 
+model the spectrophotometric observations without introducing any spectral 
+recalibration polynomial. Rather than combining independently measured 
+photometric and spectroscopic data, the model is trained directly on the 
+flux-calibrated spectra obtained at different phases for each supernova. This 
+requires adapting both the model prediction and the likelihood to the 
+spectrophotometric data format, so that the predicted spectra can be compared 
+directly with the observations. 
 
 
 For spectrophotometric data, both the spectral shape and the 
@@ -40,8 +45,11 @@ This formulation removes the need for a spectral recalibration
 polynomial $SpecRecal(\lambda)$ and reintroduces the colour law 
 $CL(\lambda)$, which is now constrained directly from the spectra. 
 The model derivatives have also been adjusted to enable model evaluation and log-likelihood minimization. 
-The results on the data are presented in the following section.
-
+The results on the data are presented in the following section. 
+Although this test was carried out 
+exclusively with spectrophotometric data, this extension makes it possible to 
+combine photometric, spectroscopic, and spectrophotometric data within a single 
+training sample. 
 
 \subsection{NaCl training results}
 \subsubsection{Data Coverage}
